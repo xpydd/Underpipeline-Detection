@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>项目详情 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50 shrink-0">
+    <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-2xl" data-icon="settings_input_component">settings_input_component</span>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+            </a>
+            <span class="text-slate-300 dark:text-slate-600">/</span>
+            <span class="text-sm font-medium text-slate-900 dark:text-white truncate max-w-[200px]" id="breadcrumb-project-name">加载中...</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+                <div class="text-right">
+                    <p class="text-sm font-bold leading-none mb-1">陈明</p>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">基础设施部</p>
+                </div>
+            </div>
+            <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="flex-1 max-w-[1440px] w-full mx-auto px-6 pt-6 pb-12">
+    <!-- 项目级头部区域 -->
+    <div class="mb-4 space-y-2">
+        <!-- 标题与操作 -->
+        <div class="flex justify-between items-center h-10">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-white" id="project-title">加载中...</h2>
+                    
+                    <div class="relative group">
+                        <button class="p-0.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                            <span class="material-symbols-outlined text-lg">arrow_drop_down</span>
+                        </button>
+                        <!-- 快速切换下拉菜单 -->
+                        <div class="absolute left-0 top-full mt-1 w-64 bg-white dark:bg-[#161e27] rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 hidden group-hover:block hover:block z-50">
+                            <div class="p-2 border-b border-slate-100 dark:border-slate-800">
+                                <input type="text" placeholder="搜索项目..." class="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+                            </div>
+                            <div class="max-h-64 overflow-y-auto py-1" id="quick-switch-list">
+                                <!-- 项目列表将通过 JS 动态生成 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-xs text-slate-500 border-l border-slate-200 dark:border-slate-700 pl-3">
+                        <span class="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400 scale-90" id="project-id">PROJ-???</span>
+                        <span class="flex items-center gap-0.5 scale-90 origin-left"><span class="material-symbols-outlined text-sm">location_on</span> <span id="project-address">...</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 一级菜单 (Top Tabs) -->
+        <div class="border-b border-slate-200 dark:border-slate-800">
+            <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                <a href="#" class="border-primary text-primary flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-bold text-sm">
+                    <span class="material-symbols-outlined text-base">work</span>
+                    工作平台
+                </a>
+                <a href="#" class="border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:border-slate-300 flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm transition-colors">
+                    <span class="material-symbols-outlined text-base">menu_book</span>
+                    知识中心
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 页面布局：左侧导航 + 右侧内容 -->
+    <div class="flex gap-4 items-start h-[calc(100vh-10rem)]">
+        <!-- 二级菜单 (Left Sidebar) -->
+        <nav class="w-16 shrink-0 space-y-2 sticky top-0 flex flex-col items-center py-2 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 h-full z-50">
+            <a href="#" class="w-10 h-10 bg-primary/10 text-primary flex items-center justify-center rounded-lg transition-colors group relative" title="项目">
+                <span class="material-symbols-outlined text-[24px]">dashboard</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">项目</span>
+            </a>
+            <a href="#" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="勘探">
+                <span class="material-symbols-outlined text-[24px]">explore</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">勘探</span>
+            </a>
+            <a href="#" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="数据">
+                <span class="material-symbols-outlined text-[24px]">database</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">数据</span>
+            </a>
+            <a href="#" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="模型">
+                <span class="material-symbols-outlined text-[24px]">view_in_ar</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">模型</span>
+            </a>
+            <a href="#" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="报告">
+                <span class="material-symbols-outlined text-[24px]">description</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">报告</span>
+            </a>
+        </nav>
+
+        <!-- 内容区域 -->
+        <div class="flex-1 min-w-0 h-full overflow-hidden relative">
+            <!-- 视图：项目概览 (Dashboard) -->
+            <div id="view-project" class="w-full h-full flex gap-4">
+                <!-- 左侧信息栏 (30%) -->
+                <div class="w-[30%] flex flex-col gap-3 overflow-y-auto pr-1 custom-scrollbar pb-4" id="dashboard-left-panel">
+                    <!-- 1. 项目基础信息卡片 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm flex-shrink-0">
+                        <button class="w-full px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-t-lg" onclick="toggleCard(this)">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-lg">info</span>
+                                项目基础信息
+                            </h3>
+                            <span class="material-symbols-outlined text-slate-400 transition-transform duration-200">expand_less</span>
+                        </button>
+                        <div class="p-4 text-xs space-y-3 border-t border-slate-100 dark:border-slate-800">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="col-span-2">
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">业主单位</span>
+                                    <div class="font-medium text-slate-700 dark:text-slate-200 truncate" id="card-owner">-</div>
+                                </div>
+                                <div class="col-span-2">
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">场景类型</span>
+                                    <div class="font-medium text-slate-600 dark:text-slate-300 truncate" id="card-scene">-</div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">计划开始</span>
+                                    <div class="font-medium text-slate-700 dark:text-slate-200" id="card-start">-</div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">计划结束</span>
+                                    <div class="font-medium text-slate-700 dark:text-slate-200" id="card-end">-</div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">坐标系</span>
+                                    <div class="font-medium text-slate-700 dark:text-slate-200" id="card-coord">-</div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">高程系</span>
+                                    <div class="font-medium text-slate-700 dark:text-slate-200" id="card-elev">-</div>
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-2">
+                                <div><span class="text-slate-500 scale-90 origin-left block">项目负责</span><span class="font-medium" id="card-p-manager">-</span></div>
+                                <div><span class="text-slate-500 scale-90 origin-left block">报告编制</span><span class="font-medium" id="card-p-report">-</span></div>
+                                <div><span class="text-slate-500 scale-90 origin-left block">数据整理</span><span class="font-medium" id="card-p-data">-</span></div>
+                                <div><span class="text-slate-500 scale-90 origin-left block">现场勘探</span><span class="font-medium truncate" id="card-p-explore">-</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. 勘探统计卡片 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm flex-shrink-0">
+                        <button class="w-full px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-t-lg" onclick="toggleCard(this)">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-blue-500 text-lg">analytics</span>
+                                勘探统计
+                            </h3>
+                            <span class="material-symbols-outlined text-slate-400 transition-transform duration-200">expand_less</span>
+                        </button>
+                        <div class="p-4 border-t border-slate-100 dark:border-slate-800">
+                            <!-- 分类 Tabs -->
+                            <div class="flex gap-2 mb-4 overflow-x-auto pb-1 no-scrollbar">
+                                <span class="px-2 py-0.5 rounded-full bg-blue-500 text-white text-[10px] font-bold whitespace-nowrap">给水</span>
+                                <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 text-[10px] whitespace-nowrap">污水</span>
+                                <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 text-[10px] whitespace-nowrap">燃气</span>
+                                <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 text-[10px] whitespace-nowrap">电力</span>
+                                <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 text-[10px] whitespace-nowrap">通信</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-xs">
+                                <div class="space-y-2">
+                                    <div class="flex justify-between"><span class="text-slate-500">检查井数</span><span class="font-bold font-mono">50 个</span></div>
+                                    <div class="flex justify-between"><span class="text-slate-500">管线长度</span><span class="font-bold font-mono">600 m</span></div>
+                                    <div class="flex justify-between"><span class="text-slate-500">材质</span><span class="font-bold">混凝土</span></div>
+                                </div>
+                                <div class="space-y-2 border-l border-slate-100 dark:border-slate-800 pl-4">
+                                    <div class="flex justify-between"><span class="text-slate-500">已探明</span><span class="font-bold font-mono text-primary">40 个</span></div>
+                                    <div class="flex justify-between"><span class="text-slate-500">已探明</span><span class="font-bold font-mono text-primary">400 m</span></div>
+                                    <div class="flex justify-between"><span class="text-slate-500">埋深</span><span class="font-bold font-mono">1.5-3m</span></div>
+                                </div>
+                            </div>
+                            <!-- 进度条 -->
+                            <div class="mt-4">
+                                <div class="flex justify-between text-[10px] mb-1">
+                                    <span class="text-slate-500">总体进度</span>
+                                    <span class="text-primary font-bold">80%</span>
+                                </div>
+                                <div class="h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary w-[80%] rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. 勘探问题卡片 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm flex-shrink-0">
+                        <button class="w-full px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-t-lg" onclick="toggleCard(this)">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-orange-500 text-lg">report_problem</span>
+                                勘探问题
+                            </h3>
+                            <span class="material-symbols-outlined text-slate-400 transition-transform duration-200">expand_less</span>
+                        </button>
+                        <div class="p-0 border-t border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center justify-between p-2 bg-slate-50 dark:bg-slate-800/30 text-[10px]">
+                                <div class="flex gap-2">
+                                    <span class="text-slate-500">全部: <b class="text-slate-800 dark:text-white">3</b></span>
+                                    <span class="text-red-500">待处理: <b>1</b></span>
+                                </div>
+                                <span class="text-primary cursor-pointer hover:underline">筛选</span>
+                            </div>
+                            <ul class="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
+                                <li class="p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer flex justify-between items-center group">
+                                    <div class="flex items-start gap-2">
+                                        <span class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded text-[10px] font-bold mt-0.5">1</span>
+                                        <div>
+                                            <p class="font-medium text-slate-700 dark:text-slate-200 mb-0.5">YJ001 处管井封闭无法作业</p>
+                                            <span class="text-[10px] text-slate-400">2024-03-15 10:30</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-red-500 text-[10px] border border-red-200 rounded px-1.5 py-0.5">待处理</span>
+                                </li>
+                                <li class="p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer flex justify-between items-center group">
+                                    <div class="flex items-start gap-2">
+                                        <span class="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px] font-bold mt-0.5">2</span>
+                                        <div>
+                                            <p class="font-medium text-slate-700 dark:text-slate-200 mb-0.5">YJ002 处管线埋深超限</p>
+                                            <span class="text-[10px] text-slate-400">2024-03-14 16:20</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-emerald-500 text-[10px] border border-emerald-200 rounded px-1.5 py-0.5">已处理</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 4. 数据信息卡片 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm flex-shrink-0">
+                        <button class="w-full px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-t-lg" onclick="toggleCard(this)">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-purple-500 text-lg">database</span>
+                                数据信息
+                            </h3>
+                            <span class="material-symbols-outlined text-slate-400 transition-transform duration-200">expand_less</span>
+                        </button>
+                        <div class="p-4 border-t border-slate-100 dark:border-slate-800">
+                            <div class="grid grid-cols-2 gap-4 text-xs">
+                                <div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded text-center">
+                                    <span class="text-slate-500 block scale-90">实景照片</span>
+                                    <span class="text-lg font-bold text-slate-800 dark:text-white font-mono">28</span> <span class="text-[10px] text-slate-400">张</span>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded text-center">
+                                    <span class="text-slate-500 block scale-90">数据照片</span>
+                                    <span class="text-lg font-bold text-slate-800 dark:text-white font-mono">98</span> <span class="text-[10px] text-slate-400">张</span>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded text-center">
+                                    <span class="text-slate-500 block scale-90">探测图像</span>
+                                    <span class="text-lg font-bold text-slate-800 dark:text-white font-mono">77</span> <span class="text-[10px] text-slate-400">张</span>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded text-center">
+                                    <span class="text-slate-500 block scale-90">数据组装</span>
+                                    <span class="text-lg font-bold text-slate-800 dark:text-white font-mono">33</span> <span class="text-[10px] text-slate-400">组</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 text-[10px] text-slate-400 text-right">
+                                最近更新: 2024-03-15 12:00
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧 3D 地图 (70%) -->
+                <div class="w-[70%] bg-slate-900 rounded-lg relative overflow-hidden group border border-slate-800">
+                    <!-- 3D 场景模拟 -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-slate-900 to-[#0f172a]">
+                        <!-- 网格地面 -->
+                        <div class="absolute inset-0 opacity-20" 
+                             style="background-image: linear-gradient(#334155 1px, transparent 1px), linear-gradient(90deg, #334155 1px, transparent 1px); 
+                                    background-size: 50px 50px; 
+                                    transform: perspective(500px) rotateX(60deg) translateY(100px) scale(2);">
+                        </div>
+                        
+                        <!-- 模拟管线模型 (SVG) -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-80" style="transform: perspective(500px) rotateX(60deg) translateY(0) scale(1);">
+                            <!-- 示例管线 -->
+                            <path d="M 200 400 L 400 300 L 600 350 L 800 200" stroke="#3b82f6" stroke-width="4" fill="none" stroke-linecap="round" filter="drop-shadow(0 0 5px #3b82f6)"/>
+                            <circle cx="200" cy="400" r="4" fill="#3b82f6"/>
+                            <circle cx="400" cy="300" r="4" fill="#3b82f6"/>
+                            <circle cx="600" cy="350" r="4" fill="#3b82f6"/>
+                            
+                            <path d="M 300 500 L 400 300 L 500 100" stroke="#f59e0b" stroke-width="3" fill="none" stroke-dasharray="10,5" opacity="0.6"/>
+                        </svg>
+                        
+                        <!-- 中心 Label -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20 text-4xl font-bold select-none pointer-events-none">
+                            3D GIS View
+                        </div>
+                    </div>
+
+                    <!-- 控件层 -->
+                    <!-- 图层控制 (Top Right) -->
+                    <div class="absolute top-4 right-4 bg-slate-800/90 backdrop-blur border border-slate-700 rounded p-2 text-white text-xs shadow-lg">
+                        <div class="font-bold mb-2 pb-1 border-b border-slate-700 flex justify-between items-center cursor-pointer">
+                            <span>图层控制</span>
+                            <span class="material-symbols-outlined text-sm">layers</span>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="flex items-center gap-2 cursor-pointer hover:text-blue-400">
+                                <input type="checkbox" checked class="rounded border-slate-600 bg-slate-700 text-blue-500 focus:ring-0 size-3">
+                                <span class="w-2 h-0.5 bg-blue-500"></span> 给水管网
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer hover:text-orange-400">
+                                <input type="checkbox" checked class="rounded border-slate-600 bg-slate-700 text-orange-500 focus:ring-0 size-3">
+                                <span class="w-2 h-0.5 bg-orange-500"></span> 燃气管网
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer hover:text-purple-400">
+                                <input type="checkbox" class="rounded border-slate-600 bg-slate-700 text-purple-500 focus:ring-0 size-3">
+                                <span class="w-2 h-0.5 bg-purple-500"></span> 电力管网
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer hover:text-emerald-400">
+                                <input type="checkbox" checked class="rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-0 size-3">
+                                <span class="material-symbols-outlined text-[10px] text-emerald-500">landscape</span> 地质模型
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 导航控件 (Bottom Right) -->
+                    <div class="absolute bottom-4 right-4 flex flex-col gap-2">
+                        <button class="size-8 bg-slate-800/90 backdrop-blur border border-slate-700 rounded text-white hover:bg-slate-700 flex items-center justify-center shadow-lg" title="放大">
+                            <span class="material-symbols-outlined text-lg">add</span>
+                        </button>
+                        <button class="size-8 bg-slate-800/90 backdrop-blur border border-slate-700 rounded text-white hover:bg-slate-700 flex items-center justify-center shadow-lg" title="缩小">
+                            <span class="material-symbols-outlined text-lg">remove</span>
+                        </button>
+                        <button class="size-8 bg-slate-800/90 backdrop-blur border border-slate-700 rounded text-white hover:bg-slate-700 flex items-center justify-center shadow-lg mt-2" title="复位">
+                            <span class="material-symbols-outlined text-lg">my_location</span>
+                        </button>
+                    </div>
+
+                    <!-- 指北针 (Top Left) -->
+                    <div class="absolute top-4 left-4 size-12 bg-slate-800/50 rounded-full border border-slate-700 flex items-center justify-center shadow-lg pointer-events-none">
+                        <div class="flex flex-col items-center">
+                            <span class="text-[10px] text-red-500 font-bold -mb-1">N</span>
+                            <div class="w-1 h-6 bg-gradient-to-b from-red-500 to-white clip-arrow"></div>
+                        </div>
+                    </div>
+
+                    <!-- 比例尺 (Bottom Left) -->
+                    <div class="absolute bottom-4 left-4 bg-slate-800/50 px-2 py-0.5 rounded border border-slate-700 text-white text-[10px] font-mono shadow-lg pointer-events-none">
+                        <div class="flex items-end gap-1">
+                            <span class="border-b-2 border-white w-10 h-2 border-l border-r"></span>
+                            <span>50m</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 视图：勘探 (Exploration) -->
+            <div id="view-exploration" class="w-full h-full flex gap-4 hidden">
+                 <!-- 左侧列表: 勘探作业菜单 -->
+                 <div class="w-[25%] bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col">
+                     <div class="p-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                         <h3 class="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-2">
+                             <span class="material-symbols-outlined text-primary text-base">category</span>
+                             勘探作业菜单
+                         </h3>
+                     </div>
+                     <div class="flex-1 overflow-y-auto p-3 space-y-4 custom-scrollbar">
+                         
+                         <!-- Section 1: 探地雷达 -->
+                         <div class="space-y-2">
+                             <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                <span class="w-1 h-3 bg-blue-500 rounded-full"></span>
+                                探地雷达
+                             </h4>
+                             <div class="grid grid-cols-2 gap-2">
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-blue-500">radar</span>
+                                     <span class="text-xs font-medium">扫描数据</span>
+                                 </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
+                                     <span class="text-xs font-medium">勘测问题</span>
+                                 </button>
+                             </div>
+                         </div>
+
+                         <!-- Section 2: 管线探测仪 -->
+                         <div class="space-y-2">
+                             <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                <span class="w-1 h-3 bg-purple-500 rounded-full"></span>
+                                管线探测仪
+                             </h4>
+                             <div class="grid grid-cols-2 gap-2">
+                                 <button onclick="document.getElementById('drawPipePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">share_location</span>
+                                     <span class="text-xs font-medium">绘制管点</span>
+                                 </button>
+                                 <button onclick="document.getElementById('drawPipelineModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                    <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">timeline</span>
+                                    <span class="text-xs font-medium">绘制管线</span>
+                                </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">add_circle</span>
+                                     <span class="text-xs font-medium">管线加点</span>
+                                 </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">search</span>
+                                     <span class="text-xs font-medium">管点搜索</span>
+                                 </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">edit_location</span>
+                                     <span class="text-xs font-medium">坐标输入</span>
+                                 </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
+                                     <span class="text-xs font-medium">勘测问题</span>
+                                 </button>
+                             </div>
+                         </div>
+
+                         <!-- Section 3: 人工勘察 -->
+                         <div class="space-y-2">
+                             <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
+                                人工勘察
+                             </h4>
+                             <div class="grid grid-cols-2 gap-2">
+                                 <button onclick="document.getElementById('drawPipePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">share_location</span>
+                                     <span class="text-xs font-medium">绘制管点</span>
+                                 </button>
+                                 <button onclick="document.getElementById('drawPipelineModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                    <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">timeline</span>
+                                    <span class="text-xs font-medium">绘制管线</span>
+                                </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">add_circle</span>
+                                     <span class="text-xs font-medium">管线加点</span>
+                                 </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">search</span>
+                                     <span class="text-xs font-medium">管点搜索</span>
+                                 </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">edit_location</span>
+                                     <span class="text-xs font-medium">坐标输入</span>
+                                 </button>
+                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
+                                     <span class="text-xs font-medium">勘测问题</span>
+                                 </button>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+
+                 <!-- 右侧地图: Huge Map -->
+                 <div class="flex-1 bg-slate-900 rounded-lg relative overflow-hidden group border border-slate-800">
+                     <!-- 顶部操作栏 (Top Bar) -->
+                     <div class="absolute top-4 left-4 right-4 z-10 flex justify-between items-start pointer-events-none">
+                         <!-- Left Controls (Pointer Events Auto) -->
+                         <div class="flex gap-3 pointer-events-auto">
+                             <!-- 勘探手段筛选 -->
+                            <div class="bg-slate-800/90 backdrop-blur border border-slate-700 rounded p-2 text-white text-xs shadow-lg">
+                                <div class="font-bold mb-2 pb-1 border-b border-slate-700 flex justify-between items-center cursor-pointer">
+                                    <span>勘探手段</span>
+                                    <span class="material-symbols-outlined text-sm">filter_alt</span>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-400">
+                                        <input type="radio" name="explore-method" value="all" checked class="rounded-full border-slate-600 bg-slate-700 text-blue-500 focus:ring-0 size-3">
+                                        全部勘探手段
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-400">
+                                        <input type="radio" name="explore-method" value="gpr" class="rounded-full border-slate-600 bg-slate-700 text-blue-500 focus:ring-0 size-3">
+                                        探地雷达
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer hover:text-purple-400">
+                                        <input type="radio" name="explore-method" value="pipeline" class="rounded-full border-slate-600 bg-slate-700 text-purple-500 focus:ring-0 size-3">
+                                        管线探测仪
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer hover:text-orange-400">
+                                        <input type="radio" name="explore-method" value="manual" class="rounded-full border-slate-600 bg-slate-700 text-orange-500 focus:ring-0 size-3">
+                                        人工勘察
+                                    </label>
+                                </div>
+                            </div>
+                             <!-- 现场人员 -->
+                            <div class="h-fit bg-white/90 dark:bg-slate-800/90 backdrop-blur rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 px-3 py-1.5 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-base">engineering</span>
+                                <span class="text-xs text-slate-500">现场勘探:</span>
+                                <span class="text-sm font-bold text-slate-800 dark:text-white" id="exploration-personnel">-</span>
+                            </div>
+                         </div>
+                     </div>
+                     
+                     <!-- 3D Map Content (Copied structure) -->
+                     <div class="absolute inset-0 bg-gradient-to-b from-slate-900 to-[#0f172a]">
+                         <div class="absolute inset-0 opacity-20" 
+                              style="background-image: linear-gradient(#334155 1px, transparent 1px), linear-gradient(90deg, #334155 1px, transparent 1px); 
+                                     background-size: 50px 50px; 
+                                     transform: perspective(500px) rotateX(60deg) translateY(100px) scale(2);">
+                         </div>
+                         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20 text-4xl font-bold select-none pointer-events-none">
+                             Exploration 3D Space
+                         </div>
+                     </div>
+                     
+                     <!-- Common Map Controls -->
+                     <div class="absolute bottom-4 right-4 flex flex-col gap-2">
+                         <button class="size-8 bg-slate-800/90 backdrop-blur border border-slate-700 rounded text-white hover:bg-slate-700 flex items-center justify-center shadow-lg"><span class="material-symbols-outlined text-lg">add</span></button>
+                         <button class="size-8 bg-slate-800/90 backdrop-blur border border-slate-700 rounded text-white hover:bg-slate-700 flex items-center justify-center shadow-lg"><span class="material-symbols-outlined text-lg">remove</span></button>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 绘制管点模态框 -->
+<dialog id="drawPipePointModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-3xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-[100]">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
+        <!-- Header -->
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white">绘制管点</h3>
+            <button onclick="document.getElementById('drawPipePointModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+        
+        <form method="dialog" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-4 overflow-y-auto custom-scrollbar space-y-5">
+                
+                <!-- 1. 基本信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">info</span>
+                        基本信息
+                    </h4>
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管点编号</label>
+                            <input type="text" value="DL001" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管点种类</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="DL">电力(DL)</option>
+                                <option value="GD">供电(GD)</option>
+                                <option value="LD">路灯(LD)</option>
+                                <option value="XH">交通信号(XH)</option>
+                                <option value="JL">架空电力(JL)</option>
+                                <option value="TX">通讯(TX)</option>
+                                <option value="XX">信息网络(XX)</option>
+                                <option value="DX">电信(DX)</option>
+                                <option value="YD">移动(YD)</option>
+                                <option value="LT">联通(LT)</option>
+                                <option value="WT">网通(WT)</option>
+                                <option value="JD">架空通信(JD)</option>
+                                <option value="JS">给水(JS)</option>
+                                <option value="ZS">中水(ZS)</option>
+                                <option value="JZ">直饮水(JZ)</option>
+                                <option value="XS">消防水(XS)</option>
+                                <option value="JH">循环水(JH)</option>
+                                <option value="PS">排水(PS)</option>
+                                <option value="YS">雨水(YS)</option>
+                                <option value="WS">污水(WS)</option>
+                                <option value="HS">雨污合流(HS)</option>
+                                <option value="RQ">燃气(RQ)</option>
+                                <option value="MQ">煤气(MQ)</option>
+                                <option value="YH">液化气(YH)</option>
+                                <option value="TR">天然气(TR)</option>
+                                <option value="GY">工业(GY)</option>
+                                <option value="QQ">氢气(QQ)</option>
+                                <option value="YQ">氧气(YQ)</option>
+                                <option value="GQ">乙炔(GQ)</option>
+                                <option value="YX">乙烯(YX)</option>
+                                <option value="LQ">氯气(LQ)</option>
+                                <option value="DQ">氮气(DQ)</option>
+                                <option value="EY">二氧化碳(EY)</option>
+                                <option value="YC">乙醇(YC)</option>
+                                <option value="SY">石油(SY)</option>
+                                <option value="RL">热力(RL)</option>
+                                <option value="ZQ">蒸汽(ZQ)</option>
+                                <option value="RS">热水(RS)</option>
+                                <option value="ZH">综合(ZH)</option>
+                                <option value="GG">综合管沟(GG)</option>
+                                <option value="QT">其他(QT)</option>
+                                <option value="BM">不明管类(BM)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">特征点</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="one_pipe">一般管线</option>
+                                <option value="tee">三通</option>
+                                <option value="bend">弯头</option>
+                                <option value="change_diameter">变径</option>
+                                <option value="change_material">变材</option>
+                                <option value="change_slope">变坡</option>
+                                <option value="start_point">起点</option>
+                                <option value="end_point">终点</option>
+                                <option value="manhole">井</option>
+                                <option value="outfall">出水口</option>
+                                <option value="inlet">进水口</option>
+                                <option value="reserved_outlet">预留口</option>
+                                <option value="non_probed_end">非普查区边界</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">附属物</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="none">无</option>
+                                <option value="manhole">窨井</option>
+                                <option value="valve_well">阀门井</option>
+                                <option value="meter_well">仪表井</option>
+                                <option value="inspection_well">检测井</option>
+                                <option value="sewage_well">排污井</option>
+                                <option value="rain_well">雨水井</option>
+                                <option value="hand_hole">手孔</option>
+                                <option value="person_hole">人孔</option>
+                                <option value="cable_marker">电缆标示桩</option>
+                                <option value="pipeline_marker">管线标示桩</option>
+                                <option value="valve_box">阀门箱</option>
+                                <option value="meter_box">仪表箱</option>
+                                <option value="distribution_box">配电箱</option>
+                                <option value="transformer_box">变压器箱</option>
+                                <option value="control_box">控制箱</option>
+                                <option value="fire_hydrant">消火栓</option>
+                                <option value="vent">通风口</option>
+                                <option value="drain_outlet">排水口</option>
+                                <option value="catch_basin">雨水口</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">建设日期</label>
+                            <input type="date" value="2018-11-12" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属单位</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 管井信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">water_drop</span>
+                        管井信息
+                    </h4>
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井盖材质</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="none">无</option>
+                                <option value="metal">金属</option>
+                                <option value="cast_iron">铸铁</option>
+                                <option value="concrete">砼</option>
+                                <option value="plastic">塑料</option>
+                                <option value="steel">钢</option>
+                                <option value="fiberglass">玻璃钢</option>
+                                <option value="marble">大理石</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井盖类型</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="theft_proof">防盗</option>
+                                <option value="non_theft_proof">非防盗</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井盖形状</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="circle">圆形</option>
+                                <option value="rectangle">矩形</option>
+                            </select>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井盖尺寸</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井室规格</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井室尺寸</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井室尺寸</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井脖尺寸</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井脖深</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 空间信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">location_on</span>
+                        空间信息
+                    </h4>
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">经度</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500 cursor-not-allowed" readonly>
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(自动录入)</span>
+                        </div>
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">纬度</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500 cursor-not-allowed" readonly>
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(自动录入)</span>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">H高程</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 其他信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">description</span>
+                        其他信息
+                    </h4>
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">调查日期</label>
+                            <input type="text" value="2025/12/12" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(自动录入)</span>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">建构筑物</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">备注</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. 影像信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">image</span>
+                        影像信息
+                    </h4>
+                    <div class="flex flex-wrap gap-3" id="imageUploadContainer">
+                        <div onclick="document.getElementById('imageInput').click()" class="w-20 h-20 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:text-primary text-slate-400 transition-colors bg-slate-50 dark:bg-slate-800/50 shrink-0">
+                            <span class="material-symbols-outlined text-xl mb-0.5">add_photo_alternate</span>
+                            <span class="text-[10px]">添加影像</span>
+                        </div>
+                        <input type="file" id="imageInput" multiple accept="image/*,video/*" class="hidden" onchange="handleImageUpload(this)">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button value="cancel" formmethod="dialog" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button value="confirm" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确定</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<!-- 绘制管线模态框 -->
+<dialog id="drawPipelineModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-3xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-[100]">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
+        <!-- Header -->
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white">绘制管线</h3>
+            <button onclick="document.getElementById('drawPipelineModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+        
+        <form method="dialog" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-4 overflow-y-auto custom-scrollbar space-y-5">
+                
+                <!-- 1. 基本信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">info</span>
+                        基本信息
+                    </h4>
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">起始点号</label>
+                            <input type="text" value="DL001" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(管线点选择或手动输入)</span>
+                        </div>
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">终止点号</label>
+                            <input type="text" value="DL002" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(智能跟随或自动填入编号)</span>
+                        </div>
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属单位</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(根据目录表自动填入或自填写)</span>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">起始埋深</label>
+                            <input type="text" value="1.336" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">终止埋深</label>
+                            <input type="text" value="2.335" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">埋设方式</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="general">一般管线</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 管井信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">water_drop</span>
+                        管井信息
+                    </h4>
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管径/截面</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">套管尺寸</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(选填, 可填写无)</span>
+                        </div>
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">孔径</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(选填, 可填万)</span>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">流向/根数</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">总孔数</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">已用孔数</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管线材质</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="copper">铜</option>
+                            </select>
+                        </div>
+                         <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">套管材质</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="plastic">塑料</option>
+                            </select>
+                            <span class="absolute right-6 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right pointer-events-none">(选填, 可填写无)</span>
+                        </div>
+                         <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">电压/压力</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属孔数</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 其他信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">description</span>
+                        其他信息
+                    </h4>
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">线型</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">保护材质</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1 col-span-3">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">备注</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button value="cancel" formmethod="dialog" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button value="confirm" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确定</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<script>
+    function handleImageUpload(input) {
+        const container = document.getElementById('imageUploadContainer');
+        const files = input.files;
+        
+        if (files) {
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'relative w-20 h-20 rounded-lg overflow-hidden group shrink-0 border border-slate-200 dark:border-slate-700';
+                    
+                    let content;
+                    if (file.type.startsWith('image/')) {
+                        content = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                    } else if (file.type.startsWith('video/')) {
+                        content = `<video src="${e.target.result}" class="w-full h-full object-cover"></video><span class="material-symbols-outlined absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white drop-shadow-md">play_circle</span>`;
+                    }
+                    
+                    wrapper.innerHTML = `
+                        ${content}
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button type="button" onclick="this.closest('div.relative').remove()" class="p-1 rounded-full bg-red-500/80 text-white hover:bg-red-600 transition-colors" title="删除">
+                                <span class="material-symbols-outlined text-base">delete</span>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(wrapper);
+                };
+                reader.readAsDataURL(file);
+            });
+            input.value = '';
+        }
+    }
+
+    // 模拟数据源 (与 project-management.html 保持一致)
+    const mockProjects = [
+        {
+            id: 'PROJ-2024-001',
+            name: '北区燃气干线探测',
+            address: '上海市 · 浦东新区',
+            scene: '地下管线普查',
+            ownerName: '城市建设投资集团',
+            status: 'ongoing',
+            startDate: '2024-01-15',
+            endDate: '2024-06-30',
+            description: '对北区主干道燃气管线进行全面普查，重点排查老化隐患。',
+            coordSystem: 'cgcs2000',
+            elevSystem: 'wusong',
+            contactName: '张建国',
+            contactTitle: '项目负责人',
+            contactPhone: '13800138000',
+            managerIds: '陈明',
+            explorationIds: '王强, 周杰',
+            dataIds: '李丽',
+            reportIds: '孙小美',
+            reviewerIds: '陈明'
+        },
+        {
+            id: 'PROJ-2024-002',
+            name: '西区供水管网 #2',
+            address: '上海市 · 徐汇区',
+            scene: '地下管线详查',
+            ownerName: '新城区水务有限公司',
+            status: 'overdue',
+            startDate: '2024-02-20',
+            endDate: '2024-05-20',
+            description: '配合道路施工进行的供水管网详细探测。',
+            contactName: '李华',
+            contactTitle: '工程部经理',
+            contactPhone: '13912345678'
+        },
+        {
+            id: 'PROJ-2023-089',
+            name: '高压电力 HV-404',
+            address: '上海市 · 闵行区',
+            scene: '放线测量',
+            ownerName: '国家电网上海分公司',
+            status: 'completed',
+            startDate: '2023-11-05',
+            endDate: '2024-01-10',
+            description: '新建高压电力线路径放样。',
+            contactName: '刘洋',
+            contactTitle: '运维主管',
+            contactPhone: '13600001111'
+        }
+    ];
+
+    // 状态样式映射
+    const statusMap = {
+        'ongoing': { text: '实施中', class: 'bg-blue-50 text-blue-600 border-blue-100', dot: 'bg-blue-500 animate-pulse' },
+        'overdue': { text: '超期', class: 'bg-orange-50 text-orange-600 border-orange-100', dot: 'bg-orange-500' },
+        'completed': { text: '已完成', class: 'bg-emerald-50 text-emerald-600 border-emerald-100', dot: 'bg-emerald-500' },
+        'suspended': { text: '停工', class: 'bg-amber-50 text-amber-600 border-amber-100', dot: 'bg-amber-500' },
+        'not_started': { text: '未开始', class: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400' }
+    };
+
+    function toggleCard(btn) {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector('.material-symbols-outlined:last-child');
+        
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            icon.textContent = 'expand_less';
+        } else {
+            content.style.display = 'none';
+            icon.textContent = 'expand_more';
+        }
+    }
+
+    // 视图切换逻辑
+    function switchView(viewName) {
+        // 隐藏所有视图
+        ['project', 'exploration'].forEach(v => {
+            const el = document.getElementById(`view-${v}`);
+            if(el) el.classList.add('hidden');
+        });
+        
+        // 显示目标视图
+        const target = document.getElementById(`view-${viewName}`);
+        if(target) target.classList.remove('hidden');
+
+        // 更新侧边栏状态 (仅针对已实现的视图)
+        document.querySelectorAll('nav a').forEach(link => {
+            const title = link.getAttribute('title');
+            if (!['项目', '勘探'].includes(title)) return;
+
+            const isActive = (viewName === 'project' && title === '项目') || 
+                           (viewName === 'exploration' && title === '勘探');
+
+            if (isActive) {
+                link.className = 'w-10 h-10 bg-primary/10 text-primary flex items-center justify-center rounded-lg transition-colors group relative';
+            } else {
+                link.className = 'w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. 获取 URL 参数
+        const params = new URLSearchParams(window.location.search);
+        const projectId = params.get('id');
+        const projectName = params.get('name'); // 可选，如果找不到 ID 时的回退
+
+        // 2. 查找项目数据
+        let project = null;
+        
+        // 尝试从 LocalStorage 获取新增项目
+        const storedProjects = JSON.parse(localStorage.getItem('mockProjects') || '[]');
+        const allProjects = [...mockProjects, ...storedProjects];
+        
+        if (projectId) {
+            project = allProjects.find(p => p.id === projectId);
+        }
+        
+        // 如果按 ID 没找到，尝试按名称匹配 (兼容旧链接)
+        if (!project && projectName) {
+            project = allProjects.find(p => p.name === projectName);
+        }
+
+        // 3. 渲染页面
+        if (project) {
+            renderProject(project);
+            renderQuickSwitchList(allProjects, project.id);
+        } else {
+            // 404 处理
+            document.getElementById('project-title').textContent = '未找到项目';
+            document.getElementById('breadcrumb-project-name').textContent = '未找到项目';
+        }
+
+        // 4. 绑定侧边栏点击事件
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const title = link.getAttribute('title');
+                if (title === '项目') {
+                    e.preventDefault();
+                    switchView('project');
+                } else if (title === '勘探') {
+                    e.preventDefault();
+                    switchView('exploration');
+                }
+            });
+        });
+    });
+
+    function renderQuickSwitchList(projects, currentId) {
+        const listContainer = document.getElementById('quick-switch-list');
+        listContainer.innerHTML = '';
+
+        projects.forEach(p => {
+            const isCurrent = p.id === currentId;
+            const item = document.createElement('a');
+            item.href = `project-detail.html?id=${p.id}`;
+            item.className = `block px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-between ${isCurrent ? 'bg-primary/5 text-primary' : 'text-slate-600 dark:text-slate-300'}`;
+            item.innerHTML = `
+                <span class="truncate flex-1">${p.name}</span>
+                ${isCurrent ? '<span class="material-symbols-outlined text-sm">check</span>' : ''}
+            `;
+            listContainer.appendChild(item);
+        });
+
+        // 简单的搜索功能
+        const searchInput = document.querySelector('input[placeholder="搜索项目..."]');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const items = listContainer.querySelectorAll('a');
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(term) ? 'flex' : 'none';
+            });
+        });
+    }
+
+    function renderProject(data) {
+        // 标题和面包屑
+        document.title = `${data.name} - 项目详情`;
+        document.getElementById('project-title').textContent = data.name;
+        document.getElementById('breadcrumb-project-name').textContent = data.name;
+        document.getElementById('project-id').textContent = data.id || '无编号';
+        document.getElementById('project-address').textContent = data.address || '未设置地址';
+
+        // 填充卡片数据
+        document.getElementById('card-owner').textContent = data.ownerName || '-';
+        document.getElementById('card-scene').textContent = data.scene || '-';
+        document.getElementById('card-start').textContent = data.startDate || '-';
+        document.getElementById('card-end').textContent = data.endDate || '-';
+        document.getElementById('card-coord').textContent = data.coordSystem ? (data.coordSystem === 'cgcs2000' ? '2000国家大地坐标系' : data.coordSystem) : '-';
+        document.getElementById('card-elev').textContent = data.elevSystem || '-';
+        
+        // 人员
+        document.getElementById('card-p-manager').textContent = data.managerIds || '-';
+        document.getElementById('card-p-report').textContent = data.reportIds || '-';
+        document.getElementById('card-p-data').textContent = data.dataIds || '-';
+        document.getElementById('card-p-explore').textContent = data.explorationIds || '-';
+
+        // 填充勘探页面的现场人员
+        const exploreEl = document.getElementById('exploration-personnel');
+        if(exploreEl) exploreEl.textContent = data.explorationIds || '未指定';
+    }
+</script>
+</body>
+</html>

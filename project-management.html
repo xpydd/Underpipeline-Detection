@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>项目管理 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for modal content */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
+    <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-2xl" data-icon="settings_input_component">settings_input_component</span>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+            </a>
+            <span class="text-slate-300 dark:text-slate-600">/</span>
+            <span class="text-sm font-medium text-slate-500 dark:text-slate-400">项目管理</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+                <div class="text-right">
+                    <p class="text-sm font-bold leading-none mb-1">陈明</p>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">基础设施部</p>
+                </div>
+            </div>
+            <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+    <main class="max-w-[1440px] mx-auto p-6">
+        <!-- 统计卡片区 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- 左侧：项目数 -->
+            <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-4">
+                <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-3">项目数</h4>
+                <div class="grid grid-cols-3 gap-3">
+                    <!-- 总数 -->
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400">总数</span>
+                        <span class="text-xl font-bold text-primary leading-none">50</span>
+                    </div>
+                    <!-- 实施中 -->
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400">实施中</span>
+                        <span class="text-xl font-bold text-slate-800 dark:text-white leading-none">10</span>
+                    </div>
+                    <!-- 已完成 -->
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400">已完成</span>
+                        <span class="text-xl font-bold text-slate-800 dark:text-white leading-none">40</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧：事务数 -->
+            <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-4">
+                <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-3">事务数</h4>
+                <div class="grid grid-cols-4 gap-3">
+                    <!-- 总数 -->
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400">总数</span>
+                        <span class="text-xl font-bold text-primary leading-none">50</span>
+                    </div>
+                    <!-- 已完成 -->
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400">已完成</span>
+                        <span class="text-xl font-bold text-slate-800 dark:text-white leading-none">10</span>
+                    </div>
+                    <!-- 待处理 -->
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400">待处理</span>
+                        <span class="text-xl font-bold text-slate-800 dark:text-white leading-none">40</span>
+                    </div>
+                    <!-- 超期 -->
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-[10px] font-medium text-slate-500 dark:text-slate-400">超期</span>
+                        <span class="text-xl font-bold text-slate-800 dark:text-white leading-none">20</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col min-h-[calc(100vh-8rem)]">
+        <!-- 筛选功能区 -->
+        <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex items-center gap-4 flex-wrap">
+                <!-- 模糊搜索 -->
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-2.5 top-2 text-sm text-slate-400" data-icon="search">search</span>
+                    <input class="pl-9 pr-4 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary w-64" placeholder="搜索项目名称/编号..." type="text"/>
+                </div>
+                
+                <!-- 场景类型筛选 -->
+                <div class="relative inline-block group">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-xs text-slate-500 dark:text-slate-400">场景:</span>
+                        <select class="bg-transparent border-none p-0 text-xs font-medium focus:ring-0 cursor-pointer text-slate-700 dark:text-slate-200">
+                            <option value="">全部</option>
+                            <option value="pucha">地下管线普查</option>
+                            <option value="xiangcha">地下管线详查</option>
+                            <option value="fangxian">地下管线放线测量</option>
+                            <option value="jungong">地下管线竣工测量</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 状态筛选 -->
+                <div class="relative inline-block group">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-xs text-slate-500 dark:text-slate-400">状态:</span>
+                        <select class="bg-transparent border-none p-0 text-xs font-medium focus:ring-0 cursor-pointer text-slate-700 dark:text-slate-200">
+                            <option value="">全部</option>
+                            <option value="ongoing">实施中</option>
+                            <option value="overdue">超期</option>
+                            <option value="completed">已完成</option>
+                            <option value="suspended">停工</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 日期范围筛选 -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-slate-500 dark:text-slate-400">立项日期:</span>
+                    <input type="date" class="py-1.5 px-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-600 dark:text-slate-300">
+                    <span class="text-slate-400">-</span>
+                    <input type="date" class="py-1.5 px-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-600 dark:text-slate-300">
+                </div>
+            </div>
+
+            <!-- 新增按钮 -->
+            <button onclick="document.getElementById('addProjectModal').showModal()" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all shadow-sm shadow-primary/20">
+                <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                新建项目
+            </button>
+        </div>
+
+
+
+        <!-- 表格显示区 -->
+        <div class="flex-1 overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 uppercase text-[11px] font-bold tracking-wider border-b border-slate-100 dark:border-slate-800">
+                    <tr>
+                        <th class="px-6 py-3 w-16">序号</th>
+                        <th class="px-6 py-3">项目编号</th>
+                        <th class="px-6 py-3">项目名称</th>
+                        <th class="px-6 py-3">场景类型</th>
+                        <th class="px-6 py-3">业主单位</th>
+                        <th class="px-6 py-3">立项日期</th>
+                        <th class="px-6 py-3 text-center">进度</th>
+                        <th class="px-6 py-3">状态</th>
+                        <th class="px-6 py-3 text-right">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <!-- 示例数据 1 -->
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 text-slate-500">1</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2024-001</td>
+                        <td class="px-6 py-4">
+                            <a href="project-detail.html?id=PROJ-2024-001" class="font-medium text-primary hover:underline decoration-primary/40">北区燃气干线探测</a>
+                            <div class="text-[10px] text-slate-400">上海市 · 浦东新区</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">地下管线普查</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 dark:text-slate-300">城市建设投资集团</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-01-15</td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center gap-2">
+                                <div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary w-[65%]"></div>
+                                </div>
+                                <span class="text-xs font-medium text-slate-600 dark:text-slate-300">65%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-medium border border-blue-100">
+                                <span class="size-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                                实施中
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                    <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                    <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- 示例数据 2 -->
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 text-slate-500">2</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2024-002</td>
+                        <td class="px-6 py-4">
+                            <a href="project-detail.html?id=PROJ-2024-002" class="font-medium text-primary hover:underline decoration-primary/40">西区供水管网 #2</a>
+                            <div class="text-[10px] text-slate-400">上海市 · 徐汇区</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">地下管线详查</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 dark:text-slate-300">新城区水务有限公司</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-02-20</td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center gap-2">
+                                <div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-orange-500 w-[90%]"></div>
+                                </div>
+                                <span class="text-xs font-medium text-orange-500">90%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-orange-600 text-xs font-medium border border-orange-100">
+                                <span class="size-1.5 rounded-full bg-orange-500"></span>
+                                超期
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                    <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                    <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- 示例数据 3 -->
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 text-slate-500">3</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2023-089</td>
+                        <td class="px-6 py-4">
+                            <a href="project-detail.html?id=PROJ-2023-089" class="font-medium text-primary hover:underline decoration-primary/40">高压电力 HV-404</a>
+                            <div class="text-[10px] text-slate-400">上海市 · 闵行区</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">放线测量</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 dark:text-slate-300">国家电网上海分公司</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2023-11-05</td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center gap-2">
+                                <div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-emerald-500 w-[100%]"></div>
+                                </div>
+                                <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">100%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium border border-emerald-100">
+                                <span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                已完成
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                    <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                    <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 分页区 -->
+        <div class="p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-500 font-medium">
+            <p>显示 1 到 10 条，共 128 条记录</p>
+            <div class="flex gap-2">
+                <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors" disabled>上一页</button>
+                <button class="px-3 py-1.5 rounded bg-primary text-white shadow-sm shadow-primary/30">1</button>
+                <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">2</button>
+                <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">3</button>
+                <span class="px-2 py-1.5">...</span>
+                <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">下一页</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 新增/编辑项目模态框 -->
+<dialog id="addProjectModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-4xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[90vh]">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white">新建探测项目</h3>
+            <button onclick="document.getElementById('addProjectModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+            </button>
+        </div>
+
+        <form method="dialog" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-4 space-y-5 overflow-y-auto custom-scrollbar">
+                <!-- 项目基础信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">assignment</span>
+                        项目基础信息
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">项目编号 <span class="text-red-500">*</span></label>
+                            <input type="text" value="PROJ-2024-AUTO" disabled class="w-full px-2 py-1 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500 cursor-not-allowed">
+                            <p class="text-[10px] text-slate-400">系统自动生成</p>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">项目名称 <span class="text-red-500">*</span></label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="请输入项目名称">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">场景类型 <span class="text-red-500">*</span></label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="">请选择场景类型</option>
+                                <option value="pucha">地下管线普查</option>
+                                <option value="xiangcha">地下管线详查</option>
+                                <option value="fangxian">地下管线放线测量</option>
+                                <option value="jungong">地下管线竣工测量</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">项目地址 <span class="text-red-500">*</span></label>
+                            <div class="relative flex items-center">
+                                <input type="text" id="projectAddressInput" class="w-full pl-2 pr-8 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="点击右侧图标在地图上选点">
+                                <button type="button" onclick="openMapSelector()" class="absolute right-1 p-0.5 text-slate-400 hover:text-primary transition-colors" title="地图选点">
+                                    <span class="material-symbols-outlined text-base">location_on</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">探测范围 <span class="text-red-500">*</span></label>
+                            <div class="relative flex items-center">
+                                <input type="text" id="projectRangeInput" readonly class="w-full pl-2 pr-8 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer hover:bg-slate-100" placeholder="点击设置探测范围" onclick="openDetectionRangeModal()">
+                                <button type="button" onclick="openDetectionRangeModal()" class="absolute right-1 p-0.5 text-slate-400 hover:text-primary transition-colors" title="设置范围">
+                                    <span class="material-symbols-outlined text-base">polyline</span>
+                                </button>
+                                <input type="hidden" name="project_range_coords">
+                                <input type="hidden" name="project_range_area">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">坐标系 <span class="text-red-500">*</span></label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="">请选择坐标系</option>
+                                <option value="bj54">1954北京坐标系</option>
+                                <option value="xa80">1980西安坐标系</option>
+                                <option value="cgcs2000">2000国家大地坐标系</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">高程系 <span class="text-red-500">*</span></label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="">请选择高程系</option>
+                                <option value="cn85">85国家高程系</option>
+                                <option value="wusong">吴淞高程系</option>
+                                <option value="yellow56">1956黄海高程系</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-1 col-span-3">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">项目描述</label>
+                            <textarea class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary h-16" placeholder="请输入项目背景、探测要求等..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 项目人员分类 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">group</span>
+                        项目人员
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">项目负责人 <span class="text-red-500">*</span></label>
+                            <div class="relative group">
+                                <input type="text" readonly class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer hover:bg-slate-100" placeholder="点击选择人员" onclick="openUserSelector('manager')">
+                                <input type="hidden" name="project_manager_ids">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">现场勘探 <span class="text-red-500">*</span></label>
+                            <div class="relative group">
+                                <input type="text" readonly class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer hover:bg-slate-100" placeholder="点击选择人员" onclick="openUserSelector('exploration')">
+                                <input type="hidden" name="project_exploration_ids">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">数据整理 <span class="text-red-500">*</span></label>
+                            <div class="relative group">
+                                <input type="text" readonly class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer hover:bg-slate-100" placeholder="点击选择人员" onclick="openUserSelector('data_processing')">
+                                <input type="hidden" name="project_data_ids">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">报告编制 <span class="text-red-500">*</span></label>
+                            <div class="relative group">
+                                <input type="text" readonly class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer hover:bg-slate-100" placeholder="点击选择人员" onclick="openUserSelector('report')">
+                                <input type="hidden" name="project_report_ids">
+                            </div>
+                        </div>
+                        <div class="space-y-1 col-span-2">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">校审人员 <span class="text-red-500">*</span></label>
+                            <div class="relative group">
+                                <input type="text" readonly class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer hover:bg-slate-100" placeholder="点击选择人员" onclick="openUserSelector('reviewer')">
+                                <input type="hidden" name="project_reviewer_ids">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 项目状态 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">schedule</span>
+                        项目状态
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">计划开始日期 <span class="text-red-500">*</span></label>
+                            <input type="date" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">预计截止日期</label>
+                            <input type="date" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1 col-span-3">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">项目状态</label>
+                            <div class="flex gap-4 pt-1">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="project_status" class="text-primary focus:ring-primary border-slate-300 w-3 h-3">
+                                    <span class="text-xs text-slate-600 dark:text-slate-300">未开始</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="project_status" checked class="text-primary focus:ring-primary border-slate-300 w-3 h-3">
+                                    <span class="text-xs text-slate-600 dark:text-slate-300">实施中</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="project_status" class="text-primary focus:ring-primary border-slate-300 w-3 h-3">
+                                    <span class="text-xs text-slate-600 dark:text-slate-300">已完成</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 业主及联系人信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">domain</span>
+                        业主及联系人信息
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1 col-span-3">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">业主单位 <span class="text-red-500">*</span></label>
+                            <div class="relative group">
+                                <input type="text" readonly class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer hover:bg-slate-100" placeholder="点击选择业主" onclick="document.getElementById('ownerSelectorModal').showModal()">
+                                <input type="hidden" name="owner_id">
+                            </div>
+                        </div>
+                        
+                        <!-- 业主联系人快捷信息 -->
+                        <div class="col-span-3 grid grid-cols-3 gap-x-4 gap-y-3 bg-slate-50 dark:bg-slate-800/50 p-3 rounded border border-slate-100 dark:border-slate-800">
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">联系人姓名 <span class="text-red-500">*</span></label>
+                                <input type="text" name="contact_name" required class="w-full px-2 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="自动填充或输入">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">职务 <span class="text-red-500">*</span></label>
+                                <input type="text" name="contact_title" required class="w-full px-2 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="自动填充或输入">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">联系电话 <span class="text-red-500">*</span></label>
+                                <input type="text" name="contact_phone" required class="w-full px-2 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="自动填充或输入">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button type="button" onclick="document.getElementById('addProjectModal').close()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button type="submit" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">创建项目</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<!-- 人员选择弹窗 -->
+<dialog id="userSelectorModal" class="bg-transparent backdrop:bg-slate-900/20 backdrop:backdrop-blur-[1px] p-0 w-full max-w-md open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[60vh]">
+        <div class="p-3 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
+            <h5 class="text-sm font-bold text-slate-800 dark:text-white">选择人员 <span class="text-xs font-normal text-slate-500 ml-2">(可多选)</span></h5>
+            <button onclick="document.getElementById('userSelectorModal').close()" class="text-slate-400 hover:text-slate-600">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
+        <div class="p-2 border-b border-slate-100 dark:border-slate-700 shrink-0">
+            <input type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-primary focus:border-primary" placeholder="搜索人员..." oninput="filterUsers(this.value)">
+        </div>
+        <div class="overflow-y-auto p-2" id="userListContainer">
+            <!-- User list will be populated here -->
+        </div>
+        <div class="p-3 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex justify-end gap-2 shrink-0">
+            <button onclick="document.getElementById('userSelectorModal').close()" class="px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-200 rounded">取消</button>
+            <button onclick="confirmUserSelection()" class="px-3 py-1.5 text-xs text-white bg-primary hover:bg-primary/90 rounded shadow-sm">确认选择</button>
+        </div>
+    </div>
+</dialog>
+
+<!-- 业主选择辅助弹窗 (模拟) -->
+<dialog id="ownerSelectorModal" class="bg-transparent backdrop:bg-slate-900/20 backdrop:backdrop-blur-[1px] p-0 w-full max-w-md open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="p-3 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
+            <h5 class="text-sm font-bold text-slate-800 dark:text-white">选择业主单位</h5>
+            <button onclick="document.getElementById('ownerSelectorModal').close()" class="text-slate-400 hover:text-slate-600">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
+        <div class="p-2 border-b border-slate-100 dark:border-slate-700">
+            <input type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-primary focus:border-primary" placeholder="搜索业主...">
+        </div>
+        <div class="max-h-64 overflow-y-auto p-2">
+            <div class="space-y-1">
+                <div class="p-2 hover:bg-slate-50 dark:hover:bg-slate-700 rounded cursor-pointer text-xs text-slate-600 dark:text-slate-300" onclick="selectOwner('OWN-001', '城市建设投资集团', '张建国', '项目负责人', '13800138000')">
+                    <span class="font-bold">城市建设投资集团</span> <span class="text-slate-400 ml-2">张建国</span>
+                </div>
+                <div class="p-2 hover:bg-slate-50 dark:hover:bg-slate-700 rounded cursor-pointer text-xs text-slate-600 dark:text-slate-300" onclick="selectOwner('OWN-002', '新城区水务有限公司', '李华', '工程部经理', '13912345678')">
+                    <span class="font-bold">新城区水务有限公司</span> <span class="text-slate-400 ml-2">李华</span>
+                </div>
+                <div class="p-2 hover:bg-slate-50 dark:hover:bg-slate-700 rounded cursor-pointer text-xs text-slate-600 dark:text-slate-300" onclick="selectOwner('OWN-003', '远东燃气集团', '赵敏', '技术总监', '13787654321')">
+                    <span class="font-bold">远东燃气集团</span> <span class="text-slate-400 ml-2">赵敏</span>
+                </div>
+                <div class="p-2 hover:bg-slate-50 dark:hover:bg-slate-700 rounded cursor-pointer text-xs text-slate-600 dark:text-slate-300" onclick="selectOwner('OWN-004', '国家电网上海分公司', '刘洋', '运维主管', '13600001111')">
+                    <span class="font-bold">国家电网上海分公司</span> <span class="text-slate-400 ml-2">刘洋</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<!-- 地图选点模态框 -->
+<dialog id="mapSelectorModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-4xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col h-[70vh]">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white">地图选点</h3>
+            <button onclick="document.getElementById('mapSelectorModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-1 relative bg-slate-100 dark:bg-slate-900 overflow-hidden" id="mapContainer">
+             <!-- 高德地图容器 -->
+             <div id="amap-container" class="w-full h-full z-0"></div>
+             
+             <!-- 搜索框 -->
+             <div class="absolute top-3 left-3 z-10 bg-white dark:bg-slate-800 p-1.5 rounded-lg shadow-md flex gap-2">
+                 <input type="text" id="mapSearchInput" class="w-56 px-2 py-1 text-xs bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded focus:ring-primary focus:border-primary" placeholder="输入关键字搜索...">
+                 <button class="bg-primary text-white px-2 py-1 rounded text-xs font-bold hover:bg-primary/90">搜索</button>
+             </div>
+
+             <!-- 模拟模式下的提示层 (如果 API 加载失败) -->
+             <div id="simulation-layer" class="absolute inset-0 z-0 bg-slate-200 dark:bg-slate-800 flex items-center justify-center cursor-crosshair hidden" onclick="simulateMapClick(event)">
+                 <div class="text-center pointer-events-none">
+                     <span class="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-600">map</span>
+                     <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">地图 API 未配置 Key，已启用模拟模式<br>点击任意位置模拟选点</p>
+                 </div>
+             </div>
+        </div>
+
+        <div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-[#161e27] shrink-0">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">location_on</span>
+                <span class="text-sm font-bold text-slate-700 dark:text-slate-200" id="selectedAddressDisplay">未选择位置</span>
+            </div>
+            <div class="flex gap-3">
+                <button type="button" onclick="document.getElementById('mapSelectorModal').close()" class="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button type="button" onclick="confirmMapSelection()" class="px-4 py-2 text-sm font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认位置</button>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<!-- 探测范围设置模态框 -->
+<dialog id="detectionRangeModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-5xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col h-[85vh]">
+        <div class="px-6 py-4 flex justify-between items-center shrink-0 border-b border-slate-100 dark:border-slate-800">
+            <h3 class="text-lg font-bold text-slate-800 dark:text-white">探测范围设置</h3>
+            <button onclick="document.getElementById('detectionRangeModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-1 flex flex-col p-6 overflow-hidden gap-4">
+            <!-- 顶部：控制点坐标输入 -->
+            <div class="shrink-0">
+                <div class="flex items-center justify-between mb-2">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300">控制点坐标 (X, Y):</label>
+                    <button onclick="addCoordinateRow()" class="text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded flex items-center gap-1 transition-colors">
+                        <span class="material-symbols-outlined text-sm">add</span> 添加点
+                    </button>
+                </div>
+                <div id="coordinateInputsContainer" class="grid grid-cols-2 gap-x-6 gap-y-3 max-h-32 overflow-y-auto custom-scrollbar pr-2">
+                    <!-- 动态生成的输入框 -->
+                </div>
+            </div>
+
+            <!-- 中部：地图区域 -->
+            <div class="flex-1 relative border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-lg overflow-hidden group">
+                <!-- 模拟地图背景 -->
+                <div id="rangeMapContainer" class="w-full h-full relative cursor-crosshair" onclick="handleRangeMapClick(event)">
+                    <!-- 网格线背景 -->
+                    <div class="absolute inset-0 opacity-10 dark:opacity-20" style="background-image: linear-gradient(#94a3b8 1px, transparent 1px), linear-gradient(90deg, #94a3b8 1px, transparent 1px); background-size: 40px 40px;"></div>
+                    
+                    <!-- 多边形绘制层 (SVG) -->
+                    <svg id="rangePolygonSvg" class="absolute inset-0 w-full h-full pointer-events-none">
+                        <polygon points="" fill="rgba(90, 217, 139, 0.2)" stroke="#5ad98b" stroke-width="2" />
+                        <!-- 点标记将通过 JS 动态添加 -->
+                    </svg>
+                    
+                    <!-- 中心提示 -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 group-hover:opacity-0 transition-opacity">
+                        <span class="text-xs text-slate-400 dark:text-slate-500">点击地图添加控制点，或上方手动输入</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部：面积计算 -->
+            <div class="shrink-0 flex items-center gap-4">
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300">面积(m²):</label>
+                <div class="relative">
+                    <input type="text" id="calculatedAreaDisplay" readonly class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2 w-64 text-primary font-bold text-lg focus:outline-none" value="0.00">
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 italic">(根据图形自动计算)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3 bg-slate-50 dark:bg-[#161e27] shrink-0">
+            <button type="button" onclick="document.getElementById('detectionRangeModal').close()" class="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+            <button type="button" onclick="confirmRangeSelection()" class="px-4 py-2 text-sm font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确定</button>
+        </div>
+    </div>
+</dialog>
+
+<script>
+    // 探测范围相关逻辑
+    let rangeCoordinates = []; // 存储 {x, y} 对象
+
+    function openDetectionRangeModal() {
+        const modal = document.getElementById('detectionRangeModal');
+        const coordsInput = document.querySelector('input[name="project_range_coords"]');
+        
+        // 重置数据
+        rangeCoordinates = [];
+        const container = document.getElementById('coordinateInputsContainer');
+        container.innerHTML = '';
+
+        // 加载已有数据
+        if(coordsInput && coordsInput.value) {
+            try {
+                rangeCoordinates = JSON.parse(coordsInput.value);
+            } catch(e) { console.error('Parse coords failed', e); }
+        }
+
+        // 如果没有数据，默认添加3个空行
+        if(rangeCoordinates.length === 0) {
+            // 初始空
+            addCoordinateRow();
+            addCoordinateRow();
+            addCoordinateRow();
+        } else {
+            rangeCoordinates.forEach(pt => addCoordinateRow(pt.x, pt.y));
+        }
+        
+        // 如果数据不足3个，补齐到3个
+        while(container.children.length < 3) {
+            addCoordinateRow();
+        }
+
+        updatePolygonDisplay();
+        modal.showModal();
+    }
+
+    function addCoordinateRow(x = '', y = '') {
+        const container = document.getElementById('coordinateInputsContainer');
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-2';
+        div.innerHTML = `
+            <input type="text" placeholder="X / 东坐标" value="${x}" class="w-full bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded px-3 py-1 text-sm focus:border-primary focus:ring-1 focus:ring-primary font-mono" oninput="updateCoordinateFromInput(this, 'x')">
+            <input type="text" placeholder="Y / 北坐标" value="${y}" class="w-full bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded px-3 py-1 text-sm focus:border-primary focus:ring-1 focus:ring-primary font-mono" oninput="updateCoordinateFromInput(this, 'y')">
+            <button onclick="removeCoordinateRow(this)" class="text-slate-400 hover:text-red-500 p-1 transition-colors" title="删除">
+                <span class="material-symbols-outlined text-lg">remove_circle_outline</span>
+            </button>
+        `;
+        container.appendChild(div);
+        
+        // 更新内部数据数组 (如果是手动添加的空行，需要 push 一个占位对象)
+        // 注意：这里我们主要依靠 input 的 index 来对应数组，或者每次 input change 时重新收集所有 input
+        // 简单策略：每次 change 重新收集所有数据
+        collectCoordinatesFromInputs();
+    }
+
+    function removeCoordinateRow(btn) {
+        const container = document.getElementById('coordinateInputsContainer');
+        if(container.children.length <= 3) {
+            alert('最少需要3个坐标点');
+            return;
+        }
+        btn.closest('div').remove();
+        collectCoordinatesFromInputs();
+        updatePolygonDisplay();
+    }
+
+    function updateCoordinateFromInput(input, type) {
+        // 仅触发更新
+        collectCoordinatesFromInputs();
+        updatePolygonDisplay();
+    }
+
+    function collectCoordinatesFromInputs() {
+        rangeCoordinates = [];
+        const rows = document.getElementById('coordinateInputsContainer').children;
+        for(let row of rows) {
+            const inputs = row.querySelectorAll('input');
+            const x = inputs[0].value.trim();
+            const y = inputs[1].value.trim();
+            // 即使为空也保留占位，但在绘图时过滤
+            rangeCoordinates.push({ x, y });
+        }
+    }
+
+    // 地图点击模拟
+    function handleRangeMapClick(e) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+        
+        // 映射逻辑：
+        // 假设地图区域代表一个 1000x600 的虚拟空间 (或者更大)
+        // 为了演示，我们将 clickX/clickY 映射到一个假设的工程坐标系
+        // 例如：Origin (2347000, 5367000) Scale 1px = 1m
+        const originX = 2347000;
+        const originY = 5367000;
+        const scale = 2.5; // arbitrary scale
+
+        const mapX = (originX + clickX * scale).toFixed(3);
+        const mapY = (originY + (rect.height - clickY) * scale).toFixed(3); // Y轴向上
+
+        // 查找第一个空输入框填充
+        const rows = document.getElementById('coordinateInputsContainer').children;
+        let filled = false;
+        for(let row of rows) {
+            const inputs = row.querySelectorAll('input');
+            if(!inputs[0].value && !inputs[1].value) {
+                inputs[0].value = mapX;
+                inputs[1].value = mapY;
+                filled = true;
+                break;
+            }
+        }
+        
+        // 如果没有空行，添加新行
+        if(!filled) {
+            addCoordinateRow(mapX, mapY);
+        }
+
+        collectCoordinatesFromInputs();
+        updatePolygonDisplay();
+    }
+
+    function updatePolygonDisplay() {
+        const svg = document.getElementById('rangePolygonSvg');
+        const polygon = svg.querySelector('polygon');
+        
+        // 清除旧的点标记 (保留 polygon)
+        while(svg.children.length > 1) {
+            svg.removeChild(svg.lastChild);
+        }
+
+        // 过滤有效点
+        const validPoints = rangeCoordinates.filter(p => p.x && p.y && !isNaN(p.x) && !isNaN(p.y));
+        
+        if(validPoints.length < 2) {
+            polygon.setAttribute('points', '');
+            document.getElementById('calculatedAreaDisplay').value = '0.00';
+            return;
+        }
+
+        // 坐标归一化/映射到 SVG 视图
+        // 1. 找出 Bounding Box
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        validPoints.forEach(p => {
+            const x = parseFloat(p.x);
+            const y = parseFloat(p.y);
+            if(x < minX) minX = x;
+            if(x > maxX) maxX = x;
+            if(y < minY) minY = y;
+            if(y > maxY) maxY = y;
+        });
+
+        // 2. 计算缩放比例，使图形居中并留有 padding
+        const container = document.getElementById('rangeMapContainer');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        const padding = 50;
+        
+        const rangeX = maxX - minX || 1; // prevent divide by zero
+        const rangeY = maxY - minY || 1;
+        
+        // 保持宽高比
+        const scaleX = (width - padding * 2) / rangeX;
+        const scaleY = (height - padding * 2) / rangeY;
+        const scale = Math.min(scaleX, scaleY);
+        
+        // 3. 生成 points 字符串
+        // SVG 坐标系：X 向右，Y 向下。工程坐标系：X 向东(右)，Y 向北(上)。
+        // 所以 SVG_Y = height - (Input_Y - minY) * scale - padding (大致)
+        // 或是中心对齐逻辑
+        const centerX = (minX + maxX) / 2;
+        const centerY = (minY + maxY) / 2;
+        
+        const svgPoints = validPoints.map(p => {
+            const x = parseFloat(p.x);
+            const y = parseFloat(p.y);
+            const svgX = (width / 2) + (x - centerX) * scale;
+            const svgY = (height / 2) - (y - centerY) * scale; // Y轴反转
+            
+            // 绘制点标记
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", svgX);
+            circle.setAttribute("cy", svgY);
+            circle.setAttribute("r", "4");
+            circle.setAttribute("fill", "#fff");
+            circle.setAttribute("stroke", "#5ad98b");
+            circle.setAttribute("stroke-width", "2");
+            svg.appendChild(circle);
+
+            return `${svgX},${svgY}`;
+        }).join(' ');
+
+        polygon.setAttribute('points', svgPoints);
+
+        // 计算面积 (鞋带公式)
+        if(validPoints.length >= 3) {
+            const area = calculatePolygonArea(validPoints);
+            document.getElementById('calculatedAreaDisplay').value = area.toFixed(2);
+        } else {
+            document.getElementById('calculatedAreaDisplay').value = '0.00';
+        }
+    }
+
+    function calculatePolygonArea(points) {
+        let area = 0;
+        const n = points.length;
+        for (let i = 0; i < n; i++) {
+            const j = (i + 1) % n;
+            area += parseFloat(points[i].x) * parseFloat(points[j].y);
+            area -= parseFloat(points[j].x) * parseFloat(points[i].y);
+        }
+        return Math.abs(area) / 2.0;
+    }
+
+    function confirmRangeSelection() {
+        const validPoints = rangeCoordinates.filter(p => p.x && p.y);
+        if(validPoints.length < 3) {
+            alert('请至少输入3个有效的控制点坐标');
+            return;
+        }
+        
+        const area = document.getElementById('calculatedAreaDisplay').value;
+        
+        // 更新主表单
+        const displayInput = document.getElementById('projectRangeInput');
+        const coordsInput = document.querySelector('input[name="project_range_coords"]');
+        const areaInput = document.querySelector('input[name="project_range_area"]');
+        
+        if(displayInput) displayInput.value = `已设置 ${validPoints.length} 个控制点，面积 ${area} m²`;
+        if(coordsInput) coordsInput.value = JSON.stringify(validPoints);
+        if(areaInput) areaInput.value = area;
+        
+        document.getElementById('detectionRangeModal').close();
+    }
+
+    // 状态映射
+    const statusMap = {
+        'ongoing': { text: '实施中', class: 'bg-blue-50 text-blue-600 border-blue-100', dot: 'bg-blue-500 animate-pulse' },
+        'overdue': { text: '超期', class: 'bg-orange-50 text-orange-600 border-orange-100', dot: 'bg-orange-500' },
+        'completed': { text: '已完成', class: 'bg-emerald-50 text-emerald-600 border-emerald-100', dot: 'bg-emerald-500' },
+        'suspended': { text: '停工', class: 'bg-amber-50 text-amber-600 border-amber-100', dot: 'bg-amber-500' },
+        'not_started': { text: '未开始', class: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400' }
+    };
+
+    // 场景映射
+    const sceneMap = {
+        'pucha': '地下管线普查',
+        'xiangcha': '地下管线详查',
+        'fangxian': '地下管线放线测量',
+        'jungong': '地下管线竣工测量'
+    };
+
+    // 预定义的业主数据
+    const ownersData = [
+        { id: 'OWN-001', name: '城市建设投资集团', contact: '张建国', title: '项目负责人', phone: '13800138000' },
+        { id: 'OWN-002', name: '新城区水务有限公司', contact: '李华', title: '工程部经理', phone: '13912345678' },
+        { id: 'OWN-003', name: '远东燃气集团', contact: '赵敏', title: '技术总监', phone: '13787654321' },
+        { id: 'OWN-004', name: '国家电网上海分公司', contact: '刘洋', title: '运维主管', phone: '13600001111' }
+    ];
+
+    // 预定义的用户数据 (模拟用户管理)
+    const usersData = [
+        { id: 'USR-001', name: '陈明', dept: '基础设施部', role: '高级工程师' },
+        { id: 'USR-002', name: '王强', dept: '工程部', role: '现场主管' },
+        { id: 'USR-003', name: '李丽', dept: '数据中心', role: '数据分析师' },
+        { id: 'USR-004', name: '赵铁柱', dept: '工程部', role: '技术员' },
+        { id: 'USR-005', name: '钱多多', dept: '财务部', role: '预算员' },
+        { id: 'USR-006', name: '孙小美', dept: '设计院', role: '设计师' },
+        { id: 'USR-007', name: '周杰', dept: '工程部', role: '勘测员' },
+        { id: 'USR-008', name: '吴刚', dept: '质检部', role: '质检员' }
+    ];
+
+    let editingRow = null;
+    let currentUserField = ''; // 当前正在选择人员的字段 (manager, exploration, data_processing, report, reviewer)
+
+    // 打开人员选择弹窗
+    function openUserSelector(field) {
+        currentUserField = field;
+        const modal = document.getElementById('userSelectorModal');
+        
+        // 获取当前已选值的 ID
+        let currentIds = [];
+        const hiddenInput = document.querySelector(`input[name="project_${field}_ids"]`);
+        if(hiddenInput && hiddenInput.value) {
+            currentIds = hiddenInput.value.split(',');
+        }
+
+        renderUserList(currentIds);
+        modal.showModal();
+    }
+
+    // 渲染用户列表
+    function renderUserList(selectedIds = [], filter = '') {
+        const container = document.getElementById('userListContainer');
+        container.innerHTML = '';
+        
+        const filteredUsers = usersData.filter(u => 
+            u.name.includes(filter) || u.dept.includes(filter) || u.role.includes(filter)
+        );
+
+        if (filteredUsers.length === 0) {
+            container.innerHTML = '<div class="p-4 text-center text-xs text-slate-400">无匹配人员</div>';
+            return;
+        }
+
+        filteredUsers.forEach(user => {
+            const isChecked = selectedIds.includes(user.id);
+            const div = document.createElement('div');
+            div.className = `flex items-center justify-between p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer ${isChecked ? 'bg-slate-50 dark:bg-slate-700' : ''}`;
+            div.onclick = (e) => {
+                // 点击行切换 Checkbox
+                if (e.target.type !== 'checkbox') {
+                    const cb = div.querySelector('input[type="checkbox"]');
+                    cb.checked = !cb.checked;
+                }
+            };
+
+            div.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" value="${user.id}" ${isChecked ? 'checked' : ''} class="rounded border-slate-300 text-primary focus:ring-primary">
+                    <div>
+                        <div class="text-xs font-bold text-slate-700 dark:text-slate-200">${user.name}</div>
+                        <div class="text-[10px] text-slate-400">${user.dept} · ${user.role}</div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    // 搜索过滤
+    function filterUsers(val) {
+        // 获取当前选中的 ids，保持选中状态? 
+        // 简化起见，每次重新渲染会丢失未确认的勾选吗？
+        // 如果我们每次都重新读取 DOM 中的 checkbox 状态比较麻烦。
+        // 更好的是维护一个临时 Set。
+        // 但为了简单，这里假设搜索时仅仅是过滤显示，确认时只收集显示的？不对。
+        // 应该维护一个临时 selected Set。
+        
+        // 重新实现：每次打开弹窗时初始化 tempSelectedIds Set。
+        // 这里为了简单，暂不支持搜索时保持非显示项的选中状态 (或者需要更复杂的逻辑)。
+        // 让我们简单点：搜索仅用于查找，确认时遍历所有 checkbox (但这只能获取当前显示的)。
+        // 正确做法：
+        // 1. 在 openUserSelector 时将 currentIds 存入全局 tempSelectedIds Set
+        // 2. renderUserList 根据 Set 渲染
+        // 3. 点击 checkbox 更新 Set
+        // 4. confirm 时读取 Set
+        
+        // 让我重写相关逻辑，如下：
+    }
+    
+    // 改进后的逻辑
+    let tempSelectedUserIds = new Set();
+
+    function openUserSelector(field) {
+        currentUserField = field;
+        const modal = document.getElementById('userSelectorModal');
+        const hiddenInput = document.querySelector(`input[name="project_${field}_ids"]`);
+        
+        tempSelectedUserIds.clear();
+        if(hiddenInput && hiddenInput.value) {
+            hiddenInput.value.split(',').forEach(id => tempSelectedUserIds.add(id));
+        }
+        
+        // 清空搜索框
+        const searchInput = modal.querySelector('input[type="text"]');
+        if(searchInput) searchInput.value = '';
+
+        renderUserList();
+        modal.showModal();
+    }
+
+    function renderUserList(filter = '') {
+        const container = document.getElementById('userListContainer');
+        container.innerHTML = '';
+        
+        const filteredUsers = usersData.filter(u => 
+            u.name.includes(filter) || u.dept.includes(filter) || u.role.includes(filter)
+        );
+
+        if (filteredUsers.length === 0) {
+            container.innerHTML = '<div class="p-4 text-center text-xs text-slate-400">无匹配人员</div>';
+            return;
+        }
+
+        filteredUsers.forEach(user => {
+            const isChecked = tempSelectedUserIds.has(user.id);
+            const div = document.createElement('div');
+            div.className = `flex items-center justify-between p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer ${isChecked ? 'bg-slate-50 dark:bg-slate-700' : ''}`;
+            
+            div.onclick = (e) => {
+                if (e.target.type !== 'checkbox') {
+                    const cb = div.querySelector('input[type="checkbox"]');
+                    cb.click(); // 触发 checkbox 的 change 事件
+                }
+            };
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = user.id;
+            checkbox.checked = isChecked;
+            checkbox.className = 'rounded border-slate-300 text-primary focus:ring-primary';
+            checkbox.onchange = (e) => {
+                if (e.target.checked) {
+                    tempSelectedUserIds.add(user.id);
+                } else {
+                    tempSelectedUserIds.delete(user.id);
+                }
+            };
+
+            const infoDiv = document.createElement('div');
+            infoDiv.innerHTML = `
+                <div class="text-xs font-bold text-slate-700 dark:text-slate-200">${user.name}</div>
+                <div class="text-[10px] text-slate-400">${user.dept} · ${user.role}</div>
+            `;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex items-center gap-3';
+            wrapper.appendChild(checkbox);
+            wrapper.appendChild(infoDiv);
+            
+            div.appendChild(wrapper);
+            container.appendChild(div);
+        });
+    }
+    
+    // 绑定搜索事件
+    // 注意：需要确保 renderUserList 是全局可访问的，或者直接在这里重新定义 filterUsers
+    function filterUsers(val) {
+        renderUserList(val);
+    }
+
+    // 确认选择
+    function confirmUserSelection() {
+        if (!currentUserField) return;
+        
+        const selectedIds = Array.from(tempSelectedUserIds);
+        const selectedNames = selectedIds.map(id => {
+            const user = usersData.find(u => u.id === id);
+            return user ? user.name : id;
+        });
+
+        // 更新界面
+        const displayInput = document.querySelector(`input[onclick="openUserSelector('${currentUserField}')"]`);
+        const hiddenInput = document.querySelector(`input[name="project_${currentUserField}_ids"]`);
+        
+        if (displayInput) displayInput.value = selectedNames.join(', ');
+        if (hiddenInput) hiddenInput.value = selectedIds.join(',');
+
+        document.getElementById('userSelectorModal').close();
+    }
+
+
+    // 打开新增模态框
+    function openAddModal() {
+        editingRow = null;
+        const form = document.querySelector('form[method="dialog"]');
+        form.reset();
+        document.querySelector('#addProjectModal h3').textContent = '新建探测项目';
+        document.querySelector('#addProjectModal button[type="submit"]').textContent = '创建项目';
+        
+        // 生成新编号
+        const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+        form.querySelector('input[value*="PROJ"]').value = `PROJ-2024-${randomNum}`;
+        
+        document.getElementById('addProjectModal').showModal();
+    }
+
+    // 打开编辑模态框
+    function openEditModal(btn) {
+        editingRow = btn.closest('tr');
+        const cells = editingRow.querySelectorAll('td');
+        const form = document.querySelector('form[method="dialog"]');
+        
+        document.querySelector('#addProjectModal h3').textContent = '编辑探测项目';
+        document.querySelector('#addProjectModal button[type="submit"]').textContent = '保存修改';
+
+        // 尝试从 dataset 获取完整数据
+        let rowData = {};
+        try {
+            rowData = JSON.parse(editingRow.dataset.project || '{}');
+        } catch(e) { console.error('Parse row data failed', e); }
+
+        // 填充表单
+        const inputs = form.querySelectorAll('input, select, textarea');
+        
+        // 1. 项目基础信息
+        // 项目编号
+        inputs[0].value = rowData.id || cells[1].textContent.trim();
+        
+        // 项目名称
+        inputs[1].value = rowData.name || cells[2].querySelector('a').textContent.trim();
+        
+        // 场景类型 (反向查找或直接使用 value)
+        const sceneText = cells[3].textContent.trim();
+        let sceneValue = rowData.scene || '';
+        if(!sceneValue) {
+             for(let [k,v] of Object.entries(sceneMap)) {
+                if(v === sceneText) sceneValue = k;
+            }
+        }
+        inputs[2].value = sceneValue;
+
+        // 项目地址 (从 DOM 或 dataset)
+        const locationText = rowData.location || cells[2].querySelector('div').textContent.trim();
+        // 这里需要找到 id="projectAddressInput" 的输入框，它是 inputs 列表中的一个
+        const addressInput = document.getElementById('projectAddressInput');
+        if(addressInput) addressInput.value = locationText;
+
+        // 探测范围
+        const rangeDisplay = document.getElementById('projectRangeInput');
+        const rangeCoords = form.querySelector('input[name="project_range_coords"]');
+        const rangeArea = form.querySelector('input[name="project_range_area"]');
+        if(rowData.rangeCoords) {
+            rangeCoords.value = rowData.rangeCoords;
+            rangeArea.value = rowData.rangeArea || '';
+            let count = 0;
+            try { count = JSON.parse(rowData.rangeCoords).length; } catch(e){}
+            rangeDisplay.value = `已设置 ${count} 个控制点，面积 ${rowData.rangeArea || 0} m²`;
+        } else {
+            rangeDisplay.value = '';
+            rangeCoords.value = '';
+            rangeArea.value = '';
+        }
+
+        // 坐标系
+        const coordSelect = form.querySelectorAll('select')[1];
+        if(coordSelect) coordSelect.value = rowData.coordSystem || '';
+
+        // 高程系
+        const elevSelect = form.querySelectorAll('select')[2];
+        if(elevSelect) elevSelect.value = rowData.elevSystem || '';
+
+        // 开始日期
+        const startDateInput = form.querySelector('input[type="date"]'); // 第一个 date input
+        if(startDateInput) startDateInput.value = rowData.startDate || cells[5].textContent.trim();
+        
+        // 预计结束日期 (第二个 date input)
+        const endDateInput = form.querySelectorAll('input[type="date"]')[1];
+        if(endDateInput) endDateInput.value = rowData.endDate || '';
+
+        // 项目描述
+        const descInput = form.querySelector('textarea');
+        if(descInput) descInput.value = rowData.description || '';
+
+        // 项目状态
+        const statusText = cells[7].textContent.trim();
+        const statusRadios = form.querySelectorAll('input[name="project_status"]');
+        statusRadios.forEach(radio => {
+            const span = radio.nextElementSibling.textContent.trim();
+            // 如果有 dataset 存状态值最好，否则根据文本匹配
+            if(rowData.status) {
+                if(statusMap[rowData.status] && statusMap[rowData.status].text === span) radio.checked = true;
+            } else if(statusText.includes(span)) {
+                radio.checked = true;
+            }
+        });
+
+        // 1.5 项目人员信息
+        const personnelFields = ['manager', 'exploration', 'data', 'report', 'reviewer'];
+        personnelFields.forEach(field => {
+            const hiddenInput = form.querySelector(`input[name="project_${field}_ids"]`);
+            // 注意：data_processing 在 HTML 中是 data_ids，但这里为了统一遍历逻辑需要处理一下
+            // 实际上我在 HTML 里写的是 project_data_ids，所以 field 为 'data' 是对的。
+            // 但是 openUserSelector('data_processing') ... 
+            // 让我检查一下 HTML:
+            // openUserSelector('data_processing') -> name="project_data_ids"
+            // openUserSelector('manager') -> name="project_manager_ids"
+            
+            // 这里的 field 应该是 ids 的中间部分。
+            // manager -> project_manager_ids
+            // exploration -> project_exploration_ids
+            // data -> project_data_ids
+            // report -> project_report_ids
+            // reviewer -> project_reviewer_ids
+            
+            // 为了对应 onclick 参数：
+            // manager -> 'manager'
+            // exploration -> 'exploration'
+            // data -> 'data_processing' (display input onclick)
+            // report -> 'report'
+            // reviewer -> 'reviewer'
+            
+            let selectorArg = field;
+            if(field === 'data') selectorArg = 'data_processing';
+            
+            const displayInput = form.querySelector(`input[onclick="openUserSelector('${selectorArg}')"]`);
+            
+            const ids = rowData[`${field}Ids`] || '';
+            if(hiddenInput) hiddenInput.value = ids;
+            
+            if(displayInput) {
+                if(ids) {
+                    const names = ids.split(',').map(id => {
+                        const u = usersData.find(user => user.id === id);
+                        return u ? u.name : id;
+                    }).join(', ');
+                    displayInput.value = names;
+                } else {
+                    displayInput.value = '';
+                }
+            }
+        });
+
+        // 2. 业主及联系人信息
+        // 业主单位名称
+        const ownerInput = form.querySelector('input[placeholder="点击选择业主"]');
+        const currentOwnerName = rowData.ownerName || cells[4].textContent.trim();
+        if(ownerInput) ownerInput.value = currentOwnerName;
+        
+        // 查找业主详情以自动填充联系人
+        const matchedOwner = ownersData.find(o => o.name === currentOwnerName);
+        
+        // 业主 ID (hidden)
+        if(ownerInput && ownerInput.nextElementSibling) {
+            ownerInput.nextElementSibling.value = rowData.ownerId || (matchedOwner ? matchedOwner.id : '');
+        }
+
+        // 联系人信息 (姓名、职务、电话)
+        // 优先使用 dataset 中的数据，如果没有（比如静态行），则从 ownersData 中查找
+        form.querySelector('input[name="contact_name"]').value = rowData.contactName || (matchedOwner ? matchedOwner.contact : '');
+        form.querySelector('input[name="contact_title"]').value = rowData.contactTitle || (matchedOwner ? matchedOwner.title : '');
+        form.querySelector('input[name="contact_phone"]').value = rowData.contactPhone || (matchedOwner ? matchedOwner.phone : '');
+
+        document.getElementById('addProjectModal').showModal();
+    }
+
+    // 处理表单提交
+    document.querySelector('form[method="dialog"]').addEventListener('submit', function(e) {
+        // 由于是 dialog form，默认会关闭。我们需要在此之前处理数据
+        
+        // 获取所有字段值
+        const id = this.querySelector('input[value*="PROJ"]').value;
+        const name = this.querySelectorAll('input[type="text"]')[1].value; // 项目名称
+        const sceneSelect = this.querySelector('select');
+        const scene = sceneSelect.options[sceneSelect.selectedIndex].text;
+        const sceneValue = sceneSelect.value;
+        const address = document.getElementById('projectAddressInput').value;
+        const startDate = this.querySelectorAll('input[type="date"]')[0].value;
+        const endDate = this.querySelectorAll('input[type="date"]')[1].value;
+        const description = this.querySelector('textarea').value;
+
+        // 新增字段
+        const coordSystem = this.querySelectorAll('select')[1].value;
+        const elevSystem = this.querySelectorAll('select')[2].value;
+        const rangeCoords = this.querySelector('input[name="project_range_coords"]').value;
+        const rangeArea = this.querySelector('input[name="project_range_area"]').value;
+        
+        const ownerInput = this.querySelector('input[placeholder="点击选择业主"]');
+        const ownerName = ownerInput.value;
+        const ownerId = ownerInput.nextElementSibling.value;
+        
+        const contactName = this.querySelector('input[name="contact_name"]').value;
+        const contactTitle = this.querySelector('input[name="contact_title"]').value;
+        const contactPhone = this.querySelector('input[name="contact_phone"]').value;
+
+        // 项目人员
+        const managerIds = this.querySelector('input[name="project_manager_ids"]').value;
+        const explorationIds = this.querySelector('input[name="project_exploration_ids"]').value;
+        const dataIds = this.querySelector('input[name="project_data_ids"]').value;
+        const reportIds = this.querySelector('input[name="project_report_ids"]').value;
+        const reviewerIds = this.querySelector('input[name="project_reviewer_ids"]').value;
+
+        // 获取状态
+        let status = 'ongoing';
+        let statusText = '实施中';
+        this.querySelectorAll('input[name="project_status"]').forEach(r => {
+            if(r.checked) {
+                statusText = r.nextElementSibling.textContent.trim();
+                if(statusText === '未开始') status = 'not_started';
+                else if(statusText === '已完成') status = 'completed';
+                else if(statusText === '超期') status = 'overdue';
+                else if(statusText === '停工') status = 'suspended';
+                else status = 'ongoing';
+            }
+        });
+
+        const statusConfig = statusMap[status] || statusMap['ongoing'];
+
+        // 构建完整数据对象
+        const rowData = {
+            id, name, scene: sceneValue, address, startDate, endDate, description, status,
+            coordSystem, elevSystem, rangeCoords, rangeArea,
+            ownerName, ownerId, contactName, contactTitle, contactPhone,
+            managerIds, explorationIds, dataIds, reportIds, reviewerIds
+        };
+
+        if (editingRow) {
+            // 更新行
+            editingRow.dataset.project = JSON.stringify(rowData); // 更新 dataset
+            
+            const cells = editingRow.querySelectorAll('td');
+            cells[1].textContent = id;
+            cells[2].querySelector('a').textContent = name;
+            cells[2].querySelector('div').textContent = address; // 更新显示的地址
+            cells[3].querySelector('span').textContent = scene;
+            cells[4].textContent = ownerName;
+            cells[5].textContent = startDate;
+            
+            // 更新状态列
+            cells[7].innerHTML = `
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${statusConfig.class} text-xs font-medium border">
+                    <span class="size-1.5 rounded-full ${statusConfig.dot}"></span>
+                    ${statusText}
+                </span>
+            `;
+            
+            // 简单模拟进度更新
+            if(status === 'completed') {
+                const progressDiv = cells[6].querySelector('.bg-primary, .bg-orange-500, .bg-emerald-500, .bg-blue-500');
+                if(progressDiv) progressDiv.className = 'h-full bg-emerald-500 w-[100%]';
+                const percentSpan = cells[6].querySelector('span');
+                if(percentSpan) {
+                    percentSpan.className = 'text-xs font-medium text-emerald-600 dark:text-emerald-400';
+                    percentSpan.textContent = '100%';
+                }
+            }
+
+        } else {
+            // 新增行
+            const tbody = document.querySelector('tbody');
+            const newRow = document.createElement('tr');
+            newRow.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group';
+            newRow.dataset.project = JSON.stringify(rowData); // 存储 dataset
+            
+            newRow.innerHTML = `
+                <td class="px-6 py-4 text-slate-500">${tbody.children.length + 1}</td>
+                <td class="px-6 py-4 font-mono text-xs text-slate-500">${id}</td>
+                <td class="px-6 py-4">
+                    <a href="project-detail.html?id=${id}" class="font-medium text-primary hover:underline decoration-primary/40">${name}</a>
+                    <div class="text-[10px] text-slate-400">${address}</div>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">${scene}</span>
+                </td>
+                <td class="px-6 py-4 text-slate-600 dark:text-slate-300">${ownerName}</td>
+                <td class="px-6 py-4 text-slate-500 text-xs">${startDate}</td>
+                <td class="px-6 py-4 text-center">
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary w-[0%]"></div>
+                        </div>
+                        <span class="text-xs font-medium text-slate-600 dark:text-slate-300">0%</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${statusConfig.class} text-xs font-medium border">
+                        <span class="size-1.5 rounded-full ${statusConfig.dot}"></span>
+                        ${statusText}
+                    </span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑" onclick="openEditModal(this)">
+                            <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                        </button>
+                        <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除" onclick="deleteRow(this)">
+                            <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                        </button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+
+            // 保存到 LocalStorage (保持原有逻辑)
+            const newProject = {
+                id: id,
+                name: name,
+                ownerId: ownerId, 
+                ownerName: ownerName
+            };
+            const storedProjects = JSON.parse(localStorage.getItem('mockProjects') || '[]');
+            storedProjects.push(newProject);
+            localStorage.setItem('mockProjects', JSON.stringify(storedProjects));
+        }
+    });
+
+    // 删除行逻辑封装
+    function deleteRow(btn) {
+        if(confirm('确定要删除这个项目吗？此操作不可恢复。')) {
+            btn.closest('tr').remove();
+            // 重新编号
+            document.querySelectorAll('tbody tr').forEach((row, index) => {
+                row.cells[0].textContent = index + 1;
+            });
+        }
+    }
+
+    // 初始化现有按钮事件
+    document.querySelectorAll('[data-icon="delete"]').forEach(btn => {
+        btn.parentElement.onclick = function() { deleteRow(this); }
+    });
+    
+    document.querySelectorAll('[data-icon="edit"]').forEach(btn => {
+        btn.parentElement.onclick = function() { openEditModal(this); }
+    });
+
+    // 绑定新建按钮
+    document.querySelector('button[onclick*="addProjectModal"]').onclick = openAddModal;
+
+    // 点击模态框外部关闭
+    document.addEventListener('click', function(e) {
+        const addProjectModal = document.getElementById('addProjectModal');
+        const ownerSelectorModal = document.getElementById('ownerSelectorModal');
+        
+        if (e.target === addProjectModal) {
+            addProjectModal.close();
+        }
+        if (e.target === ownerSelectorModal) {
+            ownerSelectorModal.close();
+        }
+    });
+
+    // 业主选择逻辑
+    function selectOwner(id, name, contactName = '', contactTitle = '', contactPhone = '') {
+        const input = document.querySelector('input[placeholder="点击选择业主"]');
+        if (input) {
+            input.value = name;
+            input.nextElementSibling.value = id; // 设置 hidden input 的值
+            
+            // 自动填充联系人信息
+            const form = input.closest('form');
+            if (form) {
+                form.querySelector('input[name="contact_name"]').value = contactName;
+                form.querySelector('input[name="contact_title"]').value = contactTitle;
+                form.querySelector('input[name="contact_phone"]').value = contactPhone;
+            }
+
+            document.getElementById('ownerSelectorModal').close();
+        }
+    }
+    
+    // 监听新增项目提交，保存到LocalStorage供其他页面使用 (简单模拟后端)
+    document.querySelector('form[method="dialog"]').addEventListener('submit', function(e) {
+        // ... 原有逻辑在上面已经绑定，这里我们增加一个额外的监听来处理 LocalStorage
+        // 注意：由于上面的事件处理器已经绑定，且我们没有阻止冒泡，所以这里也会执行。
+        // 但更好的方式是修改上面的事件处理器。为了避免冲突，我将合并逻辑。
+    });
+
+    // 覆盖之前的 submit 监听器逻辑 (实际上上面的 submit 监听器比较复杂，不易覆盖，我们直接修改原有的 submit 逻辑)
+    // 但由于 SearchReplace 的限制，我不能轻易修改大段代码。
+    // 我们可以添加一个新的 submit 监听器，利用 setTimeout 确保在 DOM 更新后执行，或者直接在原代码中搜索替换。
+    // 让我们用搜索替换修改原来的 submit 逻辑，加入 LocalStorage 保存。
+
+    // 地图相关逻辑
+    let mapInstance = null;
+    let mapMarker = null;
+    let selectedAddress = '';
+    const AMAP_KEY = 'YOUR_AMAP_KEY_HERE'; // 请替换为真实 Key，否则使用模拟模式
+
+    function openMapSelector() {
+        const modal = document.getElementById('mapSelectorModal');
+        modal.showModal();
+        
+        // 尝试加载地图
+        if (!mapInstance) {
+            initMap();
+        }
+    }
+
+    function initMap() {
+        // 检查是否已加载高德地图脚本
+        if (typeof AMap === 'undefined') {
+            // 动态加载 JS API (模拟)
+            // 实际开发中应在 head 引入: <script src="https://webapi.amap.com/maps?v=2.0&key=您申请的key_code"><\/script>
+            console.log('Detecting AMap...');
+            
+            // 这里我们模拟检测失败，启用模拟模式
+            // 如果您有 Key，可以取消注释下面代码并填入 Key
+            /*
+            const script = document.createElement('script');
+            script.src = `https://webapi.amap.com/maps?v=2.0&key=${AMAP_KEY}`;
+            script.onload = () => { initAMapInstance(); };
+            script.onerror = () => { enableSimulationMode(); };
+            document.head.appendChild(script);
+            */
+           
+            // 默认启用模拟模式
+            enableSimulationMode();
+        } else {
+            initAMapInstance();
+        }
+    }
+
+    function enableSimulationMode() {
+        document.getElementById('amap-container').classList.add('hidden');
+        document.getElementById('simulation-layer').classList.remove('hidden');
+    }
+
+    function initAMapInstance() {
+        try {
+            mapInstance = new AMap.Map('amap-container', {
+                zoom: 11,
+                center: [121.4737, 31.2304], // 上海
+            });
+            
+            mapInstance.on('click', function(e) {
+                // 真实 API 逆地理编码逻辑
+                // const geocoder = new AMap.Geocoder(); ...
+                // 这里仅演示点击标记
+                if(mapMarker) mapInstance.remove(mapMarker);
+                mapMarker = new AMap.Marker({ position: e.lnglat });
+                mapInstance.add(mapMarker);
+                
+                // 模拟返回地址
+                updateSelectedAddress(`上海市浦东新区张江高科模拟坐标 [${e.lnglat.lng.toFixed(4)}, ${e.lnglat.lat.toFixed(4)}]`);
+            });
+        } catch(e) {
+            console.error('Map init failed', e);
+            enableSimulationMode();
+        }
+    }
+
+    function simulateMapClick(e) {
+        // 模拟模式下的点击
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // 在点击处显示一个小红点 (可选)
+        const dot = document.createElement('div');
+        dot.className = 'absolute size-3 bg-red-500 rounded-full border-2 border-white transform -translate-x-1/2 -translate-y-1/2 pointer-events-none shadow-lg';
+        dot.style.left = x + 'px';
+        dot.style.top = y + 'px';
+        
+        // 清除旧点
+        const container = document.getElementById('simulation-layer');
+        const oldDot = container.querySelector('.bg-red-500');
+        if(oldDot) oldDot.remove();
+        container.appendChild(dot);
+
+        // 随机生成一个地址
+        const mockAddresses = [
+            '上海市浦东新区张江路 123 号',
+            '上海市徐汇区漕溪北路 88 号',
+            '上海市黄浦区南京东路 500 号',
+            '上海市闵行区虹桥枢纽中心 B 座'
+        ];
+        const randomAddr = mockAddresses[Math.floor(Math.random() * mockAddresses.length)];
+        updateSelectedAddress(randomAddr);
+    }
+
+    function updateSelectedAddress(addr) {
+        selectedAddress = addr;
+        document.getElementById('selectedAddressDisplay').textContent = addr;
+    }
+
+    function confirmMapSelection() {
+        if (selectedAddress) {
+            document.getElementById('projectAddressInput').value = selectedAddress;
+            document.getElementById('mapSelectorModal').close();
+        } else {
+            alert('请先在地图上选择一个位置');
+        }
+    }
+</script>
+
+</body>
+</html>
