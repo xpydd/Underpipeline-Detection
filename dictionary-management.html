@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>字典管理 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
+    <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-2xl" data-icon="settings_input_component">settings_input_component</span>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+            </a>
+            <span class="text-slate-300 dark:text-slate-600">/</span>
+            <span class="text-sm font-medium text-slate-500 dark:text-slate-400">字典管理</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+                <div class="text-right">
+                    <p class="text-sm font-bold leading-none mb-1">陈明</p>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">基础设施部</p>
+                </div>
+            </div>
+            <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-[1440px] mx-auto p-6">
+    <div class="grid grid-cols-12 gap-6">
+        <!-- 左侧：字典分类树 -->
+        <div class="col-span-3">
+            <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col h-[calc(100vh-8rem)]">
+                <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+                    <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-lg" data-icon="folder_open">folder_open</span>
+                        字典分类
+                    </h3>
+                    <button onclick="openAddCategoryModal()" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded text-slate-400 hover:text-primary transition-colors" title="新增分类">
+                        <span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                    </button>
+                </div>
+
+                <div class="flex-1 overflow-y-auto custom-scrollbar p-3">
+                    <!-- 字典分类树 -->
+                    <div class="space-y-1" id="categoryTree">
+                        <!-- 管点种类 -->
+                        <div class="category-item">
+                            <div class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer group" onclick="selectCategory('point_type', this)">
+                                <span class="material-symbols-outlined text-sm text-slate-400" data-icon="chevron_right">chevron_right</span>
+                                <span class="material-symbols-outlined text-primary text-base" data-icon="category">category</span>
+                                <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">管点种类</span>
+                                <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">8</span>
+                            </div>
+                        </div>
+
+                        <!-- 特征值（级联） -->
+                        <div class="category-item">
+                            <div class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer group" onclick="selectCategory('point_feature', this)">
+                                <span class="material-symbols-outlined text-sm text-slate-400" data-icon="chevron_right">chevron_right</span>
+                                <span class="material-symbols-outlined text-blue-600 text-base" data-icon="account_tree">account_tree</span>
+                                <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">特征值</span>
+                                <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">143</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧：字典数据列表 -->
+        <div class="col-span-9">
+            <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col h-[calc(100vh-8rem)]">
+                <!-- 筛选功能区 -->
+                <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between shrink-0">
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-lg" data-icon="book">book</span>
+                            <h3 class="font-bold text-slate-800 dark:text-white" id="currentCategoryTitle">请选择字典分类</h3>
+                        </div>
+
+                        <!-- 模糊搜索 -->
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-2.5 top-2 text-sm text-slate-400" data-icon="search">search</span>
+                            <input class="pl-9 pr-4 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary w-64" placeholder="搜索字典项..." type="text"/>
+                        </div>
+                    </div>
+
+                    <!-- 新增按钮 -->
+                    <button onclick="openAddDictModal()" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all shadow-sm shadow-primary/20">
+                        <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                        新增字典项
+                    </button>
+                </div>
+
+                <!-- 表格显示区 -->
+                <div class="flex-1 overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 uppercase text-[11px] font-bold tracking-wider border-b border-slate-100 dark:border-slate-800 sticky top-0">
+                            <tr>
+                                <th class="px-6 py-3 w-16">序号</th>
+                                <th class="px-6 py-3">字典编码</th>
+                                <th class="px-6 py-3">字典名称</th>
+                                <th class="px-6 py-3">字典值</th>
+                                <th class="px-6 py-3">排序</th>
+                                <th class="px-6 py-3">父级字典</th>
+                                <th class="px-6 py-3">状态</th>
+                                <th class="px-6 py-3">创建时间</th>
+                                <th class="px-6 py-3 text-right">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800" id="dictTableBody">
+                            <!-- 空状态 -->
+                            <tr>
+                                <td colspan="9" class="px-6 py-12 text-center">
+                                    <div class="flex flex-col items-center gap-3">
+                                        <span class="material-symbols-outlined text-slate-300 text-5xl" data-icon="inbox">inbox</span>
+                                        <p class="text-sm text-slate-400">请从左侧选择字典分类</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分页区 -->
+                <div class="p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-500 font-medium shrink-0">
+                    <p>显示 1 到 10 条，共 0 条记录</p>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors" disabled>上一页</button>
+                        <button class="px-3 py-1.5 rounded bg-primary text-white shadow-sm shadow-primary/30">1</button>
+                        <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" disabled>下一页</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 新增/编辑字典项模态框 -->
+<dialog id="addDictModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-2xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white">新增字典项</h3>
+            <button onclick="document.getElementById('addDictModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+            </button>
+        </div>
+
+        <form method="dialog" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-4 space-y-5 overflow-y-auto custom-scrollbar">
+                <!-- 基本信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">info</span>
+                        基本信息
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">字典编码 <span class="text-red-500">*</span></label>
+                            <input type="text" name="dict_code" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如: PIPE_TYPE_001">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">字典名称 <span class="text-red-500">*</span></label>
+                            <input type="text" name="dict_name" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如: 给水管">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">字典值 <span class="text-red-500">*</span></label>
+                            <input type="text" name="dict_value" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如: water_supply">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">所属分类 <span class="text-red-500">*</span></label>
+                            <select name="category" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="">请选择分类</option>
+                                <option value="pipeline_type">管线类型</option>
+                                <option value="pipeline_material">管线材质</option>
+                                <option value="burial_method">埋设方式</option>
+                                <option value="project_status">项目状态</option>
+                                <option value="region">行政区划</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">排序号</label>
+                            <input type="number" name="sort_order" value="0" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">状态</label>
+                            <div class="flex gap-4 pt-1">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="status" value="1" checked class="text-primary focus:ring-primary border-slate-300 w-3 h-3">
+                                    <span class="text-xs text-slate-600 dark:text-slate-300">启用</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="status" value="0" class="text-primary focus:ring-primary border-slate-300 w-3 h-3">
+                                    <span class="text-xs text-slate-600 dark:text-slate-300">禁用</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 级联配置 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">account_tree</span>
+                        级联配置
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1 col-span-3">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">父级字典</label>
+                            <select name="parent_id" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="">无（顶级字典）</option>
+                                <option value="1">上海市</option>
+                                <option value="2">北京市</option>
+                                <option value="3">广东省</option>
+                            </select>
+                            <p class="text-[10px] text-slate-400">选择父级字典可创建级联关系，如：省-市-区</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 其他信息 -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-base">description</span>
+                        其他信息
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <div class="space-y-1 col-span-3">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">备注说明</label>
+                            <textarea name="remark" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary h-16" placeholder="请输入备注说明..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button type="button" onclick="document.getElementById('addDictModal').close()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button type="submit" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认新增</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<!-- 新增字典分类模态框 -->
+<dialog id="addCategoryModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-lg open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white">新增字典分类</h3>
+            <button onclick="document.getElementById('addCategoryModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+            </button>
+        </div>
+
+        <form method="dialog" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-4 space-y-3 overflow-y-auto custom-scrollbar">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">分类编码 <span class="text-red-500">*</span></label>
+                    <input type="text" name="category_code" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如: coordinate_system">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">分类名称 <span class="text-red-500">*</span></label>
+                    <input type="text" name="category_name" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如: 坐标系">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">图标颜色</label>
+                    <select name="icon_color" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        <option value="amber">琥珀色</option>
+                        <option value="blue">蓝色</option>
+                        <option value="purple">紫色</option>
+                        <option value="emerald">翠绿色</option>
+                        <option value="red">红色</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">排序号</label>
+                    <input type="number" name="sort_order" value="0" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                </div>
+            </div>
+
+            <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button type="button" onclick="document.getElementById('addCategoryModal').close()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button type="submit" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认新增</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<script>
+    // 模拟字典数据
+    const mockDictData = {
+        point_type: [
+            { id: 1, code: 'PT_001', name: '电力', value: 'power', sort: 1, parent: null, status: 1, createTime: '2024-01-15 10:00:00', remark: '电力管点' },
+            { id: 2, code: 'PT_002', name: '排水', value: 'drainage', sort: 2, parent: null, status: 1, createTime: '2024-01-15 10:01:00', remark: '排水管点' },
+            { id: 3, code: 'PT_003', name: '燃气', value: 'gas', sort: 3, parent: null, status: 1, createTime: '2024-01-15 10:02:00', remark: '燃气管点' },
+            { id: 4, code: 'PT_004', name: '工业', value: 'industrial', sort: 4, parent: null, status: 1, createTime: '2024-01-15 10:03:00', remark: '工业管点' },
+            { id: 5, code: 'PT_005', name: '通信', value: 'telecom', sort: 5, parent: null, status: 1, createTime: '2024-01-15 10:04:00', remark: '通信管点' },
+            { id: 6, code: 'PT_006', name: '给水', value: 'water_supply', sort: 6, parent: null, status: 1, createTime: '2024-01-15 10:05:00', remark: '给水管点' },
+            { id: 7, code: 'PT_007', name: '热力', value: 'heating', sort: 7, parent: null, status: 1, createTime: '2024-01-15 10:06:00', remark: '热力管点' },
+            { id: 8, code: 'PT_008', name: '其他', value: 'other', sort: 8, parent: null, status: 1, createTime: '2024-01-15 10:07:00', remark: '其他管点' }
+        ],
+        point_feature: [
+            // 电力特征值
+            { id: 101, code: 'PF_001_01', name: '一般管线点', value: 'general', sort: 1, parent: 1, status: 1, createTime: '2024-01-15 11:00:00', remark: '电力-一般管线点' },
+            { id: 102, code: 'PF_001_02', name: '转折点', value: 'turning', sort: 2, parent: 1, status: 1, createTime: '2024-01-15 11:01:00', remark: '电力-转折点' },
+            { id: 103, code: 'PF_001_03', name: '分支点', value: 'branch', sort: 3, parent: 1, status: 1, createTime: '2024-01-15 11:02:00', remark: '电力-分支点' },
+            { id: 104, code: 'PF_001_04', name: '三分支', value: 'three_branch', sort: 4, parent: 1, status: 1, createTime: '2024-01-15 11:03:00', remark: '电力-三分支' },
+            { id: 105, code: 'PF_001_05', name: '四分支', value: 'four_branch', sort: 5, parent: 1, status: 1, createTime: '2024-01-15 11:04:00', remark: '电力-四分支' },
+            { id: 106, code: 'PF_001_06', name: '五分支', value: 'five_branch', sort: 6, parent: 1, status: 1, createTime: '2024-01-15 11:05:00', remark: '电力-五分支' },
+            { id: 107, code: 'PF_001_07', name: '多分支', value: 'multi_branch', sort: 7, parent: 1, status: 1, createTime: '2024-01-15 11:06:00', remark: '电力-多分支' },
+            { id: 108, code: 'PF_001_08', name: '预留口', value: 'reserved', sort: 8, parent: 1, status: 1, createTime: '2024-01-15 11:07:00', remark: '电力-预留口' },
+            { id: 109, code: 'PF_001_09', name: '非普查', value: 'non_survey', sort: 9, parent: 1, status: 1, createTime: '2024-01-15 11:08:00', remark: '电力-非普查' },
+            { id: 110, code: 'PF_001_10', name: '入户', value: 'household', sort: 10, parent: 1, status: 1, createTime: '2024-01-15 11:09:00', remark: '电力-入户' },
+            { id: 111, code: 'PF_001_11', name: '井边点', value: 'well_side', sort: 11, parent: 1, status: 1, createTime: '2024-01-15 11:10:00', remark: '电力-井边点' },
+            { id: 112, code: 'PF_001_12', name: '井内点', value: 'well_inside', sort: 12, parent: 1, status: 1, createTime: '2024-01-15 11:11:00', remark: '电力-井内点' },
+            { id: 113, code: 'PF_001_13', name: '上杆', value: 'pole_up', sort: 13, parent: 1, status: 1, createTime: '2024-01-15 11:12:00', remark: '电力-上杆' },
+            { id: 114, code: 'PF_001_14', name: '拐点', value: 'inflection', sort: 14, parent: 1, status: 1, createTime: '2024-01-15 11:13:00', remark: '电力-拐点' },
+            { id: 115, code: 'PF_001_15', name: '弯头', value: 'elbow', sort: 15, parent: 1, status: 1, createTime: '2024-01-15 11:14:00', remark: '电力-弯头' },
+            { id: 116, code: 'PF_001_16', name: '出地', value: 'ground_exit', sort: 16, parent: 1, status: 1, createTime: '2024-01-15 11:15:00', remark: '电力-出地' },
+            { id: 117, code: 'PF_001_17', name: '终止点', value: 'end', sort: 17, parent: 1, status: 1, createTime: '2024-01-15 11:16:00', remark: '电力-终止点' },
+
+            // 排水特征值
+            { id: 201, code: 'PF_002_01', name: '一般管线点', value: 'general', sort: 1, parent: 2, status: 1, createTime: '2024-01-15 12:00:00', remark: '排水-一般管线点' },
+            { id: 202, code: 'PF_002_02', name: '三通', value: 'three_way', sort: 2, parent: 2, status: 1, createTime: '2024-01-15 12:01:00', remark: '排水-三通' },
+            { id: 203, code: 'PF_002_03', name: '四通', value: 'four_way', sort: 3, parent: 2, status: 1, createTime: '2024-01-15 12:02:00', remark: '排水-四通' },
+            { id: 204, code: 'PF_002_04', name: '五通', value: 'five_way', sort: 4, parent: 2, status: 1, createTime: '2024-01-15 12:03:00', remark: '排水-五通' },
+            { id: 205, code: 'PF_002_05', name: '六通', value: 'six_way', sort: 5, parent: 2, status: 1, createTime: '2024-01-15 12:04:00', remark: '排水-六通' },
+            { id: 206, code: 'PF_002_06', name: '七通', value: 'seven_way', sort: 6, parent: 2, status: 1, createTime: '2024-01-15 12:05:00', remark: '排水-七通' },
+            { id: 207, code: 'PF_002_07', name: '八通', value: 'eight_way', sort: 7, parent: 2, status: 1, createTime: '2024-01-15 12:06:00', remark: '排水-八通' },
+            { id: 208, code: 'PF_002_08', name: '九通', value: 'nine_way', sort: 8, parent: 2, status: 1, createTime: '2024-01-15 12:07:00', remark: '排水-九通' },
+            { id: 209, code: 'PF_002_09', name: '多通', value: 'multi_way', sort: 9, parent: 2, status: 1, createTime: '2024-01-15 12:08:00', remark: '排水-多通' },
+            { id: 210, code: 'PF_002_10', name: '户出', value: 'household_out', sort: 10, parent: 2, status: 1, createTime: '2024-01-15 12:09:00', remark: '排水-户出' },
+            { id: 211, code: 'PF_002_11', name: '入户', value: 'household', sort: 11, parent: 2, status: 1, createTime: '2024-01-15 12:10:00', remark: '排水-入户' },
+            { id: 212, code: 'PF_002_12', name: '起始点', value: 'start', sort: 12, parent: 2, status: 1, createTime: '2024-01-15 12:11:00', remark: '排水-起始点' },
+            { id: 213, code: 'PF_002_13', name: '终止点', value: 'end', sort: 13, parent: 2, status: 1, createTime: '2024-01-15 12:12:00', remark: '排水-终止点' },
+            { id: 214, code: 'PF_002_14', name: '进水口', value: 'inlet', sort: 14, parent: 2, status: 1, createTime: '2024-01-15 12:13:00', remark: '排水-进水口' },
+            { id: 215, code: 'PF_002_15', name: '出水口', value: 'outlet', sort: 15, parent: 2, status: 1, createTime: '2024-01-15 12:14:00', remark: '排水-出水口' },
+            { id: 216, code: 'PF_002_16', name: '预留口', value: 'reserved', sort: 16, parent: 2, status: 1, createTime: '2024-01-15 12:15:00', remark: '排水-预留口' },
+            { id: 217, code: 'PF_002_17', name: '非普查', value: 'non_survey', sort: 17, parent: 2, status: 1, createTime: '2024-01-15 12:16:00', remark: '排水-非普查' },
+            { id: 218, code: 'PF_002_18', name: '出地', value: 'ground_exit', sort: 18, parent: 2, status: 1, createTime: '2024-01-15 12:17:00', remark: '排水-出地' },
+            { id: 219, code: 'PF_002_19', name: '变径', value: 'diameter_change', sort: 19, parent: 2, status: 1, createTime: '2024-01-15 12:18:00', remark: '排水-变径' },
+            { id: 220, code: 'PF_002_20', name: '拐点', value: 'inflection', sort: 20, parent: 2, status: 1, createTime: '2024-01-15 12:19:00', remark: '排水-拐点' },
+            { id: 221, code: 'PF_002_21', name: '井边点', value: 'well_side', sort: 21, parent: 2, status: 1, createTime: '2024-01-15 12:20:00', remark: '排水-井边点' },
+            { id: 222, code: 'PF_002_22', name: '井内点', value: 'well_inside', sort: 22, parent: 2, status: 1, createTime: '2024-01-15 12:21:00', remark: '排水-井内点' },
+            { id: 223, code: 'PF_002_23', name: '沟边点', value: 'ditch_side', sort: 23, parent: 2, status: 1, createTime: '2024-01-15 12:22:00', remark: '排水-沟边点' },
+            { id: 224, code: 'PF_002_24', name: '连接暗井', value: 'connect_manhole', sort: 24, parent: 2, status: 1, createTime: '2024-01-15 12:23:00', remark: '排水-连接暗井' },
+            { id: 225, code: 'PF_002_25', name: '转折点', value: 'turning', sort: 25, parent: 2, status: 1, createTime: '2024-01-15 12:24:00', remark: '排水-转折点' },
+
+            // 燃气特征值
+            { id: 301, code: 'PF_003_01', name: '一般管线点', value: 'general', sort: 1, parent: 3, status: 1, createTime: '2024-01-15 13:00:00', remark: '燃气-一般管线点' },
+            { id: 302, code: 'PF_003_02', name: '变径', value: 'diameter_change', sort: 2, parent: 3, status: 1, createTime: '2024-01-15 13:01:00', remark: '燃气-变径' },
+            { id: 303, code: 'PF_003_03', name: '出地', value: 'ground_exit', sort: 3, parent: 3, status: 1, createTime: '2024-01-15 13:02:00', remark: '燃气-出地' },
+            { id: 304, code: 'PF_003_04', name: '盖堵', value: 'cap', sort: 4, parent: 3, status: 1, createTime: '2024-01-15 13:03:00', remark: '燃气-盖堵' },
+            { id: 305, code: 'PF_003_05', name: '弯头', value: 'elbow', sort: 5, parent: 3, status: 1, createTime: '2024-01-15 13:04:00', remark: '燃气-弯头' },
+            { id: 306, code: 'PF_003_06', name: '拐点', value: 'inflection', sort: 6, parent: 3, status: 1, createTime: '2024-01-15 13:05:00', remark: '燃气-拐点' },
+            { id: 307, code: 'PF_003_07', name: '三通', value: 'three_way', sort: 7, parent: 3, status: 1, createTime: '2024-01-15 13:06:00', remark: '燃气-三通' },
+            { id: 308, code: 'PF_003_08', name: '四通', value: 'four_way', sort: 8, parent: 3, status: 1, createTime: '2024-01-15 13:07:00', remark: '燃气-四通' },
+            { id: 309, code: 'PF_003_09', name: '五通', value: 'five_way', sort: 9, parent: 3, status: 1, createTime: '2024-01-15 13:08:00', remark: '燃气-五通' },
+            { id: 310, code: 'PF_003_10', name: '多通', value: 'multi_way', sort: 10, parent: 3, status: 1, createTime: '2024-01-15 13:09:00', remark: '燃气-多通' },
+            { id: 311, code: 'PF_003_11', name: '预留口', value: 'reserved', sort: 11, parent: 3, status: 1, createTime: '2024-01-15 13:10:00', remark: '燃气-预留口' },
+            { id: 312, code: 'PF_003_12', name: '非普查', value: 'non_survey', sort: 12, parent: 3, status: 1, createTime: '2024-01-15 13:11:00', remark: '燃气-非普查' },
+            { id: 313, code: 'PF_003_13', name: '入户', value: 'household', sort: 13, parent: 3, status: 1, createTime: '2024-01-15 13:12:00', remark: '燃气-入户' },
+            { id: 314, code: 'PF_003_14', name: '井边点', value: 'well_side', sort: 14, parent: 3, status: 1, createTime: '2024-01-15 13:13:00', remark: '燃气-井边点' },
+            { id: 315, code: 'PF_003_15', name: '井内点', value: 'well_inside', sort: 15, parent: 3, status: 1, createTime: '2024-01-15 13:14:00', remark: '燃气-井内点' },
+            { id: 316, code: 'PF_003_16', name: '起始点', value: 'start', sort: 16, parent: 3, status: 1, createTime: '2024-01-15 13:15:00', remark: '燃气-起始点' },
+            { id: 317, code: 'PF_003_17', name: '终止点', value: 'end', sort: 17, parent: 3, status: 1, createTime: '2024-01-15 13:16:00', remark: '燃气-终止点' },
+            { id: 318, code: 'PF_003_18', name: '变深', value: 'depth_change', sort: 18, parent: 3, status: 1, createTime: '2024-01-15 13:17:00', remark: '燃气-变深' },
+
+            // 工业特征值
+            { id: 401, code: 'PF_004_01', name: '一般管线点', value: 'general', sort: 1, parent: 4, status: 1, createTime: '2024-01-15 14:00:00', remark: '工业-一般管线点' },
+            { id: 402, code: 'PF_004_02', name: '变径', value: 'diameter_change', sort: 2, parent: 4, status: 1, createTime: '2024-01-15 14:01:00', remark: '工业-变径' },
+            { id: 403, code: 'PF_004_03', name: '出地', value: 'ground_exit', sort: 3, parent: 4, status: 1, createTime: '2024-01-15 14:02:00', remark: '工业-出地' },
+            { id: 404, code: 'PF_004_04', name: '盖堵', value: 'cap', sort: 4, parent: 4, status: 1, createTime: '2024-01-15 14:03:00', remark: '工业-盖堵' },
+            { id: 405, code: 'PF_004_05', name: '弯头', value: 'elbow', sort: 5, parent: 4, status: 1, createTime: '2024-01-15 14:04:00', remark: '工业-弯头' },
+            { id: 406, code: 'PF_004_06', name: '拐点', value: 'inflection', sort: 6, parent: 4, status: 1, createTime: '2024-01-15 14:05:00', remark: '工业-拐点' },
+            { id: 407, code: 'PF_004_07', name: '三通', value: 'three_way', sort: 7, parent: 4, status: 1, createTime: '2024-01-15 14:06:00', remark: '工业-三通' },
+            { id: 408, code: 'PF_004_08', name: '四通', value: 'four_way', sort: 8, parent: 4, status: 1, createTime: '2024-01-15 14:07:00', remark: '工业-四通' },
+            { id: 409, code: 'PF_004_09', name: '五通', value: 'five_way', sort: 9, parent: 4, status: 1, createTime: '2024-01-15 14:08:00', remark: '工业-五通' },
+            { id: 410, code: 'PF_004_10', name: '多通', value: 'multi_way', sort: 10, parent: 4, status: 1, createTime: '2024-01-15 14:09:00', remark: '工业-多通' },
+            { id: 411, code: 'PF_004_11', name: '预留口', value: 'reserved', sort: 11, parent: 4, status: 1, createTime: '2024-01-15 14:10:00', remark: '工业-预留口' },
+            { id: 412, code: 'PF_004_12', name: '非普查', value: 'non_survey', sort: 12, parent: 4, status: 1, createTime: '2024-01-15 14:11:00', remark: '工业-非普查' },
+            { id: 413, code: 'PF_004_13', name: '入户', value: 'household', sort: 13, parent: 4, status: 1, createTime: '2024-01-15 14:12:00', remark: '工业-入户' },
+            { id: 414, code: 'PF_004_14', name: '井边点', value: 'well_side', sort: 14, parent: 4, status: 1, createTime: '2024-01-15 14:13:00', remark: '工业-井边点' },
+            { id: 415, code: 'PF_004_15', name: '井内点', value: 'well_inside', sort: 15, parent: 4, status: 1, createTime: '2024-01-15 14:14:00', remark: '工业-井内点' },
+            { id: 416, code: 'PF_004_16', name: '起始点', value: 'start', sort: 16, parent: 4, status: 1, createTime: '2024-01-15 14:15:00', remark: '工业-起始点' },
+            { id: 417, code: 'PF_004_17', name: '终止点', value: 'end', sort: 17, parent: 4, status: 1, createTime: '2024-01-15 14:16:00', remark: '工业-终止点' },
+            { id: 418, code: 'PF_004_18', name: '变深', value: 'depth_change', sort: 18, parent: 4, status: 1, createTime: '2024-01-15 14:17:00', remark: '工业-变深' },
+
+            // 通信特征值
+            { id: 501, code: 'PF_005_01', name: '一般管线点', value: 'general', sort: 1, parent: 5, status: 1, createTime: '2024-01-15 15:00:00', remark: '通信-一般管线点' },
+            { id: 502, code: 'PF_005_02', name: '转折点', value: 'turning', sort: 2, parent: 5, status: 1, createTime: '2024-01-15 15:01:00', remark: '通信-转折点' },
+            { id: 503, code: 'PF_005_03', name: '分支点', value: 'branch', sort: 3, parent: 5, status: 1, createTime: '2024-01-15 15:02:00', remark: '通信-分支点' },
+            { id: 504, code: 'PF_005_04', name: '三分支', value: 'three_branch', sort: 4, parent: 5, status: 1, createTime: '2024-01-15 15:03:00', remark: '通信-三分支' },
+            { id: 505, code: 'PF_005_05', name: '四分支', value: 'four_branch', sort: 5, parent: 5, status: 1, createTime: '2024-01-15 15:04:00', remark: '通信-四分支' },
+            { id: 506, code: 'PF_005_06', name: '五分支', value: 'five_branch', sort: 6, parent: 5, status: 1, createTime: '2024-01-15 15:05:00', remark: '通信-五分支' },
+            { id: 507, code: 'PF_005_07', name: '多分支', value: 'multi_branch', sort: 7, parent: 5, status: 1, createTime: '2024-01-15 15:06:00', remark: '通信-多分支' },
+            { id: 508, code: 'PF_005_08', name: '预留口', value: 'reserved', sort: 8, parent: 5, status: 1, createTime: '2024-01-15 15:07:00', remark: '通信-预留口' },
+            { id: 509, code: 'PF_005_09', name: '非普查', value: 'non_survey', sort: 9, parent: 5, status: 1, createTime: '2024-01-15 15:08:00', remark: '通信-非普查' },
+            { id: 510, code: 'PF_005_10', name: '入户', value: 'household', sort: 10, parent: 5, status: 1, createTime: '2024-01-15 15:09:00', remark: '通信-入户' },
+            { id: 511, code: 'PF_005_11', name: '井边点', value: 'well_side', sort: 11, parent: 5, status: 1, createTime: '2024-01-15 15:10:00', remark: '通信-井边点' },
+            { id: 512, code: 'PF_005_12', name: '井内点', value: 'well_inside', sort: 12, parent: 5, status: 1, createTime: '2024-01-15 15:11:00', remark: '通信-井内点' },
+            { id: 513, code: 'PF_005_13', name: '上杆', value: 'pole_up', sort: 13, parent: 5, status: 1, createTime: '2024-01-15 15:12:00', remark: '通信-上杆' },
+            { id: 514, code: 'PF_005_14', name: '拐点', value: 'inflection', sort: 14, parent: 5, status: 1, createTime: '2024-01-15 15:13:00', remark: '通信-拐点' },
+            { id: 515, code: 'PF_005_15', name: '弯头', value: 'elbow', sort: 15, parent: 5, status: 1, createTime: '2024-01-15 15:14:00', remark: '通信-弯头' },
+            { id: 516, code: 'PF_005_16', name: '出地', value: 'ground_exit', sort: 16, parent: 5, status: 1, createTime: '2024-01-15 15:15:00', remark: '通信-出地' },
+            { id: 517, code: 'PF_005_17', name: '终止点', value: 'end', sort: 17, parent: 5, status: 1, createTime: '2024-01-15 15:16:00', remark: '通信-终止点' },
+
+            // 给水特征值
+            { id: 601, code: 'PF_006_01', name: '一般管线点', value: 'general', sort: 1, parent: 6, status: 1, createTime: '2024-01-15 16:00:00', remark: '给水-一般管线点' },
+            { id: 602, code: 'PF_006_02', name: '变径', value: 'diameter_change', sort: 2, parent: 6, status: 1, createTime: '2024-01-15 16:01:00', remark: '给水-变径' },
+            { id: 603, code: 'PF_006_03', name: '出地', value: 'ground_exit', sort: 3, parent: 6, status: 1, createTime: '2024-01-15 16:02:00', remark: '给水-出地' },
+            { id: 604, code: 'PF_006_04', name: '盖堵', value: 'cap', sort: 4, parent: 6, status: 1, createTime: '2024-01-15 16:03:00', remark: '给水-盖堵' },
+            { id: 605, code: 'PF_006_05', name: '弯头', value: 'elbow', sort: 5, parent: 6, status: 1, createTime: '2024-01-15 16:04:00', remark: '给水-弯头' },
+            { id: 606, code: 'PF_006_06', name: '拐点', value: 'inflection', sort: 6, parent: 6, status: 1, createTime: '2024-01-15 16:05:00', remark: '给水-拐点' },
+            { id: 607, code: 'PF_006_07', name: '三通', value: 'three_way', sort: 7, parent: 6, status: 1, createTime: '2024-01-15 16:06:00', remark: '给水-三通' },
+            { id: 608, code: 'PF_006_08', name: '四通', value: 'four_way', sort: 8, parent: 6, status: 1, createTime: '2024-01-15 16:07:00', remark: '给水-四通' },
+            { id: 609, code: 'PF_006_09', name: '五通', value: 'five_way', sort: 9, parent: 6, status: 1, createTime: '2024-01-15 16:08:00', remark: '给水-五通' },
+            { id: 610, code: 'PF_006_10', name: '多通', value: 'multi_way', sort: 10, parent: 6, status: 1, createTime: '2024-01-15 16:09:00', remark: '给水-多通' },
+            { id: 611, code: 'PF_006_11', name: '预留口', value: 'reserved', sort: 11, parent: 6, status: 1, createTime: '2024-01-15 16:10:00', remark: '给水-预留口' },
+            { id: 612, code: 'PF_006_12', name: '非普查', value: 'non_survey', sort: 12, parent: 6, status: 1, createTime: '2024-01-15 16:11:00', remark: '给水-非普查' },
+            { id: 613, code: 'PF_006_13', name: '入户', value: 'household', sort: 13, parent: 6, status: 1, createTime: '2024-01-15 16:12:00', remark: '给水-入户' },
+            { id: 614, code: 'PF_006_14', name: '井边点', value: 'well_side', sort: 14, parent: 6, status: 1, createTime: '2024-01-15 16:13:00', remark: '给水-井边点' },
+            { id: 615, code: 'PF_006_15', name: '井内点', value: 'well_inside', sort: 15, parent: 6, status: 1, createTime: '2024-01-15 16:14:00', remark: '给水-井内点' },
+            { id: 616, code: 'PF_006_16', name: '起始点', value: 'start', sort: 16, parent: 6, status: 1, createTime: '2024-01-15 16:15:00', remark: '给水-起始点' },
+            { id: 617, code: 'PF_006_17', name: '终止点', value: 'end', sort: 17, parent: 6, status: 1, createTime: '2024-01-15 16:16:00', remark: '给水-终止点' },
+            { id: 618, code: 'PF_006_18', name: '变深', value: 'depth_change', sort: 18, parent: 6, status: 1, createTime: '2024-01-15 16:17:00', remark: '给水-变深' },
+
+            // 热力特征值
+            { id: 701, code: 'PF_007_01', name: '一般管线点', value: 'general', sort: 1, parent: 7, status: 1, createTime: '2024-01-15 17:00:00', remark: '热力-一般管线点' },
+            { id: 702, code: 'PF_007_02', name: '变径', value: 'diameter_change', sort: 2, parent: 7, status: 1, createTime: '2024-01-15 17:01:00', remark: '热力-变径' },
+            { id: 703, code: 'PF_007_03', name: '出地', value: 'ground_exit', sort: 3, parent: 7, status: 1, createTime: '2024-01-15 17:02:00', remark: '热力-出地' },
+            { id: 704, code: 'PF_007_04', name: '盖堵', value: 'cap', sort: 4, parent: 7, status: 1, createTime: '2024-01-15 17:03:00', remark: '热力-盖堵' },
+            { id: 705, code: 'PF_007_05', name: '弯头', value: 'elbow', sort: 5, parent: 7, status: 1, createTime: '2024-01-15 17:04:00', remark: '热力-弯头' },
+            { id: 706, code: 'PF_007_06', name: '拐点', value: 'inflection', sort: 6, parent: 7, status: 1, createTime: '2024-01-15 17:05:00', remark: '热力-拐点' },
+            { id: 707, code: 'PF_007_07', name: '三通', value: 'three_way', sort: 7, parent: 7, status: 1, createTime: '2024-01-15 17:06:00', remark: '热力-三通' },
+            { id: 708, code: 'PF_007_08', name: '四通', value: 'four_way', sort: 8, parent: 7, status: 1, createTime: '2024-01-15 17:07:00', remark: '热力-四通' },
+            { id: 709, code: 'PF_007_09', name: '五通', value: 'five_way', sort: 9, parent: 7, status: 1, createTime: '2024-01-15 17:08:00', remark: '热力-五通' },
+            { id: 710, code: 'PF_007_10', name: '多通', value: 'multi_way', sort: 10, parent: 7, status: 1, createTime: '2024-01-15 17:09:00', remark: '热力-多通' },
+            { id: 711, code: 'PF_007_11', name: '预留口', value: 'reserved', sort: 11, parent: 7, status: 1, createTime: '2024-01-15 17:10:00', remark: '热力-预留口' },
+            { id: 712, code: 'PF_007_12', name: '非普查', value: 'non_survey', sort: 12, parent: 7, status: 1, createTime: '2024-01-15 17:11:00', remark: '热力-非普查' },
+            { id: 713, code: 'PF_007_13', name: '入户', value: 'household', sort: 13, parent: 7, status: 1, createTime: '2024-01-15 17:12:00', remark: '热力-入户' },
+            { id: 714, code: 'PF_007_14', name: '井边点', value: 'well_side', sort: 14, parent: 7, status: 1, createTime: '2024-01-15 17:13:00', remark: '热力-井边点' },
+            { id: 715, code: 'PF_007_15', name: '井内点', value: 'well_inside', sort: 15, parent: 7, status: 1, createTime: '2024-01-15 17:14:00', remark: '热力-井内点' },
+            { id: 716, code: 'PF_007_16', name: '起始点', value: 'start', sort: 16, parent: 7, status: 1, createTime: '2024-01-15 17:15:00', remark: '热力-起始点' },
+            { id: 717, code: 'PF_007_17', name: '终止点', value: 'end', sort: 17, parent: 7, status: 1, createTime: '2024-01-15 17:16:00', remark: '热力-终止点' },
+            { id: 718, code: 'PF_007_18', name: '变深', value: 'depth_change', sort: 18, parent: 7, status: 1, createTime: '2024-01-15 17:17:00', remark: '热力-变深' },
+
+            // 其他特征值
+            { id: 801, code: 'PF_008_01', name: '一般管线点', value: 'general', sort: 1, parent: 8, status: 1, createTime: '2024-01-15 18:00:00', remark: '其他-一般管线点' },
+            { id: 802, code: 'PF_008_02', name: '变径', value: 'diameter_change', sort: 2, parent: 8, status: 1, createTime: '2024-01-15 18:01:00', remark: '其他-变径' },
+            { id: 803, code: 'PF_008_03', name: '出地', value: 'ground_exit', sort: 3, parent: 8, status: 1, createTime: '2024-01-15 18:02:00', remark: '其他-出地' },
+            { id: 804, code: 'PF_008_04', name: '盖堵', value: 'cap', sort: 4, parent: 8, status: 1, createTime: '2024-01-15 18:03:00', remark: '其他-盖堵' },
+            { id: 805, code: 'PF_008_05', name: '弯头', value: 'elbow', sort: 5, parent: 8, status: 1, createTime: '2024-01-15 18:04:00', remark: '其他-弯头' },
+            { id: 806, code: 'PF_008_06', name: '拐点', value: 'inflection', sort: 6, parent: 8, status: 1, createTime: '2024-01-15 18:05:00', remark: '其他-拐点' },
+            { id: 807, code: 'PF_008_07', name: '三通', value: 'three_way', sort: 7, parent: 8, status: 1, createTime: '2024-01-15 18:06:00', remark: '其他-三通' },
+            { id: 808, code: 'PF_008_08', name: '四通', value: 'four_way', sort: 8, parent: 8, status: 1, createTime: '2024-01-15 18:07:00', remark: '其他-四通' },
+            { id: 809, code: 'PF_008_09', name: '五通', value: 'five_way', sort: 9, parent: 8, status: 1, createTime: '2024-01-15 18:08:00', remark: '其他-五通' },
+            { id: 810, code: 'PF_008_10', name: '多通', value: 'multi_way', sort: 10, parent: 8, status: 1, createTime: '2024-01-15 18:09:00', remark: '其他-多通' },
+            { id: 811, code: 'PF_008_11', name: '预留口', value: 'reserved', sort: 11, parent: 8, status: 1, createTime: '2024-01-15 18:10:00', remark: '其他-预留口' },
+            { id: 812, code: 'PF_008_12', name: '非普查', value: 'non_survey', sort: 12, parent: 8, status: 1, createTime: '2024-01-15 18:11:00', remark: '其他-非普查' },
+            { id: 813, code: 'PF_008_13', name: '入户', value: 'household', sort: 13, parent: 8, status: 1, createTime: '2024-01-15 18:12:00', remark: '其他-入户' },
+            { id: 814, code: 'PF_008_14', name: '井边点', value: 'well_side', sort: 14, parent: 8, status: 1, createTime: '2024-01-15 18:13:00', remark: '其他-井边点' },
+            { id: 815, code: 'PF_008_15', name: '井内点', value: 'well_inside', sort: 15, parent: 8, status: 1, createTime: '2024-01-15 18:14:00', remark: '其他-井内点' },
+            { id: 816, code: 'PF_008_16', name: '起始点', value: 'start', sort: 16, parent: 8, status: 1, createTime: '2024-01-15 18:15:00', remark: '其他-起始点' },
+            { id: 817, code: 'PF_008_17', name: '终止点', value: 'end', sort: 17, parent: 8, status: 1, createTime: '2024-01-15 18:16:00', remark: '其他-终止点' },
+            { id: 818, code: 'PF_008_18', name: '变深', value: 'depth_change', sort: 18, parent: 8, status: 1, createTime: '2024-01-15 18:17:00', remark: '其他-变深' }
+        ]
+    };
+
+    let currentCategory = null;
+
+    // 选择字典分类
+    function selectCategory(categoryId, element, event) {
+        if (event) event.stopPropagation();
+
+        currentCategory = categoryId;
+
+        // 更新选中状态
+        document.querySelectorAll('.category-item > div').forEach(el => {
+            el.classList.remove('bg-primary/10', 'border-primary/30');
+        });
+        element.classList.add('bg-primary/10', 'border-primary/30');
+
+        // 更新标题
+        const categoryNames = {
+            'point_type': '管点种类',
+            'point_feature': '特征值'
+        };
+        document.getElementById('currentCategoryTitle').textContent = categoryNames[categoryId] || '字典数据';
+
+        // 加载数据
+        loadDictData(categoryId);
+    }
+
+    // 加载字典数据
+    function loadDictData(categoryId) {
+        const tbody = document.getElementById('dictTableBody');
+        const data = mockDictData[categoryId] || [];
+
+        if (data.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="9" class="px-6 py-12 text-center">
+                        <div class="flex flex-col items-center gap-3">
+                            <span class="material-symbols-outlined text-slate-300 text-5xl" data-icon="inbox">inbox</span>
+                            <p class="text-sm text-slate-400">暂无数据</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = data.map((item, index) => {
+            // 对于特征值，从管点种类中查找父级名称
+            let parentName = '-';
+            if (item.parent) {
+                if (categoryId === 'point_feature') {
+                    const parentItem = mockDictData.point_type.find(d => d.id === item.parent);
+                    parentName = parentItem ? parentItem.name : '-';
+                } else {
+                    const parentItem = data.find(d => d.id === item.parent);
+                    parentName = parentItem ? parentItem.name : '-';
+                }
+            }
+            return `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                    <td class="px-6 py-4 text-slate-500">${index + 1}</td>
+                    <td class="px-6 py-4 font-mono text-xs text-slate-500">${item.code}</td>
+                    <td class="px-6 py-4">
+                        <div class="font-medium text-slate-900 dark:text-slate-100">${item.name}</div>
+                    </td>
+                    <td class="px-6 py-4 text-slate-600 dark:text-slate-300 text-xs">${item.value}</td>
+                    <td class="px-6 py-4 text-slate-500 text-xs">${item.sort}</td>
+                    <td class="px-6 py-4 text-slate-500 text-xs">${parentName}</td>
+                    <td class="px-6 py-4">
+                        ${item.status === 1 ?
+                            '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium border border-emerald-100"><span class="size-1.5 rounded-full bg-emerald-500"></span>启用</span>' :
+                            '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium border border-slate-200"><span class="size-1.5 rounded-full bg-slate-400"></span>禁用</span>'
+                        }
+                    </td>
+                    <td class="px-6 py-4 text-slate-500 text-xs">${item.createTime}</td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex items-center justify-end gap-2">
+                            <button onclick="editDict(${item.id})" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                            </button>
+                            <button onclick="deleteDict(${item.id})" class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // 打开新增字典项弹窗
+    function openAddDictModal() {
+        if (!currentCategory) {
+            alert('请先选择字典分类');
+            return;
+        }
+        document.getElementById('addDictModal').showModal();
+    }
+
+    // 打开新增分类弹窗
+    function openAddCategoryModal() {
+        document.getElementById('addCategoryModal').showModal();
+    }
+
+    // 编辑字典项
+    function editDict(id) {
+        alert('编辑字典项 ID: ' + id);
+        // 实际应用中，这里会打开编辑弹窗并填充数据
+    }
+
+    // 删除字典项
+    function deleteDict(id) {
+        if (confirm('确定要删除这个字典项吗？')) {
+            alert('删除字典项 ID: ' + id);
+            // 实际应用中，这里会调用删除接口
+        }
+    }
+
+    // 切换分类展开/收起
+    function toggleCategory(element) {
+        const chevron = element.querySelector('.material-symbols-outlined[data-icon="chevron_right"]');
+        const subItems = element.nextElementSibling;
+
+        if (subItems && subItems.classList.contains('hidden')) {
+            subItems.classList.remove('hidden');
+            chevron.style.transform = 'rotate(90deg)';
+        } else if (subItems) {
+            subItems.classList.add('hidden');
+            chevron.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    // 点击模态框外部关闭
+    document.getElementById('addDictModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('addDictModal')) {
+            document.getElementById('addDictModal').close();
+        }
+    });
+
+    document.getElementById('addCategoryModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('addCategoryModal')) {
+            document.getElementById('addCategoryModal').close();
+        }
+    });
+</script>
+
+</body>
+</html>

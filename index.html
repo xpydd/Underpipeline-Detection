@@ -46,10 +46,13 @@
 <div class="flex items-center gap-6">
 <div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
 <div class="text-right">
-                    <p class="text-sm font-bold leading-none mb-1">陈明</p>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">基础设施部</p>
-                </div>
-            </div>
+<p class="text-sm font-bold leading-none mb-1">陈明 (Alex Chen)</p>
+<p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">高级工程师 · 基础设施部</p>
+</div>
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-primary/20">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVsBpP98SzJf-VhM8VffJmFzYleCB0OXVZjGkH3JpvtqCkuKBLK5tCeYufS32QE-k7bJoerL2qWF96K9oPbRmuNp8Kje_1WcOxpkzMZji639bIy3r5gB2feter2ODzywcssoQvEDQG0AsbNMz0Ai91AC-YRjBTysTxMbfy7K4o7bh4tRGWRy8sppfS8vS7YAtGmMKNRZlSHLqotH9CThMA55Ijif4BgOHNDP8X1SL9i009iuByQsZ2Zi56iYDEVqq9N8VAjJBnWJw"/>
+</div>
+</div>
 <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
 <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
 </button>
@@ -57,22 +60,22 @@
 </div>
 </header>
 <main class="max-w-[1440px] mx-auto p-6">
-
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 <div class="lg:col-span-2 row-span-2 bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
 <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-<a href="project-management.html" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+<div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary" data-icon="account_tree">account_tree</span>
 <h3 class="font-bold text-slate-800 dark:text-white">项目管理</h3>
-</a>
-<div class="flex gap-2">
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-lg font-semibold text-xs flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+新建探测项目
+</button>
+</div>
+<div class="px-4 pb-3 border-b border-slate-100 dark:border-slate-800">
 <div class="relative">
 <span class="material-symbols-outlined absolute left-2.5 top-2 text-sm text-slate-400" data-icon="search">search</span>
-<input class="pl-9 pr-4 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary" placeholder="搜索项目..." type="text"/>
-</div>
-<a href="project-management.html" class="flex items-center justify-center w-8 h-8 text-slate-300 hover:text-primary transition-colors" title="进入项目管理">
-                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
-                        </a>
+<input class="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary" placeholder="搜索项目..." type="text"/>
 </div>
 </div>
 <div class="flex gap-3 px-4 py-3 bg-slate-50/50 dark:bg-slate-900/30">
@@ -80,18 +83,21 @@
 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">项目总数</p>
 <div class="flex items-end justify-between">
 <p class="text-2xl font-bold dark:text-white leading-none">128</p>
+<span class="text-emerald-500 text-[10px] font-bold">较上月 +12%</span>
 </div>
 </div>
 <div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">实施中</p>
 <div class="flex items-end justify-between">
 <p class="text-2xl font-bold dark:text-white leading-none">42</p>
+<span class="text-primary text-[10px] font-bold">占比 32.8%</span>
 </div>
 </div>
 <div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">已完成</p>
 <div class="flex items-end justify-between">
 <p class="text-2xl font-bold dark:text-white leading-none">86</p>
+<span class="text-slate-400 text-[10px] font-bold">保持稳定</span>
 </div>
 </div>
 </div>
@@ -103,69 +109,32 @@
 <th class="px-4 py-2.5">
 <div class="flex items-center gap-1.5">
 <span>场景类型</span>
-<details class="relative inline-block group">
-    <summary class="list-none cursor-pointer text-slate-400 hover:text-primary transition-colors p-0.5 flex items-center outline-none">
-        <span class="material-symbols-outlined text-[16px]" title="筛选">filter_alt</span>
-    </summary>
-    <div class="absolute right-[-20px] top-full z-20 mt-1 w-40 origin-top-right rounded-md bg-white dark:bg-[#1e293b] shadow-xl border border-slate-200 dark:border-slate-700 py-2">
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="scene_type" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full" checked>
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">全部</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="scene_type" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">地下管线普查</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="scene_type" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">地下管线详查</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="scene_type" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">地下管线放线测量</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="scene_type" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">地下管线竣工测量</span>
-        </label>
-    </div>
-</details>
+<div class="relative inline-block">
+<select class="appearance-none bg-transparent border border-slate-300 dark:border-slate-600 rounded px-2 py-0.5 pr-6 text-[10px] normal-case cursor-pointer hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary">
+<option value="">全部</option>
+<option value="地下管线普查">地下管线普查</option>
+<option value="地下管线详查">地下管线详查</option>
+<option value="地下管线放线测量">地下管线放线测量</option>
+<option value="地下管线竣工测量">地下管线竣工测量</option>
+</select>
+<span class="material-symbols-outlined absolute right-0.5 top-1/2 -translate-y-1/2 pointer-events-none text-xs">arrow_drop_down</span>
+</div>
 </div>
 </th>
 <th class="px-4 py-2.5">
 <div class="flex items-center gap-1.5">
 <span>状态</span>
-<details class="relative inline-block group">
-    <summary class="list-none cursor-pointer text-slate-400 hover:text-primary transition-colors p-0.5 flex items-center outline-none">
-        <span class="material-symbols-outlined text-[16px]" title="筛选">filter_alt</span>
-    </summary>
-    <div class="absolute right-[-20px] top-full z-20 mt-1 w-40 origin-top-right rounded-md bg-white dark:bg-[#1e293b] shadow-xl border border-slate-200 dark:border-slate-700 py-2">
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="status" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full" checked>
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">全部</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="status" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">实施中</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="status" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">超期</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="status" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">超期完成</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="status" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">停工</span>
-        </label>
-        <label class="flex items-center px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer">
-            <input type="radio" name="status" class="text-primary focus:ring-primary border-slate-300 size-3.5 rounded-full">
-            <span class="ml-2 text-xs text-slate-600 dark:text-slate-300">终止</span>
-        </label>
-    </div>
-</details>
+<div class="relative inline-block">
+<select class="appearance-none bg-transparent border border-slate-300 dark:border-slate-600 rounded px-2 py-0.5 pr-6 text-[10px] normal-case cursor-pointer hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary">
+<option value="">全部</option>
+<option value="实施中">实施中</option>
+<option value="超期">超期</option>
+<option value="超期完成">超期完成</option>
+<option value="停工">停工</option>
+<option value="终止">终止</option>
+</select>
+<span class="material-symbols-outlined absolute right-0.5 top-1/2 -translate-y-1/2 pointer-events-none text-xs">arrow_drop_down</span>
+</div>
 </div>
 </th>
 </tr>
@@ -173,7 +142,7 @@
 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html?id=PROJ-2024-001">北区燃气干线探测</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">北区燃气干线探测</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线普查</span>
@@ -187,7 +156,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html?id=PROJ-2024-002">西区供水管网 #2</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">西区供水管网 #2</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线详查</span>
@@ -201,7 +170,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html?id=PROJ-2023-089">高压电力 HV-404</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">高压电力 HV-404</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线放线测量</span>
@@ -215,7 +184,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html?name=南区排水系统改造">南区排水系统改造</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">南区排水系统改造</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线竣工测量</span>
@@ -229,7 +198,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html?name=东区通信光缆布设">东区通信光缆布设</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">东区通信光缆布设</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线普查</span>
@@ -243,7 +212,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html?name=中央商务区热力管道">中央商务区热力管道</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">中央商务区热力管道</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线详查</span>
@@ -257,29 +226,29 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html?name=工业园区燃气支线">工业园区燃气支线</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">工业园区燃气支线</a>
 </td>
 <td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">燃气管网</span>
+<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线放线测量</span>
 </td>
 <td class="px-4 py-3">
 <div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-amber-500"></div>
-<span class="text-xs font-medium dark:text-slate-300">探测阶段</span>
+<div class="size-2 rounded-full bg-orange-500"></div>
+<span class="text-xs font-medium dark:text-slate-300">超期</span>
 </div>
 </td>
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html?name=新城区供水主干网">新城区供水主干网</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">新城区供水主干网</a>
 </td>
 <td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">供水系统</span>
+<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线竣工测量</span>
 </td>
 <td class="px-4 py-3">
 <div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-primary animate-pulse"></div>
-<span class="text-xs font-medium dark:text-slate-300">实施中</span>
+<div class="size-2 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-medium dark:text-slate-300">超期完成</span>
 </div>
 </td>
 </tr>
@@ -322,6 +291,81 @@
 </div>
 <button class="w-full mt-4 text-xs font-semibold text-slate-500 hover:text-primary py-2 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg">查看全部任务</button>
 </div>
+<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="library_books">library_books</span>
+<h3 class="font-bold text-slate-800 dark:text-white">知识中心</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<div class="size-8 rounded bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined text-xl" data-icon="description">description</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold dark:text-slate-200">探测标准2024</p>
+<p class="text-[10px] text-slate-400">PDF • 4.2 MB</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-lg cursor-pointer hover:text-primary" data-icon="download">download</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="size-8 rounded bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined text-xl" data-icon="video_library">video_library</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold dark:text-slate-200">GPR 操作培训工作坊</p>
+<p class="text-[10px] text-slate-400">视频 • 12 分钟</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-lg cursor-pointer hover:text-primary" data-icon="play_circle">play_circle</span>
+</li>
+</ul>
+</div>
+<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="corporate_fare">corporate_fare</span>
+<h3 class="font-bold text-slate-800 dark:text-white">业主信息</h3>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">管理管线业主、联系人及权限。</p>
+<div class="mt-4 flex -space-x-2">
+<div class="size-7 rounded-full bg-slate-200 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold">CT</div>
+<div class="size-7 rounded-full bg-slate-300 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold">WA</div>
+<div class="size-7 rounded-full bg-slate-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold text-white">+8</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="tune">tune</span>
+<h3 class="font-bold text-slate-800 dark:text-white">系统设置</h3>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">配置API集成、用户角色和后台环境变量。</p>
+<div class="grid grid-cols-2 gap-2">
+<div class="p-2 rounded bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center text-center gap-1 cursor-pointer hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-300" data-icon="group">group</span>
+<span class="text-[10px] font-semibold text-slate-700 dark:text-slate-300">用户管理</span>
+</div>
+<div class="p-2 rounded bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center text-center gap-1 cursor-pointer hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-300" data-icon="corporate_fare">corporate_fare</span>
+<span class="text-[10px] font-semibold text-slate-700 dark:text-slate-300">组织架构</span>
+</div>
+<div class="p-2 rounded bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center text-center gap-1 cursor-pointer hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-300" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="text-[10px] font-semibold text-slate-700 dark:text-slate-300">角色管理</span>
+</div>
+<a href="dictionary-management.html" class="p-2 rounded bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center text-center gap-1 cursor-pointer hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-300" data-icon="book">book</span>
+<span class="text-[10px] font-semibold text-slate-700 dark:text-slate-300">字典管理</span>
+</a>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<span class="text-[10px] font-mono text-slate-400">版本: 2.4.1-stable</span>
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+</div>
+</div>
 <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
 <div class="flex items-center justify-between mb-3">
 <div class="flex items-center gap-2">
@@ -341,89 +385,7 @@
 </div>
 </div>
 </div>
-<a href="owner-management.html" class="block lg:col-span-2 bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
-<div class="flex items-center justify-between mb-3">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary" data-icon="corporate_fare">corporate_fare</span>
-<h3 class="font-bold text-slate-800 dark:text-white">业主信息</h3>
-</div>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
-</div>
-<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">管理管线业主、联系人及权限。</p>
-<div class="mt-4 flex -space-x-2">
-<div class="size-7 rounded-full bg-slate-200 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold">CT</div>
-<div class="size-7 rounded-full bg-slate-300 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold">WA</div>
-<div class="size-7 rounded-full bg-slate-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold text-white">+8</div>
-</div>
-</a>
-<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
-<div class="flex items-center justify-between mb-3">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary" data-icon="tune">tune</span>
-<h3 class="font-bold text-slate-800 dark:text-white">系统设置</h3>
-</div>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
-</div>
-<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">配置API集成、用户角色和后台环境变量。</p>
-<div class="mt-4 flex items-center gap-2">
-<span class="text-[10px] font-mono text-slate-400">版本: 2.4.1-stable</span>
-<span class="size-1.5 rounded-full bg-emerald-500"></span>
-</div>
-</div>
-<div class="lg:col-span-3 bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
-<div class="flex items-center gap-2 mb-4">
-<span class="material-symbols-outlined text-primary" data-icon="library_books">library_books</span>
-<h3 class="font-bold text-slate-800 dark:text-white">知识中心</h3>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div>
-<h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">规范文档</h4>
-<ul class="space-y-3">
-<li class="flex items-center gap-3">
-<div class="size-8 rounded bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600">
-<span class="material-symbols-outlined text-xl" data-icon="description">description</span>
-</div>
-<div class="flex-1">
-<p class="text-xs font-bold dark:text-slate-200">探测标准2024</p>
-<p class="text-[10px] text-slate-400">PDF • 4.2 MB</p>
-</div>
-<span class="material-symbols-outlined text-slate-400 text-lg cursor-pointer hover:text-primary" data-icon="download">download</span>
-</li>
-</ul>
-</div>
-
-<div>
-<h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">操作手册</h4>
-<ul class="space-y-3">
-<li class="flex items-center gap-3">
-<div class="size-8 rounded bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600">
-<span class="material-symbols-outlined text-xl" data-icon="video_library">video_library</span>
-</div>
-<div class="flex-1">
-<p class="text-xs font-bold dark:text-slate-200">GPR 操作培训工作坊</p>
-<p class="text-[10px] text-slate-400">视频 • 12 分钟</p>
-</div>
-<span class="material-symbols-outlined text-slate-400 text-lg cursor-pointer hover:text-primary" data-icon="play_circle">play_circle</span>
-</li>
-</ul>
-</div>
-</div>
-</div>
 </div>
 </main>
-<footer class="max-w-[1440px] mx-auto px-6 pb-12 mt-6">
 
-</footer>
-
-<script>
-        // Close details when clicking outside
-        document.addEventListener('click', function(e) {
-            const details = document.querySelectorAll('details');
-            details.forEach(detail => {
-                if (detail.hasAttribute('open') && !detail.contains(e.target)) {
-                    detail.removeAttribute('open');
-                }
-            });
-        });
-    </script>
 </body></html>

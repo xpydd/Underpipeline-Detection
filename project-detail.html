@@ -583,67 +583,14 @@
                         </div>
                         <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管点种类</label>
-                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                                <option value="DL">电力(DL)</option>
-                                <option value="GD">供电(GD)</option>
-                                <option value="LD">路灯(LD)</option>
-                                <option value="XH">交通信号(XH)</option>
-                                <option value="JL">架空电力(JL)</option>
-                                <option value="TX">通讯(TX)</option>
-                                <option value="XX">信息网络(XX)</option>
-                                <option value="DX">电信(DX)</option>
-                                <option value="YD">移动(YD)</option>
-                                <option value="LT">联通(LT)</option>
-                                <option value="WT">网通(WT)</option>
-                                <option value="JD">架空通信(JD)</option>
-                                <option value="JS">给水(JS)</option>
-                                <option value="ZS">中水(ZS)</option>
-                                <option value="JZ">直饮水(JZ)</option>
-                                <option value="XS">消防水(XS)</option>
-                                <option value="JH">循环水(JH)</option>
-                                <option value="PS">排水(PS)</option>
-                                <option value="YS">雨水(YS)</option>
-                                <option value="WS">污水(WS)</option>
-                                <option value="HS">雨污合流(HS)</option>
-                                <option value="RQ">燃气(RQ)</option>
-                                <option value="MQ">煤气(MQ)</option>
-                                <option value="YH">液化气(YH)</option>
-                                <option value="TR">天然气(TR)</option>
-                                <option value="GY">工业(GY)</option>
-                                <option value="QQ">氢气(QQ)</option>
-                                <option value="YQ">氧气(YQ)</option>
-                                <option value="GQ">乙炔(GQ)</option>
-                                <option value="YX">乙烯(YX)</option>
-                                <option value="LQ">氯气(LQ)</option>
-                                <option value="DQ">氮气(DQ)</option>
-                                <option value="EY">二氧化碳(EY)</option>
-                                <option value="YC">乙醇(YC)</option>
-                                <option value="SY">石油(SY)</option>
-                                <option value="RL">热力(RL)</option>
-                                <option value="ZQ">蒸汽(ZQ)</option>
-                                <option value="RS">热水(RS)</option>
-                                <option value="ZH">综合(ZH)</option>
-                                <option value="GG">综合管沟(GG)</option>
-                                <option value="QT">其他(QT)</option>
-                                <option value="BM">不明管类(BM)</option>
+                            <select id="pointTypeSelect" onchange="updateFeatureOptions()" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="">请选择管点种类</option>
                             </select>
                         </div>
                         <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">特征点</label>
-                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                                <option value="one_pipe">一般管线</option>
-                                <option value="tee">三通</option>
-                                <option value="bend">弯头</option>
-                                <option value="change_diameter">变径</option>
-                                <option value="change_material">变材</option>
-                                <option value="change_slope">变坡</option>
-                                <option value="start_point">起点</option>
-                                <option value="end_point">终点</option>
-                                <option value="manhole">井</option>
-                                <option value="outfall">出水口</option>
-                                <option value="inlet">进水口</option>
-                                <option value="reserved_outlet">预留口</option>
-                                <option value="non_probed_end">非普查区边界</option>
+                            <select id="featureSelect" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="">请先选择管点种类</option>
                             </select>
                         </div>
                         <div class="space-y-1">
@@ -848,10 +795,11 @@
                             <input type="text" value="DL002" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                             <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(智能跟随或自动填入编号)</span>
                         </div>
-                        <div class="space-y-1 relative">
-                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属单位</label>
-                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(根据目录表自动填入或自填写)</span>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">埋设方式</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="general">一般管线</option>
+                            </select>
                         </div>
                         <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">起始埋深</label>
@@ -861,11 +809,10 @@
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">终止埋深</label>
                             <input type="text" value="2.335" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">埋设方式</label>
-                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                                <option value="general">一般管线</option>
-                            </select>
+                        <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属单位</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(根据目录表自动填入或自填写)</span>
                         </div>
                     </div>
                 </div>
@@ -877,6 +824,7 @@
                         管井信息
                     </h4>
                     <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+                        <!-- 第一行 -->
                         <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管径/截面</label>
                             <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
@@ -887,14 +835,27 @@
                             <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(选填, 可填写无)</span>
                         </div>
                         <div class="space-y-1 relative">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">套管材质</label>
+                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option value="plastic">塑料</option>
+                            </select>
+                            <span class="absolute right-6 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right pointer-events-none">(选填, 可填写无)</span>
+                        </div>
+                        <!-- 第二行 -->
+                        <div class="space-y-1 relative">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">孔径</label>
                             <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(选填, 可填万)</span>
+                            <span class="absolute right-2 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right">(选填, 可填写无)</span>
                         </div>
                         <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">流向/根数</label>
                             <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                         </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">电压/压力</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <!-- 第三行 -->
                         <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">总孔数</label>
                             <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
@@ -904,25 +865,15 @@
                             <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                         </div>
                         <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属孔数</label>
+                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <!-- 第四行 -->
+                        <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管线材质</label>
                             <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                                 <option value="copper">铜</option>
                             </select>
-                        </div>
-                         <div class="space-y-1 relative">
-                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">套管材质</label>
-                            <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                                <option value="plastic">塑料</option>
-                            </select>
-                            <span class="absolute right-6 top-[1.6rem] text-red-500 text-[10px] scale-90 origin-right pointer-events-none">(选填, 可填写无)</span>
-                        </div>
-                         <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">电压/压力</label>
-                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属孔数</label>
-                            <input type="text" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                         </div>
                     </div>
                 </div>
@@ -960,6 +911,186 @@
 </dialog>
 
 <script>
+    // 字典数据 - 管点种类和特征值
+    const dictData = {
+        point_type: [
+            { id: 1, code: 'PT_001', name: '电力', value: 'power' },
+            { id: 2, code: 'PT_002', name: '排水', value: 'drainage' },
+            { id: 3, code: 'PT_003', name: '燃气', value: 'gas' },
+            { id: 4, code: 'PT_004', name: '工业', value: 'industrial' },
+            { id: 5, code: 'PT_005', name: '通信', value: 'telecom' },
+            { id: 6, code: 'PT_006', name: '给水', value: 'water_supply' },
+            { id: 7, code: 'PT_007', name: '热力', value: 'heating' },
+            { id: 8, code: 'PT_008', name: '其他', value: 'other' }
+        ],
+        point_feature: [
+            // 电力特征值
+            { id: 101, name: '一般管线点', value: 'general', parent: 1 },
+            { id: 102, name: '转折点', value: 'turning', parent: 1 },
+            { id: 103, name: '分支点', value: 'branch', parent: 1 },
+            { id: 104, name: '三分支', value: 'three_branch', parent: 1 },
+            { id: 105, name: '四分支', value: 'four_branch', parent: 1 },
+            { id: 106, name: '五分支', value: 'five_branch', parent: 1 },
+            { id: 107, name: '多分支', value: 'multi_branch', parent: 1 },
+            { id: 108, name: '预留口', value: 'reserved', parent: 1 },
+            { id: 109, name: '非普查', value: 'non_survey', parent: 1 },
+            { id: 110, name: '入户', value: 'household', parent: 1 },
+            { id: 111, name: '井边点', value: 'well_side', parent: 1 },
+            { id: 112, name: '井内点', value: 'well_inside', parent: 1 },
+            { id: 113, name: '上杆', value: 'pole_up', parent: 1 },
+            { id: 114, name: '拐点', value: 'inflection', parent: 1 },
+            { id: 115, name: '弯头', value: 'elbow', parent: 1 },
+            { id: 116, name: '出地', value: 'ground_exit', parent: 1 },
+            { id: 117, name: '终止点', value: 'end', parent: 1 },
+
+            // 排水特征值
+            { id: 201, name: '一般管线点', value: 'general', parent: 2 },
+            { id: 202, name: '三通', value: 'three_way', parent: 2 },
+            { id: 203, name: '四通', value: 'four_way', parent: 2 },
+            { id: 204, name: '五通', value: 'five_way', parent: 2 },
+            { id: 205, name: '六通', value: 'six_way', parent: 2 },
+            { id: 206, name: '七通', value: 'seven_way', parent: 2 },
+            { id: 207, name: '八通', value: 'eight_way', parent: 2 },
+            { id: 208, name: '九通', value: 'nine_way', parent: 2 },
+            { id: 209, name: '多通', value: 'multi_way', parent: 2 },
+            { id: 210, name: '户出', value: 'household_out', parent: 2 },
+            { id: 211, name: '入户', value: 'household', parent: 2 },
+            { id: 212, name: '起始点', value: 'start', parent: 2 },
+            { id: 213, name: '终止点', value: 'end', parent: 2 },
+            { id: 214, name: '进水口', value: 'inlet', parent: 2 },
+            { id: 215, name: '出水口', value: 'outlet', parent: 2 },
+            { id: 216, name: '预留口', value: 'reserved', parent: 2 },
+            { id: 217, name: '非普查', value: 'non_survey', parent: 2 },
+            { id: 218, name: '出地', value: 'ground_exit', parent: 2 },
+            { id: 219, name: '变径', value: 'diameter_change', parent: 2 },
+            { id: 220, name: '拐点', value: 'inflection', parent: 2 },
+            { id: 221, name: '井边点', value: 'well_side', parent: 2 },
+            { id: 222, name: '井内点', value: 'well_inside', parent: 2 },
+            { id: 223, name: '沟边点', value: 'ditch_side', parent: 2 },
+            { id: 224, name: '连接暗井', value: 'connect_manhole', parent: 2 },
+            { id: 225, name: '转折点', value: 'turning', parent: 2 },
+
+            // 燃气特征值
+            { id: 301, name: '一般管线点', value: 'general', parent: 3 },
+            { id: 302, name: '变径', value: 'diameter_change', parent: 3 },
+            { id: 303, name: '出地', value: 'ground_exit', parent: 3 },
+            { id: 304, name: '盖堵', value: 'cap', parent: 3 },
+            { id: 305, name: '弯头', value: 'elbow', parent: 3 },
+            { id: 306, name: '拐点', value: 'inflection', parent: 3 },
+            { id: 307, name: '三通', value: 'three_way', parent: 3 },
+            { id: 308, name: '四通', value: 'four_way', parent: 3 },
+            { id: 309, name: '五通', value: 'five_way', parent: 3 },
+            { id: 310, name: '多通', value: 'multi_way', parent: 3 },
+            { id: 311, name: '预留口', value: 'reserved', parent: 3 },
+            { id: 312, name: '非普查', value: 'non_survey', parent: 3 },
+            { id: 313, name: '入户', value: 'household', parent: 3 },
+            { id: 314, name: '井边点', value: 'well_side', parent: 3 },
+            { id: 315, name: '井内点', value: 'well_inside', parent: 3 },
+            { id: 316, name: '起始点', value: 'start', parent: 3 },
+            { id: 317, name: '终止点', value: 'end', parent: 3 },
+            { id: 318, name: '变深', value: 'depth_change', parent: 3 },
+
+            // 工业特征值
+            { id: 401, name: '一般管线点', value: 'general', parent: 4 },
+            { id: 402, name: '变径', value: 'diameter_change', parent: 4 },
+            { id: 403, name: '出地', value: 'ground_exit', parent: 4 },
+            { id: 404, name: '盖堵', value: 'cap', parent: 4 },
+            { id: 405, name: '弯头', value: 'elbow', parent: 4 },
+            { id: 406, name: '拐点', value: 'inflection', parent: 4 },
+            { id: 407, name: '三通', value: 'three_way', parent: 4 },
+            { id: 408, name: '四通', value: 'four_way', parent: 4 },
+            { id: 409, name: '五通', value: 'five_way', parent: 4 },
+            { id: 410, name: '多通', value: 'multi_way', parent: 4 },
+            { id: 411, name: '预留口', value: 'reserved', parent: 4 },
+            { id: 412, name: '非普查', value: 'non_survey', parent: 4 },
+            { id: 413, name: '入户', value: 'household', parent: 4 },
+            { id: 414, name: '井边点', value: 'well_side', parent: 4 },
+            { id: 415, name: '井内点', value: 'well_inside', parent: 4 },
+            { id: 416, name: '起始点', value: 'start', parent: 4 },
+            { id: 417, name: '终止点', value: 'end', parent: 4 },
+            { id: 418, name: '变深', value: 'depth_change', parent: 4 },
+
+            // 通信特征值
+            { id: 501, name: '一般管线点', value: 'general', parent: 5 },
+            { id: 502, name: '转折点', value: 'turning', parent: 5 },
+            { id: 503, name: '分支点', value: 'branch', parent: 5 },
+            { id: 504, name: '三分支', value: 'three_branch', parent: 5 },
+            { id: 505, name: '四分支', value: 'four_branch', parent: 5 },
+            { id: 506, name: '五分支', value: 'five_branch', parent: 5 },
+            { id: 507, name: '多分支', value: 'multi_branch', parent: 5 },
+            { id: 508, name: '预留口', value: 'reserved', parent: 5 },
+            { id: 509, name: '非普查', value: 'non_survey', parent: 5 },
+            { id: 510, name: '入户', value: 'household', parent: 5 },
+            { id: 511, name: '井边点', value: 'well_side', parent: 5 },
+            { id: 512, name: '井内点', value: 'well_inside', parent: 5 },
+            { id: 513, name: '上杆', value: 'pole_up', parent: 5 },
+            { id: 514, name: '拐点', value: 'inflection', parent: 5 },
+            { id: 515, name: '弯头', value: 'elbow', parent: 5 },
+            { id: 516, name: '出地', value: 'ground_exit', parent: 5 },
+            { id: 517, name: '终止点', value: 'end', parent: 5 },
+
+            // 给水特征值
+            { id: 601, name: '一般管线点', value: 'general', parent: 6 },
+            { id: 602, name: '变径', value: 'diameter_change', parent: 6 },
+            { id: 603, name: '出地', value: 'ground_exit', parent: 6 },
+            { id: 604, name: '盖堵', value: 'cap', parent: 6 },
+            { id: 605, name: '弯头', value: 'elbow', parent: 6 },
+            { id: 606, name: '拐点', value: 'inflection', parent: 6 },
+            { id: 607, name: '三通', value: 'three_way', parent: 6 },
+            { id: 608, name: '四通', value: 'four_way', parent: 6 },
+            { id: 609, name: '五通', value: 'five_way', parent: 6 },
+            { id: 610, name: '多通', value: 'multi_way', parent: 6 },
+            { id: 611, name: '预留口', value: 'reserved', parent: 6 },
+            { id: 612, name: '非普查', value: 'non_survey', parent: 6 },
+            { id: 613, name: '入户', value: 'household', parent: 6 },
+            { id: 614, name: '井边点', value: 'well_side', parent: 6 },
+            { id: 615, name: '井内点', value: 'well_inside', parent: 6 },
+            { id: 616, name: '起始点', value: 'start', parent: 6 },
+            { id: 617, name: '终止点', value: 'end', parent: 6 },
+            { id: 618, name: '变深', value: 'depth_change', parent: 6 },
+
+            // 热力特征值
+            { id: 701, name: '一般管线点', value: 'general', parent: 7 },
+            { id: 702, name: '变径', value: 'diameter_change', parent: 7 },
+            { id: 703, name: '出地', value: 'ground_exit', parent: 7 },
+            { id: 704, name: '盖堵', value: 'cap', parent: 7 },
+            { id: 705, name: '弯头', value: 'elbow', parent: 7 },
+            { id: 706, name: '拐点', value: 'inflection', parent: 7 },
+            { id: 707, name: '三通', value: 'three_way', parent: 7 },
+            { id: 708, name: '四通', value: 'four_way', parent: 7 },
+            { id: 709, name: '五通', value: 'five_way', parent: 7 },
+            { id: 710, name: '多通', value: 'multi_way', parent: 7 },
+            { id: 711, name: '预留口', value: 'reserved', parent: 7 },
+            { id: 712, name: '非普查', value: 'non_survey', parent: 7 },
+            { id: 713, name: '入户', value: 'household', parent: 7 },
+            { id: 714, name: '井边点', value: 'well_side', parent: 7 },
+            { id: 715, name: '井内点', value: 'well_inside', parent: 7 },
+            { id: 716, name: '起始点', value: 'start', parent: 7 },
+            { id: 717, name: '终止点', value: 'end', parent: 7 },
+            { id: 718, name: '变深', value: 'depth_change', parent: 7 },
+
+            // 其他特征值
+            { id: 801, name: '一般管线点', value: 'general', parent: 8 },
+            { id: 802, name: '变径', value: 'diameter_change', parent: 8 },
+            { id: 803, name: '出地', value: 'ground_exit', parent: 8 },
+            { id: 804, name: '盖堵', value: 'cap', parent: 8 },
+            { id: 805, name: '弯头', value: 'elbow', parent: 8 },
+            { id: 806, name: '拐点', value: 'inflection', parent: 8 },
+            { id: 807, name: '三通', value: 'three_way', parent: 8 },
+            { id: 808, name: '四通', value: 'four_way', parent: 8 },
+            { id: 809, name: '五通', value: 'five_way', parent: 8 },
+            { id: 810, name: '多通', value: 'multi_way', parent: 8 },
+            { id: 811, name: '预留口', value: 'reserved', parent: 8 },
+            { id: 812, name: '非普查', value: 'non_survey', parent: 8 },
+            { id: 813, name: '入户', value: 'household', parent: 8 },
+            { id: 814, name: '井边点', value: 'well_side', parent: 8 },
+            { id: 815, name: '井内点', value: 'well_inside', parent: 8 },
+            { id: 816, name: '起始点', value: 'start', parent: 8 },
+            { id: 817, name: '终止点', value: 'end', parent: 8 },
+            { id: 818, name: '变深', value: 'depth_change', parent: 8 }
+        ]
+    };
+
     function handleImageUpload(input) {
         const container = document.getElementById('imageUploadContainer');
         const files = input.files;
@@ -1198,6 +1329,57 @@
         const exploreEl = document.getElementById('exploration-personnel');
         if(exploreEl) exploreEl.textContent = data.explorationIds || '未指定';
     }
+
+    // 初始化管点种类下拉框
+    function initPointTypeSelect() {
+        const pointTypeSelect = document.getElementById('pointTypeSelect');
+        if (!pointTypeSelect) return;
+
+        // 清空现有选项
+        pointTypeSelect.innerHTML = '<option value="">请选择管点种类</option>';
+
+        // 添加管点种类选项
+        dictData.point_type.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type.id;
+            option.textContent = type.name;
+            pointTypeSelect.appendChild(option);
+        });
+    }
+
+    // 更新特征值下拉框（级联）
+    function updateFeatureOptions() {
+        const pointTypeSelect = document.getElementById('pointTypeSelect');
+        const featureSelect = document.getElementById('featureSelect');
+
+        if (!pointTypeSelect || !featureSelect) return;
+
+        const selectedTypeId = parseInt(pointTypeSelect.value);
+
+        // 清空特征值选项
+        featureSelect.innerHTML = '<option value="">请选择特征值</option>';
+
+        if (!selectedTypeId) {
+            featureSelect.innerHTML = '<option value="">请先选择管点种类</option>';
+            return;
+        }
+
+        // 根据选中的管点种类筛选特征值
+        const features = dictData.point_feature.filter(feature => feature.parent === selectedTypeId);
+
+        // 添加特征值选项
+        features.forEach(feature => {
+            const option = document.createElement('option');
+            option.value = feature.value;
+            option.textContent = feature.name;
+            featureSelect.appendChild(option);
+        });
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        initPointTypeSelect();
+    });
 </script>
 </body>
 </html>
