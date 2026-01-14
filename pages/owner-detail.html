@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>业主详情 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
+    <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-2xl" data-icon="settings_input_component">settings_input_component</span>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+            </a>
+            <span class="text-slate-300 dark:text-slate-600">/</span>
+            <a href="owner-management.html" class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">业主信息管理</a>
+            <span class="text-slate-300 dark:text-slate-600">/</span>
+            <span class="text-sm font-medium text-slate-500 dark:text-slate-400">业主详情</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+                <div class="text-right">
+                    <p class="text-sm font-bold leading-none mb-1">陈明</p>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">基础设施部</p>
+                </div>
+            </div>
+            <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-[1440px] mx-auto p-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 左侧：业主基本信息卡片 -->
+        <div class="lg:col-span-1 space-y-6">
+            <!-- 业主基础信息 -->
+            <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary" data-icon="domain">domain</span>
+                        业主基础信息
+                    </h3>
+                    <button class="text-primary hover:text-primary/80 transition-colors">
+                        <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex items-center justify-center py-4 border-b border-slate-100 dark:border-slate-800">
+                        <div class="size-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-4xl text-primary" data-icon="corporate_fare">corporate_fare</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">业主编号</p>
+                            <p class="text-sm font-semibold text-slate-800 dark:text-white" id="ownerCode">OWN-2024-001</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">业主单位名称</p>
+                            <p class="text-sm font-semibold text-slate-800 dark:text-white" id="ownerName">市自来水公司</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">统一社会信用代码</p>
+                            <p class="text-xs font-mono text-slate-600 dark:text-slate-300" id="creditCode">91310000XXXXXXXXXXXXX</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">所属地区</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300" id="region">上海市/浦东新区</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">业主单位性质</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300" id="ownerType">国企</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">法人代表</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300" id="legalPerson">张伟</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">状态</p>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium border border-emerald-200" id="status">
+                                <span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                合作中
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 统计信息 -->
+            <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
+                <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary" data-icon="analytics">analytics</span>
+                    统计信息
+                </h3>
+
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                        <span class="text-xs text-slate-600 dark:text-slate-400">合作项目数</span>
+                        <span class="text-lg font-bold text-primary" id="projectCount">23</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                        <span class="text-xs text-slate-600 dark:text-slate-400">联系人数量</span>
+                        <span class="text-lg font-bold text-slate-700 dark:text-slate-300" id="contactCount">5</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                        <span class="text-xs text-slate-600 dark:text-slate-400">创建日期</span>
+                        <span class="text-xs font-medium text-slate-600 dark:text-slate-400" id="createDate">2023-08-15</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                        <span class="text-xs text-slate-600 dark:text-slate-400">创建人</span>
+                        <span class="text-xs font-medium text-slate-600 dark:text-slate-400" id="creator">陈明</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧：详细信息 -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- 合作项目列表 -->
+            <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary" data-icon="account_tree">account_tree</span>
+                        合作项目列表
+                    </h3>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">共 23 个项目</span>
+                </div>
+                <div class="flex-1 overflow-auto max-h-[400px]">
+                    <table class="w-full text-xs">
+                        <thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
+                            <tr class="border-b border-slate-100 dark:border-slate-800">
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">项目名称</th>
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">项目类型</th>
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">状态</th>
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">创建日期</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3">
+                                    <a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">北区供水管网探测</a>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线普查</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="size-2 rounded-full bg-primary animate-pulse"></div>
+                                        <span class="text-xs font-medium dark:text-slate-300">实施中</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-slate-500">2024-01-15</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3">
+                                    <a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">南区供水改造工程</a>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线详查</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="size-2 rounded-full bg-emerald-500"></div>
+                                        <span class="text-xs font-medium dark:text-slate-300">已完成</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-slate-500">2023-11-20</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3">
+                                    <a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">东区管网维护项目</a>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线竣工测量</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="size-2 rounded-full bg-primary animate-pulse"></div>
+                                        <span class="text-xs font-medium dark:text-slate-300">实施中</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-slate-500">2024-02-01</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3">
+                                    <a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">西区供水扩建</a>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线放线测量</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="size-2 rounded-full bg-emerald-500"></div>
+                                        <span class="text-xs font-medium dark:text-slate-300">已完成</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-slate-500">2023-09-10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 联系人信息 -->
+            <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary" data-icon="group">group</span>
+                        联系人信息
+                    </h3>
+                    <button class="text-primary hover:text-primary/80 transition-colors text-xs font-semibold flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
+                        添加联系人
+                    </button>
+                </div>
+                <div class="flex-1 overflow-auto max-h-[350px]">
+                    <table class="w-full text-xs">
+                        <thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
+                            <tr class="border-b border-slate-100 dark:border-slate-800">
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">关联项目</th>
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">联系人姓名</th>
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">职务</th>
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">联系方式</th>
+                                <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">档案建立人</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3">
+                                    <span class="text-slate-700 dark:text-slate-300">北区供水管网探测</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="font-semibold text-slate-800 dark:text-white">李明</span>
+                                </td>
+                                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">项目经理</td>
+                                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">138****5678</td>
+                                <td class="px-4 py-3 text-slate-500">陈明</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3">
+                                    <span class="text-slate-700 dark:text-slate-300">南区供水改造工程</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="font-semibold text-slate-800 dark:text-white">王芳</span>
+                                </td>
+                                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">技术主管</td>
+                                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">139****1234</td>
+                                <td class="px-4 py-3 text-slate-500">陈明</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3">
+                                    <span class="text-slate-700 dark:text-slate-300">东区管网维护项目</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="font-semibold text-slate-800 dark:text-white">张强</span>
+                                </td>
+                                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">工程师</td>
+                                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">137****9876</td>
+                                <td class="px-4 py-3 text-slate-500">陈明</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // 从URL获取业主ID
+    const urlParams = new URLSearchParams(window.location.search);
+    const ownerId = urlParams.get('id');
+
+    // 模拟业主数据
+    const ownerData = {
+        '1': {
+            code: 'OWN-2024-001',
+            name: '市自来水公司',
+            creditCode: '91310000MA1FL5E73X',
+            region: '上海市/浦东新区',
+            type: '国企',
+            legalPerson: '张伟',
+            status: '合作中',
+            projectCount: 23,
+            contactCount: 5,
+            createDate: '2023-08-15',
+            creator: '陈明'
+        },
+        '2': {
+            code: 'OWN-2024-002',
+            name: '燃气集团',
+            creditCode: '91310000MA1FL5E74Y',
+            region: '上海市/黄浦区',
+            type: '央企',
+            legalPerson: '李强',
+            status: '合作中',
+            projectCount: 18,
+            contactCount: 4,
+            createDate: '2023-09-20',
+            creator: '陈明'
+        },
+        '3': {
+            code: 'OWN-2024-003',
+            name: '电力公司',
+            creditCode: '91310000MA1FL5E75Z',
+            region: '上海市/静安区',
+            type: '国企',
+            legalPerson: '王芳',
+            status: '合作中',
+            projectCount: 15,
+            contactCount: 3,
+            createDate: '2023-10-10',
+            creator: '陈明'
+        }
+    };
+
+    // 加载业主数据
+    if (ownerId && ownerData[ownerId]) {
+        const owner = ownerData[ownerId];
+        document.getElementById('ownerCode').textContent = owner.code;
+        document.getElementById('ownerName').textContent = owner.name;
+        document.getElementById('creditCode').textContent = owner.creditCode;
+        document.getElementById('region').textContent = owner.region;
+        document.getElementById('ownerType').textContent = owner.type;
+        document.getElementById('legalPerson').textContent = owner.legalPerson;
+        document.getElementById('projectCount').textContent = owner.projectCount;
+        document.getElementById('contactCount').textContent = owner.contactCount;
+        document.getElementById('createDate').textContent = owner.createDate;
+        document.getElementById('creator').textContent = owner.creator;
+    }
+
+    // 图标加载
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+            const iconName = icon.getAttribute('data-icon');
+            if (iconName) {
+                icon.textContent = iconName;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

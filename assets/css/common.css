@@ -1,0 +1,255 @@
+/* 通用样式 - 地下管线探测系统 */
+
+/* 自定义CSS变量 */
+:root {
+    --primary-color: #5ad98b;
+    --primary-hover: #4bc57a;
+    --dark-bg: #0f1419;
+    --dark-card: #161e27;
+    --dark-border: #2d3748;
+}
+
+/* 深色模式优化 */
+.dark {
+    color-scheme: dark;
+}
+
+/* 通用动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 对话框动画 */
+dialog[open] {
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* 通用按钮样式 */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+/* 通用卡片样式 */
+.card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.dark .card {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+}
+
+/* 通用表格样式 */
+.table-container {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    font-size: 0.75rem;
+}
+
+.data-table thead {
+    background: #f8fafc;
+    position: sticky;
+    top: 0;
+}
+
+.dark .data-table thead {
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.data-table th {
+    padding: 0.625rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+}
+
+.dark .data-table th {
+    color: #cbd5e1;
+}
+
+.data-table td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.dark .data-table td {
+    border-top-color: #1e293b;
+}
+
+.data-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.dark .data-table tbody tr:hover {
+    background: #1e293b;
+}
+
+/* 状态徽章 */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    font-weight: 500;
+    border: 1px solid;
+}
+
+.badge-success {
+    background: #d1fae5;
+    color: #059669;
+    border-color: #a7f3d0;
+}
+
+.badge-warning {
+    background: #fed7aa;
+    color: #ea580c;
+    border-color: #fdba74;
+}
+
+.badge-danger {
+    background: #fee2e2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+/* 输入框样式 */
+.input-field {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.dark .input-field {
+    background: #1e293b;
+    border-color: #334155;
+    color: white;
+}
+
+.input-field:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* 模态框通用样式 */
+.modal-overlay {
+    background: transparent;
+    backdrop-filter: blur(4px);
+}
+
+.modal-overlay::backdrop {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.dark .modal-content {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+}
+
+.modal-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dark .modal-header {
+    border-bottom-color: #1e293b;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.dark .modal-footer {
+    border-top-color: #1e293b;
+}

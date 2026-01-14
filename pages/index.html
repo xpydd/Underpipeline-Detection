@@ -46,11 +46,8 @@
 <div class="flex items-center gap-6">
 <div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
 <div class="text-right">
-<p class="text-sm font-bold leading-none mb-1">陈明 (Alex Chen)</p>
-<p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">高级工程师 · 基础设施部</p>
-</div>
-<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-primary/20">
-<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVsBpP98SzJf-VhM8VffJmFzYleCB0OXVZjGkH3JpvtqCkuKBLK5tCeYufS32QE-k7bJoerL2qWF96K9oPbRmuNp8Kje_1WcOxpkzMZji639bIy3r5gB2feter2ODzywcssoQvEDQG0AsbNMz0Ai91AC-YRjBTysTxMbfy7K4o7bh4tRGWRy8sppfS8vS7YAtGmMKNRZlSHLqotH9CThMA55Ijif4BgOHNDP8X1SL9i009iuByQsZ2Zi56iYDEVqq9N8VAjJBnWJw"/>
+<p class="text-sm font-bold leading-none mb-1">陈明</p>
+<p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">基础设施部</p>
 </div>
 </div>
 <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
@@ -62,15 +59,12 @@
 <main class="max-w-[1440px] mx-auto p-6">
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 <div class="lg:col-span-2 row-span-2 bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
-<div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group" onclick="window.location.href='project-management.html'">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary" data-icon="account_tree">account_tree</span>
 <h3 class="font-bold text-slate-800 dark:text-white">项目管理</h3>
 </div>
-<button class="bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-lg font-semibold text-xs flex items-center gap-1.5 transition-all">
-<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
-新建探测项目
-</button>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
 </div>
 <div class="px-4 pb-3 border-b border-slate-100 dark:border-slate-800">
 <div class="relative">
@@ -142,7 +136,7 @@
 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">北区燃气干线探测</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">北区燃气干线探测</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线普查</span>
@@ -156,7 +150,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">西区供水管网 #2</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">西区供水管网 #2</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线详查</span>
@@ -170,7 +164,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">高压电力 HV-404</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">高压电力 HV-404</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线放线测量</span>
@@ -184,7 +178,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">南区排水系统改造</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">南区排水系统改造</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线竣工测量</span>
@@ -198,7 +192,7 @@
 </tr>
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="#">东区通信光缆布设</a>
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="project-detail.html">东区通信光缆布设</a>
 </td>
 <td class="px-4 py-3">
 <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线普查</span>
@@ -319,19 +313,92 @@
 </li>
 </ul>
 </div>
-<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
-<div class="flex items-center justify-between mb-3">
+<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group" onclick="window.location.href='owner-management.html'">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary" data-icon="corporate_fare">corporate_fare</span>
 <h3 class="font-bold text-slate-800 dark:text-white">业主信息</h3>
 </div>
 <span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
 </div>
-<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">管理管线业主、联系人及权限。</p>
-<div class="mt-4 flex -space-x-2">
-<div class="size-7 rounded-full bg-slate-200 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold">CT</div>
-<div class="size-7 rounded-full bg-slate-300 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold">WA</div>
-<div class="size-7 rounded-full bg-slate-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold text-white">+8</div>
+<div class="flex-1 overflow-auto max-h-[280px]">
+<table class="w-full text-xs">
+<thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
+<tr class="border-b border-slate-100 dark:border-slate-800">
+<th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">业主名称</th>
+<th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">合作项目数</th>
+<th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">单位性质</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-4 py-3">
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="owner-detail.html?id=1">市自来水公司</a>
+</td>
+<td class="px-4 py-3">
+<span class="text-slate-700 dark:text-slate-300 font-medium">23</span>
+</td>
+<td class="px-4 py-3">
+<span class="text-xs text-slate-700 dark:text-slate-300">国企</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-4 py-3">
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="owner-detail.html?id=2">燃气集团</a>
+</td>
+<td class="px-4 py-3">
+<span class="text-slate-700 dark:text-slate-300 font-medium">18</span>
+</td>
+<td class="px-4 py-3">
+<span class="text-xs text-slate-700 dark:text-slate-300">央企</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-4 py-3">
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="owner-detail.html?id=3">电力公司</a>
+</td>
+<td class="px-4 py-3">
+<span class="text-slate-700 dark:text-slate-300 font-medium">15</span>
+</td>
+<td class="px-4 py-3">
+<span class="text-xs text-slate-700 dark:text-slate-300">国企</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-4 py-3">
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="owner-detail.html?id=4">热力公司</a>
+</td>
+<td class="px-4 py-3">
+<span class="text-slate-700 dark:text-slate-300 font-medium">12</span>
+</td>
+<td class="px-4 py-3">
+<span class="text-xs text-slate-700 dark:text-slate-300">国企</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-4 py-3">
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="owner-detail.html?id=5">通信运营商</a>
+</td>
+<td class="px-4 py-3">
+<span class="text-slate-700 dark:text-slate-300 font-medium">8</span>
+</td>
+<td class="px-4 py-3">
+<span class="text-xs text-slate-700 dark:text-slate-300">央企</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<td class="px-4 py-3">
+<a class="text-primary font-semibold hover:underline decoration-primary/40" href="owner-detail.html?id=6">排水管理处</a>
+</td>
+<td class="px-4 py-3">
+<span class="text-slate-700 dark:text-slate-300 font-medium">6</span>
+</td>
+<td class="px-4 py-3">
+<span class="text-xs text-slate-700 dark:text-slate-300">事业单位</span>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
