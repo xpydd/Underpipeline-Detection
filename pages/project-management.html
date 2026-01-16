@@ -195,8 +195,8 @@
                         <th class="px-6 py-3">项目名称</th>
                         <th class="px-6 py-3">场景类型</th>
                         <th class="px-6 py-3">业主单位</th>
-                        <th class="px-6 py-3">立项日期</th>
-                        <th class="px-6 py-3 text-center">进度</th>
+                        <th class="px-6 py-3">计划开始日期</th>
+                        <th class="px-6 py-3">计划截止日期</th>
                         <th class="px-6 py-3">状态</th>
                         <th class="px-6 py-3 text-right">操作</th>
                     </tr>
@@ -215,14 +215,7 @@
                         </td>
                         <td class="px-6 py-4 text-slate-600 dark:text-slate-300">城市建设投资集团</td>
                         <td class="px-6 py-4 text-slate-500 text-xs">2024-01-15</td>
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex items-center gap-2">
-                                <div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                                    <div class="h-full bg-primary w-[65%]"></div>
-                                </div>
-                                <span class="text-xs font-medium text-slate-600 dark:text-slate-300">65%</span>
-                            </div>
-                        </td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-03-15</td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-medium border border-blue-100">
                                 <span class="size-1.5 rounded-full bg-blue-500 animate-pulse"></span>
@@ -253,14 +246,7 @@
                         </td>
                         <td class="px-6 py-4 text-slate-600 dark:text-slate-300">新城区水务有限公司</td>
                         <td class="px-6 py-4 text-slate-500 text-xs">2024-02-20</td>
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex items-center gap-2">
-                                <div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                                    <div class="h-full bg-orange-500 w-[90%]"></div>
-                                </div>
-                                <span class="text-xs font-medium text-orange-500">90%</span>
-                            </div>
-                        </td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-04-20</td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-orange-600 text-xs font-medium border border-orange-100">
                                 <span class="size-1.5 rounded-full bg-orange-500"></span>
@@ -281,24 +267,172 @@
                     <!-- 示例数据 3 -->
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
                         <td class="px-6 py-4 text-slate-500">3</td>
-                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2023-089</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2024-003</td>
                         <td class="px-6 py-4">
-                            <a href="project-detail.html?id=PROJ-2023-089" class="font-medium text-primary hover:underline decoration-primary/40">高压电力 HV-404</a>
+                            <a href="project-detail.html?id=PROJ-2024-003" class="font-medium text-primary hover:underline decoration-primary/40">高压电力 HV-404</a>
                             <div class="text-[10px] text-slate-400">上海市 · 闵行区</div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">放线测量</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">地下管线放线测量</span>
                         </td>
                         <td class="px-6 py-4 text-slate-600 dark:text-slate-300">国家电网上海分公司</td>
-                        <td class="px-6 py-4 text-slate-500 text-xs">2023-11-05</td>
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex items-center gap-2">
-                                <div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                                    <div class="h-full bg-emerald-500 w-[100%]"></div>
-                                </div>
-                                <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">100%</span>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-03-10</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-05-10</td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium border border-emerald-100">
+                                <span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                已完成
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                    <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                    <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                                </button>
                             </div>
                         </td>
+                    </tr>
+                    <!-- 示例数据 4 -->
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 text-slate-500">4</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2024-004</td>
+                        <td class="px-6 py-4">
+                            <a href="project-detail.html?id=PROJ-2024-004" class="font-medium text-primary hover:underline decoration-primary/40">南区排水系统改造</a>
+                            <div class="text-[10px] text-slate-400">上海市 · 黄浦区</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">地下管线竣工测量</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 dark:text-slate-300">市政工程管理处</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-04-15</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-06-15</td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-600 text-xs font-medium border border-amber-100">
+                                <span class="size-1.5 rounded-full bg-amber-500"></span>
+                                停工
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                    <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                    <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- 示例数据 5 -->
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 text-slate-500">5</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2024-005</td>
+                        <td class="px-6 py-4">
+                            <a href="project-detail.html?id=PROJ-2024-005" class="font-medium text-primary hover:underline decoration-primary/40">东区通信光缆布设</a>
+                            <div class="text-[10px] text-slate-400">上海市 · 杨浦区</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">地下管线普查</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 dark:text-slate-300">通信运营商</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-05-20</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-07-20</td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-medium border border-blue-100">
+                                <span class="size-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                                实施中
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                    <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                    <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- 示例数据 6 -->
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 text-slate-500">6</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2024-006</td>
+                        <td class="px-6 py-4">
+                            <a href="project-detail.html?id=PROJ-2024-006" class="font-medium text-primary hover:underline decoration-primary/40">中央商务区热力管道</a>
+                            <div class="text-[10px] text-slate-400">上海市 · 静安区</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">地下管线详查</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 dark:text-slate-300">热力公司</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-06-01</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-08-01</td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-medium border border-blue-100">
+                                <span class="size-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                                实施中
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                    <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                    <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- 示例数据 7 -->
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 text-slate-500">7</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2024-007</td>
+                        <td class="px-6 py-4">
+                            <a href="project-detail.html?id=PROJ-2024-007" class="font-medium text-primary hover:underline decoration-primary/40">工业园区燃气支线</a>
+                            <div class="text-[10px] text-slate-400">上海市 · 宝山区</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">地下管线放线测量</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 dark:text-slate-300">燃气集团</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-07-10</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-09-10</td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-orange-600 text-xs font-medium border border-orange-100">
+                                <span class="size-1.5 rounded-full bg-orange-500"></span>
+                                超期
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                                    <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                                    <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- 示例数据 8 -->
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 text-slate-500">8</td>
+                        <td class="px-6 py-4 font-mono text-xs text-slate-500">PROJ-2024-008</td>
+                        <td class="px-6 py-4">
+                            <a href="project-detail.html?id=PROJ-2024-008" class="font-medium text-primary hover:underline decoration-primary/40">新城区供水主干网</a>
+                            <div class="text-[10px] text-slate-400">上海市 · 松江区</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs">地下管线竣工测量</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 dark:text-slate-300">市自来水公司</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-08-05</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs">2024-10-05</td>
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium border border-emerald-100">
                                 <span class="size-1.5 rounded-full bg-emerald-500"></span>
@@ -483,7 +617,7 @@
                             <input type="date" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                         </div>
                         <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">预计截止日期</label>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">计划截止日期</label>
                             <input type="date" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                         </div>
                         <div class="space-y-1 col-span-3">
@@ -1244,13 +1378,13 @@
         const elevSelect = form.querySelectorAll('select')[2];
         if(elevSelect) elevSelect.value = rowData.elevSystem || '';
 
-        // 开始日期
+        // 计划开始日期
         const startDateInput = form.querySelector('input[type="date"]'); // 第一个 date input
         if(startDateInput) startDateInput.value = rowData.startDate || cells[5].textContent.trim();
-        
-        // 预计结束日期 (第二个 date input)
+
+        // 计划截止日期 (第二个 date input)
         const endDateInput = form.querySelectorAll('input[type="date"]')[1];
-        if(endDateInput) endDateInput.value = rowData.endDate || '';
+        if(endDateInput) endDateInput.value = rowData.endDate || cells[6].textContent.trim();
 
         // 项目描述
         const descInput = form.querySelector('textarea');
@@ -1409,7 +1543,8 @@
             cells[3].querySelector('span').textContent = scene;
             cells[4].textContent = ownerName;
             cells[5].textContent = startDate;
-            
+            cells[6].textContent = endDate;
+
             // 更新状态列
             cells[7].innerHTML = `
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${statusConfig.class} text-xs font-medium border">
@@ -1417,17 +1552,6 @@
                     ${statusText}
                 </span>
             `;
-            
-            // 简单模拟进度更新
-            if(status === 'completed') {
-                const progressDiv = cells[6].querySelector('.bg-primary, .bg-orange-500, .bg-emerald-500, .bg-blue-500');
-                if(progressDiv) progressDiv.className = 'h-full bg-emerald-500 w-[100%]';
-                const percentSpan = cells[6].querySelector('span');
-                if(percentSpan) {
-                    percentSpan.className = 'text-xs font-medium text-emerald-600 dark:text-emerald-400';
-                    percentSpan.textContent = '100%';
-                }
-            }
 
         } else {
             // 新增行
@@ -1448,14 +1572,7 @@
                 </td>
                 <td class="px-6 py-4 text-slate-600 dark:text-slate-300">${ownerName}</td>
                 <td class="px-6 py-4 text-slate-500 text-xs">${startDate}</td>
-                <td class="px-6 py-4 text-center">
-                    <div class="flex items-center gap-2">
-                        <div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div class="h-full bg-primary w-[0%]"></div>
-                        </div>
-                        <span class="text-xs font-medium text-slate-600 dark:text-slate-300">0%</span>
-                    </div>
-                </td>
+                <td class="px-6 py-4 text-slate-500 text-xs">${endDate}</td>
                 <td class="px-6 py-4">
                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${statusConfig.class} text-xs font-medium border">
                         <span class="size-1.5 rounded-full ${statusConfig.dot}"></span>

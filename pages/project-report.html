@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>项目报告 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Quill 富文本编辑器 -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="js/project-navigation.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+
+        /* 报告树形菜单样式 */
+        .report-tree {
+            font-size: 13px;
+        }
+
+        .report-tree-item {
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            color: #64748b;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dark .report-tree-item {
+            color: #94a3b8;
+        }
+
+        .report-tree-item:hover {
+            background-color: #f1f5f9;
+            color: #334155;
+        }
+
+        .dark .report-tree-item:hover {
+            background-color: #1e293b;
+            color: #cbd5e1;
+        }
+
+        .report-tree-item.active {
+            background-color: #5ad98b20;
+            color: #5ad98b;
+            font-weight: 600;
+        }
+
+        .dark .report-tree-item.active {
+            background-color: #5ad98b30;
+            color: #5ad98b;
+        }
+
+        .report-tree-category {
+            font-weight: 700;
+            color: #475569;
+            padding: 8px 10px;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+
+        .dark .report-tree-category {
+            color: #94a3b8;
+        }
+
+        .report-tree-category:hover {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .dark .report-tree-category:hover {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .report-tree-subcategory {
+            padding-left: 16px;
+        }
+
+        .report-tree-subcategory .report-tree-item {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+
+        /* 嵌套的category样式（如成果汇总） */
+        .report-tree-subcategory .report-tree-category {
+            font-size: 12px;
+            padding: 5px 10px;
+            font-weight: 600;
+        }
+
+        /* 富文本编辑器样式 */
+        #editor-container {
+            height: 100%;
+        }
+
+        .ql-container {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-size: 14px;
+        }
+
+        .ql-editor {
+            min-height: 400px;
+            padding: 20px;
+        }
+
+        .ql-toolbar {
+            background: #f8fafc;
+            border-color: #e2e8f0 !important;
+        }
+
+        .dark .ql-toolbar {
+            background: #1e293b;
+            border-color: #334155 !important;
+        }
+
+        .ql-container {
+            border-color: #e2e8f0 !important;
+        }
+
+        .dark .ql-container {
+            border-color: #334155 !important;
+            background: #0f172a;
+        }
+
+        .dark .ql-editor {
+            color: #e2e8f0;
+        }
+
+        .ql-snow .ql-stroke {
+            stroke: #64748b;
+        }
+
+        .dark .ql-snow .ql-stroke {
+            stroke: #94a3b8;
+        }
+
+        .ql-snow .ql-fill {
+            fill: #64748b;
+        }
+
+        .dark .ql-snow .ql-fill {
+            fill: #94a3b8;
+        }
+
+        .ql-snow .ql-picker-label {
+            color: #64748b;
+        }
+
+        .dark .ql-snow .ql-picker-label {
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+
+<!-- 头部导航 -->
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50 shrink-0">
+    <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-2xl" data-icon="settings_input_component">settings_input_component</span>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+            </a>
+            <span class="text-slate-300 dark:text-slate-600">/</span>
+            <span class="text-sm font-medium text-slate-900 dark:text-white truncate max-w-[200px]" id="breadcrumb-project-name">深圳市龙岗区中心小学新建项目</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+                <div class="text-right">
+                    <p class="text-sm font-bold leading-none mb-1">陈明</p>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">基础设施部</p>
+                </div>
+            </div>
+            <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- 主内容区域 -->
+<main class="flex-1 max-w-[1440px] w-full mx-auto px-6 pt-6 pb-12">
+    <!-- 项目级头部区域 -->
+    <div class="mb-4 space-y-2">
+        <!-- 标题与操作 -->
+        <div class="flex justify-between items-center h-10">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-white" id="project-title">深圳市龙岗区中心小学新建项目</h2>
+                    <div class="flex items-center gap-2 text-xs text-slate-500 border-l border-slate-200 dark:border-slate-700 pl-3">
+                        <span class="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400 scale-90" id="project-id">PROJ-2024-001</span>
+                        <span class="flex items-center gap-0.5 scale-90 origin-left"><span class="material-symbols-outlined text-sm">location_on</span> <span id="project-address">深圳市龙岗区</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 一级菜单 (Top Tabs) -->
+        <div class="border-b border-slate-200 dark:border-slate-800">
+            <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                <a href="#" class="border-primary text-primary flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-bold text-sm">
+                    <span class="material-symbols-outlined text-base">work</span>
+                    工作平台
+                </a>
+                <a href="#" class="border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:border-slate-300 flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm transition-colors">
+                    <span class="material-symbols-outlined text-base">menu_book</span>
+                    知识中心
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 页面布局：左侧导航 + 右侧内容 -->
+    <div class="flex gap-4 items-start h-[calc(100vh-10rem)]">
+        <!-- 二级菜单 (Left Sidebar) -->
+        <nav class="w-16 shrink-0 space-y-2 sticky top-0 flex flex-col items-center py-2 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 h-full z-50">
+            <a href="project-detail.html" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="项目">
+                <span class="material-symbols-outlined text-[24px]">dashboard</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">项目</span>
+            </a>
+            <a href="project-exploration.html" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="勘探">
+                <span class="material-symbols-outlined text-[24px]">explore</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">勘探</span>
+            </a>
+            <a href="project-data.html" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="数据">
+                <span class="material-symbols-outlined text-[24px]">database</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">数据</span>
+            </a>
+            <a href="project-model.html" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="模型">
+                <span class="material-symbols-outlined text-[24px]">view_in_ar</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">模型</span>
+            </a>
+            <a href="#" class="w-10 h-10 bg-primary/10 text-primary flex items-center justify-center rounded-lg transition-colors group relative" title="报告">
+                <span class="material-symbols-outlined text-[24px]">description</span>
+                <span class="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">报告</span>
+            </a>
+        </nav>
+
+        <!-- 内容区域 -->
+        <div class="flex-1 min-w-0 h-full overflow-hidden relative">
+            <!-- 报告视图 -->
+            <div class="w-full h-full flex gap-4">
+                <!-- 左侧报告导航树 -->
+                <div class="w-[200px] shrink-0 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col">
+                    <div class="p-3">
+                        <button class="w-full px-3 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-sm">upload_file</span>
+                            前端数据导入
+                        </button>
+                    </div>
+                    <div class="flex-1 overflow-y-auto p-3 custom-scrollbar">
+                        <div class="space-y-1">
+                            <div class="report-tree-item text-xs" data-view="preview">
+                                <span class="material-symbols-outlined text-sm">description</span>
+                                生成报告
+                            </div>
+                            <div class="report-tree-category text-xs" data-category="edit">
+                                <span class="material-symbols-outlined text-sm">edit</span>
+                                报告修改
+                            </div>
+                            <div class="report-tree-subcategory" id="edit-submenu" style="display: none;">
+                                <div class="report-tree-item text-xs" data-view="edit-text">
+                                    报告正文
+                                </div>
+                                <div class="report-tree-category text-xs" data-category="summary">
+                                    成果汇总
+                                </div>
+                                <div class="report-tree-subcategory" id="summary-submenu" style="display: none;">
+                                    <div class="report-tree-item text-xs" data-view="edit-drawing">
+                                        图纸成果
+                                    </div>
+                                    <div class="report-tree-item text-xs" data-view="edit-data">
+                                        数据表成果
+                                    </div>
+                                    <div class="report-tree-item text-xs" data-view="edit-database">
+                                        数据库成果
+                                    </div>
+                                    <div class="report-tree-item text-xs" data-view="edit-other">
+                                        其他成果
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="report-tree-category text-xs" data-category="review">
+                                <span class="material-symbols-outlined text-sm">check_circle</span>
+                                报告校审
+                            </div>
+                            <div class="report-tree-subcategory" id="review-submenu" style="display: none;">
+                                <div class="report-tree-item text-xs" data-view="review-submit">
+                                    提交校审
+                                </div>
+                                <div class="report-tree-item text-xs" data-view="review-result">
+                                    校审结果
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧报告内容区域 -->
+                <div class="flex-1 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col relative">
+                    <!-- 顶部工具栏 -->
+                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-900/30">
+                        <div class="flex items-center gap-3">
+                            <h3 id="view-title" class="text-sm font-bold text-slate-900 dark:text-white">生成报告</h3>
+                        </div>
+                        <div id="editor-toolbar" class="flex items-center gap-2" style="display: none;">
+                            <button class="px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-xs font-medium transition-colors">
+                                预览
+                            </button>
+                            <button class="px-3 py-1.5 bg-primary hover:bg-primary/90 text-white rounded text-xs font-semibold transition-colors">
+                                生成报告
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 预览视图 -->
+                    <div id="preview-view" class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                        <div class="max-w-4xl mx-auto space-y-4 text-sm">
+                            <!-- 报告标题 -->
+                            <div class="text-center mb-6">
+                                <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-2">地下管线探测技术报告模板</h2>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">报告由具体人员（勘探人员、报告编写、数据处理、报告审核等）</p>
+                            </div>
+
+                            <!-- 目录 -->
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                    <span class="font-medium">目录</span>
+                                </div>
+
+                                <div class="pl-6 space-y-1.5">
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>一、工程概况</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>二、工作原理及方法</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>三、地下管线测量</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>四、技术要求</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>五、主要仪器设备</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 主要仪器设备 -->
+                            <div class="space-y-3 mt-6">
+                                <div class="font-medium text-slate-800 dark:text-white">五、主要仪器设备</div>
+
+                                <div class="grid grid-cols-2 gap-3 pl-6">
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>金属管线探测仪</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>非金属管线探测仪</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>燃气PE管道定位仪</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>全站仪</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>RTK测量系统</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>三维激光扫描仪</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>探地雷达</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>数据处理软件</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 其他章节 -->
+                            <div class="space-y-2 mt-6">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                    <span class="font-medium">六、质量评价</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                    <span class="font-medium">七、结论及建议</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                    <span class="font-medium">八、质量评定</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                    <span class="font-medium">九、提交成果</span>
+                                </div>
+                            </div>
+
+                            <!-- 提交成果详细内容 -->
+                            <div class="space-y-3 mt-4 pl-6">
+                                <div class="text-slate-600 dark:text-slate-400">图纸成果：</div>
+                                <div class="pl-4 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>专业地下管线图(按管线种类分类)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>综合地下管线图(按区域分类)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>管线横断面图(按重要节点分类)</span>
+                                    </div>
+                                </div>
+
+                                <div class="text-slate-600 dark:text-slate-400 mt-4">数据表成果：</div>
+                                <div class="pl-4 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>管线成果表</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>管线汇总表</span>
+                                    </div>
+                                </div>
+
+                                <div class="text-slate-600 dark:text-slate-400 mt-4">数据库成果：</div>
+                                <div class="pl-4 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>管线空间数据</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>管线属性数据库</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary">
+                                        <span>三维管线模型</span>
+                                    </div>
+                                </div>
+
+                                <div class="text-slate-600 dark:text-slate-400 mt-4">其他成果：</div>
+                                <div class="pl-4 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>探测过程记录影像资料</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" checked>
+                                        <span>探测问题汇总文档</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 富文本编辑器区域 -->
+                    <div id="editor-view" class="flex-1 overflow-hidden" style="display: none;">
+                        <div id="editor-container" class="h-full"></div>
+                    </div>
+
+                    <!-- 提交校审视图 -->
+                    <div id="review-submit-view" class="flex-1 overflow-y-auto p-6 custom-scrollbar" style="display: none;">
+                        <div class="max-w-3xl mx-auto">
+                            <!-- 标题 -->
+                            <h2 class="text-lg font-bold text-center text-slate-800 dark:text-white mb-6">地下管线探测技术报告校审</h2>
+
+                            <!-- 表单 -->
+                            <div class="space-y-5">
+                                <!-- 第一行：项目名称和提交时间 -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                                            项目名称：<span class="text-red-500">（自动填入）</span>
+                                        </label>
+                                        <input type="text" value="深圳市龙岗区中心小学新建项目" class="w-full px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                                            提交时间：<span class="text-red-500">（自动填入）</span>
+                                        </label>
+                                        <input type="text" value="2025/10/30" class="w-full px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                </div>
+
+                                <!-- 第二行：提交校审人和项目审核人 -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                                            提交校审人：<span class="text-red-500">（自动填入）</span>
+                                        </label>
+                                        <input type="text" value="xxx" class="w-full px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                                            项目审核人：<span class="text-red-500">（自动填入）</span>
+                                        </label>
+                                        <input type="text" value="xxx" class="w-full px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                </div>
+
+                                <!-- 第三行：报告正文和成果文件 -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">报告正文：</label>
+                                        <div class="flex items-center gap-2">
+                                            <input type="text" value="深圳市龙岗区中心小学新建项目地下管线探测技术报告.doc" readonly class="flex-1 px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-xs">
+                                            <button class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:text-primary border border-slate-300 dark:border-slate-600 rounded-lg text-xs transition-colors">
+                                                <span class="material-symbols-outlined text-base">folder_open</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">成果文件：</label>
+                                        <div class="flex items-center gap-2">
+                                            <input type="text" value="深圳市龙岗区中心小学新建项目地下管线探测成果文件.RAR" readonly class="flex-1 px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-xs">
+                                            <button class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:text-primary border border-slate-300 dark:border-slate-600 rounded-lg text-xs transition-colors">
+                                                <span class="material-symbols-outlined text-base">folder_open</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 第四行：提交状态 -->
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">提交状态：</label>
+                                    <select class="w-full px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        <option value="first">第一次提交</option>
+                                        <option value="second" class="text-red-500">修改二次提交</option>
+                                        <option value="third" class="text-red-500">修改三次提交</option>
+                                    </select>
+                                </div>
+
+                                <!-- 按钮组 -->
+                                <div class="flex justify-center gap-3 pt-3">
+                                    <button class="px-5 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg text-xs font-semibold transition-colors">
+                                        提交
+                                    </button>
+                                    <button class="px-5 py-1.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold transition-colors">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 校审结果视图 -->
+                    <div id="review-result-view" class="flex-1 overflow-y-auto p-6 custom-scrollbar" style="display: none;">
+                        <div class="max-w-5xl mx-auto">
+                            <!-- 标题 -->
+                            <h2 class="text-lg font-bold text-center text-slate-800 dark:text-white mb-6">地下管线探测技术报告校审结果</h2>
+
+                            <!-- 表格 -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full border-collapse border border-slate-300 dark:border-slate-600">
+                                    <thead>
+                                        <tr class="bg-slate-100 dark:bg-slate-800">
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">序号</th>
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">提交状态</th>
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">提交日期</th>
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">校审日期</th>
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">结论</th>
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">结果附件</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">1</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">第一次提交</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2025/11/30</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2025/12/05</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">
+                                                <div>无重大问题，</div>
+                                                <div>局部修改</div>
+                                            </td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center">
+                                                <a href="#" class="text-primary hover:underline">文件RAR</a>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-red-500">修改二次提交</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2025/12/10</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2025/12/15</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">通过校审</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center">
+                                                <a href="#" class="text-primary hover:underline">文件RAR</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module">
+    // 富文本编辑器实例
+    let quill = null;
+    let editorInitialized = false;
+    let currentView = 'preview';
+
+    // 初始化富文本编辑器
+    function initEditor() {
+        if (editorInitialized) return;
+
+        const toolbarOptions = [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'font': [] }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'align': [] }],
+            ['blockquote', 'code-block'],
+            ['link', 'image', 'video'],
+            ['clean']
+        ];
+
+        quill = new Quill('#editor-container', {
+            theme: 'snow',
+            modules: {
+                toolbar: toolbarOptions
+            },
+            placeholder: '开始编写报告内容...'
+        });
+
+        // 设置默认内容
+        const defaultContent = `
+            <h1 style="text-align: center;">地下管线探测技术报告</h1>
+            <p style="text-align: center;"><em>报告由具体人员（勘探人员、报告编写、数据处理、报告审核等）</em></p>
+            <p><br></p>
+            <h2>目录</h2>
+            <ol>
+                <li>工程概况</li>
+                <li>工作原理及方法</li>
+                <li>地下管线测量</li>
+                <li>技术要求</li>
+                <li>主要仪器设备</li>
+                <li>质量评价</li>
+                <li>结论及建议</li>
+                <li>质量评定</li>
+                <li>提交成果</li>
+            </ol>
+            <p><br></p>
+            <h2>一、工程概况</h2>
+            <p>请在此处填写工程概况...</p>
+            <p><br></p>
+            <h2>二、工作原理及方法</h2>
+            <p>请在此处填写工作原理及方法...</p>
+            <p><br></p>
+            <h2>三、地下管线测量</h2>
+            <p>请在此处填写地下管线测量内容...</p>
+            <p><br></p>
+            <h2>四、技术要求</h2>
+            <p>请在此处填写技术要求...</p>
+            <p><br></p>
+            <h2>五、主要仪器设备</h2>
+            <ul>
+                <li>金属管线探测仪</li>
+                <li>非金属管线探测仪</li>
+                <li>燃气PE管道定位仪</li>
+                <li>全站仪</li>
+                <li>RTK测量系统</li>
+                <li>三维激光扫描仪</li>
+                <li>探地雷达</li>
+                <li>数据处理软件</li>
+            </ul>
+            <p><br></p>
+            <h2>六、质量评价</h2>
+            <p>请在此处填写质量评价...</p>
+            <p><br></p>
+            <h2>七、结论及建议</h2>
+            <p>请在此处填写结论及建议...</p>
+            <p><br></p>
+            <h2>八、质量评定</h2>
+            <p>请在此处填写质量评定...</p>
+            <p><br></p>
+            <h2>九、提交成果</h2>
+            <h3>图纸成果：</h3>
+            <ul>
+                <li>专业地下管线图(按管线种类分类)</li>
+                <li>综合地下管线图(按区域分类)</li>
+                <li>管线横断面图(按重要节点分类)</li>
+            </ul>
+            <h3>数据表成果：</h3>
+            <ul>
+                <li>管线成果表</li>
+                <li>管线汇总表</li>
+            </ul>
+            <h3>数据库成果：</h3>
+            <ul>
+                <li>管线空间数据</li>
+                <li>管线属性数据库</li>
+                <li>三维管线模型</li>
+            </ul>
+            <h3>其他成果：</h3>
+            <ul>
+                <li>探测过程记录影像资料</li>
+                <li>探测问题汇总文档</li>
+            </ul>
+        `;
+
+        quill.root.innerHTML = defaultContent;
+        editorInitialized = true;
+    }
+
+    // 切换视图
+    function switchView(viewType, title = '') {
+        const previewView = document.getElementById('preview-view');
+        const editorView = document.getElementById('editor-view');
+        const reviewSubmitView = document.getElementById('review-submit-view');
+        const reviewResultView = document.getElementById('review-result-view');
+        const editorToolbar = document.getElementById('editor-toolbar');
+        const viewTitle = document.getElementById('view-title');
+
+        // 隐藏所有视图
+        previewView.style.display = 'none';
+        editorView.style.display = 'none';
+        reviewSubmitView.style.display = 'none';
+        reviewResultView.style.display = 'none';
+
+        if (viewType === 'preview') {
+            // 显示预览视图
+            previewView.style.display = 'block';
+            currentView = 'preview';
+            // 隐藏工具栏
+            editorToolbar.style.display = 'none';
+            // 更新标题
+            viewTitle.textContent = '生成报告';
+        } else if (viewType === 'editor') {
+            // 显示编辑器视图
+            editorView.style.display = 'block';
+            currentView = 'editor';
+            // 显示工具栏
+            editorToolbar.style.display = 'flex';
+            // 更新标题
+            viewTitle.textContent = title || '报告修改';
+
+            // 初始化编辑器（如果还没初始化）
+            if (!editorInitialized) {
+                initEditor();
+            }
+        } else if (viewType === 'review-submit') {
+            // 显示提交校审视图
+            reviewSubmitView.style.display = 'block';
+            currentView = 'review-submit';
+            // 隐藏工具栏
+            editorToolbar.style.display = 'none';
+            // 更新标题
+            viewTitle.textContent = '提交校审';
+        } else if (viewType === 'review-result') {
+            // 显示校审结果视图
+            reviewResultView.style.display = 'block';
+            currentView = 'review-result';
+            // 隐藏工具栏
+            editorToolbar.style.display = 'none';
+            // 更新标题
+            viewTitle.textContent = '校审结果';
+        }
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        // 绑定菜单项点击事件
+        const menuItems = document.querySelectorAll('.report-tree-item[data-view]');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const viewType = this.getAttribute('data-view');
+                const itemText = this.textContent.trim();
+
+                // 移除所有激活状态
+                menuItems.forEach(i => i.classList.remove('active'));
+
+                // 设置当前激活状态
+                this.classList.add('active');
+
+                // 根据视图类型切换
+                if (viewType === 'preview') {
+                    switchView('preview');
+                } else if (viewType.startsWith('edit-')) {
+                    switchView('editor', itemText);
+                } else if (viewType === 'review-submit') {
+                    switchView('review-submit');
+                } else if (viewType === 'review-result') {
+                    switchView('review-result');
+                }
+            });
+        });
+
+        // 绑定报告修改分类点击事件（展开/收起子菜单）
+        const editCategory = document.querySelector('.report-tree-category[data-category="edit"]');
+        const editSubmenu = document.getElementById('edit-submenu');
+
+        if (editCategory && editSubmenu) {
+            editCategory.addEventListener('click', function() {
+                if (editSubmenu.style.display === 'none') {
+                    editSubmenu.style.display = 'block';
+                } else {
+                    editSubmenu.style.display = 'none';
+                }
+            });
+        }
+
+        // 绑定成果汇总分类点击事件（展开/收起子菜单）
+        const summaryCategory = document.querySelector('.report-tree-category[data-category="summary"]');
+        const summarySubmenu = document.getElementById('summary-submenu');
+
+        if (summaryCategory && summarySubmenu) {
+            summaryCategory.addEventListener('click', function() {
+                if (summarySubmenu.style.display === 'none') {
+                    summarySubmenu.style.display = 'block';
+                } else {
+                    summarySubmenu.style.display = 'none';
+                }
+            });
+        }
+
+        // 绑定报告校审分类点击事件（展开/收起子菜单）
+        const reviewCategory = document.querySelector('.report-tree-category[data-category="review"]');
+        const reviewSubmenu = document.getElementById('review-submenu');
+
+        if (reviewCategory && reviewSubmenu) {
+            reviewCategory.addEventListener('click', function() {
+                if (reviewSubmenu.style.display === 'none') {
+                    reviewSubmenu.style.display = 'block';
+                } else {
+                    reviewSubmenu.style.display = 'none';
+                }
+            });
+        }
+
+        // 更新导航链接以携带项目ID
+        const params = new URLSearchParams(window.location.search);
+        const projectId = params.get('id');
+        if (projectId) {
+            const navLinks = document.querySelectorAll('nav a[href^="project-"]');
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && !href.includes('?')) {
+                    link.setAttribute('href', `${href}?id=${projectId}`);
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
