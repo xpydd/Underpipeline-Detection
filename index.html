@@ -32,16 +32,130 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+        .nav-item:hover .submenu,
+        .submenu:hover {
+            display: block;
+        }
+        .submenu {
+            z-index: 1000;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #main-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .nav-link.active {
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: #5ad98b;
+            border-radius: 2px 2px 0 0;
+        }
+        @media (max-width: 1024px) {
+            nav {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-link {
+                white-space: nowrap;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-link span:not(.material-symbols-outlined) {
+                display: none;
+            }
+            .nav-link {
+                padding: 0.5rem;
+            }
+        }
+        /* Custom scrollbar for modal content */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
+        }
+        /* Dark mode scrollbar */
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #64748b;
+        }
     </style>
+    <script src="js/navigation.js"></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
 <header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
-<div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+<div class="max-w-[1440px] mx-auto px-6">
+<!-- 顶部栏 -->
+<div class="h-16 flex items-center justify-between">
+<div class="flex items-center gap-6 flex-1">
 <div class="flex items-center gap-3">
 <div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
 <span class="material-symbols-outlined text-white text-2xl" data-icon="settings_input_component">settings_input_component</span>
 </div>
 <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+</div>
+<!-- 导航菜单 -->
+<nav class="flex items-center gap-1">
+<a href="project-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="project">
+<span class="material-symbols-outlined text-lg">account_tree</span>
+<span>项目管理</span>
+</a>
+<a href="owner-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="owner">
+<span class="material-symbols-outlined text-lg">corporate_fare</span>
+<span>业主管理</span>
+</a>
+<a href="index.html#workbench" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="workbench">
+<span class="material-symbols-outlined text-lg">assignment</span>
+<span>工作台</span>
+</a>
+<a href="index.html#knowledge" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="knowledge">
+<span class="material-symbols-outlined text-lg">library_books</span>
+<span>知识中心</span>
+</a>
+<div class="nav-item relative group">
+<a href="index.html#system" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="system">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span>系统设置</span>
+<span class="material-symbols-outlined text-sm">arrow_drop_down</span>
+</a>
+<div class="submenu hidden absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#161e27] rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 py-1 group-hover:block">
+<a href="dictionary-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">字典管理</a>
+<a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">用户管理</a>
+<a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">组织架构</a>
+<a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">角色管理</a>
+</div>
+</div>
+<a href="index.html#tools" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="tools">
+<span class="material-symbols-outlined text-lg">construction</span>
+<span>工具</span>
+</a>
+</nav>
 </div>
 <div class="flex items-center gap-6">
 <div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
@@ -55,211 +169,125 @@
 </button>
 </div>
 </div>
+</div>
 </header>
-<main class="max-w-[1440px] mx-auto p-6">
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-<div class="lg:col-span-2 row-span-2 bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
-<div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group" onclick="window.location.href='pages/project-management.html'">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary" data-icon="account_tree">account_tree</span>
-<h3 class="font-bold text-slate-800 dark:text-white">项目管理</h3>
+<main class="max-w-[1440px] mx-auto p-6" id="main-content">
+<!-- 项目管理内容区域 -->
+<div id="project-content" class="content-section active">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col min-h-[calc(100vh-8rem)]">
+        <!-- 筛选功能区 -->
+        <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex items-center gap-4 flex-wrap">
+                <!-- 模糊搜索 -->
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-2.5 top-2 text-sm text-slate-400" data-icon="search">search</span>
+                    <input id="project-search-input" class="pl-9 pr-4 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary w-64" placeholder="搜索项目名称..." type="text"/>
+                </div>
+
+                <!-- 场景类型筛选 -->
+                <div class="relative inline-block group">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-xs text-slate-500 dark:text-slate-400">场景类型:</span>
+                        <select id="project-scene-filter" class="bg-transparent border-none p-0 text-xs font-medium focus:ring-0 cursor-pointer text-slate-700 dark:text-slate-200">
+                            <option value="">全部</option>
+                            <option value="地下管线普查">地下管线普查</option>
+                            <option value="地下管线详查">地下管线详查</option>
+                            <option value="地下管线放线测量">地下管线放线测量</option>
+                            <option value="地下管线竣工测量">地下管线竣工测量</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 状态筛选 -->
+                <div class="relative inline-block group">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-xs text-slate-500 dark:text-slate-400">状态:</span>
+                        <select id="project-status-filter" class="bg-transparent border-none p-0 text-xs font-medium focus:ring-0 cursor-pointer text-slate-700 dark:text-slate-200">
+                            <option value="">全部</option>
+                            <option value="实施中">实施中</option>
+                            <option value="超期">超期</option>
+                            <option value="超期完成">超期完成</option>
+                            <option value="停工">停工</option>
+                            <option value="终止">终止</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 日期范围筛选 -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-slate-500 dark:text-slate-400">创建日期:</span>
+                    <input type="date" id="project-date-start" class="py-1.5 px-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-600 dark:text-slate-300">
+                    <span class="text-slate-400">-</span>
+                    <input type="date" id="project-date-end" class="py-1.5 px-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-600 dark:text-slate-300">
+                </div>
+            </div>
+
+            <!-- 新增按钮 -->
+            <button onclick="openAddProjectModal()" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all shadow-sm shadow-primary/20">
+                <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                新增项目
+            </button>
+        </div>
+
+        <!-- 统计卡片区 -->
+        <div class="flex gap-3 px-4 py-3 bg-slate-50/50 dark:bg-slate-900/30 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">项目总数</p>
+                <div class="flex items-end justify-between">
+                    <p class="text-2xl font-bold dark:text-white leading-none" id="total-projects">128</p>
+                    <span class="text-emerald-500 text-[10px] font-bold">较上月 +12%</span>
+                </div>
+            </div>
+            <div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">实施中</p>
+                <div class="flex items-end justify-between">
+                    <p class="text-2xl font-bold dark:text-white leading-none" id="ongoing-projects">42</p>
+                    <span class="text-primary text-[10px] font-bold">占比 32.8%</span>
+                </div>
+            </div>
+            <div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">已完成</p>
+                <div class="flex items-end justify-between">
+                    <p class="text-2xl font-bold dark:text-white leading-none" id="completed-projects">86</p>
+                    <span class="text-slate-400 text-[10px] font-bold">保持稳定</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表格显示区 -->
+        <div class="flex-1 overflow-x-auto">
+            <table class="w-full text-left text-sm" id="project-table">
+                <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 uppercase text-[11px] font-bold tracking-wider border-b border-slate-100 dark:border-slate-800">
+                    <tr>
+                        <th class="px-6 py-3 w-16">序号</th>
+                        <th class="px-6 py-3">项目编号</th>
+                        <th class="px-6 py-3">项目名称</th>
+                        <th class="px-6 py-3">场景类型</th>
+                        <th class="px-6 py-3">创建日期</th>
+                        <th class="px-6 py-3">状态</th>
+                        <th class="px-6 py-3 text-right">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800" id="project-tbody">
+                    <!-- 项目数据将通过 JavaScript 动态加载 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 分页区 -->
+        <div class="p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-500 font-medium">
+            <p id="project-pagination-info">显示 1 到 10 条，共 0 条记录</p>
+            <div class="flex gap-2" id="project-pagination-buttons">
+                <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors" disabled>上一页</button>
+                <button class="px-3 py-1.5 rounded bg-primary text-white shadow-sm shadow-primary/30">1</button>
+                <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">下一页</button>
+            </div>
+        </div>
+    </div>
 </div>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
-</div>
-<div class="px-4 pb-3 border-b border-slate-100 dark:border-slate-800">
-<div class="relative">
-<span class="material-symbols-outlined absolute left-2.5 top-2 text-sm text-slate-400" data-icon="search">search</span>
-<input class="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary" placeholder="搜索项目..." type="text"/>
-</div>
-</div>
-<div class="flex gap-3 px-4 py-3 bg-slate-50/50 dark:bg-slate-900/30">
-<div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
-<p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">项目总数</p>
-<div class="flex items-end justify-between">
-<p class="text-2xl font-bold dark:text-white leading-none">128</p>
-<span class="text-emerald-500 text-[10px] font-bold">较上月 +12%</span>
-</div>
-</div>
-<div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
-<p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">实施中</p>
-<div class="flex items-end justify-between">
-<p class="text-2xl font-bold dark:text-white leading-none">42</p>
-<span class="text-primary text-[10px] font-bold">占比 32.8%</span>
-</div>
-</div>
-<div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
-<p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">已完成</p>
-<div class="flex items-end justify-between">
-<p class="text-2xl font-bold dark:text-white leading-none">86</p>
-<span class="text-slate-400 text-[10px] font-bold">保持稳定</span>
-</div>
-</div>
-</div>
-<div class="flex-1 overflow-x-auto">
-<table class="w-full text-left text-sm">
-<thead class="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 uppercase text-[11px] font-bold tracking-wider">
-<tr>
-<th class="px-4 py-2.5">项目名称</th>
-<th class="px-4 py-2.5">
-<div class="flex items-center gap-1.5">
-<span>场景类型</span>
-<div class="relative inline-block">
-<select class="appearance-none bg-transparent border border-slate-300 dark:border-slate-600 rounded px-2 py-0.5 pr-6 text-[10px] normal-case cursor-pointer hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary">
-<option value="">全部</option>
-<option value="地下管线普查">地下管线普查</option>
-<option value="地下管线详查">地下管线详查</option>
-<option value="地下管线放线测量">地下管线放线测量</option>
-<option value="地下管线竣工测量">地下管线竣工测量</option>
-</select>
-<span class="material-symbols-outlined absolute right-0.5 top-1/2 -translate-y-1/2 pointer-events-none text-xs">arrow_drop_down</span>
-</div>
-</div>
-</th>
-<th class="px-4 py-2.5">
-<div class="flex items-center gap-1.5">
-<span>状态</span>
-<div class="relative inline-block">
-<select class="appearance-none bg-transparent border border-slate-300 dark:border-slate-600 rounded px-2 py-0.5 pr-6 text-[10px] normal-case cursor-pointer hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary">
-<option value="">全部</option>
-<option value="实施中">实施中</option>
-<option value="超期">超期</option>
-<option value="超期完成">超期完成</option>
-<option value="停工">停工</option>
-<option value="终止">终止</option>
-</select>
-<span class="material-symbols-outlined absolute right-0.5 top-1/2 -translate-y-1/2 pointer-events-none text-xs">arrow_drop_down</span>
-</div>
-</div>
-</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/project-detail.html?id=PROJ-2024-001">北区燃气干线探测</a>
-</td>
-<td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线普查</span>
-</td>
-<td class="px-4 py-3">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-primary animate-pulse"></div>
-<span class="text-xs font-medium dark:text-slate-300">实施中</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/project-detail.html?id=PROJ-2024-002">西区供水管网 #2</a>
-</td>
-<td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线详查</span>
-</td>
-<td class="px-4 py-3">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-orange-500"></div>
-<span class="text-xs font-medium dark:text-slate-300">超期</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/project-detail.html?id=PROJ-2024-003">高压电力 HV-404</a>
-</td>
-<td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线放线测量</span>
-</td>
-<td class="px-4 py-3">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-emerald-500"></div>
-<span class="text-xs font-medium dark:text-slate-300">超期完成</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/project-detail.html?id=PROJ-2024-004">南区排水系统改造</a>
-</td>
-<td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线竣工测量</span>
-</td>
-<td class="px-4 py-3">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-amber-500"></div>
-<span class="text-xs font-medium dark:text-slate-300">停工</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/project-detail.html?id=PROJ-2024-005">东区通信光缆布设</a>
-</td>
-<td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线普查</span>
-</td>
-<td class="px-4 py-3">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-red-500"></div>
-<span class="text-xs font-medium dark:text-slate-300">终止</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/project-detail.html?id=PROJ-2024-006">中央商务区热力管道</a>
-</td>
-<td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线详查</span>
-</td>
-<td class="px-4 py-3">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-primary animate-pulse"></div>
-<span class="text-xs font-medium dark:text-slate-300">实施中</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/project-detail.html?id=PROJ-2024-007">工业园区燃气支线</a>
-</td>
-<td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线放线测量</span>
-</td>
-<td class="px-4 py-3">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-orange-500"></div>
-<span class="text-xs font-medium dark:text-slate-300">超期</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/project-detail.html?id=PROJ-2024-008">新城区供水主干网</a>
-</td>
-<td class="px-4 py-3">
-<span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">地下管线竣工测量</span>
-</td>
-<td class="px-4 py-3">
-<div class="flex items-center gap-2">
-<div class="size-2 rounded-full bg-emerald-500"></div>
-<span class="text-xs font-medium dark:text-slate-300">超期完成</span>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="p-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-500 font-medium">
-<p>显示 1 到 8 条，共 128 个项目</p>
-<div class="flex gap-1">
-<button class="px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50" disabled="">上一页</button>
-<button class="px-3 py-1 rounded bg-primary text-white">1</button>
-<button class="px-3 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">2</button>
-<button class="px-3 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">3</button>
-<button class="px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">下一页</button>
-</div>
-</div>
-</div>
+
+<!-- 工作台内容区域 -->
+<div id="workbench-content" class="content-section">
 <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
 <div class="flex items-center gap-2 mb-4">
 <span class="material-symbols-outlined text-primary" data-icon="assignment">assignment</span>
@@ -285,6 +313,10 @@
 </div>
 <button class="w-full mt-4 text-xs font-semibold text-slate-500 hover:text-primary py-2 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg">查看全部任务</button>
 </div>
+</div>
+
+<!-- 知识中心内容区域 -->
+<div id="knowledge-content" class="content-section">
 <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
 <div class="flex items-center gap-2 mb-4">
 <span class="material-symbols-outlined text-primary" data-icon="library_books">library_books</span>
@@ -313,101 +345,136 @@
 </li>
 </ul>
 </div>
-<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
-<div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group" onclick="window.location.href='pages/owner-management.html'">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary" data-icon="corporate_fare">corporate_fare</span>
-<h3 class="font-bold text-slate-800 dark:text-white">业主信息</h3>
 </div>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
+
+<!-- 项目详情内容区域 -->
+<div id="project-detail-content" class="content-section">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <!-- 返回按钮 -->
+        <button onclick="backToProjectList()" class="mb-4 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            返回项目列表
+        </button>
+
+        <!-- 加载状态 -->
+        <div id="project-detail-loading" class="flex items-center justify-center py-20">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+
+        <!-- 详情内容 -->
+        <div id="project-detail-body" class="hidden"></div>
+    </div>
 </div>
-<div class="flex-1 overflow-auto max-h-[280px]">
-<table class="w-full text-xs">
-<thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
-<tr class="border-b border-slate-100 dark:border-slate-800">
-<th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">业主名称</th>
-<th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">合作项目数</th>
-<th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">单位性质</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/owner-detail.html?id=1">市自来水公司</a>
-</td>
-<td class="px-4 py-3">
-<span class="text-slate-700 dark:text-slate-300 font-medium">23</span>
-</td>
-<td class="px-4 py-3">
-<span class="text-xs text-slate-700 dark:text-slate-300">国企</span>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/owner-detail.html?id=2">燃气集团</a>
-</td>
-<td class="px-4 py-3">
-<span class="text-slate-700 dark:text-slate-300 font-medium">18</span>
-</td>
-<td class="px-4 py-3">
-<span class="text-xs text-slate-700 dark:text-slate-300">央企</span>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/owner-detail.html?id=3">电力公司</a>
-</td>
-<td class="px-4 py-3">
-<span class="text-slate-700 dark:text-slate-300 font-medium">15</span>
-</td>
-<td class="px-4 py-3">
-<span class="text-xs text-slate-700 dark:text-slate-300">国企</span>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/owner-detail.html?id=4">热力公司</a>
-</td>
-<td class="px-4 py-3">
-<span class="text-slate-700 dark:text-slate-300 font-medium">12</span>
-</td>
-<td class="px-4 py-3">
-<span class="text-xs text-slate-700 dark:text-slate-300">国企</span>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/owner-detail.html?id=5">通信运营商</a>
-</td>
-<td class="px-4 py-3">
-<span class="text-slate-700 dark:text-slate-300 font-medium">8</span>
-</td>
-<td class="px-4 py-3">
-<span class="text-xs text-slate-700 dark:text-slate-300">央企</span>
-</td>
-</tr>
-<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-<td class="px-4 py-3">
-<a class="text-primary font-semibold hover:underline decoration-primary/40" href="pages/owner-detail.html?id=6">排水管理处</a>
-</td>
-<td class="px-4 py-3">
-<span class="text-slate-700 dark:text-slate-300 font-medium">6</span>
-</td>
-<td class="px-4 py-3">
-<span class="text-xs text-slate-700 dark:text-slate-300">事业单位</span>
-</td>
-</tr>
-</tbody>
-</table>
+
+<!-- 业主详情内容区域 -->
+<div id="owner-detail-content" class="content-section">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <!-- 返回按钮 -->
+        <button onclick="backToOwnerList()" class="mb-4 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            返回业主列表
+        </button>
+
+        <!-- 加载状态 -->
+        <div id="owner-detail-loading" class="flex items-center justify-center py-20">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+
+        <!-- 详情内容 -->
+        <div id="owner-detail-body" class="hidden"></div>
+    </div>
 </div>
+
+<!-- 业主管理内容区域 -->
+<div id="owner-content" class="content-section">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col min-h-[calc(100vh-8rem)]">
+        <!-- 筛选功能区 -->
+        <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex items-center gap-4 flex-wrap">
+                <!-- 模糊搜索 -->
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-2.5 top-2 text-sm text-slate-400" data-icon="search">search</span>
+                    <input id="owner-search-input" class="pl-9 pr-4 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary w-64" placeholder="搜索业主名称..." type="text"/>
+                </div>
+
+                <!-- 状态筛选 -->
+                <div class="relative inline-block group">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                        <span class="text-xs text-slate-500 dark:text-slate-400">状态:</span>
+                        <select id="owner-status-filter" class="bg-transparent border-none p-0 text-xs font-medium focus:ring-0 cursor-pointer text-slate-700 dark:text-slate-200">
+                            <option value="">全部</option>
+                            <option value="enabled">启用</option>
+                            <option value="disabled">未启用</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 日期范围筛选 -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-slate-500 dark:text-slate-400">创建日期:</span>
+                    <input type="date" id="owner-date-start" class="py-1.5 px-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-600 dark:text-slate-300">
+                    <span class="text-slate-400">-</span>
+                    <input type="date" id="owner-date-end" class="py-1.5 px-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary focus:border-primary text-slate-600 dark:text-slate-300">
+                </div>
+            </div>
+
+            <!-- 新增按钮 -->
+            <button onclick="openAddOwnerModal()" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all shadow-sm shadow-primary/20">
+                <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                新增业主
+            </button>
+        </div>
+
+        <!-- 表格显示区 -->
+        <div class="flex-1 overflow-x-auto">
+            <table class="w-full text-left text-sm" id="owner-table">
+                <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 uppercase text-[11px] font-bold tracking-wider border-b border-slate-100 dark:border-slate-800">
+                    <tr>
+                        <th class="px-6 py-3 w-16">序号</th>
+                        <th class="px-6 py-3">业主编号</th>
+                        <th class="px-6 py-3">业主名称</th>
+                        <th class="px-6 py-3">法人代表</th>
+                        <th class="px-6 py-3">创建日期</th>
+                        <th class="px-6 py-3">创建人</th>
+                        <th class="px-6 py-3 text-center" id="sort-project-count-th">
+                            <div class="flex items-center justify-center gap-1.5 cursor-pointer group select-none" onclick="toggleOwnerSort()">
+                                <span>合作项目数</span>
+                                <div class="flex flex-col -space-y-1">
+                                    <span class="material-symbols-outlined text-base text-slate-300 group-hover:text-primary/70 transition-colors" id="owner-sort-asc-icon" data-icon="arrow_drop_up">arrow_drop_up</span>
+                                    <span class="material-symbols-outlined text-base text-slate-300 group-hover:text-primary/70 transition-colors" id="owner-sort-desc-icon" data-icon="arrow_drop_down">arrow_drop_down</span>
+                                </div>
+                            </div>
+                        </th>
+                        <th class="px-6 py-3">状态</th>
+                        <th class="px-6 py-3 text-right">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800" id="owner-tbody">
+                    <!-- 业主数据将通过 JavaScript 动态加载 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 分页区 -->
+        <div class="p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-500 font-medium">
+            <p id="owner-pagination-info">显示 1 到 10 条，共 0 条记录</p>
+            <div class="flex gap-2" id="owner-pagination-buttons">
+                <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors" disabled>上一页</button>
+                <button class="px-3 py-1.5 rounded bg-primary text-white shadow-sm shadow-primary/30">1</button>
+                <button class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">下一页</button>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
+
+<!-- 系统设置内容区域 -->
+<div id="system-content" class="content-section">
+<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
 <div class="flex items-center justify-between mb-3">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary" data-icon="tune">tune</span>
 <h3 class="font-bold text-slate-800 dark:text-white">系统设置</h3>
 </div>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
 </div>
 <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">配置API集成、用户角色和后台环境变量。</p>
 <div class="grid grid-cols-2 gap-2">
@@ -423,7 +490,7 @@
 <span class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-300" data-icon="admin_panel_settings">admin_panel_settings</span>
 <span class="text-[10px] font-semibold text-slate-700 dark:text-slate-300">角色管理</span>
 </div>
-<a href="pages/dictionary-management.html" class="p-2 rounded bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center text-center gap-1 cursor-pointer hover:bg-primary/5 transition-colors">
+<a href="dictionary-management.html" class="p-2 rounded bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center text-center gap-1 cursor-pointer hover:bg-primary/5 transition-colors">
 <span class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-300" data-icon="book">book</span>
 <span class="text-[10px] font-semibold text-slate-700 dark:text-slate-300">字典管理</span>
 </a>
@@ -433,13 +500,16 @@
 <span class="size-1.5 rounded-full bg-emerald-500"></span>
 </div>
 </div>
-<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:border-primary/50 transition-colors group">
+</div>
+
+<!-- 工具内容区域 -->
+<div id="tools-content" class="content-section">
+<div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-5">
 <div class="flex items-center justify-between mb-3">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary" data-icon="construction">construction</span>
 <h3 class="font-bold text-slate-800 dark:text-white">工具</h3>
 </div>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="arrow_forward">arrow_forward</span>
 </div>
 <div class="grid grid-cols-2 gap-2">
 <div class="p-2 rounded bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center text-center gap-1 cursor-pointer hover:bg-primary/5">
@@ -453,6 +523,614 @@
 </div>
 </div>
 </div>
+
 </main>
+
+<!-- 业主管理新增/编辑模态框 -->
+<dialog id="addOwnerModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-3xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white" id="ownerModalTitle">新增业主信息</h3>
+            <button onclick="document.getElementById('addOwnerModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+            </button>
+        </div>
+        <form method="dialog" id="ownerForm" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-4 space-y-4 overflow-y-auto custom-scrollbar">
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">业主编号 <span class="text-red-500">*</span></label>
+                        <input type="text" name="owner_id" value="OWN-2024-AUTO" disabled class="w-full px-2 py-1 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500 cursor-not-allowed">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">业主单位名称 <span class="text-red-500">*</span></label>
+                        <input type="text" name="owner_name" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="请输入公司全称">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">统一社会信用代码 <span class="text-red-500">*</span></label>
+                        <input type="text" name="credit_code" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="18位代码">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">法人代表 <span class="text-red-500">*</span></label>
+                        <input type="text" name="legal_person" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="请输入法人代表姓名">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">创建日期</label>
+                        <input type="text" name="create_date" readonly class="w-full px-2 py-1 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500 cursor-not-allowed">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">创建人</label>
+                        <input type="text" name="creator" value="陈明" readonly class="w-full px-2 py-1 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500 cursor-not-allowed">
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button type="button" onclick="document.getElementById('addOwnerModal').close()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button type="submit" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认新增</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<!-- 项目管理新增/编辑模态框 -->
+<dialog id="addProjectModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-2xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white" id="projectModalTitle">新增项目</h3>
+            <button onclick="document.getElementById('addProjectModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+            </button>
+        </div>
+        <form method="dialog" id="projectForm" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-4 space-y-4 overflow-y-auto custom-scrollbar">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">项目编号 <span class="text-red-500">*</span></label>
+                        <input type="text" name="project_id" value="PROJ-2024-AUTO" disabled class="w-full px-3 py-2 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-sm text-slate-500 cursor-not-allowed">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">项目名称 <span class="text-red-500">*</span></label>
+                        <input type="text" name="project_name" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-sm focus:ring-1 focus:ring-primary focus:border-primary" placeholder="请输入项目名称">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">场景类型 <span class="text-red-500">*</span></label>
+                        <select name="scene_type" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-sm focus:ring-1 focus:ring-primary focus:border-primary">
+                            <option value="">请选择场景类型</option>
+                            <option value="地下管线普查">地下管线普查</option>
+                            <option value="地下管线详查">地下管线详查</option>
+                            <option value="地下管线放线测量">地下管线放线测量</option>
+                            <option value="地下管线竣工测量">地下管线竣工测量</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">状态 <span class="text-red-500">*</span></label>
+                        <select name="status" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-sm focus:ring-1 focus:ring-primary focus:border-primary">
+                            <option value="实施中">实施中</option>
+                            <option value="超期">超期</option>
+                            <option value="超期完成">超期完成</option>
+                            <option value="停工">停工</option>
+                            <option value="终止">终止</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1 col-span-2">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400">创建日期</label>
+                        <input type="text" name="create_date" readonly class="w-full px-3 py-2 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-sm text-slate-500 cursor-not-allowed">
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button type="button" onclick="document.getElementById('addProjectModal').close()" class="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button type="submit" class="px-4 py-2 text-sm font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<script>
+// ==================== 模拟数据 ====================
+// 项目模拟数据
+const mockProjects = [
+    { id: 'PROJ-2024-001', name: '北区燃气干线探测', scene: '地下管线普查', status: '实施中', date: '2024-01-15' },
+    { id: 'PROJ-2024-002', name: '西区供水管网 #2', scene: '地下管线详查', status: '超期', date: '2024-02-20' },
+    { id: 'PROJ-2024-003', name: '高压电力 HV-404', scene: '地下管线放线测量', status: '超期完成', date: '2024-03-10' },
+    { id: 'PROJ-2024-004', name: '南区排水系统改造', scene: '地下管线竣工测量', status: '停工', date: '2024-04-05' },
+    { id: 'PROJ-2024-005', name: '东区通信光缆布设', scene: '地下管线普查', status: '终止', date: '2024-05-12' },
+    { id: 'PROJ-2024-006', name: '中央商务区热力管道', scene: '地下管线详查', status: '实施中', date: '2024-06-18' },
+    { id: 'PROJ-2024-007', name: '工业园区燃气支线', scene: '地下管线放线测量', status: '超期', date: '2024-07-22' },
+    { id: 'PROJ-2024-008', name: '新城区供水主干网', scene: '地下管线竣工测量', status: '超期完成', date: '2024-08-30' }
+];
+
+// 业主模拟数据
+const mockOwners = [
+    { id: 'OWN-2024-001', name: '城市建设投资集团', code: '91310000XXXXXXXXXX', legal: '张建国', date: '2024-01-15', creator: '陈明', projects: 12, status: 'enabled' },
+    { id: 'OWN-2024-002', name: '新城区水务有限公司', code: '91310000YYYYYYYYYY', legal: '李华', date: '2024-02-20', creator: '王强', projects: 5, status: 'enabled' },
+    { id: 'OWN-2023-089', name: '远东燃气集团', code: '91310000ZZZZZZZZZZ', legal: '赵敏', date: '2023-11-05', creator: '陈明', projects: 0, status: 'disabled' }
+];
+
+// 保存到 localStorage
+if (!localStorage.getItem('mockProjects')) {
+    localStorage.setItem('mockProjects', JSON.stringify(mockProjects));
+}
+if (!localStorage.getItem('mockOwners')) {
+    localStorage.setItem('mockOwners', JSON.stringify(mockOwners));
+}
+
+// ==================== 工具函数 ====================
+function getFormattedTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+    const second = String(now.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+}
+
+function getStatusBadge(status) {
+    const statusMap = {
+        '实施中': '<div class="flex items-center gap-2"><div class="size-2 rounded-full bg-primary animate-pulse"></div><span class="text-xs font-medium dark:text-slate-300">实施中</span></div>',
+        '超期': '<div class="flex items-center gap-2"><div class="size-2 rounded-full bg-orange-500"></div><span class="text-xs font-medium dark:text-slate-300">超期</span></div>',
+        '超期完成': '<div class="flex items-center gap-2"><div class="size-2 rounded-full bg-emerald-500"></div><span class="text-xs font-medium dark:text-slate-300">超期完成</span></div>',
+        '停工': '<div class="flex items-center gap-2"><div class="size-2 rounded-full bg-amber-500"></div><span class="text-xs font-medium dark:text-slate-300">停工</span></div>',
+        '终止': '<div class="flex items-center gap-2"><div class="size-2 rounded-full bg-red-500"></div><span class="text-xs font-medium dark:text-slate-300">终止</span></div>'
+    };
+    return statusMap[status] || status;
+}
+
+function getOwnerStatusBadge(status) {
+    if (status === 'enabled') {
+        return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium border border-emerald-100"><span class="size-1.5 rounded-full bg-emerald-500"></span>启用</span>';
+    } else {
+        return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium border border-slate-200"><span class="size-1.5 rounded-full bg-slate-400"></span>未启用</span>';
+    }
+}
+
+// ==================== 项目管理函数 ====================
+function loadProjects() {
+    const projects = JSON.parse(localStorage.getItem('mockProjects') || '[]');
+    const tbody = document.getElementById('project-tbody');
+    tbody.innerHTML = '';
+
+    projects.forEach((project, index) => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group';
+        row.innerHTML = `
+            <td class="px-6 py-4 text-slate-500">${index + 1}</td>
+            <td class="px-6 py-4 font-mono text-xs text-slate-500">${project.id}</td>
+            <td class="px-6 py-4">
+                <a href="#" onclick="showProjectDetail('${project.id}'); return false;" class="font-medium text-primary hover:underline decoration-primary/40">${project.name}</a>
+            </td>
+            <td class="px-6 py-4">
+                <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">${project.scene}</span>
+            </td>
+            <td class="px-6 py-4 text-slate-500 text-xs">${project.date}</td>
+            <td class="px-6 py-4">${getStatusBadge(project.status)}</td>
+            <td class="px-6 py-4 text-right">
+                <div class="flex items-center justify-end gap-2">
+                    <button onclick="editProject('${project.id}')" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                        <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                    </button>
+                    <button onclick="deleteProject('${project.id}')" class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                        <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    document.getElementById('project-pagination-info').textContent = `显示 1 到 ${projects.length} 条，共 ${projects.length} 条记录`;
+}
+
+function openAddProjectModal() {
+    const form = document.getElementById('projectForm');
+    form.reset();
+    document.getElementById('projectModalTitle').textContent = '新增项目';
+
+    const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    form.querySelector('input[name="project_id"]').value = `PROJ-2024-${randomNum}`;
+    form.querySelector('input[name="create_date"]').value = getFormattedTime();
+
+    document.getElementById('addProjectModal').showModal();
+}
+
+function editProject(projectId) {
+    const projects = JSON.parse(localStorage.getItem('mockProjects') || '[]');
+    const project = projects.find(p => p.id === projectId);
+    if (!project) return;
+
+    const form = document.getElementById('projectForm');
+    document.getElementById('projectModalTitle').textContent = '编辑项目';
+
+    form.querySelector('input[name="project_id"]').value = project.id;
+    form.querySelector('input[name="project_name"]').value = project.name;
+    form.querySelector('select[name="scene_type"]').value = project.scene;
+    form.querySelector('select[name="status"]').value = project.status;
+    form.querySelector('input[name="create_date"]').value = project.date;
+
+    document.getElementById('addProjectModal').showModal();
+}
+
+function deleteProject(projectId) {
+    if (!confirm('确定要删除这个项目吗？此操作不可恢复。')) return;
+
+    let projects = JSON.parse(localStorage.getItem('mockProjects') || '[]');
+    projects = projects.filter(p => p.id !== projectId);
+    localStorage.setItem('mockProjects', JSON.stringify(projects));
+    loadProjects();
+}
+
+// 项目表单提交
+document.addEventListener('DOMContentLoaded', function() {
+    const projectForm = document.getElementById('projectForm');
+    if (projectForm) {
+        projectForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(projectForm);
+            const projectData = {
+                id: formData.get('project_id'),
+                name: formData.get('project_name'),
+                scene: formData.get('scene_type'),
+                status: formData.get('status'),
+                date: formData.get('create_date').split(' ')[0]
+            };
+
+            let projects = JSON.parse(localStorage.getItem('mockProjects') || '[]');
+            const existingIndex = projects.findIndex(p => p.id === projectData.id);
+
+            if (existingIndex >= 0) {
+                projects[existingIndex] = projectData;
+            } else {
+                projects.push(projectData);
+            }
+
+            localStorage.setItem('mockProjects', JSON.stringify(projects));
+            document.getElementById('addProjectModal').close();
+            loadProjects();
+        });
+    }
+
+    // 业主表单提交
+    const ownerForm = document.getElementById('ownerForm');
+    if (ownerForm) {
+        ownerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(ownerForm);
+            const ownerData = {
+                id: formData.get('owner_id'),
+                name: formData.get('owner_name'),
+                code: formData.get('credit_code'),
+                legal: formData.get('legal_person'),
+                date: formData.get('create_date').split(' ')[0],
+                creator: formData.get('creator'),
+                projects: 0,
+                status: 'enabled'
+            };
+
+            let owners = JSON.parse(localStorage.getItem('mockOwners') || '[]');
+            const existingIndex = owners.findIndex(o => o.id === ownerData.id);
+
+            if (existingIndex >= 0) {
+                owners[existingIndex] = { ...owners[existingIndex], ...ownerData };
+            } else {
+                owners.push(ownerData);
+            }
+
+            localStorage.setItem('mockOwners', JSON.stringify(owners));
+            document.getElementById('addOwnerModal').close();
+            loadOwners();
+        });
+    }
+
+    // 初始加载数据
+    loadProjects();
+    loadOwners();
+});
+
+// ==================== 业主管理函数 ====================
+function loadOwners() {
+    const owners = JSON.parse(localStorage.getItem('mockOwners') || '[]');
+    const tbody = document.getElementById('owner-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    owners.forEach((owner, index) => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group';
+        row.innerHTML = `
+            <td class="px-6 py-4 text-slate-500">${index + 1}</td>
+            <td class="px-6 py-4 font-mono text-xs text-slate-500">${owner.id}</td>
+            <td class="px-6 py-4">
+                <a href="#" onclick="showOwnerDetail('${owner.id}'); return false;" class="font-medium text-primary hover:underline decoration-primary/40">${owner.name}</a>
+                <div class="text-[10px] text-slate-400">统一社会信用代码: ${owner.code}</div>
+            </td>
+            <td class="px-6 py-4 text-slate-600 dark:text-slate-300">${owner.legal}</td>
+            <td class="px-6 py-4 text-slate-500 text-xs">${owner.date}</td>
+            <td class="px-6 py-4 text-slate-500 text-xs">${owner.creator}</td>
+            <td class="px-6 py-4 text-center">
+                <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold">${owner.projects}</span>
+            </td>
+            <td class="px-6 py-4">${getOwnerStatusBadge(owner.status)}</td>
+            <td class="px-6 py-4 text-right">
+                <div class="flex items-center justify-end gap-2">
+                    <button onclick="editOwner('${owner.id}')" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400 hover:text-primary transition-colors" title="编辑">
+                        <span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                    </button>
+                    <button onclick="deleteOwner('${owner.id}')" class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-slate-400 hover:text-red-500 transition-colors" title="删除">
+                        <span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    document.getElementById('owner-pagination-info').textContent = `显示 1 到 ${owners.length} 条，共 ${owners.length} 条记录`;
+}
+
+function openAddOwnerModal() {
+    const form = document.getElementById('ownerForm');
+    form.reset();
+    document.getElementById('ownerModalTitle').textContent = '新增业主信息';
+
+    const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    form.querySelector('input[name="owner_id"]').value = `OWN-2024-${randomNum}`;
+    form.querySelector('input[name="create_date"]').value = getFormattedTime();
+    form.querySelector('input[name="creator"]').value = '陈明';
+
+    document.getElementById('addOwnerModal').showModal();
+}
+
+function editOwner(ownerId) {
+    const owners = JSON.parse(localStorage.getItem('mockOwners') || '[]');
+    const owner = owners.find(o => o.id === ownerId);
+    if (!owner) return;
+
+    const form = document.getElementById('ownerForm');
+    document.getElementById('ownerModalTitle').textContent = '编辑业主信息';
+
+    form.querySelector('input[name="owner_id"]').value = owner.id;
+    form.querySelector('input[name="owner_name"]').value = owner.name;
+    form.querySelector('input[name="credit_code"]').value = owner.code;
+    form.querySelector('input[name="legal_person"]').value = owner.legal;
+    form.querySelector('input[name="create_date"]').value = owner.date;
+    form.querySelector('input[name="creator"]').value = owner.creator;
+
+    document.getElementById('addOwnerModal').showModal();
+}
+
+function deleteOwner(ownerId) {
+    if (!confirm('确定要删除这条业主信息吗？此操作不可恢复。')) return;
+
+    let owners = JSON.parse(localStorage.getItem('mockOwners') || '[]');
+    owners = owners.filter(o => o.id !== ownerId);
+    localStorage.setItem('mockOwners', JSON.stringify(owners));
+    loadOwners();
+}
+
+// ==================== 视图切换函数 ====================
+function showProjectDetail(projectId) {
+    // 隐藏所有内容区域
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // 显示项目详情区域
+    const detailSection = document.getElementById('project-detail-content');
+    detailSection.classList.add('active');
+
+    // 显示加载状态
+    document.getElementById('project-detail-loading').classList.remove('hidden');
+    document.getElementById('project-detail-body').classList.add('hidden');
+
+    // 模拟加载延迟
+    setTimeout(() => {
+        renderProjectDetail(projectId);
+    }, 300);
+}
+
+function showOwnerDetail(ownerId) {
+    // 隐藏所有内容区域
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // 显示业主详情区域
+    const detailSection = document.getElementById('owner-detail-content');
+    detailSection.classList.add('active');
+
+    // 显示加载状态
+    document.getElementById('owner-detail-loading').classList.remove('hidden');
+    document.getElementById('owner-detail-body').classList.add('hidden');
+
+    // 模拟加载延迟
+    setTimeout(() => {
+        renderOwnerDetail(ownerId);
+    }, 300);
+}
+
+function backToProjectList() {
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById('project-content').classList.add('active');
+}
+
+function backToOwnerList() {
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById('owner-content').classList.add('active');
+}
+
+// ==================== 项目详情渲染 ====================
+function renderProjectDetail(projectId) {
+    const projects = JSON.parse(localStorage.getItem('mockProjects') || '[]');
+    const project = projects.find(p => p.id === projectId);
+
+    const detailBody = document.getElementById('project-detail-body');
+    const loading = document.getElementById('project-detail-loading');
+
+    if (!project) {
+        detailBody.innerHTML = `
+            <div class="text-center py-20">
+                <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">error</span>
+                <p class="text-slate-500">项目不存在</p>
+            </div>
+        `;
+        loading.classList.add('hidden');
+        detailBody.classList.remove('hidden');
+        return;
+    }
+
+    detailBody.innerHTML = `
+        <div class="space-y-6">
+            <!-- 项目基本信息 -->
+            <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">${project.name}</h2>
+                <div class="flex items-center gap-4 text-sm">
+                    <span class="text-slate-500">项目编号: <span class="font-mono font-semibold">${project.id}</span></span>
+                    <span class="text-slate-500">创建日期: ${project.date}</span>
+                    ${getStatusBadge(project.status)}
+                </div>
+            </div>
+
+            <!-- 详细信息卡片 -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">场景类型</p>
+                    <p class="text-sm font-semibold text-slate-800 dark:text-white">${project.scene}</p>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">项目状态</p>
+                    <p class="text-sm font-semibold text-slate-800 dark:text-white">${project.status}</p>
+                </div>
+            </div>
+
+            <!-- 项目描述 -->
+            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <p class="text-sm text-blue-800 dark:text-blue-200">
+                    <span class="material-symbols-outlined text-base align-middle mr-1">info</span>
+                    这是 ${project.name} 的详细信息页面。实际项目中，这里会显示更多详细内容。
+                </p>
+            </div>
+        </div>
+    `;
+
+    loading.classList.add('hidden');
+    detailBody.classList.remove('hidden');
+}
+
+// ==================== 业主详情渲染 ====================
+function renderOwnerDetail(ownerId) {
+    const owners = JSON.parse(localStorage.getItem('mockOwners') || '[]');
+    const owner = owners.find(o => o.id === ownerId);
+
+    const detailBody = document.getElementById('owner-detail-body');
+    const loading = document.getElementById('owner-detail-loading');
+
+    if (!owner) {
+        detailBody.innerHTML = `
+            <div class="text-center py-20">
+                <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">error</span>
+                <p class="text-slate-500">业主信息不存在</p>
+            </div>
+        `;
+        loading.classList.add('hidden');
+        detailBody.classList.remove('hidden');
+        return;
+    }
+
+    detailBody.innerHTML = `
+        <div class="space-y-6">
+            <!-- 业主基本信息 -->
+            <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">${owner.name}</h2>
+                <div class="flex items-center gap-4 text-sm">
+                    <span class="text-slate-500">业主编号: <span class="font-mono font-semibold">${owner.id}</span></span>
+                    <span class="text-slate-500">创建日期: ${owner.date}</span>
+                    ${getOwnerStatusBadge(owner.status)}
+                </div>
+            </div>
+
+            <!-- 详细信息卡片 -->
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">统一社会信用代码</p>
+                    <p class="text-sm font-mono font-semibold text-slate-800 dark:text-white">${owner.code}</p>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">法人代表</p>
+                    <p class="text-sm font-semibold text-slate-800 dark:text-white">${owner.legal}</p>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">合作项目数</p>
+                    <p class="text-sm font-semibold text-slate-800 dark:text-white">${owner.projects} 个</p>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">创建人</p>
+                    <p class="text-sm font-semibold text-slate-800 dark:text-white">${owner.creator}</p>
+                </div>
+            </div>
+
+            <!-- 业主描述 -->
+            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <p class="text-sm text-blue-800 dark:text-blue-200">
+                    <span class="material-symbols-outlined text-base align-middle mr-1">info</span>
+                    这是 ${owner.name} 的详细信息页面。实际项目中，这里会显示更多详细内容，包括联系人信息、合作项目列表等。
+                </p>
+            </div>
+        </div>
+    `;
+
+    loading.classList.add('hidden');
+    detailBody.classList.remove('hidden');
+}
+
+
+
+// 业主排序功能
+let currentOwnerSort = 'none';
+function toggleOwnerSort() {
+    const tbody = document.getElementById('owner-tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const ascIcon = document.getElementById('owner-sort-asc-icon');
+    const descIcon = document.getElementById('owner-sort-desc-icon');
+
+    if (currentOwnerSort === 'none' || currentOwnerSort === 'asc') {
+        currentOwnerSort = 'desc';
+        ascIcon.className = 'material-symbols-outlined text-base text-slate-300 group-hover:text-primary/70 transition-colors';
+        descIcon.className = 'material-symbols-outlined text-base text-primary transition-colors';
+    } else {
+        currentOwnerSort = 'asc';
+        ascIcon.className = 'material-symbols-outlined text-base text-primary transition-colors';
+        descIcon.className = 'material-symbols-outlined text-base text-slate-300 group-hover:text-primary/70 transition-colors';
+    }
+
+    rows.sort((a, b) => {
+        const valA = parseInt(a.cells[6].innerText.trim());
+        const valB = parseInt(b.cells[6].innerText.trim());
+        return currentOwnerSort === 'asc' ? valA - valB : valB - valA;
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+// 模态框外部点击关闭
+document.getElementById('addProjectModal')?.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('addProjectModal')) {
+        document.getElementById('addProjectModal').close();
+    }
+});
+
+document.getElementById('addOwnerModal')?.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('addOwnerModal')) {
+        document.getElementById('addOwnerModal').close();
+    }
+});
+</script>
 
 </body></html>
