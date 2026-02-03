@@ -1,0 +1,13 @@
+/* Sidebar Organism */
+.sidebar {
+    width: 240px;
+    background: var(--color-bg-surface);
+    border-right: 1px solid var(--color-border);
+    padding: var(--spacing-4);
+}
+
+.sidebar__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}

@@ -1,0 +1,122 @@
+/* Navigation Molecules */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.nav-link { /* Used by JS */
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.nav-link:hover {
+    background-color: var(--color-bg-subtle);
+    color: var(--color-primary);
+}
+
+/* Active state is handled by JS toggling classes, 
+   but we override/reinforce here if needed, 
+   or rely on utility-shims.css for specific 'bg-primary/10' classes.
+   However, a cleaner design system approach:
+*/
+.nav-link.active {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+}
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+    display: none; /* Hidden by default, maybe show on desktop top-nav */
+}
+
+/* Submenu */
+.nav-item { position: relative; }
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: var(--spacing-2);
+    width: 12rem;
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-1);
+    z-index: var(--z-dropdown);
+}
+
+.nav-item:hover .submenu, .submenu:hover {
+    display: block;
+    animation: fadeIn var(--transition-fast);
+}
+
+.submenu a {
+    display: block;
+    padding: var(--spacing-2) var(--spacing-4);
+    color: var(--color-text-main);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-sm);
+}
+.submenu a:hover {
+    background-color: var(--color-bg-subtle);
+    color: var(--color-primary);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Content section visibility helpers */
+.content-section {
+    display: none;
+    animation: fadeIn var(--transition-fast);
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* Main content fade */
+#main-content {
+    transition: opacity var(--transition-normal);
+}
+
+/* Responsive nav handling */
+@media (max-width: 1024px) {
+    nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .nav-link {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-link span:not(.icon):not(.material-symbols-outlined) {
+        display: none;
+    }
+    .nav-link {
+        padding: var(--spacing-2);
+    }
+}

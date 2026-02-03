@@ -1,0 +1,66 @@
+/* Reset & Base Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-family-base);
+    background-color: var(--color-bg-body);
+    color: var(--color-text-main);
+    line-height: var(--line-height-normal);
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessibility Focus Styles */
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Utility Class Shims for JS Compatibility */
+/* These classes are dynamically toggled by existing JS logic. 
+   We define them using our variables to maintain design system consistency. */
+
+.hidden { display: none !important; }
+
+/* Status Colors used in JS toggles */
+.bg-green-500 { background-color: var(--color-success) !important; }
+.bg-orange-500 { background-color: var(--color-warning) !important; }
+.bg-primary { background-color: var(--color-primary) !important; }
+.bg-slate-200 { background-color: var(--color-border) !important; }
+.bg-slate-400 { background-color: var(--color-text-tertiary) !important; }
+
+/* Hover states in JS */
+.hover\:bg-primary\/90:hover { background-color: var(--color-primary-hover) !important; }
+.hover\:bg-orange-600:hover { background-color: #d97706 !important; }
+
+/* Text colors in JS */
+.text-white { color: var(--color-text-inverse) !important; }
+.text-slate-400 { color: var(--color-text-tertiary) !important; }
+
+/* Dark mode shims (basic) */
+.dark .dark\:bg-slate-700 { background-color: #334155 !important; }
+.dark .dark\:bg-blue-900\/20 { background-color: rgba(30, 58, 138, 0.2) !important; }
+
+/* Other utilities found in JS */
+.cursor-not-allowed { cursor: not-allowed !important; }
+.transition-colors { transition: all var(--transition-fast); }
+
+/* Optional utility for hiding scrollbars */
+.no-scrollbar {
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}

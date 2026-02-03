@@ -1,0 +1,13 @@
+/* Icon Atoms */
+.icon {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+.icon--sm { font-size: 1.25rem; } /* 20px */
+.icon--md { font-size: 1.5rem; }  /* 24px */
+.icon--lg { font-size: 2rem; }    /* 32px */

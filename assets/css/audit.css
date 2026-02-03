@@ -1,0 +1,56 @@
+.audit-panel {
+    margin: var(--spacing-6) auto;
+    max-width: 1440px;
+    padding: var(--spacing-4);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.audit-panel summary {
+    cursor: pointer;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+}
+
+.audit-panel__content {
+    display: grid;
+    gap: var(--spacing-4);
+    margin-top: var(--spacing-4);
+}
+
+.audit-panel__canvas {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-subtle);
+}
+
+.audit-panel__meta {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.audit-panel__actions {
+    display: flex;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+}
+
+.audit-panel__button {
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-surface);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.audit-panel__button:hover {
+    border-color: var(--color-border-hover);
+    color: var(--color-primary);
+}

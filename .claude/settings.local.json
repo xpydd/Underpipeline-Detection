@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(if exist node_modules echo \"node_modules exists\" else echo \"node_modules not found\")",
+      "Bash(if exist \"assets\\\\css\\\\dist\\\\main.css\" echo \"Built CSS exists\" else echo \"Built CSS not found\")",
+      "Bash(test:*)"
+    ]
+  }
+}

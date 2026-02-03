@@ -1,0 +1,98 @@
+/* Modal Organism */
+dialog {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text-main);
+    width: 100%;
+    max-width: 48rem;
+}
+
+dialog::backdrop {
+    background: rgba(15, 23, 42, 0.5);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+/* Animation */
+dialog[open] {
+    -webkit-animation: zoomIn 0.3s ease-out;
+    animation: zoomIn 0.3s ease-out;
+}
+dialog[open]::backdrop {
+    -webkit-animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal {
+    background-color: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    -webkit-box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal__header {
+    padding: var(--spacing-3) var(--spacing-4);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-bg-surface);
+}
+
+.modal__title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+}
+
+.modal__body {
+    padding: var(--spacing-4);
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal__footer {
+    padding: var(--spacing-3) var(--spacing-4);
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg-subtle);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-2);
+}
+
+/* Custom scrollbar for modal content */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--slate-300);
+    border-radius: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--slate-400);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--slate-600);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--slate-500);
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
