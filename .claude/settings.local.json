@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(for file in project-data.html project-model.html project-report.html owner-management.html owner-detail.html dictionary-management.html)",
+      "Bash(do sed:*)",
+      "Bash(echo:*)",
+      "Bash(done)"
+    ]
+  }
+}

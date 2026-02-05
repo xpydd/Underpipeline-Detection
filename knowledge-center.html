@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>知识中心 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .nav-item:hover .submenu,
+        .submenu:hover {
+            display: block;
+        }
+        .submenu {
+            z-index: 1000;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #main-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .nav-link.active {
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: #5ad98b;
+            border-radius: 2px 2px 0 0;
+        }
+        @media (max-width: 1024px) {
+            nav {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-link {
+                white-space: nowrap;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-link span:not(.material-symbols-outlined) {
+                display: none;
+            }
+            .nav-link {
+                padding: 0.5rem;
+            }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+    <script src="js/navigation.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-6">
+<!-- 顶部栏 -->
+<div class="h-16 flex items-center justify-between">
+<div class="flex items-center gap-6 flex-1">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl" data-icon="settings_input_component">settings_input_component</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+</div>
+<!-- 导航菜单 -->
+<nav class="flex items-center gap-1">
+<a href="project-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="project">
+<span class="material-symbols-outlined text-lg">account_tree</span>
+<span>项目管理</span>
+</a>
+<a href="owner-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="owner">
+<span class="material-symbols-outlined text-lg">corporate_fare</span>
+<span>业主管理</span>
+</a>
+<a href="knowledge-center.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="knowledge">
+<span class="material-symbols-outlined text-lg">library_books</span>
+<span>知识中心</span>
+</a>
+<div class="nav-item relative group">
+<a href="dictionary-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="system">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span>系统设置</span>
+<span class="material-symbols-outlined text-sm">arrow_drop_down</span>
+</a>
+<div class="submenu hidden absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#161e27] rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 py-1 group-hover:block">
+<a href="dictionary-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">字典管理</a>
+<a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 opacity-50 cursor-not-allowed pointer-events-none">用户管理</a>
+<a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 opacity-50 cursor-not-allowed pointer-events-none">组织架构</a>
+<a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 opacity-50 cursor-not-allowed pointer-events-none">角色管理</a>
+</div>
+</div>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+<div class="text-right">
+<p class="text-sm font-bold leading-none mb-1">陈明</p>
+<p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">基础设施部</p>
+</div>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+
+<main class="max-w-[1440px] mx-auto p-6" id="main-content">
+    <!-- 页面标题 -->
+    <div class="mb-6">
+        <div class="flex items-center gap-3 mb-2">
+            <span class="material-symbols-outlined text-primary text-3xl">library_books</span>
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white">知识中心</h2>
+        </div>
+        <p class="text-sm text-slate-500 dark:text-slate-400">管网探测知识库与技术文档中心</p>
+    </div>
+
+    <!-- 空状态提示 -->
+    <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-12">
+        <div class="flex flex-col items-center justify-center gap-6 max-w-md mx-auto text-center">
+            <div class="bg-slate-100 dark:bg-slate-800 rounded-full p-8">
+                <span class="material-symbols-outlined text-slate-400 dark:text-slate-500" style="font-size: 80px;">construction</span>
+            </div>
+            <div class="space-y-2">
+                <h3 class="text-xl font-bold text-slate-800 dark:text-white">功能开发中</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    知识中心功能正在开发中，即将为您提供丰富的管网探测知识库、技术文档、操作指南等内容。
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-3 justify-center mt-4">
+                <div class="bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-lg">
+                    <p class="text-xs font-medium text-slate-600 dark:text-slate-400">技术文档</p>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-lg">
+                    <p class="text-xs font-medium text-slate-600 dark:text-slate-400">操作指南</p>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-lg">
+                    <p class="text-xs font-medium text-slate-600 dark:text-slate-400">常见问题</p>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-lg">
+                    <p class="text-xs font-medium text-slate-600 dark:text-slate-400">视频教程</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 占位符卡片 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <!-- 技术文档卡片 -->
+        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 opacity-50">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg">
+                    <span class="material-symbols-outlined text-blue-600 dark:text-blue-400 text-2xl">description</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-white">技术文档</h3>
+            </div>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">系统技术规范、API文档、数据标准等技术资料</p>
+            <div class="text-xs text-slate-400">即将上线</div>
+        </div>
+
+        <!-- 操作指南卡片 -->
+        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 opacity-50">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-lg">
+                    <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-2xl">menu_book</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-white">操作指南</h3>
+            </div>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">系统功能使用说明、操作流程、最佳实践指导</p>
+            <div class="text-xs text-slate-400">即将上线</div>
+        </div>
+
+        <!-- 视频教程卡片 -->
+        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 opacity-50">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-lg">
+                    <span class="material-symbols-outlined text-purple-600 dark:text-purple-400 text-2xl">play_circle</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-white">视频教程</h3>
+            </div>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">系统操作视频教程、功能演示、案例分享</p>
+            <div class="text-xs text-slate-400">即将上线</div>
+        </div>
+
+        <!-- 常见问题卡片 -->
+        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 opacity-50">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-amber-100 dark:bg-amber-900/30 p-3 rounded-lg">
+                    <span class="material-symbols-outlined text-amber-600 dark:text-amber-400 text-2xl">help</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-white">常见问题</h3>
+            </div>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">常见问题解答、故障排查、技术支持</p>
+            <div class="text-xs text-slate-400">即将上线</div>
+        </div>
+
+        <!-- 行业标准卡片 -->
+        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 opacity-50">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-red-100 dark:bg-red-900/30 p-3 rounded-lg">
+                    <span class="material-symbols-outlined text-red-600 dark:text-red-400 text-2xl">gavel</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-white">行业标准</h3>
+            </div>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">管网探测行业标准、规范、法规文件</p>
+            <div class="text-xs text-slate-400">即将上线</div>
+        </div>
+
+        <!-- 案例库卡片 -->
+        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 opacity-50">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-cyan-100 dark:bg-cyan-900/30 p-3 rounded-lg">
+                    <span class="material-symbols-outlined text-cyan-600 dark:text-cyan-400 text-2xl">folder_special</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-white">案例库</h3>
+            </div>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">典型项目案例、成功经验分享、问题解决方案</p>
+            <div class="text-xs text-slate-400">即将上线</div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

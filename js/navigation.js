@@ -109,6 +109,8 @@ const NavigationManager = {
 
         if (page === 'dictionary-management.html') return 'system';
 
+        if (page === 'knowledge-center.html') return 'knowledge';
+
         return 'project';
     },
 
