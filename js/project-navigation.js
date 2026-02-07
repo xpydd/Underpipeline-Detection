@@ -21,12 +21,24 @@ function buildProjectUrl(baseUrl, projectId) {
         projectId = getCurrentProjectId();
     }
 
+    const originalUrl = baseUrl;
+
+    // 尝试修正路径 (OSS部署支持)
+    if (typeof window.APP_CONFIG !== 'undefined') {
+        baseUrl = window.APP_CONFIG.resolvePath(baseUrl);
+        console.log(`[ProjectNavigation] Resolved path: ${originalUrl} -> ${baseUrl}`);
+    } else {
+        console.warn('[ProjectNavigation] APP_CONFIG not available, using original path');
+    }
+
     if (!projectId) {
         return baseUrl;
     }
 
     const separator = baseUrl.includes('?') ? '&' : '?';
-    return `${baseUrl}${separator}id=${encodeURIComponent(projectId)}`;
+    const finalUrl = `${baseUrl}${separator}id=${encodeURIComponent(projectId)}`;
+    console.log(`[ProjectNavigation] Built URL with project ID: ${finalUrl}`);
+    return finalUrl;
 }
 
 // 更新页面中所有项目相关链接，添加项目ID参数
@@ -63,7 +75,15 @@ function updateProjectLinks() {
 
 // 页面加载完成后自动更新链接
 if (typeof document !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', updateProjectLinks);
+    document.addEventListener('DOMContentLoaded', () => {
+        // 确保 APP_CONFIG 已加载
+        if (typeof window.APP_CONFIG === 'undefined') {
+            console.warn('[ProjectNavigation] Waiting for APP_CONFIG to load...');
+            setTimeout(updateProjectLinks, 50);
+        } else {
+            updateProjectLinks();
+        }
+    });
 }
 
 // 导出函数供其他脚本使用

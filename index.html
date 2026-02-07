@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>管网智慧探测系统 - 登录</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
@@ -285,7 +286,12 @@
                 }
 
                 // 登录成功，跳转到项目管理页面
-                window.location.href = 'project-management.html';
+                // 使用 APP_CONFIG 确保路径正确
+                if (window.APP_CONFIG) {
+                    window.APP_CONFIG.navigateTo('project-management.html');
+                } else {
+                    window.location.href = 'project-management.html';
+                }
             }, 1000);
         });
 

@@ -7,11 +7,36 @@ const NavigationManager = {
     currentMenu: 'project',
 
     init() {
+        // 确保 APP_CONFIG 已加载后再修正链接
+        if (typeof window.APP_CONFIG === 'undefined') {
+            console.warn('[Navigation] Waiting for APP_CONFIG to load...');
+            // 延迟执行，等待 config.js 加载
+            setTimeout(() => this.init(), 50);
+            return;
+        }
+
+        this.fixNavLinks();
         this.bindEvents();
         this.currentMenu = this.getInitialMenu();
         this.updateActiveMenu();
         if (this.hasContentSections()) {
             this.loadContent(this.currentMenu);
+        }
+    },
+
+    fixNavLinks() {
+        // 使用全局配置修正所有导航链接的路径，确保在OSS子目录部署时正常跳转
+        if (window.APP_CONFIG) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('javascript:')) {
+                    const resolvedPath = window.APP_CONFIG.resolvePath(href);
+                    link.setAttribute('href', resolvedPath);
+                    console.log(`[Navigation] Fixed link: ${href} -> ${resolvedPath}`);
+                }
+            });
+        } else {
+            console.warn('[Navigation] APP_CONFIG not found, links may not work correctly in OSS deployment');
         }
     },
 
