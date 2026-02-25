@@ -132,7 +132,13 @@ const NavigationManager = {
         const ownerPages = new Set(['owner-management.html', 'owner-detail.html']);
         if (ownerPages.has(page)) return 'owner';
 
-        if (page === 'dictionary-management.html') return 'system';
+        const systemPages = new Set([
+            'dictionary-management.html',
+            'user-management.html',
+            'organization-management.html',
+            'role-management.html'
+        ]);
+        if (systemPages.has(page)) return 'system';
 
         if (page === 'knowledge-center.html') return 'knowledge';
 
