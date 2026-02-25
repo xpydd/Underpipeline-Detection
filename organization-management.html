@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>组织架构管理 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .nav-item:hover .submenu,
+        .submenu:hover {
+            display: block;
+        }
+        .submenu {
+            z-index: 1000;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link.active {
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: #5ad98b;
+            border-radius: 2px 2px 0 0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* 组织树样式 */
+        .org-tree {
+            position: relative;
+        }
+        .org-node {
+            position: relative;
+            padding-left: 24px;
+        }
+        .org-node::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #e2e8f0;
+        }
+        .dark .org-node::before {
+            background: #334155;
+        }
+        .org-node:last-child::before {
+            bottom: 50%;
+        }
+        .org-node-content {
+            position: relative;
+            margin-bottom: 4px;
+        }
+        .org-node-content::before {
+            content: '';
+            position: absolute;
+            left: -16px;
+            top: 50%;
+            width: 16px;
+            height: 1px;
+            background: #e2e8f0;
+        }
+        .dark .org-node-content::before {
+            background: #334155;
+        }
+        .org-toggle {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .org-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+        .org-children.collapsed {
+            display: none;
+        }
+    </style>
+    <script src="js/config.js"></script>
+    <script src="js/navigation.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-6">
+<!-- 顶部栏 -->
+<div class="h-16 flex items-center justify-between">
+<div class="flex items-center gap-6 flex-1">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl">settings_input_component</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+</div>
+<!-- 导航菜单 -->
+<nav class="flex items-center gap-1">
+<a href="project-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="project">
+<span class="material-symbols-outlined text-lg">account_tree</span>
+<span>项目管理</span>
+</a>
+<a href="owner-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="owner">
+<span class="material-symbols-outlined text-lg">corporate_fare</span>
+<span>业主管理</span>
+</a>
+<a href="knowledge-center.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="knowledge">
+<span class="material-symbols-outlined text-lg">library_books</span>
+<span>知识中心</span>
+</a>
+<div class="nav-item relative group">
+<a href="dictionary-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="system">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span>系统设置</span>
+<span class="material-symbols-outlined text-sm">arrow_drop_down</span>
+</a>
+<div class="submenu hidden absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#161e27] rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 py-1 group-hover:block">
+<a href="dictionary-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">字典管理</a>
+<a href="user-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">用户管理</a>
+<a href="organization-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">组织架构</a>
+<a href="role-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">角色管理</a>
+</div>
+</div>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+<div class="text-right">
+<p class="text-xs text-slate-500 dark:text-slate-400">当前用户</p>
+<p class="text-sm font-semibold text-slate-800 dark:text-white">管理员</p>
+</div>
+<div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">account_circle</span>
+</div>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">dark_mode</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+
+<!-- 主要内容区 -->
+<main class="max-w-[1440px] mx-auto px-6 py-6">
+    <div class="flex gap-6 min-h-[calc(100vh-120px)]">
+        <!-- 左侧：组织树 -->
+        <div class="w-80 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col self-start sticky top-[88px]" style="max-height: calc(100vh - 120px);">
+            <!-- 树头部 -->
+            <div class="p-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-base font-semibold text-slate-800 dark:text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">account_tree</span>
+                        组织架构
+                    </h2>
+                    <button onclick="showAddDeptModal(null)" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors" title="添加根部门">
+                        <span class="material-symbols-outlined text-lg text-primary">add_circle</span>
+                    </button>
+                </div>
+                <div class="relative">
+                    <input type="text" id="searchTree" placeholder="搜索部门..." class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                    <span class="material-symbols-outlined absolute left-2.5 top-2 text-slate-400 text-lg">search</span>
+                </div>
+            </div>
+
+            <!-- 组织树内容 -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-4" id="orgTreeContainer">
+                <!-- 树结构将通过 JavaScript 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 右侧：部门详情 -->
+        <div class="flex-1 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col">
+            <!-- 空状态 -->
+            <div id="emptyState" class="flex-1 flex items-center justify-center">
+                <div class="text-center">
+                    <span class="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-600 mb-4">corporate_fare</span>
+                    <p class="text-slate-500 dark:text-slate-400">请从左侧选择部门查看详情</p>
+                </div>
+            </div>
+
+            <!-- 部门详情内容 -->
+            <div id="deptDetail" class="hidden flex flex-col">
+                <!-- 详情头部 -->
+                <div class="p-6 border-b border-slate-200 dark:border-slate-700">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-2xl">apartment</span>
+                            </div>
+                            <div>
+                                <h2 id="deptName" class="text-xl font-bold text-slate-800 dark:text-white">部门名称</h2>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="showEditDeptModal()" class="px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors flex items-center gap-1">
+                                <span class="material-symbols-outlined text-base">edit</span>
+                                编辑
+                            </button>
+                            <button onclick="showAddDeptModal(currentDeptId)" class="px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors flex items-center gap-1">
+                                <span class="material-symbols-outlined text-base">add</span>
+                                添加子部门
+                            </button>
+                            <button onclick="deleteDept()" class="px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-1">
+                                <span class="material-symbols-outlined text-base">delete</span>
+                                删除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 详情内容 -->
+                <div class="flex-1">
+                    <!-- 基本信息 -->
+                    <div class="p-6 border-b border-slate-200 dark:border-slate-700">
+                        <h3 class="text-sm font-semibold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base text-primary">info</span>
+                            基本信息
+                        </h3>
+                        <div class="grid grid-cols-2 gap-x-8 gap-y-4">
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-medium text-slate-500 dark:text-slate-400">上级部门</label>
+                                <p id="deptParent" class="text-sm text-slate-800 dark:text-white">-</p>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-medium text-slate-500 dark:text-slate-400">部门负责人</label>
+                                <p id="deptLeader" class="text-sm text-slate-800 dark:text-white">-</p>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-medium text-slate-500 dark:text-slate-400">联系电话</label>
+                                <p id="deptPhone" class="text-sm text-slate-800 dark:text-white">-</p>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-medium text-slate-500 dark:text-slate-400">创建时间</label>
+                                <p id="deptCreateTime" class="text-sm text-slate-800 dark:text-white">-</p>
+                            </div>
+                            <div class="col-span-2 flex flex-col gap-1">
+                                <label class="text-xs font-medium text-slate-500 dark:text-slate-400">部门描述</label>
+                                <p id="deptDesc" class="text-sm text-slate-800 dark:text-white">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 员工列表 -->
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-sm font-semibold text-slate-800 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">group</span>
+                                部门员工
+                                <span class="px-2 py-0.5 text-xs font-medium bg-primary/10 text-primary rounded-full" id="employeeCount">0</span>
+                            </h3>
+                            <div class="flex items-center gap-2">
+                                <div class="relative">
+                                    <input type="text" id="searchEmployee" placeholder="搜索员工..." class="w-48 pl-8 pr-3 py-1.5 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <span class="material-symbols-outlined absolute left-2 top-1.5 text-slate-400 text-base">search</span>
+                                </div>
+                                <button onclick="showAddEmployeeModal()" class="px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-base">person_add</span>
+                                    添加员工
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 员工表格 -->
+                        <div class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full">
+                                    <thead class="bg-slate-50 dark:bg-slate-900">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">姓名</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">工号</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">职位</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">手机号</th>
+                                            <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="employeeTableBody" class="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-800">
+                                        <!-- 员工数据将通过 JavaScript 动态生成 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 分页控件 -->
+                        <div id="employeePagination" class="flex items-center justify-between mt-4">
+                            <div class="text-sm text-slate-600 dark:text-slate-400">
+                                共 <span id="totalEmployees">0</span> 名员工
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="changeEmployeePage('prev')" id="prevPageBtn" class="px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                    上一页
+                                </button>
+                                <div class="flex items-center gap-1" id="pageNumbers">
+                                    <!-- 页码按钮将通过 JavaScript 动态生成 -->
+                                </div>
+                                <button onclick="changeEmployeePage('next')" id="nextPageBtn" class="px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                    下一页
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 添加/编辑部门模态框 -->
+<div id="deptModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+        <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <h3 id="deptModalTitle" class="text-base font-semibold text-slate-800 dark:text-white">添加部门</h3>
+            <button onclick="closeDeptModal()" class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-slate-500 text-xl">close</span>
+            </button>
+        </div>
+        <div class="p-5 overflow-y-auto custom-scrollbar">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2">
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">部门名称 <span class="text-red-500">*</span></label>
+                    <input type="text" id="deptNameInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入部门名称">
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">上级部门</label>
+                    <select id="deptParentInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
+                        <option value="">无（根部门）</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">部门负责人</label>
+                    <input type="text" id="deptLeaderInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入负责人姓名">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">联系电话</label>
+                    <input type="tel" id="deptPhoneInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入联系电话">
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">部门描述</label>
+                    <textarea id="deptDescInput" rows="2" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary resize-none" placeholder="请输入部门描述"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-2">
+            <button onclick="closeDeptModal()" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
+            <button onclick="saveDept()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">保存</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==================== 数据结构 ====================
+let orgData = [
+    {
+        id: 1,
+        name: '总公司',
+        code: 'HQ',
+        parentId: null,
+        leader: '张三',
+        phone: '010-12345678',
+        desc: '公司总部',
+        createTime: '2024-01-01',
+        children: [
+            {
+                id: 2,
+                name: '技术部',
+                code: 'TECH',
+                parentId: 1,
+                leader: '李四',
+                phone: '010-12345679',
+                desc: '负责技术研发',
+                createTime: '2024-01-02',
+                children: [
+                    {
+                        id: 5,
+                        name: '前端组',
+                        code: 'TECH-FE',
+                        parentId: 2,
+                        leader: '王五',
+                        phone: '010-12345682',
+                        desc: '前端开发团队',
+                        createTime: '2024-01-05',
+                        children: []
+                    },
+                    {
+                        id: 6,
+                        name: '后端组',
+                        code: 'TECH-BE',
+                        parentId: 2,
+                        leader: '赵六',
+                        phone: '010-12345683',
+                        desc: '后端开发团队',
+                        createTime: '2024-01-06',
+                        children: []
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: '市场部',
+                code: 'MKT',
+                parentId: 1,
+                leader: '孙七',
+                phone: '010-12345680',
+                desc: '负责市场营销',
+                createTime: '2024-01-03',
+                children: []
+            },
+            {
+                id: 4,
+                name: '人力资源部',
+                code: 'HR',
+                parentId: 1,
+                leader: '周八',
+                phone: '010-12345681',
+                desc: '负责人力资源管理',
+                createTime: '2024-01-04',
+                children: []
+            }
+        ]
+    }
+];
+
+let employeeData = {
+    1: [
+        { id: 1, name: '张三', code: 'E001', position: '总经理', phone: '13800138001' },
+        { id: 2, name: '李明', code: 'E002', position: '副总经理', phone: '13800138002' },
+        { id: 3, name: '王芳', code: 'E003', position: '行政主管', phone: '13800138003' },
+        { id: 4, name: '刘洋', code: 'E004', position: '财务经理', phone: '13800138004' },
+        { id: 5, name: '陈静', code: 'E005', position: '总经理助理', phone: '13800138005' }
+    ],
+    2: [
+        { id: 6, name: '李四', code: 'E006', position: '技术总监', phone: '13800138006' },
+        { id: 7, name: '陈工', code: 'E007', position: '架构师', phone: '13800138007' },
+        { id: 8, name: '赵强', code: 'E008', position: '技术经理', phone: '13800138008' },
+        { id: 9, name: '孙丽', code: 'E009', position: '测试经理', phone: '13800138009' },
+        { id: 10, name: '周杰', code: 'E010', position: '运维工程师', phone: '13800138010' },
+        { id: 11, name: '吴敏', code: 'E011', position: '产品经理', phone: '13800138011' },
+        { id: 12, name: '郑浩', code: 'E012', position: 'UI设计师', phone: '13800138012' }
+    ],
+    3: [
+        { id: 13, name: '孙七', code: 'E013', position: '市场总监', phone: '13800138013' },
+        { id: 14, name: '钱多', code: 'E014', position: '市场经理', phone: '13800138014' },
+        { id: 15, name: '冯雪', code: 'E015', position: '品牌专员', phone: '13800138015' },
+        { id: 16, name: '褚云', code: 'E016', position: '市场专员', phone: '13800138016' }
+    ],
+    4: [
+        { id: 17, name: '周八', code: 'E017', position: 'HR总监', phone: '13800138017' },
+        { id: 18, name: '卫平', code: 'E018', position: '招聘经理', phone: '13800138018' },
+        { id: 19, name: '蒋涛', code: 'E019', position: '培训专员', phone: '13800138019' }
+    ],
+    5: [
+        { id: 20, name: '王五', code: 'E020', position: '前端主管', phone: '13800138020' },
+        { id: 21, name: '沈磊', code: 'E021', position: '前端工程师', phone: '13800138021' },
+        { id: 22, name: '韩梅', code: 'E022', position: '前端工程师', phone: '13800138022' },
+        { id: 23, name: '杨帆', code: 'E023', position: '前端工程师', phone: '13800138023' }
+    ],
+    6: [
+        { id: 24, name: '赵六', code: 'E024', position: '后端主管', phone: '13800138024' },
+        { id: 25, name: '朱伟', code: 'E025', position: '后端工程师', phone: '13800138025' },
+        { id: 26, name: '秦霞', code: 'E026', position: '后端工程师', phone: '13800138026' },
+        { id: 27, name: '尤勇', code: 'E027', position: '后端工程师', phone: '13800138027' },
+        { id: 28, name: '许娜', code: 'E028', position: '后端工程师', phone: '13800138028' }
+    ]
+};
+
+let currentDeptId = null;
+let editingDeptId = null;
+
+// 员工分页相关变量
+let currentEmployeePage = 1;
+let employeePageSize = 10;
+let filteredEmployees = [];
+let allEmployees = [];
+
+// ==================== 初始化 ====================
+document.addEventListener('DOMContentLoaded', function() {
+    renderOrgTree();
+    setupSearch();
+    setupEmployeeSearch();
+});
+
+// ==================== 组织树渲染 ====================
+function renderOrgTree() {
+    const container = document.getElementById('orgTreeContainer');
+    container.innerHTML = '<div class="org-tree">' + renderTreeNodes(orgData) + '</div>';
+}
+
+function renderTreeNodes(nodes, level = 0) {
+    if (!nodes || nodes.length === 0) return '';
+
+    return nodes.map(node => {
+        const hasChildren = node.children && node.children.length > 0;
+        const isSelected = currentDeptId === node.id;
+
+        return `
+            <div class="org-node" data-dept-id="${node.id}">
+                <div class="org-node-content flex items-center gap-2 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer ${isSelected ? 'bg-primary/10' : ''}" onclick="selectDept(${node.id})">
+                    ${hasChildren ? `<span class="material-symbols-outlined text-sm org-toggle" onclick="toggleNode(event, ${node.id})">expand_more</span>` : '<span class="w-5"></span>'}
+                    <span class="material-symbols-outlined text-lg text-primary">apartment</span>
+                    <span class="text-sm font-medium text-slate-800 dark:text-white flex-1">${node.name}</span>
+                </div>
+                ${hasChildren ? `<div class="org-children" data-parent-id="${node.id}">${renderTreeNodes(node.children, level + 1)}</div>` : ''}
+            </div>
+        `;
+    }).join('');
+}
+
+function toggleNode(event, deptId) {
+    event.stopPropagation();
+    const toggle = event.target;
+    const children = toggle.closest('.org-node').querySelector('.org-children');
+
+    if (children) {
+        toggle.classList.toggle('collapsed');
+        children.classList.toggle('collapsed');
+    }
+}
+
+function selectDept(deptId) {
+    currentDeptId = deptId;
+    renderOrgTree();
+    showDeptDetail(deptId);
+}
+
+// ==================== 部门详情显示 ====================
+function showDeptDetail(deptId) {
+    const dept = findDeptById(deptId, orgData);
+    if (!dept) return;
+
+    document.getElementById('emptyState').classList.add('hidden');
+    document.getElementById('deptDetail').classList.remove('hidden');
+
+    document.getElementById('deptName').textContent = dept.name;
+    document.getElementById('deptParent').textContent = dept.parentId ? findDeptById(dept.parentId, orgData)?.name || '-' : '无（根部门）';
+    document.getElementById('deptLeader').textContent = dept.leader || '-';
+    document.getElementById('deptPhone').textContent = dept.phone || '-';
+    document.getElementById('deptCreateTime').textContent = dept.createTime || '-';
+    document.getElementById('deptDesc').textContent = dept.desc || '-';
+
+    renderEmployeeList(deptId);
+}
+
+function findDeptById(id, nodes) {
+    for (const node of nodes) {
+        if (node.id === id) return node;
+        if (node.children) {
+            const found = findDeptById(id, node.children);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+
+function renderEmployeeList(deptId) {
+    allEmployees = employeeData[deptId] || [];
+    filteredEmployees = [...allEmployees];
+    currentEmployeePage = 1;
+
+    document.getElementById('employeeCount').textContent = allEmployees.length;
+    document.getElementById('searchEmployee').value = '';
+
+    renderEmployeeTable();
+}
+
+function renderEmployeeTable() {
+    const tbody = document.getElementById('employeeTableBody');
+    const totalEmployees = filteredEmployees.length;
+
+    document.getElementById('totalEmployees').textContent = totalEmployees;
+
+    if (totalEmployees === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="px-4 py-8 text-center text-sm text-slate-400">
+                    暂无员工数据
+                </td>
+            </tr>
+        `;
+        document.getElementById('employeePagination').classList.add('hidden');
+        return;
+    }
+
+    document.getElementById('employeePagination').classList.remove('hidden');
+
+    // 计算分页
+    const totalPages = Math.ceil(totalEmployees / employeePageSize);
+    const startIndex = (currentEmployeePage - 1) * employeePageSize;
+    const endIndex = Math.min(startIndex + employeePageSize, totalEmployees);
+    const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
+
+    // 渲染表格行
+    tbody.innerHTML = pageEmployees.map(emp => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+            <td class="px-4 py-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-primary text-sm">person</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800 dark:text-white">${emp.name}</span>
+                </div>
+            </td>
+            <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">${emp.code}</td>
+            <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">${emp.position || '-'}</td>
+            <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">${emp.phone || '-'}</td>
+            <td class="px-4 py-3 text-center">
+                <button onclick="removeEmployee(${emp.id})" class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="移除员工">
+                    <span class="material-symbols-outlined text-base text-red-500">delete</span>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+
+    // 更新分页控件
+    updateEmployeePagination(totalPages);
+}
+
+function updateEmployeePagination(totalPages) {
+    const prevBtn = document.getElementById('prevPageBtn');
+    const nextBtn = document.getElementById('nextPageBtn');
+    const pageNumbers = document.getElementById('pageNumbers');
+
+    // 更新上一页/下一页按钮状态
+    prevBtn.disabled = currentEmployeePage === 1;
+    nextBtn.disabled = currentEmployeePage === totalPages || totalPages === 0;
+
+    // 生成页码按钮
+    let pageHTML = '';
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentEmployeePage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        const isActive = i === currentEmployeePage;
+        pageHTML += `
+            <button onclick="goToEmployeePage(${i})" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                isActive
+                    ? 'bg-primary text-white'
+                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+            }">
+                ${i}
+            </button>
+        `;
+    }
+
+    pageNumbers.innerHTML = pageHTML;
+}
+
+// ==================== 部门CRUD操作 ====================
+function showAddDeptModal(parentId) {
+    editingDeptId = null;
+    document.getElementById('deptModalTitle').textContent = '添加部门';
+    document.getElementById('deptNameInput').value = '';
+    document.getElementById('deptLeaderInput').value = '';
+    document.getElementById('deptPhoneInput').value = '';
+    document.getElementById('deptDescInput').value = '';
+
+    populateParentSelect(parentId);
+    document.getElementById('deptModal').classList.remove('hidden');
+}
+
+function showEditDeptModal() {
+    if (!currentDeptId) return;
+
+    const dept = findDeptById(currentDeptId, orgData);
+    if (!dept) return;
+
+    editingDeptId = currentDeptId;
+    document.getElementById('deptModalTitle').textContent = '编辑部门';
+    document.getElementById('deptNameInput').value = dept.name;
+    document.getElementById('deptLeaderInput').value = dept.leader || '';
+    document.getElementById('deptPhoneInput').value = dept.phone || '';
+    document.getElementById('deptDescInput').value = dept.desc || '';
+
+    populateParentSelect(dept.parentId);
+    document.getElementById('deptModal').classList.remove('hidden');
+}
+
+function populateParentSelect(selectedParentId) {
+    const select = document.getElementById('deptParentInput');
+    select.innerHTML = '<option value="">无（根部门）</option>';
+
+    function addOptions(nodes, prefix = '') {
+        nodes.forEach(node => {
+            if (node.id !== editingDeptId) {
+                const option = document.createElement('option');
+                option.value = node.id;
+                option.textContent = prefix + node.name;
+                if (node.id === selectedParentId) option.selected = true;
+                select.appendChild(option);
+
+                if (node.children && node.children.length > 0) {
+                    addOptions(node.children, prefix + '　');
+                }
+            }
+        });
+    }
+
+    addOptions(orgData);
+}
+
+function closeDeptModal() {
+    document.getElementById('deptModal').classList.add('hidden');
+}
+
+function saveDept() {
+    const name = document.getElementById('deptNameInput').value.trim();
+    const parentId = document.getElementById('deptParentInput').value;
+    const leader = document.getElementById('deptLeaderInput').value.trim();
+    const phone = document.getElementById('deptPhoneInput').value.trim();
+    const desc = document.getElementById('deptDescInput').value.trim();
+
+    if (!name) {
+        alert('请填写部门名称');
+        return;
+    }
+
+    if (editingDeptId) {
+        // 编辑部门
+        const dept = findDeptById(editingDeptId, orgData);
+        if (dept) {
+            dept.name = name;
+            dept.leader = leader;
+            dept.phone = phone;
+            dept.desc = desc;
+        }
+    } else {
+        // 添加部门
+        const newDept = {
+            id: Date.now(),
+            name,
+            code: 'DEPT-' + Date.now(),
+            parentId: parentId ? parseInt(parentId) : null,
+            leader,
+            phone,
+            desc,
+            createTime: new Date().toISOString().split('T')[0],
+            children: []
+        };
+
+        if (parentId) {
+            const parent = findDeptById(parseInt(parentId), orgData);
+            if (parent) {
+                parent.children.push(newDept);
+            }
+        } else {
+            orgData.push(newDept);
+        }
+    }
+
+    closeDeptModal();
+    renderOrgTree();
+    if (currentDeptId) {
+        showDeptDetail(currentDeptId);
+    }
+}
+
+function deleteDept() {
+    if (!currentDeptId) return;
+
+    const dept = findDeptById(currentDeptId, orgData);
+    if (!dept) return;
+
+    if (dept.children && dept.children.length > 0) {
+        alert('该部门下有子部门，无法删除');
+        return;
+    }
+
+    if (confirm(`确定要删除部门"${dept.name}"吗？`)) {
+        removeDeptById(currentDeptId, orgData);
+        currentDeptId = null;
+        document.getElementById('emptyState').classList.remove('hidden');
+        document.getElementById('deptDetail').classList.add('hidden');
+        renderOrgTree();
+    }
+}
+
+function removeDeptById(id, nodes) {
+    for (let i = 0; i < nodes.length; i++) {
+        if (nodes[i].id === id) {
+            nodes.splice(i, 1);
+            return true;
+        }
+        if (nodes[i].children && removeDeptById(id, nodes[i].children)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// ==================== 员工搜索 ====================
+function setupEmployeeSearch() {
+    const searchInput = document.getElementById('searchEmployee');
+    searchInput.addEventListener('input', function(e) {
+        const keyword = e.target.value.trim().toLowerCase();
+        filterEmployees(keyword);
+    });
+}
+
+function filterEmployees(keyword) {
+    if (!keyword) {
+        filteredEmployees = [...allEmployees];
+    } else {
+        filteredEmployees = allEmployees.filter(emp =>
+            emp.name.toLowerCase().includes(keyword) ||
+            emp.code.toLowerCase().includes(keyword) ||
+            (emp.position && emp.position.toLowerCase().includes(keyword)) ||
+            (emp.phone && emp.phone.includes(keyword))
+        );
+    }
+
+    currentEmployeePage = 1;
+    renderEmployeeTable();
+}
+
+// ==================== 员工分页控制 ====================
+function changeEmployeePage(direction) {
+    const totalPages = Math.ceil(filteredEmployees.length / employeePageSize);
+
+    if (direction === 'prev' && currentEmployeePage > 1) {
+        currentEmployeePage--;
+    } else if (direction === 'next' && currentEmployeePage < totalPages) {
+        currentEmployeePage++;
+    }
+
+    renderEmployeeTable();
+}
+
+function goToEmployeePage(page) {
+    currentEmployeePage = page;
+    renderEmployeeTable();
+}
+
+// ==================== 员工管理 ====================
+function showAddEmployeeModal() {
+    if (!currentDeptId) return;
+
+    document.getElementById('employeeNameInput').value = '';
+    document.getElementById('employeeCodeInput').value = '';
+    document.getElementById('employeePositionInput').value = '';
+    document.getElementById('employeePhoneInput').value = '';
+
+    document.getElementById('employeeModal').classList.remove('hidden');
+}
+
+function closeEmployeeModal() {
+    document.getElementById('employeeModal').classList.add('hidden');
+}
+
+function saveEmployee() {
+    if (!currentDeptId) return;
+
+    const name = document.getElementById('employeeNameInput').value.trim();
+    const code = document.getElementById('employeeCodeInput').value.trim();
+    const position = document.getElementById('employeePositionInput').value.trim();
+    const phone = document.getElementById('employeePhoneInput').value.trim();
+
+    if (!name || !code) {
+        alert('请填写必填项');
+        return;
+    }
+
+    const newEmployee = {
+        id: Date.now(),
+        name,
+        code,
+        position,
+        phone
+    };
+
+    if (!employeeData[currentDeptId]) {
+        employeeData[currentDeptId] = [];
+    }
+
+    employeeData[currentDeptId].push(newEmployee);
+
+    closeEmployeeModal();
+    renderEmployeeList(currentDeptId);
+}
+
+function removeEmployee(employeeId) {
+    if (!currentDeptId) return;
+
+    const employees = employeeData[currentDeptId];
+    if (!employees) return;
+
+    const index = employees.findIndex(emp => emp.id === employeeId);
+    if (index !== -1) {
+        if (confirm(`确定要移除该员工吗？`)) {
+            employees.splice(index, 1);
+            renderEmployeeList(currentDeptId);
+        }
+    }
+}
+
+// ==================== 搜索功能 ====================
+function setupSearch() {
+    const searchInput = document.getElementById('searchTree');
+    searchInput.addEventListener('input', function(e) {
+        const keyword = e.target.value.trim().toLowerCase();
+        filterTree(keyword);
+    });
+}
+
+function filterTree(keyword) {
+    if (!keyword) {
+        renderOrgTree();
+        return;
+    }
+
+    const container = document.getElementById('orgTreeContainer');
+    const filtered = filterNodes(orgData, keyword);
+    container.innerHTML = '<div class="org-tree">' + renderTreeNodes(filtered) + '</div>';
+}
+
+function filterNodes(nodes, keyword) {
+    const result = [];
+
+    for (const node of nodes) {
+        const matches = node.name.toLowerCase().includes(keyword);
+
+        let filteredChildren = [];
+        if (node.children && node.children.length > 0) {
+            filteredChildren = filterNodes(node.children, keyword);
+        }
+
+        if (matches || filteredChildren.length > 0) {
+            result.push({
+                ...node,
+                children: filteredChildren
+            });
+        }
+    }
+
+    return result;
+}
+</script>
+
+<!-- 添加员工模态框 -->
+<div id="employeeModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+        <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <h3 class="text-base font-semibold text-slate-800 dark:text-white">添加员工</h3>
+            <button onclick="closeEmployeeModal()" class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-slate-500 text-xl">close</span>
+            </button>
+        </div>
+        <div class="p-5 overflow-y-auto custom-scrollbar">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">员工姓名 <span class="text-red-500">*</span></label>
+                    <input type="text" id="employeeNameInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入员工姓名">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">工号 <span class="text-red-500">*</span></label>
+                    <input type="text" id="employeeCodeInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入工号">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">职位</label>
+                    <input type="text" id="employeePositionInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入职位">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">手机号</label>
+                    <input type="tel" id="employeePhoneInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入手机号">
+                </div>
+            </div>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-2">
+            <button onclick="closeEmployeeModal()" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
+            <button onclick="saveEmployee()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">保存</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

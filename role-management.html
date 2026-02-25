@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>角色管理 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .nav-item:hover .submenu,
+        .submenu:hover {
+            display: block;
+        }
+        .submenu {
+            z-index: 1000;
+        }
+        .nav-link.active {
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: #5ad98b;
+            border-radius: 2px 2px 0 0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+    <script src="js/config.js"></script>
+    <script src="js/navigation.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-6">
+<div class="h-16 flex items-center justify-between">
+<div class="flex items-center gap-6 flex-1">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl">settings_input_component</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+</div>
+<nav class="flex items-center gap-1">
+<a href="project-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="project">
+<span class="material-symbols-outlined text-lg">account_tree</span>
+<span>项目管理</span>
+</a>
+<a href="owner-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="owner">
+<span class="material-symbols-outlined text-lg">corporate_fare</span>
+<span>业主管理</span>
+</a>
+<a href="knowledge-center.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="knowledge">
+<span class="material-symbols-outlined text-lg">library_books</span>
+<span>知识中心</span>
+</a>
+<div class="nav-item relative group">
+<a href="dictionary-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="system">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span>系统设置</span>
+<span class="material-symbols-outlined text-sm">arrow_drop_down</span>
+</a>
+<div class="submenu hidden absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#161e27] rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 py-1 group-hover:block">
+<a href="dictionary-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">字典管理</a>
+<a href="user-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">用户管理</a>
+<a href="organization-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">组织架构</a>
+<a href="role-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">角色管理</a>
+</div>
+</div>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+<div class="text-right">
+<p class="text-xs text-slate-500 dark:text-slate-400">当前用户</p>
+<p class="text-sm font-semibold text-slate-800 dark:text-white">管理员</p>
+</div>
+<div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">account_circle</span>
+</div>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">dark_mode</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+
+<main class="max-w-[1440px] mx-auto px-6 py-6">
+    <div class="mb-6 flex items-center justify-between">
+        <div>
+            <h2 class="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-2xl">admin_panel_settings</span>
+                角色管理
+            </h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">管理系统角色和权限配置</p>
+        </div>
+        <button onclick="showAddRoleModal()" class="px-3 py-2 text-sm bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors flex items-center gap-1.5 font-medium">
+            <span class="material-symbols-outlined text-base">add</span>
+            新增角色
+        </button>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+        <div class="p-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="flex items-center gap-3">
+                <div class="relative flex-1 max-w-md">
+                    <input type="text" id="searchInput" placeholder="搜索角色名称..." class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                    <span class="material-symbols-outlined absolute left-2.5 top-2 text-slate-400 text-lg">search</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">角色名称</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">角色标识</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">用户数</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">状态</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">创建时间</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">描述</th>
+                        <th class="px-6 py-3 text-right text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="roleTableBody" class="divide-y divide-slate-200 dark:divide-slate-700">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <div class="text-sm text-slate-600 dark:text-slate-400">
+                共 <span id="totalRoles" class="font-medium text-slate-800 dark:text-white">0</span> 条记录
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="changePage('prev')" id="prevBtn" class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    上一页
+                </button>
+                <div class="flex items-center gap-1" id="pageNumbers"></div>
+                <button onclick="changePage('next')" id="nextBtn" class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    下一页
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="roleModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+        <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <h3 id="roleModalTitle" class="text-base font-semibold text-slate-800 dark:text-white">新增角色</h3>
+            <button onclick="closeRoleModal()" class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-slate-500 text-xl">close</span>
+            </button>
+        </div>
+        <div class="p-5 overflow-y-auto custom-scrollbar flex-1">
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">角色名称 <span class="text-red-500">*</span></label>
+                        <input type="text" id="roleNameInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入角色名称">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">角色标识 <span class="text-red-500">*</span></label>
+                        <input type="text" id="roleCodeInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="例如: ADMIN, USER">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">角色描述</label>
+                    <textarea id="roleDescInput" rows="2" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary resize-none" placeholder="请输入角色描述"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-2">权限配置</label>
+                    <div class="border border-slate-200 dark:border-slate-700 rounded-lg p-4 bg-slate-50 dark:bg-slate-900 space-y-3" id="permissionsContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-2">
+            <button onclick="closeRoleModal()" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
+            <button onclick="saveRole()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 角色用户列表模态框 -->
+<div id="roleUsersModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+        <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <h3 id="roleUsersModalTitle" class="text-base font-semibold text-slate-800 dark:text-white">角色用户列表</h3>
+            <button onclick="closeRoleUsersModal()" class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-slate-500 text-xl">close</span>
+            </button>
+        </div>
+
+        <!-- 搜索和添加用户 -->
+        <div class="px-5 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
+            <div class="relative flex-1 max-w-md">
+                <input type="text" id="roleUsersSearch" placeholder="搜索姓名、手机号..." class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                <span class="material-symbols-outlined absolute left-2.5 top-2 text-slate-400 text-lg">search</span>
+            </div>
+            <button onclick="showAddUserToRole()" class="px-3 py-2 text-sm bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors flex items-center gap-1.5 font-medium">
+                <span class="material-symbols-outlined text-base">person_add</span>
+                添加用户
+            </button>
+        </div>
+
+        <div class="p-5 overflow-y-auto custom-scrollbar flex-1">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">姓名</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">手机号</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">部门</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">状态</th>
+                            <th class="px-4 py-3 text-right text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roleUsersTableBody" class="divide-y divide-slate-200 dark:divide-slate-700">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="px-5 py-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <div class="text-sm text-slate-600 dark:text-slate-400">
+                共 <span id="roleUsersCount" class="font-medium text-slate-800 dark:text-white">0</span> 个用户
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="changeRoleUsersPage('prev')" id="roleUsersPrevBtn" class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    上一页
+                </button>
+                <div class="flex items-center gap-1" id="roleUsersPageNumbers"></div>
+                <button onclick="changeRoleUsersPage('next')" id="roleUsersNextBtn" class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    下一页
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加用户到角色模态框 -->
+<div id="addUserToRoleModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+        <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <h3 class="text-base font-semibold text-slate-800 dark:text-white">添加用户到角色</h3>
+            <button onclick="closeAddUserToRoleModal()" class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-slate-500 text-xl">close</span>
+            </button>
+        </div>
+        <div class="p-5 overflow-y-auto custom-scrollbar flex-1">
+            <div class="mb-4">
+                <input type="text" id="availableUsersSearch" placeholder="搜索用户..." class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+            <div id="availableUsersList" class="space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
+            </div>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-2">
+            <button onclick="closeAddUserToRoleModal()" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let rolesData = [
+    {
+        id: 1,
+        name: '超级管理员',
+        code: 'SUPER_ADMIN',
+        desc: '拥有系统所有权限，可以管理所有模块和用户',
+        userCount: 2,
+        status: 'active',
+        createTime: '2024-01-01',
+        permissions: ['project', 'owner', 'knowledge', 'system', 'user', 'role', 'org', 'dict']
+    },
+    {
+        id: 2,
+        name: '普通用户',
+        code: 'USER',
+        desc: '可以访问项目管理、业主管理和知识中心',
+        userCount: 20,
+        status: 'active',
+        createTime: '2024-01-10',
+        permissions: ['project', 'owner', 'knowledge']
+    }
+];
+
+const permissionsList = [
+    { id: 'project', name: '项目管理', icon: 'account_tree' },
+    { id: 'owner', name: '业主管理', icon: 'corporate_fare' },
+    { id: 'knowledge', name: '知识中心', icon: 'library_books' },
+    { id: 'system', name: '系统设置', icon: 'tune' },
+    { id: 'user', name: '用户管理', icon: 'person' },
+    { id: 'role', name: '角色管理', icon: 'admin_panel_settings' },
+    { id: 'org', name: '组织架构', icon: 'apartment' },
+    { id: 'dict', name: '字典管理', icon: 'book' }
+];
+
+// 角色对应的用户数据
+const roleUsersData = {
+    1: [ // 超级管理员
+        { id: 1, name: '张三', phone: '13800138001', dept: '总公司', status: 'active' },
+        { id: 2, name: '李四', phone: '13800138002', dept: '技术部', status: 'active' }
+    ],
+    2: [ // 普通用户
+        { id: 3, name: '王五', phone: '13800138003', dept: '技术部', status: 'active' },
+        { id: 4, name: '赵六', phone: '13800138004', dept: '市场部', status: 'active' },
+        { id: 5, name: '孙七', phone: '13800138005', dept: '技术部', status: 'active' },
+        { id: 6, name: '周八', phone: '13800138006', dept: '人力资源部', status: 'active' },
+        { id: 7, name: '吴九', phone: '13800138007', dept: '技术部', status: 'active' },
+        { id: 8, name: '郑十', phone: '13800138008', dept: '市场部', status: 'active' },
+        { id: 9, name: '钱一', phone: '13800138009', dept: '技术部', status: 'active' },
+        { id: 10, name: '陈二', phone: '13800138010', dept: '技术部', status: 'active' },
+        { id: 11, name: '刘三', phone: '13800138011', dept: '市场部', status: 'active' },
+        { id: 12, name: '杨四', phone: '13800138012', dept: '技术部', status: 'active' },
+        { id: 13, name: '黄五', phone: '13800138013', dept: '人力资源部', status: 'active' },
+        { id: 14, name: '朱六', phone: '13800138014', dept: '技术部', status: 'active' },
+        { id: 15, name: '林七', phone: '13800138015', dept: '市场部', status: 'active' },
+        { id: 16, name: '何八', phone: '13800138016', dept: '技术部', status: 'active' },
+        { id: 17, name: '罗九', phone: '13800138017', dept: '技术部', status: 'active' },
+        { id: 18, name: '高十', phone: '13800138018', dept: '市场部', status: 'active' },
+        { id: 19, name: '梁一', phone: '13800138019', dept: '技术部', status: 'active' },
+        { id: 20, name: '郭二', phone: '13800138020', dept: '人力资源部', status: 'active' },
+        { id: 21, name: '徐三', phone: '13800138021', dept: '技术部', status: 'active' },
+        { id: 22, name: '宋四', phone: '13800138022', dept: '市场部', status: 'active' }
+    ]
+};
+
+let editingRoleId = null;
+let currentPage = 1;
+let pageSize = 10;
+let filteredRoles = [];
+
+// 角色用户列表相关变量
+let currentRoleId = null;
+let currentRoleUsers = [];
+let filteredRoleUsers = [];
+let roleUsersCurrentPage = 1;
+let roleUsersPageSize = 10;
+
+document.addEventListener('DOMContentLoaded', function() {
+    filteredRoles = [...rolesData];
+    renderRoleTable();
+    setupSearch();
+});
+
+function renderRoleTable() {
+    const totalPages = Math.ceil(filteredRoles.length / pageSize);
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const currentRoles = filteredRoles.slice(startIndex, endIndex);
+
+    const tbody = document.getElementById('roleTableBody');
+
+    if (currentRoles.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-sm text-slate-400">未找到匹配的角色</td></tr>';
+        updatePagination(0, 0);
+        return;
+    }
+
+    tbody.innerHTML = currentRoles.map(role => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+            <td class="px-6 py-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-lg">admin_panel_settings</span>
+                    <span class="text-sm font-medium text-slate-800 dark:text-white">${role.name}</span>
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <span class="px-2 py-1 text-xs font-mono bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded">${role.code}</span>
+            </td>
+            <td class="px-6 py-4">
+                <button onclick="showRoleUsers(${role.id})" class="text-sm text-primary hover:text-primary/80 font-medium transition-colors cursor-pointer hover:underline" title="查看该角色下的用户">
+                    ${role.userCount} 人
+                </button>
+            </td>
+            <td class="px-6 py-4">
+                <span class="px-2 py-1 text-xs font-medium rounded-full ${role.status === 'active' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}">
+                    ${role.status === 'active' ? '启用' : '禁用'}
+                </span>
+            </td>
+            <td class="px-6 py-4">
+                <span class="text-sm text-slate-600 dark:text-slate-400">${role.createTime}</span>
+            </td>
+            <td class="px-6 py-4">
+                <span class="text-sm text-slate-600 dark:text-slate-400">${role.desc || '-'}</span>
+            </td>
+            <td class="px-6 py-4 text-right">
+                <div class="flex items-center justify-end gap-2">
+                    <button onclick="showEditRoleModal(${role.id})" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors" title="编辑">
+                        <span class="material-symbols-outlined text-base text-slate-600 dark:text-slate-400">edit</span>
+                    </button>
+                    <button onclick="toggleRoleStatus(${role.id})" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors" title="${role.status === 'active' ? '禁用' : '启用'}">
+                        <span class="material-symbols-outlined text-base text-slate-600 dark:text-slate-400">${role.status === 'active' ? 'block' : 'check_circle'}</span>
+                    </button>
+                    <button onclick="deleteRole(${role.id})" class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="删除">
+                        <span class="material-symbols-outlined text-base text-red-500">delete</span>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+
+    updatePagination(filteredRoles.length, totalPages);
+}
+
+function updatePagination(total, totalPages) {
+    document.getElementById('totalRoles').textContent = total;
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageNumbers = document.getElementById('pageNumbers');
+
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+
+    pageNumbers.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.className = `px-3 py-1.5 text-sm rounded-lg transition-colors ${i === currentPage ? 'bg-primary text-white' : 'border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'}`;
+            btn.onclick = () => goToPage(i);
+            pageNumbers.appendChild(btn);
+        } else if (i === currentPage - 2 || i === currentPage + 2) {
+            const span = document.createElement('span');
+            span.textContent = '...';
+            span.className = 'px-2 text-slate-400';
+            pageNumbers.appendChild(span);
+        }
+    }
+}
+
+function changePage(direction) {
+    if (direction === 'prev' && currentPage > 1) {
+        currentPage--;
+        renderRoleTable();
+    } else if (direction === 'next') {
+        const totalPages = Math.ceil(filteredRoles.length / pageSize);
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderRoleTable();
+        }
+    }
+}
+
+function goToPage(page) {
+    currentPage = page;
+    renderRoleTable();
+}
+
+function renderPermissions(selectedPermissions = []) {
+    const container = document.getElementById('permissionsContainer');
+    container.innerHTML = permissionsList.map(perm => `
+        <label class="flex items-center gap-2 cursor-pointer group">
+            <input type="checkbox" value="${perm.id}" ${selectedPermissions.includes(perm.id) ? 'checked' : ''} class="w-4 h-4 text-primary border-slate-300 dark:border-slate-600 rounded focus:ring-2 focus:ring-primary">
+            <span class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">${perm.icon}</span>
+            <span class="text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">${perm.name}</span>
+        </label>
+    `).join('');
+}
+
+function showAddRoleModal() {
+    editingRoleId = null;
+    document.getElementById('roleModalTitle').textContent = '新增角色';
+    document.getElementById('roleNameInput').value = '';
+    document.getElementById('roleCodeInput').value = '';
+    document.getElementById('roleDescInput').value = '';
+    renderPermissions([]);
+    document.getElementById('roleModal').classList.remove('hidden');
+}
+
+function showEditRoleModal(roleId) {
+    const role = rolesData.find(r => r.id === roleId);
+    if (!role) return;
+
+    editingRoleId = roleId;
+    document.getElementById('roleModalTitle').textContent = '编辑角色';
+    document.getElementById('roleNameInput').value = role.name;
+    document.getElementById('roleCodeInput').value = role.code;
+    document.getElementById('roleDescInput').value = role.desc || '';
+    renderPermissions(role.permissions);
+    document.getElementById('roleModal').classList.remove('hidden');
+}
+
+function closeRoleModal() {
+    document.getElementById('roleModal').classList.add('hidden');
+}
+
+function saveRole() {
+    const name = document.getElementById('roleNameInput').value.trim();
+    const code = document.getElementById('roleCodeInput').value.trim();
+    const desc = document.getElementById('roleDescInput').value.trim();
+    const permissions = Array.from(document.querySelectorAll('#permissionsContainer input:checked')).map(cb => cb.value);
+
+    if (!name || !code) {
+        alert('请填写必填项');
+        return;
+    }
+
+    if (editingRoleId) {
+        const role = rolesData.find(r => r.id === editingRoleId);
+        if (role) {
+            role.name = name;
+            role.code = code;
+            role.desc = desc;
+            role.permissions = permissions;
+        }
+    } else {
+        rolesData.push({
+            id: Date.now(),
+            name,
+            code,
+            desc,
+            userCount: 0,
+            status: 'active',
+            createTime: new Date().toISOString().split('T')[0],
+            permissions
+        });
+    }
+
+    closeRoleModal();
+    renderRoleTable();
+}
+
+function toggleRoleStatus(roleId) {
+    const role = rolesData.find(r => r.id === roleId);
+    if (role) {
+        role.status = role.status === 'active' ? 'inactive' : 'active';
+        renderRoleTable();
+    }
+}
+
+function deleteRole(roleId) {
+    const role = rolesData.find(r => r.id === roleId);
+    if (!role) return;
+
+    if (role.userCount > 0) {
+        alert('该角色下有用户，无法删除');
+        return;
+    }
+
+    if (confirm(`确定要删除角色"${role.name}"吗？`)) {
+        const index = rolesData.findIndex(r => r.id === roleId);
+        if (index !== -1) {
+            rolesData.splice(index, 1);
+            renderRoleTable();
+        }
+    }
+}
+
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function(e) {
+        const keyword = e.target.value.trim().toLowerCase();
+        filterRoles(keyword);
+    });
+}
+
+function filterRoles(keyword) {
+    if (!keyword) {
+        filteredRoles = [...rolesData];
+    } else {
+        filteredRoles = rolesData.filter(role =>
+            role.name.toLowerCase().includes(keyword) ||
+            role.code.toLowerCase().includes(keyword)
+        );
+    }
+    currentPage = 1;
+    renderRoleTable();
+}
+
+function showRoleUsers(roleId) {
+    const role = rolesData.find(r => r.id === roleId);
+    if (!role) return;
+
+    currentRoleId = roleId;
+    currentRoleUsers = roleUsersData[roleId] || [];
+    filteredRoleUsers = [...currentRoleUsers];
+    roleUsersCurrentPage = 1;
+
+    document.getElementById('roleUsersModalTitle').textContent = `${role.name} - 用户列表`;
+
+    // 设置搜索监听
+    const searchInput = document.getElementById('roleUsersSearch');
+    searchInput.value = '';
+    searchInput.oninput = function(e) {
+        const keyword = e.target.value.trim().toLowerCase();
+        filterRoleUsers(keyword);
+    };
+
+    renderRoleUsersTable();
+    document.getElementById('roleUsersModal').classList.remove('hidden');
+}
+
+function renderRoleUsersTable() {
+    const totalPages = Math.ceil(filteredRoleUsers.length / roleUsersPageSize);
+    const startIndex = (roleUsersCurrentPage - 1) * roleUsersPageSize;
+    const endIndex = startIndex + roleUsersPageSize;
+    const currentUsers = filteredRoleUsers.slice(startIndex, endIndex);
+
+    const tbody = document.getElementById('roleUsersTableBody');
+    document.getElementById('roleUsersCount').textContent = filteredRoleUsers.length;
+
+    if (currentUsers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-sm text-slate-400">该角色下暂无用户</td></tr>';
+        updateRoleUsersPagination(0, 0);
+        return;
+    }
+
+    tbody.innerHTML = currentUsers.map(user => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+            <td class="px-4 py-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-sm">person</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800 dark:text-white">${user.name}</span>
+                </div>
+            </td>
+            <td class="px-4 py-3">
+                <span class="text-sm text-slate-600 dark:text-slate-400">${user.phone}</span>
+            </td>
+            <td class="px-4 py-3">
+                <span class="text-sm text-slate-600 dark:text-slate-400">${user.dept}</span>
+            </td>
+            <td class="px-4 py-3">
+                <span class="px-2 py-1 text-xs font-medium rounded-full ${user.status === 'active' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}">
+                    ${user.status === 'active' ? '启用' : '禁用'}
+                </span>
+            </td>
+            <td class="px-4 py-3 text-right">
+                <button onclick="removeUserFromRole(${user.id})" class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="移除">
+                    <span class="material-symbols-outlined text-base text-red-500">person_remove</span>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+
+    updateRoleUsersPagination(filteredRoleUsers.length, totalPages);
+}
+
+function closeRoleUsersModal() {
+    document.getElementById('roleUsersModal').classList.add('hidden');
+}
+
+function updateRoleUsersPagination(total, totalPages) {
+    const prevBtn = document.getElementById('roleUsersPrevBtn');
+    const nextBtn = document.getElementById('roleUsersNextBtn');
+    const pageNumbers = document.getElementById('roleUsersPageNumbers');
+
+    prevBtn.disabled = roleUsersCurrentPage === 1;
+    nextBtn.disabled = roleUsersCurrentPage === totalPages || totalPages === 0;
+
+    pageNumbers.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= roleUsersCurrentPage - 1 && i <= roleUsersCurrentPage + 1)) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.className = `px-3 py-1.5 text-sm rounded-lg transition-colors ${i === roleUsersCurrentPage ? 'bg-primary text-white' : 'border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'}`;
+            btn.onclick = () => goToRoleUsersPage(i);
+            pageNumbers.appendChild(btn);
+        } else if (i === roleUsersCurrentPage - 2 || i === roleUsersCurrentPage + 2) {
+            const span = document.createElement('span');
+            span.textContent = '...';
+            span.className = 'px-2 text-slate-400';
+            pageNumbers.appendChild(span);
+        }
+    }
+}
+
+function changeRoleUsersPage(direction) {
+    if (direction === 'prev' && roleUsersCurrentPage > 1) {
+        roleUsersCurrentPage--;
+        renderRoleUsersTable();
+    } else if (direction === 'next') {
+        const totalPages = Math.ceil(filteredRoleUsers.length / roleUsersPageSize);
+        if (roleUsersCurrentPage < totalPages) {
+            roleUsersCurrentPage++;
+            renderRoleUsersTable();
+        }
+    }
+}
+
+function goToRoleUsersPage(page) {
+    roleUsersCurrentPage = page;
+    renderRoleUsersTable();
+}
+
+function filterRoleUsers(keyword) {
+    if (!keyword) {
+        filteredRoleUsers = [...currentRoleUsers];
+    } else {
+        filteredRoleUsers = currentRoleUsers.filter(user =>
+            user.name.toLowerCase().includes(keyword) ||
+            user.phone.includes(keyword)
+        );
+    }
+    roleUsersCurrentPage = 1;
+    renderRoleUsersTable();
+}
+
+function removeUserFromRole(userId) {
+    const user = currentRoleUsers.find(u => u.id === userId);
+    if (!user) return;
+
+    if (confirm(`确定要将用户"${user.name}"从当前角色中移除吗？`)) {
+        const index = roleUsersData[currentRoleId].findIndex(u => u.id === userId);
+        if (index !== -1) {
+            roleUsersData[currentRoleId].splice(index, 1);
+
+            // 更新角色的用户数量
+            const role = rolesData.find(r => r.id === currentRoleId);
+            if (role) {
+                role.userCount = roleUsersData[currentRoleId].length;
+            }
+
+            // 刷新显示
+            currentRoleUsers = roleUsersData[currentRoleId] || [];
+            filteredRoleUsers = [...currentRoleUsers];
+            renderRoleUsersTable();
+            renderRoleTable();
+        }
+    }
+}
+
+function showAddUserToRole() {
+    // 获取所有可用用户（不在当前角色中的用户）
+    const currentUserIds = new Set(currentRoleUsers.map(u => u.id));
+    const allUsers = Object.values(roleUsersData).flat();
+    const availableUsers = allUsers.filter(user => !currentUserIds.has(user.id));
+
+    renderAvailableUsers(availableUsers);
+    document.getElementById('addUserToRoleModal').classList.remove('hidden');
+
+    // 设置搜索
+    const searchInput = document.getElementById('availableUsersSearch');
+    searchInput.value = '';
+    searchInput.oninput = function(e) {
+        const keyword = e.target.value.trim().toLowerCase();
+        const filtered = availableUsers.filter(user =>
+            user.name.toLowerCase().includes(keyword) ||
+            user.phone.includes(keyword)
+        );
+        renderAvailableUsers(filtered);
+    };
+}
+
+function renderAvailableUsers(users) {
+    const container = document.getElementById('availableUsersList');
+
+    if (users.length === 0) {
+        container.innerHTML = '<p class="text-sm text-slate-400 text-center py-8">没有可添加的用户</p>';
+        return;
+    }
+
+    container.innerHTML = users.map(user => `
+        <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary text-lg">person</span>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-slate-800 dark:text-white">${user.name}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">${user.phone} · ${user.dept}</p>
+                </div>
+            </div>
+            <button onclick="addUserToCurrentRole(${user.id})" class="px-3 py-1.5 text-sm bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors">
+                添加
+            </button>
+        </div>
+    `).join('');
+}
+
+function addUserToCurrentRole(userId) {
+    // 从所有用户中找到该用户
+    const allUsers = Object.values(roleUsersData).flat();
+    const user = allUsers.find(u => u.id === userId);
+    if (!user) return;
+
+    // 添加到当前角色
+    if (!roleUsersData[currentRoleId]) {
+        roleUsersData[currentRoleId] = [];
+    }
+    roleUsersData[currentRoleId].push({...user});
+
+    // 更新角色的用户数量
+    const role = rolesData.find(r => r.id === currentRoleId);
+    if (role) {
+        role.userCount = roleUsersData[currentRoleId].length;
+    }
+
+    // 刷新显示
+    currentRoleUsers = roleUsersData[currentRoleId] || [];
+    filteredRoleUsers = [...currentRoleUsers];
+    renderRoleUsersTable();
+    renderRoleTable();
+
+    // 关闭添加用户模态框
+    closeAddUserToRoleModal();
+}
+
+function closeAddUserToRoleModal() {
+    document.getElementById('addUserToRoleModal').classList.add('hidden');
+}
+
+</script>
+
+</body>
+</html>
