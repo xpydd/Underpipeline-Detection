@@ -174,6 +174,14 @@
                                 <span class="material-symbols-outlined text-primary text-base" data-icon="category">category</span>
                                 <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">管点种类</span>
                                 <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">8</span>
+                                <div class="hidden group-hover:flex items-center gap-1" onclick="event.stopPropagation()">
+                                    <button onclick="editCategory('point_type', '管点种类')" class="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="编辑分类">
+                                        <span class="material-symbols-outlined text-xs text-slate-600 dark:text-slate-400">edit</span>
+                                    </button>
+                                    <button onclick="deleteCategory('point_type', '管点种类')" class="p-1 hover:bg-red-100 dark:hover:bg-red-900/20 rounded transition-colors" title="删除分类">
+                                        <span class="material-symbols-outlined text-xs text-red-500">delete</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -184,6 +192,14 @@
                                 <span class="material-symbols-outlined text-blue-600 text-base" data-icon="account_tree">account_tree</span>
                                 <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">特征值</span>
                                 <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">143</span>
+                                <div class="hidden group-hover:flex items-center gap-1" onclick="event.stopPropagation()">
+                                    <button onclick="editCategory('point_feature', '特征值')" class="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="编辑分类">
+                                        <span class="material-symbols-outlined text-xs text-slate-600 dark:text-slate-400">edit</span>
+                                    </button>
+                                    <button onclick="deleteCategory('point_feature', '特征值')" class="p-1 hover:bg-red-100 dark:hover:bg-red-900/20 rounded transition-colors" title="删除分类">
+                                        <span class="material-symbols-outlined text-xs text-red-500">delete</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -264,8 +280,8 @@
 <dialog id="addDictModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-2xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
     <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
         <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
-            <h3 class="text-base font-bold text-slate-800 dark:text-white">新增字典项</h3>
-            <button onclick="document.getElementById('addDictModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+            <h3 id="dictModalTitle" class="text-base font-bold text-slate-800 dark:text-white">新增字典项</h3>
+            <button onclick="closeDictModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
                 <span class="material-symbols-outlined text-lg" data-icon="close">close</span>
             </button>
         </div>
@@ -362,8 +378,8 @@
             </div>
 
             <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
-                <button type="button" onclick="document.getElementById('addDictModal').close()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
-                <button type="submit" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认新增</button>
+                <button type="button" onclick="closeDictModal()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button type="button" onclick="saveDictItem()" id="dictSubmitBtn" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认新增</button>
             </div>
         </form>
     </div>
@@ -373,8 +389,8 @@
 <dialog id="addCategoryModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-lg open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
     <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
         <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
-            <h3 class="text-base font-bold text-slate-800 dark:text-white">新增字典分类</h3>
-            <button onclick="document.getElementById('addCategoryModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+            <h3 id="categoryModalTitle" class="text-base font-bold text-slate-800 dark:text-white">新增字典分类</h3>
+            <button onclick="closeCategoryModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
                 <span class="material-symbols-outlined text-lg" data-icon="close">close</span>
             </button>
         </div>
@@ -390,24 +406,14 @@
                     <input type="text" name="category_name" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如: 坐标系">
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">图标颜色</label>
-                    <select name="icon_color" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                        <option value="amber">琥珀色</option>
-                        <option value="blue">蓝色</option>
-                        <option value="purple">紫色</option>
-                        <option value="emerald">翠绿色</option>
-                        <option value="red">红色</option>
-                    </select>
-                </div>
-                <div class="space-y-1">
                     <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">排序号</label>
                     <input type="number" name="sort_order" value="0" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                 </div>
             </div>
 
             <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
-                <button type="button" onclick="document.getElementById('addCategoryModal').close()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
-                <button type="submit" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认新增</button>
+                <button type="button" onclick="closeCategoryModal()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
+                <button type="button" onclick="saveCategory()" id="categorySubmitBtn" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确认新增</button>
             </div>
         </form>
     </div>
@@ -682,32 +688,269 @@
         }).join('');
     }
 
+    // 当前编辑的字典项ID
+    let editingDictId = null;
+
     // 打开新增字典项弹窗
     function openAddDictModal() {
         if (!currentCategory) {
             alert('请先选择字典分类');
             return;
         }
+        editingDictId = null;
+        document.getElementById('dictModalTitle').textContent = '新增字典项';
+        document.getElementById('dictSubmitBtn').textContent = '确认新增';
+        const form = document.querySelector('#addDictModal form');
+        if (form) {
+            form.reset();
+        }
         document.getElementById('addDictModal').showModal();
     }
 
+    // 当前编辑的分类编码
+    let editingCategoryCode = null;
+
     // 打开新增分类弹窗
     function openAddCategoryModal() {
+        editingCategoryCode = null;
+        document.getElementById('categoryModalTitle').textContent = '新增字典分类';
+        document.getElementById('categorySubmitBtn').textContent = '确认新增';
+        const form = document.querySelector('#addCategoryModal form');
+        if (form) {
+            form.reset();
+        }
         document.getElementById('addCategoryModal').showModal();
     }
 
     // 编辑字典项
     function editDict(id) {
-        alert('编辑字典项 ID: ' + id);
-        // 实际应用中，这里会打开编辑弹窗并填充数据
+        if (!currentCategory) return;
+
+        // 查找要编辑的字典项
+        const dictItem = mockDictData[currentCategory].find(item => item.id === id);
+        if (!dictItem) return;
+
+        editingDictId = id;
+        document.getElementById('dictModalTitle').textContent = '编辑字典项';
+        document.getElementById('dictSubmitBtn').textContent = '确认保存';
+
+        // 填充表单数据
+        const form = document.querySelector('#addDictModal form');
+        if (form) {
+            form.querySelector('[name="dict_code"]').value = dictItem.code || '';
+            form.querySelector('[name="dict_name"]').value = dictItem.name || '';
+            form.querySelector('[name="dict_value"]').value = dictItem.value || '';
+            form.querySelector('[name="sort_order"]').value = dictItem.sort || 0;
+
+            // 设置状态
+            const statusRadios = form.querySelectorAll('[name="status"]');
+            statusRadios.forEach(radio => {
+                radio.checked = radio.value == dictItem.status;
+            });
+
+            // 填充备注
+            const remarkField = form.querySelector('[name="remark"]');
+            if (remarkField) {
+                remarkField.value = dictItem.remark || '';
+            }
+        }
+
+        document.getElementById('addDictModal').showModal();
+    }
+
+    // 关闭字典项弹窗
+    function closeDictModal() {
+        document.getElementById('addDictModal').close();
+        editingDictId = null;
+    }
+
+    // 保存字典项（新增或编辑）
+    function saveDictItem() {
+        const form = document.querySelector('#addDictModal form');
+        if (!form) return;
+
+        // 获取表单数据
+        const dictCode = form.querySelector('[name="dict_code"]').value.trim();
+        const dictName = form.querySelector('[name="dict_name"]').value.trim();
+        const dictValue = form.querySelector('[name="dict_value"]').value.trim();
+        const sortOrder = form.querySelector('[name="sort_order"]').value;
+        const status = form.querySelector('[name="status"]:checked').value;
+        const remark = form.querySelector('[name="remark"]').value.trim();
+
+        // 验证必填项
+        if (!dictCode || !dictName || !dictValue) {
+            alert('请填写必填项');
+            return;
+        }
+
+        if (editingDictId) {
+            // 编辑模式
+            const dictItem = mockDictData[currentCategory].find(item => item.id === editingDictId);
+            if (dictItem) {
+                dictItem.code = dictCode;
+                dictItem.name = dictName;
+                dictItem.value = dictValue;
+                dictItem.sort = parseInt(sortOrder) || 0;
+                dictItem.status = parseInt(status);
+                dictItem.remark = remark;
+            }
+            alert('字典项编辑成功');
+        } else {
+            // 新增模式
+            const newItem = {
+                id: Date.now(),
+                code: dictCode,
+                name: dictName,
+                value: dictValue,
+                sort: parseInt(sortOrder) || 0,
+                parent: null,
+                status: parseInt(status),
+                createTime: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                remark: remark
+            };
+            mockDictData[currentCategory].push(newItem);
+            alert('字典项新增成功');
+        }
+
+        // 刷新列表
+        renderDictItems(currentCategory);
+        closeDictModal();
     }
 
     // 删除字典项
     function deleteDict(id) {
         if (confirm('确定要删除这个字典项吗？')) {
-            alert('删除字典项 ID: ' + id);
-            // 实际应用中，这里会调用删除接口
+            const index = mockDictData[currentCategory].findIndex(item => item.id === id);
+            if (index !== -1) {
+                mockDictData[currentCategory].splice(index, 1);
+                renderDictItems(currentCategory);
+                alert('字典项删除成功');
+            }
         }
+    }
+
+    // 编辑分类
+    function editCategory(categoryCode, categoryName) {
+        editingCategoryCode = categoryCode;
+        document.getElementById('categoryModalTitle').textContent = '编辑字典分类';
+        document.getElementById('categorySubmitBtn').textContent = '确认保存';
+
+        const form = document.querySelector('#addCategoryModal form');
+        if (form) {
+            form.querySelector('[name="category_code"]').value = categoryCode;
+            form.querySelector('[name="category_name"]').value = categoryName;
+            // 编辑时禁用分类编码字段
+            form.querySelector('[name="category_code"]').disabled = true;
+        }
+
+        document.getElementById('addCategoryModal').showModal();
+    }
+
+    // 删除分类
+    function deleteCategory(categoryCode, categoryName) {
+        if (confirm(`确定要删除分类"${categoryName}"吗？\n删除后该分类下的所有字典项也将被删除！`)) {
+            // 删除分类数据
+            delete mockDictData[categoryCode];
+
+            // 如果当前选中的是被删除的分类，清空右侧显示
+            if (currentCategory === categoryCode) {
+                currentCategory = null;
+                document.getElementById('currentCategoryTitle').textContent = '请选择字典分类';
+                document.getElementById('dictItemsContainer').innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-16">
+                        <span class="material-symbols-outlined text-slate-300 dark:text-slate-700 text-6xl mb-4">folder_open</span>
+                        <p class="text-sm text-slate-400">请从左侧选择字典分类</p>
+                    </div>
+                `;
+            }
+
+            // 从DOM中移除分类项
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                const selectBtn = item.querySelector(`[onclick*="'${categoryCode}'"]`);
+                if (selectBtn) {
+                    item.remove();
+                }
+            });
+
+            alert('分类删除成功');
+        }
+    }
+
+    // 关闭分类弹窗
+    function closeCategoryModal() {
+        const form = document.querySelector('#addCategoryModal form');
+        if (form) {
+            // 恢复分类编码字段的可编辑状态
+            form.querySelector('[name="category_code"]').disabled = false;
+        }
+        document.getElementById('addCategoryModal').close();
+        editingCategoryCode = null;
+    }
+
+    // 保存分类（新增或编辑）
+    function saveCategory() {
+        const form = document.querySelector('#addCategoryModal form');
+        if (!form) return;
+
+        const categoryCode = form.querySelector('[name="category_code"]').value.trim();
+        const categoryName = form.querySelector('[name="category_name"]').value.trim();
+        const sortOrder = form.querySelector('[name="sort_order"]').value;
+
+        if (!categoryCode || !categoryName) {
+            alert('请填写必填项');
+            return;
+        }
+
+        if (editingCategoryCode) {
+            // 编辑模式 - 只更新分类名称
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                const selectBtn = item.querySelector(`[onclick*="'${editingCategoryCode}'"]`);
+                if (selectBtn) {
+                    const nameSpan = selectBtn.querySelector('.text-xs.font-medium');
+                    if (nameSpan) {
+                        nameSpan.textContent = categoryName;
+                    }
+                }
+            });
+            alert('分类编辑成功');
+        } else {
+            // 新增模式
+            if (mockDictData[categoryCode]) {
+                alert('分类编码已存在，请使用其他编码');
+                return;
+            }
+
+            // 创建新分类数据
+            mockDictData[categoryCode] = [];
+
+            // 添加到分类树
+            const categoryTree = document.getElementById('categoryTree');
+            const newCategoryItem = document.createElement('div');
+            newCategoryItem.className = 'category-item';
+            newCategoryItem.innerHTML = `
+                <div class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer group" onclick="selectCategory('${categoryCode}', this)">
+                    <span class="material-symbols-outlined text-sm text-slate-400" data-icon="chevron_right">chevron_right</span>
+                    <span class="material-symbols-outlined text-primary text-base" data-icon="category">category</span>
+                    <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">${categoryName}</span>
+                    <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">0</span>
+                    <div class="hidden group-hover:flex items-center gap-1" onclick="event.stopPropagation()">
+                        <button onclick="editCategory('${categoryCode}', '${categoryName}')" class="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="编辑分类">
+                            <span class="material-symbols-outlined text-xs text-slate-600 dark:text-slate-400">edit</span>
+                        </button>
+                        <button onclick="deleteCategory('${categoryCode}', '${categoryName}')" class="p-1 hover:bg-red-100 dark:hover:bg-red-900/20 rounded transition-colors" title="删除分类">
+                            <span class="material-symbols-outlined text-xs text-red-500">delete</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            categoryTree.appendChild(newCategoryItem);
+
+            alert('分类新增成功');
+        }
+
+        closeCategoryModal();
     }
 
     // 切换分类展开/收起
