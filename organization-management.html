@@ -315,8 +315,6 @@
                                     <thead class="bg-slate-50 dark:bg-slate-900">
                                         <tr>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">姓名</th>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">工号</th>
-                                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">职位</th>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">手机号</th>
                                             <th class="px-4 py-3 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">操作</th>
                                         </tr>
@@ -469,44 +467,44 @@ let orgData = [
 
 let employeeData = {
     1: [
-        { id: 1, name: '张三', code: 'E001', position: '总经理', phone: '13800138001' },
-        { id: 2, name: '李明', code: 'E002', position: '副总经理', phone: '13800138002' },
-        { id: 3, name: '王芳', code: 'E003', position: '行政主管', phone: '13800138003' },
-        { id: 4, name: '刘洋', code: 'E004', position: '财务经理', phone: '13800138004' },
-        { id: 5, name: '陈静', code: 'E005', position: '总经理助理', phone: '13800138005' }
+        { id: 1, name: '张三', phone: '13800138001' },
+        { id: 2, name: '李明', phone: '13800138002' },
+        { id: 3, name: '王芳', phone: '13800138003' },
+        { id: 4, name: '刘洋', phone: '13800138004' },
+        { id: 5, name: '陈静', phone: '13800138005' }
     ],
     2: [
-        { id: 6, name: '李四', code: 'E006', position: '技术总监', phone: '13800138006' },
-        { id: 7, name: '陈工', code: 'E007', position: '架构师', phone: '13800138007' },
-        { id: 8, name: '赵强', code: 'E008', position: '技术经理', phone: '13800138008' },
-        { id: 9, name: '孙丽', code: 'E009', position: '测试经理', phone: '13800138009' },
-        { id: 10, name: '周杰', code: 'E010', position: '运维工程师', phone: '13800138010' },
-        { id: 11, name: '吴敏', code: 'E011', position: '产品经理', phone: '13800138011' },
-        { id: 12, name: '郑浩', code: 'E012', position: 'UI设计师', phone: '13800138012' }
+        { id: 6, name: '李四', phone: '13800138006' },
+        { id: 7, name: '陈工', phone: '13800138007' },
+        { id: 8, name: '赵强', phone: '13800138008' },
+        { id: 9, name: '孙丽', phone: '13800138009' },
+        { id: 10, name: '周杰', phone: '13800138010' },
+        { id: 11, name: '吴敏', phone: '13800138011' },
+        { id: 12, name: '郑浩', phone: '13800138012' }
     ],
     3: [
-        { id: 13, name: '孙七', code: 'E013', position: '市场总监', phone: '13800138013' },
-        { id: 14, name: '钱多', code: 'E014', position: '市场经理', phone: '13800138014' },
-        { id: 15, name: '冯雪', code: 'E015', position: '品牌专员', phone: '13800138015' },
-        { id: 16, name: '褚云', code: 'E016', position: '市场专员', phone: '13800138016' }
+        { id: 13, name: '孙七', phone: '13800138013' },
+        { id: 14, name: '钱多', phone: '13800138014' },
+        { id: 15, name: '冯雪', phone: '13800138015' },
+        { id: 16, name: '褚云', phone: '13800138016' }
     ],
     4: [
-        { id: 17, name: '周八', code: 'E017', position: 'HR总监', phone: '13800138017' },
-        { id: 18, name: '卫平', code: 'E018', position: '招聘经理', phone: '13800138018' },
-        { id: 19, name: '蒋涛', code: 'E019', position: '培训专员', phone: '13800138019' }
+        { id: 17, name: '周八', phone: '13800138017' },
+        { id: 18, name: '卫平', phone: '13800138018' },
+        { id: 19, name: '蒋涛', phone: '13800138019' }
     ],
     5: [
-        { id: 20, name: '王五', code: 'E020', position: '前端主管', phone: '13800138020' },
-        { id: 21, name: '沈磊', code: 'E021', position: '前端工程师', phone: '13800138021' },
-        { id: 22, name: '韩梅', code: 'E022', position: '前端工程师', phone: '13800138022' },
-        { id: 23, name: '杨帆', code: 'E023', position: '前端工程师', phone: '13800138023' }
+        { id: 20, name: '王五', phone: '13800138020' },
+        { id: 21, name: '沈磊', phone: '13800138021' },
+        { id: 22, name: '韩梅', phone: '13800138022' },
+        { id: 23, name: '杨帆', phone: '13800138023' }
     ],
     6: [
-        { id: 24, name: '赵六', code: 'E024', position: '后端主管', phone: '13800138024' },
-        { id: 25, name: '朱伟', code: 'E025', position: '后端工程师', phone: '13800138025' },
-        { id: 26, name: '秦霞', code: 'E026', position: '后端工程师', phone: '13800138026' },
-        { id: 27, name: '尤勇', code: 'E027', position: '后端工程师', phone: '13800138027' },
-        { id: 28, name: '许娜', code: 'E028', position: '后端工程师', phone: '13800138028' }
+        { id: 24, name: '赵六', phone: '13800138024' },
+        { id: 25, name: '朱伟', phone: '13800138025' },
+        { id: 26, name: '秦霞', phone: '13800138026' },
+        { id: 27, name: '尤勇', phone: '13800138027' },
+        { id: 28, name: '许娜', phone: '13800138028' }
     ]
 };
 
@@ -618,7 +616,7 @@ function renderEmployeeTable() {
     if (totalEmployees === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="5" class="px-4 py-8 text-center text-sm text-slate-400">
+                <td colspan="3" class="px-4 py-8 text-center text-sm text-slate-400">
                     暂无员工数据
                 </td>
             </tr>
@@ -646,8 +644,6 @@ function renderEmployeeTable() {
                     <span class="text-sm font-medium text-slate-800 dark:text-white">${emp.name}</span>
                 </div>
             </td>
-            <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">${emp.code}</td>
-            <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">${emp.position || '-'}</td>
             <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">${emp.phone || '-'}</td>
             <td class="px-4 py-3 text-center">
                 <button onclick="removeEmployee(${emp.id})" class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="移除员工">
@@ -882,51 +878,185 @@ function goToEmployeePage(page) {
 }
 
 // ==================== 员工管理 ====================
+// 模拟用户中心的用户数据
+let allUsers = [
+    { id: 1, name: '张三', phone: '13800138001', dept: '总公司' },
+    { id: 2, name: '李明', phone: '13800138002', dept: '总公司' },
+    { id: 3, name: '王芳', phone: '13800138003', dept: '总公司' },
+    { id: 4, name: '刘洋', phone: '13800138004', dept: '总公司' },
+    { id: 5, name: '陈静', phone: '13800138005', dept: '总公司' },
+    { id: 6, name: '李四', phone: '13800138006', dept: '技术部' },
+    { id: 7, name: '陈工', phone: '13800138007', dept: '技术部' },
+    { id: 8, name: '赵强', phone: '13800138008', dept: '技术部' },
+    { id: 9, name: '孙丽', phone: '13800138009', dept: '技术部' },
+    { id: 10, name: '周杰', phone: '13800138010', dept: '技术部' },
+    { id: 11, name: '吴敏', phone: '13800138011', dept: '技术部' },
+    { id: 12, name: '郑浩', phone: '13800138012', dept: '技术部' },
+    { id: 13, name: '孙七', phone: '13800138013', dept: '市场部' },
+    { id: 14, name: '钱多', phone: '13800138014', dept: '市场部' },
+    { id: 15, name: '冯雪', phone: '13800138015', dept: '市场部' },
+    { id: 16, name: '褚云', phone: '13800138016', dept: '市场部' },
+    { id: 17, name: '周八', phone: '13800138017', dept: '人力资源部' },
+    { id: 18, name: '卫平', phone: '13800138018', dept: '人力资源部' },
+    { id: 19, name: '蒋涛', phone: '13800138019', dept: '人力资源部' },
+    { id: 20, name: '王五', phone: '13800138020', dept: '财务部' },
+    { id: 21, name: '沈磊', phone: '13800138021', dept: '财务部' },
+    { id: 22, name: '韩梅', phone: '13800138022', dept: '财务部' },
+    { id: 23, name: '杨帆', phone: '13800138023', dept: '财务部' },
+    { id: 24, name: '赵六', phone: '13800138024', dept: '法务部' },
+    { id: 25, name: '朱伟', phone: '13800138025', dept: '法务部' },
+    { id: 26, name: '秦霞', phone: '13800138026', dept: '法务部' },
+    { id: 27, name: '尤勇', phone: '13800138027', dept: '法务部' },
+    { id: 28, name: '许娜', phone: '13800138028', dept: '法务部' }
+];
+
+let selectedUserIds = [];
+let filteredUsers = [];
+
 function showAddEmployeeModal() {
     if (!currentDeptId) return;
 
-    document.getElementById('employeeNameInput').value = '';
-    document.getElementById('employeeCodeInput').value = '';
-    document.getElementById('employeePositionInput').value = '';
-    document.getElementById('employeePhoneInput').value = '';
+    selectedUserIds = [];
+    filteredUsers = [...allUsers];
 
+    document.getElementById('userSearchInput').value = '';
     document.getElementById('employeeModal').classList.remove('hidden');
+
+    renderUserList();
 }
 
 function closeEmployeeModal() {
     document.getElementById('employeeModal').classList.add('hidden');
+    selectedUserIds = [];
 }
 
-function saveEmployee() {
-    if (!currentDeptId) return;
+function renderUserList() {
+    const tbody = document.getElementById('userListBody');
 
-    const name = document.getElementById('employeeNameInput').value.trim();
-    const code = document.getElementById('employeeCodeInput').value.trim();
-    const position = document.getElementById('employeePositionInput').value.trim();
-    const phone = document.getElementById('employeePhoneInput').value.trim();
-
-    if (!name || !code) {
-        alert('请填写必填项');
+    if (filteredUsers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-sm text-slate-400">未找到匹配的用户</td></tr>';
+        updateSelectedCount();
         return;
     }
 
-    const newEmployee = {
-        id: Date.now(),
-        name,
-        code,
-        position,
-        phone
-    };
+    tbody.innerHTML = filteredUsers.map(user => `
+        <tr class="hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+            <td class="px-4 py-3">
+                <input type="checkbox"
+                    class="user-checkbox rounded border-slate-300 text-primary focus:ring-primary"
+                    value="${user.id}"
+                    ${selectedUserIds.includes(user.id) ? 'checked' : ''}
+                    onchange="toggleUserSelection(${user.id})">
+            </td>
+            <td class="px-4 py-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-sm">person</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800 dark:text-white">${user.name}</span>
+                </div>
+            </td>
+            <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">${user.phone}</td>
+            <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">${user.dept}</td>
+        </tr>
+    `).join('');
+
+    updateSelectedCount();
+}
+
+function toggleUserSelection(userId) {
+    const index = selectedUserIds.indexOf(userId);
+    if (index > -1) {
+        selectedUserIds.splice(index, 1);
+    } else {
+        selectedUserIds.push(userId);
+    }
+    updateSelectedCount();
+    updateSelectAllCheckbox();
+}
+
+function toggleSelectAllUsers() {
+    const selectAllCheckbox = document.getElementById('selectAllUsers');
+    if (selectAllCheckbox.checked) {
+        selectedUserIds = filteredUsers.map(u => u.id);
+    } else {
+        selectedUserIds = [];
+    }
+    renderUserList();
+}
+
+function updateSelectAllCheckbox() {
+    const selectAllCheckbox = document.getElementById('selectAllUsers');
+    if (filteredUsers.length === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+    } else if (selectedUserIds.length === filteredUsers.length) {
+        selectAllCheckbox.checked = true;
+        selectAllCheckbox.indeterminate = false;
+    } else if (selectedUserIds.length > 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = true;
+    } else {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+    }
+}
+
+function updateSelectedCount() {
+    document.getElementById('selectedUserCount').textContent = selectedUserIds.length;
+}
+
+function addSelectedUsers() {
+    if (!currentDeptId) return;
+
+    if (selectedUserIds.length === 0) {
+        alert('请至少选择一个用户');
+        return;
+    }
 
     if (!employeeData[currentDeptId]) {
         employeeData[currentDeptId] = [];
     }
 
-    employeeData[currentDeptId].push(newEmployee);
+    // 获取当前部门已有的员工ID
+    const existingIds = employeeData[currentDeptId].map(emp => emp.id);
+
+    // 添加选中的用户（排除已存在的）
+    selectedUserIds.forEach(userId => {
+        if (!existingIds.includes(userId)) {
+            const user = allUsers.find(u => u.id === userId);
+            if (user) {
+                employeeData[currentDeptId].push({
+                    id: user.id,
+                    name: user.name,
+                    phone: user.phone
+                });
+            }
+        }
+    });
 
     closeEmployeeModal();
     renderEmployeeList(currentDeptId);
 }
+
+// 搜索用户
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('userSearchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const keyword = this.value.trim().toLowerCase();
+            if (keyword) {
+                filteredUsers = allUsers.filter(user =>
+                    user.name.toLowerCase().includes(keyword) ||
+                    user.phone.includes(keyword)
+                );
+            } else {
+                filteredUsers = [...allUsers];
+            }
+            renderUserList();
+        });
+    }
+});
 
 function removeEmployee(employeeId) {
     if (!currentDeptId) return;
@@ -988,36 +1118,49 @@ function filterNodes(nodes, keyword) {
 
 <!-- 添加员工模态框 -->
 <div id="employeeModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
         <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-            <h3 class="text-base font-semibold text-slate-800 dark:text-white">添加员工</h3>
+            <h3 class="text-base font-semibold text-slate-800 dark:text-white">选择员工</h3>
             <button onclick="closeEmployeeModal()" class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
                 <span class="material-symbols-outlined text-slate-500 text-xl">close</span>
             </button>
         </div>
-        <div class="p-5 overflow-y-auto custom-scrollbar">
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">员工姓名 <span class="text-red-500">*</span></label>
-                    <input type="text" id="employeeNameInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入员工姓名">
+        <div class="p-5 flex flex-col gap-4 flex-1 overflow-hidden">
+            <!-- 搜索栏 -->
+            <div class="flex items-center gap-3">
+                <div class="relative flex-1">
+                    <input type="text" id="userSearchInput" placeholder="搜索用户姓名、手机号..." class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                    <span class="material-symbols-outlined absolute left-2.5 top-2 text-slate-400 text-lg">search</span>
                 </div>
-                <div>
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">工号 <span class="text-red-500">*</span></label>
-                    <input type="text" id="employeeCodeInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入工号">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">职位</label>
-                    <input type="text" id="employeePositionInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入职位">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">手机号</label>
-                    <input type="tel" id="employeePhoneInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入手机号">
-                </div>
+            </div>
+
+            <!-- 用户列表 -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar border border-slate-200 dark:border-slate-700 rounded-lg">
+                <table class="w-full">
+                    <thead class="bg-slate-50 dark:bg-slate-900 sticky top-0">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider w-12">
+                                <input type="checkbox" id="selectAllUsers" onchange="toggleSelectAllUsers()" class="rounded border-slate-300 text-primary focus:ring-primary">
+                            </th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">姓名</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">手机号</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">部门</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userListBody" class="divide-y divide-slate-200 dark:divide-slate-700">
+                        <!-- 用户列表将通过 JavaScript 动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 已选择提示 -->
+            <div class="text-sm text-slate-600 dark:text-slate-400">
+                已选择 <span id="selectedUserCount" class="font-medium text-primary">0</span> 个用户
             </div>
         </div>
         <div class="px-5 py-4 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-2">
             <button onclick="closeEmployeeModal()" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
-            <button onclick="saveEmployee()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">保存</button>
+            <button onclick="addSelectedUsers()" class="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">确定添加</button>
         </div>
     </div>
 </div>

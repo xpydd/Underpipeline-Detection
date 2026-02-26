@@ -158,7 +158,6 @@
                     <option value="">全部角色</option>
                     <option value="SUPER_ADMIN">超级管理员</option>
                     <option value="PROJECT_ADMIN">项目管理员</option>
-                    <option value="USER">普通用户</option>
                 </select>
                 <select id="statusFilter" class="px-3 py-2 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
                     <option value="">全部状态</option>
@@ -174,7 +173,6 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">用户信息</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">角色</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">部门</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">状态</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">最后登录</th>
                         <th class="px-6 py-3 text-right text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">操作</th>
@@ -220,23 +218,12 @@
                     <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">手机号（用户名） <span class="text-red-500">*</span></label>
                     <input type="tel" id="phoneInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入手机号">
                 </div>
-                <div>
+                <div class="col-span-2">
                     <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">角色 <span class="text-red-500">*</span></label>
                     <select id="roleInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
                         <option value="">请选择角色</option>
                         <option value="SUPER_ADMIN">超级管理员</option>
                         <option value="PROJECT_ADMIN">项目管理员</option>
-                        <option value="USER">普通用户</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">部门</label>
-                    <select id="deptInput" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
-                        <option value="">请选择部门</option>
-                        <option value="1">总公司</option>
-                        <option value="2">技术部</option>
-                        <option value="3">市场部</option>
-                        <option value="4">人力资源部</option>
                     </select>
                 </div>
             </div>
@@ -257,8 +244,6 @@ let usersData = [
         phone: '13800138001',
         role: 'SUPER_ADMIN',
         roleName: '超级管理员',
-        deptId: 1,
-        deptName: '总公司',
         status: 'active',
         lastLogin: '2024-02-20 10:30',
         createTime: '2024-01-01'
@@ -270,8 +255,6 @@ let usersData = [
         phone: '13800138002',
         role: 'PROJECT_ADMIN',
         roleName: '项目管理员',
-        deptId: 2,
-        deptName: '技术部',
         status: 'active',
         lastLogin: '2024-02-19 15:20',
         createTime: '2024-01-05'
@@ -281,10 +264,8 @@ let usersData = [
         username: 'wangwu',
         name: '王五',
         phone: '13800138003',
-        role: 'USER',
-        roleName: '普通用户',
-        deptId: 2,
-        deptName: '技术部',
+        role: 'PROJECT_ADMIN',
+        roleName: '项目管理员',
         status: 'active',
         lastLogin: '2024-02-18 09:15',
         createTime: '2024-01-10'
@@ -294,10 +275,8 @@ let usersData = [
         username: 'zhaoliu',
         name: '赵六',
         phone: '13800138004',
-        role: 'USER',
-        roleName: '普通用户',
-        deptId: 3,
-        deptName: '市场部',
+        role: 'SUPER_ADMIN',
+        roleName: '超级管理员',
         status: 'inactive',
         lastLogin: '2024-02-10 14:30',
         createTime: '2024-01-15'
@@ -325,7 +304,7 @@ function renderUserTable(filteredData = null) {
     const tbody = document.getElementById('userTableBody');
 
     if (currentUsers.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-sm text-slate-400">未找到匹配的用户</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-sm text-slate-400">未找到匹配的用户</td></tr>';
         updatePagination(0, 0);
         return;
     }
@@ -345,9 +324,6 @@ function renderUserTable(filteredData = null) {
             </td>
             <td class="px-6 py-4">
                 <span class="px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded">${user.roleName}</span>
-            </td>
-            <td class="px-6 py-4">
-                <span class="text-sm text-slate-600 dark:text-slate-400">${user.deptName || '-'}</span>
             </td>
             <td class="px-6 py-4">
                 <span class="px-2 py-1 text-xs font-medium rounded-full ${user.status === 'active' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}">
@@ -430,7 +406,6 @@ function showAddUserModal() {
     document.getElementById('nameInput').value = '';
     document.getElementById('phoneInput').value = '';
     document.getElementById('roleInput').value = '';
-    document.getElementById('deptInput').value = '';
     document.getElementById('userModal').classList.remove('hidden');
 }
 
@@ -443,7 +418,6 @@ function showEditUserModal(userId) {
     document.getElementById('nameInput').value = user.name;
     document.getElementById('phoneInput').value = user.phone;
     document.getElementById('roleInput').value = user.role;
-    document.getElementById('deptInput').value = user.deptId || '';
     document.getElementById('userModal').classList.remove('hidden');
 }
 
@@ -455,7 +429,6 @@ function saveUser() {
     const name = document.getElementById('nameInput').value.trim();
     const phone = document.getElementById('phoneInput').value.trim();
     const role = document.getElementById('roleInput').value;
-    const deptId = document.getElementById('deptInput').value;
 
     if (!name || !phone || !role) {
         alert('请填写必填项');
@@ -464,15 +437,7 @@ function saveUser() {
 
     const roleNames = {
         'SUPER_ADMIN': '超级管理员',
-        'PROJECT_ADMIN': '项目管理员',
-        'USER': '普通用户'
-    };
-
-    const deptNames = {
-        '1': '总公司',
-        '2': '技术部',
-        '3': '市场部',
-        '4': '人力资源部'
+        'PROJECT_ADMIN': '项目管理员'
     };
 
     if (editingUserId) {
@@ -483,8 +448,6 @@ function saveUser() {
             user.phone = phone;
             user.role = role;
             user.roleName = roleNames[role];
-            user.deptId = deptId ? parseInt(deptId) : null;
-            user.deptName = deptId ? deptNames[deptId] : null;
         }
     } else {
         usersData.push({
@@ -494,8 +457,6 @@ function saveUser() {
             phone,
             role,
             roleName: roleNames[role],
-            deptId: deptId ? parseInt(deptId) : null,
-            deptName: deptId ? deptNames[deptId] : null,
             status: 'active',
             lastLogin: null,
             createTime: new Date().toISOString().split('T')[0],
