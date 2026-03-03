@@ -176,10 +176,6 @@
                     工作平台
                 </a>
                 <a href="#" class="border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:border-slate-300 flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm transition-colors">
-                    <span class="material-symbols-outlined text-base">settings</span>
-                    控制平台
-                </a>
-                <a href="#" class="border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:border-slate-300 flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm transition-colors">
                     <span class="material-symbols-outlined text-base">menu_book</span>
                     知识中心
                 </a>
@@ -234,9 +230,17 @@
                                     <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">业主单位</span>
                                     <div class="font-medium text-slate-700 dark:text-slate-200 truncate" id="card-owner">-</div>
                                 </div>
-                                <div class="col-span-2">
-                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">场景类型</span>
+                                <div>
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">状态</span>
+                                    <div class="font-medium text-slate-700 dark:text-slate-200" id="card-status">-</div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">探测目标</span>
                                     <div class="font-medium text-slate-600 dark:text-slate-300 truncate" id="card-scene">-</div>
+                                </div>
+                                <div class="col-span-2">
+                                    <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">探测范围</span>
+                                    <div class="font-medium text-slate-600 dark:text-slate-300" id="card-range">北区主干道及周边区域</div>
                                 </div>
                                 <div>
                                     <span class="text-slate-500 dark:text-slate-400 block mb-0.5 scale-90 origin-left">计划开始</span>
@@ -255,11 +259,11 @@
                                     <div class="font-medium text-slate-700 dark:text-slate-200" id="card-elev">-</div>
                                 </div>
                             </div>
-                            <div class="pt-2 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-2">
+                            <div class="pt-2 border-t border-slate-100 dark:border-slate-800 grid grid-cols-3 gap-2">
                                 <div><span class="text-slate-500 scale-90 origin-left block">项目负责</span><span class="font-medium" id="card-p-manager">-</span></div>
                                 <div><span class="text-slate-500 scale-90 origin-left block">报告编制</span><span class="font-medium" id="card-p-report">-</span></div>
                                 <div><span class="text-slate-500 scale-90 origin-left block">数据整理</span><span class="font-medium" id="card-p-data">-</span></div>
-                                <div><span class="text-slate-500 scale-90 origin-left block">现场勘探</span><span class="font-medium truncate" id="card-p-explore">-</span></div>
+                                <div class="col-span-3"><span class="text-slate-500 scale-90 origin-left block">现场勘探</span><span class="font-medium" id="card-p-explore">-</span></div>
                             </div>
                         </div>
                     </div>
@@ -1676,6 +1680,7 @@
             name: '北区燃气干线探测',
             address: '上海市 · 浦东新区',
             scene: '地下管线普查',
+            area: '5000',
             ownerName: '城市建设投资集团',
             status: 'ongoing',
             startDate: '2024-01-15',
@@ -1697,11 +1702,13 @@
             name: '西区供水管网 #2',
             address: '上海市 · 徐汇区',
             scene: '地下管线详查',
+            area: '3200',
             ownerName: '新城区水务有限公司',
             status: 'overdue',
             startDate: '2024-02-20',
             endDate: '2024-04-20',
             description: '配合道路施工进行的供水管网详细探测。',
+            elevSystem: 'cn85',
             contactName: '李华',
             contactTitle: '工程部经理',
             contactPhone: '13912345678'
@@ -1711,11 +1718,13 @@
             name: '高压电力 HV-404',
             address: '上海市 · 闵行区',
             scene: '地下管线放线测量',
+            area: '8500',
             ownerName: '国家电网上海分公司',
             status: 'completed',
             startDate: '2024-03-10',
             endDate: '2024-05-10',
             description: '新建高压电力线路径放样。',
+            elevSystem: 'yellow56',
             contactName: '刘洋',
             contactTitle: '运维主管',
             contactPhone: '13600001111'
@@ -1725,6 +1734,7 @@
             name: '南区排水系统改造',
             address: '上海市 · 黄浦区',
             scene: '地下管线竣工测量',
+            area: '4200',
             ownerName: '市政工程管理处',
             status: 'suspended',
             startDate: '2024-04-15',
@@ -1735,6 +1745,7 @@
             name: '东区通信光缆布设',
             address: '上海市 · 杨浦区',
             scene: '地下管线普查',
+            area: '6800',
             ownerName: '通信运营商',
             status: 'ongoing',
             startDate: '2024-05-20',
@@ -1745,6 +1756,7 @@
             name: '中央商务区热力管道',
             address: '上海市 · 静安区',
             scene: '地下管线详查',
+            area: '2500',
             ownerName: '热力公司',
             status: 'ongoing',
             startDate: '2024-06-01',
@@ -1755,6 +1767,7 @@
             name: '工业园区燃气支线',
             address: '上海市 · 宝山区',
             scene: '地下管线放线测量',
+            area: '7200',
             ownerName: '燃气集团',
             status: 'overdue',
             startDate: '2024-07-10',
@@ -1765,6 +1778,7 @@
             name: '新城区供水主干网',
             address: '上海市 · 松江区',
             scene: '地下管线竣工测量',
+            area: '9500',
             ownerName: '市自来水公司',
             status: 'completed',
             startDate: '2024-08-05',
@@ -1774,11 +1788,12 @@
 
     // 状态样式映射
     const statusMap = {
-        'ongoing': { text: '实施中', class: 'bg-blue-50 text-blue-600 border-blue-100', dot: 'bg-blue-500 animate-pulse' },
-        'overdue': { text: '超期', class: 'bg-orange-50 text-orange-600 border-orange-100', dot: 'bg-orange-500' },
         'completed': { text: '已完成', class: 'bg-emerald-50 text-emerald-600 border-emerald-100', dot: 'bg-emerald-500' },
+        'ongoing': { text: '实施中', class: 'bg-blue-50 text-blue-600 border-blue-100', dot: 'bg-blue-500 animate-pulse' },
+        'overdue': { text: '已超期', class: 'bg-orange-50 text-orange-600 border-orange-100', dot: 'bg-orange-500' },
+        'overdue_completed': { text: '超期完成', class: 'bg-teal-50 text-teal-600 border-teal-100', dot: 'bg-teal-500' },
         'suspended': { text: '停工', class: 'bg-amber-50 text-amber-600 border-amber-100', dot: 'bg-amber-500' },
-        'not_started': { text: '未开始', class: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400' }
+        'terminated': { text: '终止', class: 'bg-red-50 text-red-600 border-red-100', dot: 'bg-red-500' }
     };
 
     function toggleCard(btn) {
@@ -1909,7 +1924,17 @@
 
         // 填充卡片数据
         document.getElementById('card-owner').textContent = data.ownerName || '-';
+
+        // 状态显示
+        const statusEl = document.getElementById('card-status');
+        if (data.status && statusMap[data.status]) {
+            statusEl.innerHTML = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${statusMap[data.status].class}"><span class="size-1.5 rounded-full ${statusMap[data.status].dot}"></span>${statusMap[data.status].text}</span>`;
+        } else {
+            statusEl.textContent = '-';
+        }
+
         document.getElementById('card-scene').textContent = data.scene || '-';
+        document.getElementById('card-range').textContent = data.area ? `${data.area} 平方米` : '-';
         document.getElementById('card-start').textContent = data.startDate || '-';
         document.getElementById('card-end').textContent = data.endDate || '-';
         document.getElementById('card-coord').textContent = data.coordSystem ? (data.coordSystem === 'cgcs2000' ? '2000国家大地坐标系' : data.coordSystem) : '-';
