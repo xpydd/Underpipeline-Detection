@@ -550,17 +550,18 @@
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">edit_location</span>
                                  <span class="text-xs font-medium">坐标输入</span>
                              </button>
-                             <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
-                                 <span class="text-xs font-medium">勘测问题</span>
-                             </button>
                          </div>
+
 
                      </div>
                  </div>
 
                  <!-- 右侧地图: Huge Map -->
-                 <div class="flex-1 bg-slate-900 rounded-lg relative overflow-hidden group border border-slate-800">
+                 <div id="mapContainer" class="flex-1 bg-slate-900 rounded-lg relative overflow-hidden group border border-slate-800">
+                     <!-- 全屏按钮 -->
+                     <button onclick="toggleFullscreen()" class="absolute top-4 right-4 z-20 size-8 bg-slate-800/90 backdrop-blur border border-slate-700 rounded text-white hover:bg-slate-700 flex items-center justify-center shadow-lg pointer-events-auto" title="全屏">
+                         <span class="material-symbols-outlined text-lg">fullscreen</span>
+                     </button>
                      <!-- 顶部操作栏 (Top Bar) -->
                      <div class="absolute top-4 left-4 right-4 z-10 flex justify-between items-start pointer-events-none">
                          <!-- Left Controls (Pointer Events Auto) -->
@@ -746,8 +747,7 @@
                                 </td>
                                 <td class="px-3 py-3">
                                     <div class="view-mode flex gap-1">
-                                        <button onclick="editIssueRow(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:text-primary rounded">修改</button>
-                                        <button onclick="handleIssue(2)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded">处理</button>
+                                        <span class="text-[10px] text-slate-400">-</span>
                                     </div>
                                     <div class="edit-mode hidden flex gap-1">
                                         <button onclick="saveIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded">保存</button>
@@ -2634,6 +2634,95 @@
         event.target.classList.remove('border-transparent', 'text-slate-600', 'dark:text-slate-400');
         document.getElementById('detail-tab-' + tabName).classList.remove('hidden');
     }
+
+    // 全屏切换
+    function toggleFullscreen() {
+        const container = document.getElementById('mapContainer');
+        if (!document.fullscreenElement) {
+            container.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    // 初始化问题台账表格
+    function initIssuesTable() {
+        const tbody = document.getElementById('surveyIssuesTableBody');
+        if (!tbody) return;
+
+        const issues = [
+            { id: 1, pipeline: 'YJ001', desc: '管井封闭无法作业', solution: '联系业主单位协调开启', images: 3, creator: '张伟', createDate: '2024-03-01', deadline: '2024-03-10', status: 'pending' },
+            { id: 2, pipeline: 'GX-002', desc: '管线埋深超限', solution: '采用探地雷达辅助探测', images: 2, creator: '李明', createDate: '2024-03-02', deadline: '2024-03-08', status: 'resolved' }
+        ];
+
+        tbody.innerHTML = issues.map(issue => `
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-issue-id="${issue.id}">
+                <td class="px-3 py-3 text-slate-700 dark:text-slate-300">${issue.id}</td>
+                <td class="px-3 py-3">
+                    <div class="view-mode"><span class="text-slate-700 dark:text-slate-300 break-words">${issue.pipeline}</span></div>
+                    <div class="edit-mode hidden"><input type="text" value="${issue.pipeline}" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs"></div>
+                </td>
+                <td class="px-3 py-3">
+                    <div class="view-mode"><span class="text-slate-700 dark:text-slate-300 break-words line-clamp-2">${issue.desc}</span></div>
+                    <div class="edit-mode hidden"><textarea class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs resize-none" rows="2">${issue.desc}</textarea></div>
+                </td>
+                <td class="px-3 py-3">
+                    <div class="view-mode"><span class="text-slate-600 dark:text-slate-400 break-words line-clamp-2">${issue.solution}</span></div>
+                    <div class="edit-mode hidden"><textarea class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs resize-none" rows="2">${issue.solution}</textarea></div>
+                </td>
+                <td class="px-3 py-3">
+                    <button onclick="showImagePreview(${issue.id})" class="text-primary hover:underline flex items-center gap-1 text-xs">
+                        <span class="material-symbols-outlined text-sm">image</span>查看(${issue.images})
+                    </button>
+                </td>
+                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 truncate">${issue.creator}</td>
+                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">${issue.createDate}</td>
+                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">${issue.deadline}</td>
+                <td class="px-3 py-3">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${issue.status === 'pending' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-emerald-50 text-emerald-600 border-emerald-200'} text-[10px] font-medium border whitespace-nowrap">
+                        <span class="size-1 rounded-full ${issue.status === 'pending' ? 'bg-red-500' : 'bg-emerald-500'}"></span>
+                        ${issue.status === 'pending' ? '待处理' : '已处理'}
+                    </span>
+                </td>
+                <td class="px-3 py-3">
+                    <div class="view-mode flex gap-1">
+                        ${issue.status === 'pending' ? `
+                        <button onclick="editIssueRow(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:text-primary rounded">修改</button>
+                        <button onclick="handleIssue(${issue.id})" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded">处理</button>
+                        ` : '<span class="text-[10px] text-slate-400">-</span>'}
+                    </div>
+                    <div class="edit-mode hidden flex gap-1">
+                        <button onclick="saveIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded">保存</button>
+                        <button onclick="cancelIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:bg-slate-200 rounded">取消</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // 处理问题
+    function handleIssue(issueId) {
+        if (confirm('确认将此问题标记为已处理？')) {
+            const row = document.querySelector(`tr[data-issue-id="${issueId}"]`);
+            if (row) {
+                const statusCell = row.querySelector('td:nth-child(9)');
+                statusCell.innerHTML = `
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-medium border border-emerald-200 whitespace-nowrap">
+                        <span class="size-1 rounded-full bg-emerald-500"></span>
+                        已处理
+                    </span>
+                `;
+                const actionCell = row.querySelector('td:nth-child(10) .view-mode');
+                actionCell.innerHTML = '<span class="text-[10px] text-slate-400">-</span>';
+            }
+        }
+    }
+
+    // 页面加载时初始化问题表格
+    document.addEventListener('DOMContentLoaded', function() {
+        initIssuesTable();
+    });
+
 </script>
 <script>    function handleLogout() {        if (confirm('确定要退出登录吗？')) {            localStorage.removeItem('userToken');            localStorage.removeItem('userInfo');            window.APP_CONFIG.navigateTo('index.html');        }    }</script>
 </body>
