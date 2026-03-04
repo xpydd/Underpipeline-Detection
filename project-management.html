@@ -215,7 +215,7 @@
                 <!-- 探测目标筛选 -->
                 <div class="relative inline-block group">
                     <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:border-primary transition-colors">
-                        <span class="text-xs text-slate-500 dark:text-slate-400">场景:</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">探测目标:</span>
                         <select class="bg-transparent border-none p-0 text-xs font-medium focus:ring-0 cursor-pointer text-slate-700 dark:text-slate-200">
                             <option value="">全部</option>
                             <option value="pucha">地下管线普查</option>
@@ -1426,7 +1426,7 @@
         // 项目名称
         inputs[1].value = rowData.name || cells[2].querySelector('a').textContent.trim();
         
-        // 探测目标 (反向查找或直接使用 value)
+        // 探测范围 (反向查找或直接使用 value)
         const sceneText = cells[3].textContent.trim();
         let sceneValue = rowData.scene || '';
         if(!sceneValue) {

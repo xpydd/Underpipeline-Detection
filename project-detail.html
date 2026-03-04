@@ -475,101 +475,85 @@
             </div>
 
             <!-- 视图：勘探 (Exploration) -->
-            <div id="view-exploration" class="w-full h-full flex gap-4 hidden">
+            <div id="view-exploration" class="w-full h-full flex flex-col gap-4 hidden">
+                <div class="flex gap-4 flex-1 min-h-0">
                  <!-- 左侧列表: 勘探作业菜单 -->
-                 <div class="w-[25%] bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col">
-                     <div class="p-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                         <h3 class="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-2">
-                             <span class="material-symbols-outlined text-primary text-base">category</span>
-                             勘探作业菜单
-                         </h3>
+                 <div class="w-[280px] bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
+                     <!-- Tab Headers -->
+                     <div class="flex border-b border-slate-200 dark:border-slate-800">
+                         <button onclick="switchDetailExplorationTab('radar')" class="detail-exploration-tab active flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-blue-500 text-blue-600 dark:text-blue-400">探地雷达</button>
+                         <button onclick="switchDetailExplorationTab('detector')" class="detail-exploration-tab flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">管线探测仪</button>
+                         <button onclick="switchDetailExplorationTab('manual')" class="detail-exploration-tab flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">人工勘察</button>
                      </div>
-                     <div class="flex-1 overflow-y-auto p-3 space-y-4 custom-scrollbar">
-                         
-                         <!-- Section 1: 探地雷达 -->
-                         <div class="space-y-2">
-                             <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                                <span class="w-1 h-3 bg-blue-500 rounded-full"></span>
-                                探地雷达
-                             </h4>
-                             <div class="grid grid-cols-2 gap-2">
-                                 <button onclick="document.getElementById('radarScanModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-blue-500">radar</span>
-                                     <span class="text-xs font-medium">扫描数据</span>
-                                 </button>
-                                 <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
-                                     <span class="text-xs font-medium">勘测问题</span>
-                                 </button>
-                             </div>
+
+                     <!-- Tab Content -->
+                     <div class="flex-1 overflow-y-auto p-3 custom-scrollbar">
+                         <!-- Tab 1: 探地雷达 -->
+                         <div id="detail-tab-radar" class="detail-exploration-tab-content grid grid-cols-2 gap-2">
+                             <button onclick="document.getElementById('radarScanModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-blue-500">radar</span>
+                                 <span class="text-xs font-medium">扫描数据</span>
+                             </button>
+                             <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
+                                 <span class="text-xs font-medium">勘测问题</span>
+                             </button>
                          </div>
 
-                         <!-- Section 2: 管线探测仪 -->
-                         <div class="space-y-2">
-                             <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                                <span class="w-1 h-3 bg-purple-500 rounded-full"></span>
-                                管线探测仪
-                             </h4>
-                             <div class="grid grid-cols-2 gap-2">
-                                 <button onclick="document.getElementById('drawPipePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">share_location</span>
-                                     <span class="text-xs font-medium">绘制管点</span>
-                                 </button>
-                                 <button onclick="document.getElementById('drawPipelineModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                    <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">timeline</span>
-                                    <span class="text-xs font-medium">绘制管线</span>
-                                </button>
-                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">add_circle</span>
-                                     <span class="text-xs font-medium">管线加点</span>
-                                 </button>
-                                 <button onclick="document.getElementById('pointSearchModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">search</span>
-                                     <span class="text-xs font-medium">管点搜索</span>
-                                 </button>
-                                 <button onclick="document.getElementById('coordinateInputModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">edit_location</span>
-                                     <span class="text-xs font-medium">坐标输入</span>
-                                 </button>
-                                 <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
-                                     <span class="text-xs font-medium">勘测问题</span>
-                                 </button>
-                             </div>
+                         <!-- Tab 2: 管线探测仪 -->
+                         <div id="detail-tab-detector" class="detail-exploration-tab-content hidden grid grid-cols-2 gap-2">
+                             <button onclick="document.getElementById('drawPipePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">share_location</span>
+                                 <span class="text-xs font-medium">绘制管点</span>
+                             </button>
+                             <button onclick="document.getElementById('drawPipelineModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">timeline</span>
+                                 <span class="text-xs font-medium">绘制管线</span>
+                             </button>
+                             <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">add_circle</span>
+                                 <span class="text-xs font-medium">管线加点</span>
+                             </button>
+                             <button onclick="document.getElementById('pointSearchModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">search</span>
+                                 <span class="text-xs font-medium">管点搜索</span>
+                             </button>
+                             <button onclick="document.getElementById('coordinateInputModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">edit_location</span>
+                                 <span class="text-xs font-medium">坐标输入</span>
+                             </button>
+                             <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
+                                 <span class="text-xs font-medium">勘测问题</span>
+                             </button>
                          </div>
 
-                         <!-- Section 3: 人工勘察 -->
-                         <div class="space-y-2">
-                             <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                                <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
-                                人工勘察
-                             </h4>
-                             <div class="grid grid-cols-2 gap-2">
-                                 <button onclick="document.getElementById('drawPipePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">share_location</span>
-                                     <span class="text-xs font-medium">绘制管点</span>
-                                 </button>
-                                 <button onclick="document.getElementById('drawPipelineModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                    <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">timeline</span>
-                                    <span class="text-xs font-medium">绘制管线</span>
-                                </button>
-                                 <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">add_circle</span>
-                                     <span class="text-xs font-medium">管线加点</span>
-                                 </button>
-                                 <button onclick="document.getElementById('pointSearchModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">search</span>
-                                     <span class="text-xs font-medium">管点搜索</span>
-                                 </button>
-                                 <button onclick="document.getElementById('coordinateInputModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">edit_location</span>
-                                     <span class="text-xs font-medium">坐标输入</span>
-                                 </button>
-                                 <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
-                                     <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
-                                     <span class="text-xs font-medium">勘测问题</span>
-                                 </button>
-                             </div>
+                         <!-- Tab 3: 人工勘察 -->
+                         <div id="detail-tab-manual" class="detail-exploration-tab-content hidden grid grid-cols-2 gap-2">
+                             <button onclick="document.getElementById('drawPipePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">share_location</span>
+                                 <span class="text-xs font-medium">绘制管点</span>
+                             </button>
+                             <button onclick="document.getElementById('drawPipelineModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">timeline</span>
+                                 <span class="text-xs font-medium">绘制管线</span>
+                             </button>
+                             <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">add_circle</span>
+                                 <span class="text-xs font-medium">管线加点</span>
+                             </button>
+                             <button onclick="document.getElementById('pointSearchModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">search</span>
+                                 <span class="text-xs font-medium">管点搜索</span>
+                             </button>
+                             <button onclick="document.getElementById('coordinateInputModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">edit_location</span>
+                                 <span class="text-xs font-medium">坐标输入</span>
+                             </button>
+                             <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
+                                 <span class="text-xs font-medium">勘测问题</span>
+                             </button>
                          </div>
 
                      </div>
@@ -623,7 +607,7 @@
                                      transform: perspective(500px) rotateX(60deg) translateY(100px) scale(2);">
                          </div>
                          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20 text-4xl font-bold select-none pointer-events-none">
-                             Exploration 3D Space
+                             2D view
                          </div>
                      </div>
                      
@@ -633,6 +617,147 @@
                          <button class="size-8 bg-slate-800/90 backdrop-blur border border-slate-700 rounded text-white hover:bg-slate-700 flex items-center justify-center shadow-lg"><span class="material-symbols-outlined text-lg">remove</span></button>
                      </div>
                  </div>
+            </div>
+
+            <!-- 底部：问题台账 -->
+            <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 p-4 h-64">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="text-sm font-bold text-slate-800 dark:text-white">勘测问题台账</h4>
+                    <div class="flex gap-2">
+                        <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="text-xs font-medium text-white bg-primary hover:bg-primary/90 transition-colors flex items-center gap-1 px-3 py-1.5 rounded-lg">
+                            <span class="material-symbols-outlined text-sm">add</span>
+                            新增问题
+                        </button>
+                        <button onclick="handleSurveyIssueAction('export')" class="text-xs font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">download</span>
+                            导出
+                        </button>
+                    </div>
+                </div>
+                <div class="h-[calc(100%-3rem)] overflow-auto border border-slate-200 dark:border-slate-800 rounded-lg">
+                    <table class="w-full text-xs">
+                        <thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
+                            <tr class="border-b border-slate-100 dark:border-slate-800">
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-12">序号</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-24">管点/管线</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">问题描述</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">解决方案</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-24">影像资料</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-20">创建人</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-24">创建日期</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-24">截止日期</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-20">状态</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-28">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800" id="detailSurveyIssuesTableBody">
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-issue-id="1">
+                                <td class="px-3 py-3 text-slate-700 dark:text-slate-300">1</td>
+                                <td class="px-3 py-3">
+                                    <div class="view-mode">
+                                        <span class="text-slate-700 dark:text-slate-300">YJ001</span>
+                                    </div>
+                                    <div class="edit-mode hidden">
+                                        <input type="text" value="YJ001" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs">
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <div class="view-mode">
+                                        <span class="text-slate-700 dark:text-slate-300">管井封闭无法作业</span>
+                                    </div>
+                                    <div class="edit-mode hidden">
+                                        <textarea class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs resize-none" rows="2">管井封闭无法作业</textarea>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <div class="view-mode">
+                                        <span class="text-slate-600 dark:text-slate-400">联系业主单位协调开启</span>
+                                    </div>
+                                    <div class="edit-mode hidden">
+                                        <textarea class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs resize-none" rows="2">联系业主单位协调开启</textarea>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <button onclick="showImagePreview(1)" class="text-primary hover:underline flex items-center gap-1 text-xs">
+                                        <span class="material-symbols-outlined text-sm">image</span>
+                                        查看(3)
+                                    </button>
+                                </td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400">张伟</td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-01</td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-10</td>
+                                <td class="px-3 py-3">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-50 text-red-600 text-[10px] font-medium border border-red-200 whitespace-nowrap">
+                                        <span class="size-1 rounded-full bg-red-500"></span>
+                                        待处理
+                                    </span>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <div class="view-mode flex gap-1">
+                                        <button onclick="editIssueRow(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:text-primary rounded">修改</button>
+                                        <button onclick="handleIssue(1)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded">处理</button>
+                                    </div>
+                                    <div class="edit-mode hidden flex gap-1">
+                                        <button onclick="saveIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded">保存</button>
+                                        <button onclick="cancelIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:bg-slate-200 rounded">取消</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-issue-id="2">
+                                <td class="px-3 py-3 text-slate-700 dark:text-slate-300">2</td>
+                                <td class="px-3 py-3">
+                                    <div class="view-mode">
+                                        <span class="text-slate-700 dark:text-slate-300">GX-002</span>
+                                    </div>
+                                    <div class="edit-mode hidden">
+                                        <input type="text" value="GX-002" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs">
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <div class="view-mode">
+                                        <span class="text-slate-700 dark:text-slate-300">管线埋深超限</span>
+                                    </div>
+                                    <div class="edit-mode hidden">
+                                        <textarea class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs resize-none" rows="2">管线埋深超限</textarea>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <div class="view-mode">
+                                        <span class="text-slate-600 dark:text-slate-400">采用探地雷达辅助探测</span>
+                                    </div>
+                                    <div class="edit-mode hidden">
+                                        <textarea class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs resize-none" rows="2">采用探地雷达辅助探测</textarea>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <button onclick="showImagePreview(2)" class="text-primary hover:underline flex items-center gap-1 text-xs">
+                                        <span class="material-symbols-outlined text-sm">image</span>
+                                        查看(2)
+                                    </button>
+                                </td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400">李明</td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-02</td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-12</td>
+                                <td class="px-3 py-3">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-medium border border-emerald-200 whitespace-nowrap">
+                                        <span class="size-1 rounded-full bg-emerald-500"></span>
+                                        已处理
+                                    </span>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <div class="view-mode flex gap-1">
+                                        <button onclick="editIssueRow(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:text-primary rounded">修改</button>
+                                        <button onclick="handleIssue(2)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded">处理</button>
+                                    </div>
+                                    <div class="edit-mode hidden flex gap-1">
+                                        <button onclick="saveIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded">保存</button>
+                                        <button onclick="cancelIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:bg-slate-200 rounded">取消</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -1116,196 +1241,38 @@
     </div>
 </dialog>
 
-<!-- 勘测问题弹窗 -->
-<dialog id="surveyIssuesModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-4xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-[100]">
-    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
-        <!-- Header -->
-        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
-            <h3 class="text-base font-bold text-slate-800 dark:text-white">勘测问题</h3>
-            <div class="flex items-center gap-2">
-                <button onclick="handleSurveyIssueAction('modify')" class="text-xs font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">edit</span>
-                    修改>>
-                </button>
-                <button onclick="handleSurveyIssueAction('add')" class="text-xs font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">add_circle</span>
-                    新增>>
-                </button>
-                <button onclick="handleSurveyIssueAction('export')" class="text-xs font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">download</span>
-                    导出>>
-                </button>
-                <button onclick="document.getElementById('surveyIssuesModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors ml-2">
-                    <span class="material-symbols-outlined text-lg">close</span>
-                </button>
+<!-- 新增问题弹窗 -->
+<dialog id="surveyIssuesModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-2xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-[100]">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white">新增问题</h3>
+            <button onclick="document.getElementById('surveyIssuesModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+        <div class="p-4 space-y-3">
+            <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">管点/管线编号</label>
+                <input type="text" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入管点或管线编号">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">问题描述</label>
+                <textarea rows="3" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请描述遇到的问题"></textarea>
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">解决方案</label>
+                <textarea rows="3" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入解决方案"></textarea>
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">截止日期</label>
+                <input type="date" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">影像资料</label>
+                <input type="file" multiple accept="image/*" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
             </div>
         </div>
-
-        <div class="flex-1 overflow-auto">
-            <table class="w-full text-xs">
-                <thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
-                    <tr class="border-b border-slate-100 dark:border-slate-800">
-                        <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-16">序号</th>
-                        <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">问题描述</th>
-                        <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300">解决方案</th>
-                        <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-32">影像资料</th>
-                        <th class="px-4 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-24">状态</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100 dark:divide-slate-800" id="surveyIssuesTableBody">
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-issue-id="1">
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">1</td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="text-slate-700 dark:text-slate-300">YJ001处管井封闭无法作业</span>
-                            </div>
-                            <div class="edit-mode hidden">
-                                <input type="text" value="YJ001处管井封闭无法作业" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="text-slate-600 dark:text-slate-400">联系业主单位协调开启</span>
-                            </div>
-                            <div class="edit-mode hidden">
-                                <input type="text" value="联系业主单位协调开启" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <button onclick="showImagePreview(1)" class="text-primary hover:underline flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">image</span>
-                                查看(3)
-                            </button>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-50 text-red-600 text-[10px] font-medium border border-red-200">
-                                    <span class="size-1.5 rounded-full bg-red-500"></span>
-                                    待处理
-                                </span>
-                            </div>
-                            <div class="edit-mode hidden flex gap-1">
-                                <button onclick="saveIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded transition-colors">保存</button>
-                                <button onclick="cancelIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors">取消</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-issue-id="2">
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">2</td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="text-slate-700 dark:text-slate-300">YJ002处管线埋深超限</span>
-                            </div>
-                            <div class="edit-mode hidden">
-                                <input type="text" value="YJ002处管线埋深超限" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="text-slate-600 dark:text-slate-400">采用探地雷达辅助探测</span>
-                            </div>
-                            <div class="edit-mode hidden">
-                                <input type="text" value="采用探地雷达辅助探测" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <button onclick="showImagePreview(2)" class="text-primary hover:underline flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">image</span>
-                                查看(2)
-                            </button>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-medium border border-emerald-200">
-                                    <span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                    已处理
-                                </span>
-                            </div>
-                            <div class="edit-mode hidden flex gap-1">
-                                <button onclick="saveIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded transition-colors">保存</button>
-                                <button onclick="cancelIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors">取消</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-issue-id="3">
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">3</td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="text-slate-700 dark:text-slate-300">YJ003处管线位置与图纸不符</span>
-                            </div>
-                            <div class="edit-mode hidden">
-                                <input type="text" value="YJ003处管线位置与图纸不符" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="text-slate-600 dark:text-slate-400">现场实测并更新图纸</span>
-                            </div>
-                            <div class="edit-mode hidden">
-                                <input type="text" value="现场实测并更新图纸" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <button onclick="showImagePreview(3)" class="text-primary hover:underline flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">image</span>
-                                查看(5)
-                            </button>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-medium border border-emerald-200">
-                                    <span class="size-1.5 rounded-full bg-emerald-500"></span>
-                                    已处理
-                                </span>
-                            </div>
-                            <div class="edit-mode hidden flex gap-1">
-                                <button onclick="saveIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded transition-colors">保存</button>
-                                <button onclick="cancelIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors">取消</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-issue-id="4">
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">4</td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="text-slate-700 dark:text-slate-300">YJ004处存在未知管线</span>
-                            </div>
-                            <div class="edit-mode hidden">
-                                <input type="text" value="YJ004处存在未知管线" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="text-slate-600 dark:text-slate-400">标记位置并上报项目负责人</span>
-                            </div>
-                            <div class="edit-mode hidden">
-                                <input type="text" value="标记位置并上报项目负责人" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <button onclick="showImagePreview(4)" class="text-primary hover:underline flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">image</span>
-                                查看(1)
-                            </button>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="view-mode">
-                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-orange-50 text-orange-600 text-[10px] font-medium border border-orange-200">
-                                    <span class="size-1.5 rounded-full bg-orange-500"></span>
-                                    处理中
-                                </span>
-                            </div>
-                            <div class="edit-mode hidden flex gap-1">
-                                <button onclick="saveIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-white bg-primary hover:bg-primary/90 rounded transition-colors">保存</button>
-                                <button onclick="cancelIssueEdit(this)" class="px-2 py-1 text-[10px] font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors">取消</button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+        <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27]">
             <button onclick="document.getElementById('surveyIssuesModal').close()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">取消</button>
             <button onclick="document.getElementById('surveyIssuesModal').close()" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确定</button>
         </div>
@@ -2651,6 +2618,21 @@
     function updateDataTypeSelection() {
         const selected = document.querySelectorAll('#radarScanModal input[value="基础信息"]:checked, #radarScanModal input[value="图像文件"]:checked');
         console.log('已选择数据类型:', Array.from(selected).map(el => el.value));
+    }
+
+    // 切换项目详情页勘探标签页
+    function switchDetailExplorationTab(tabName) {
+        document.querySelectorAll('.detail-exploration-tab').forEach(tab => {
+            tab.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:text-blue-400');
+            tab.classList.add('border-transparent', 'text-slate-600', 'dark:text-slate-400');
+        });
+        document.querySelectorAll('.detail-exploration-tab-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+
+        event.target.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:text-blue-400');
+        event.target.classList.remove('border-transparent', 'text-slate-600', 'dark:text-slate-400');
+        document.getElementById('detail-tab-' + tabName).classList.remove('hidden');
     }
 </script>
 <script>    function handleLogout() {        if (confirm('确定要退出登录吗？')) {            localStorage.removeItem('userToken');            localStorage.removeItem('userInfo');            window.APP_CONFIG.navigateTo('index.html');        }    }</script>
