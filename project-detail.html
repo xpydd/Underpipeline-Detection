@@ -506,7 +506,7 @@
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">timeline</span>
                                  <span class="text-xs font-medium">绘制管线</span>
                              </button>
-                             <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                             <button onclick="document.getElementById('drawPipelineModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">add_circle</span>
                                  <span class="text-xs font-medium">管线加点</span>
                              </button>
@@ -534,7 +534,7 @@
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">timeline</span>
                                  <span class="text-xs font-medium">绘制管线</span>
                              </button>
-                             <button class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                             <button onclick="document.getElementById('drawPipelineModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">add_circle</span>
                                  <span class="text-xs font-medium">管线加点</span>
                              </button>
@@ -1851,44 +1851,15 @@
         }
     }
 
-    // 视图切换逻辑
-    function switchView(viewName) {
-        // 隐藏所有视图
-        ['project', 'exploration'].forEach(v => {
-            const el = document.getElementById(`view-${v}`);
-            if(el) el.classList.add('hidden');
-        });
-        
-        // 显示目标视图
-        const target = document.getElementById(`view-${viewName}`);
-        if(target) target.classList.remove('hidden');
-
-        // 更新侧边栏状态 (仅针对已实现的视图)
-        document.querySelectorAll('nav a').forEach(link => {
-            const title = link.getAttribute('title');
-            if (!['项目', '勘探'].includes(title)) return;
-
-            const isActive = (viewName === 'project' && title === '项目') || 
-                           (viewName === 'exploration' && title === '勘探');
-
-            if (isActive) {
-                link.className = 'w-10 h-10 bg-primary/10 text-primary flex items-center justify-center rounded-lg transition-colors group relative';
-            } else {
-                link.className = 'w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative';
-            }
-        });
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         // 1. 获取 URL 参数
         const params = new URLSearchParams(window.location.search);
         const projectId = params.get('id');
-        const projectName = params.get('name'); // 可选，如果找不到 ID 时的回退
+        const projectName = params.get('name');
 
         // 2. 查找项目数据
         let project = null;
         
-        // 尝试从 LocalStorage 获取新增项目
         const storedProjects = JSON.parse(localStorage.getItem('mockProjects') || '[]');
         const allProjects = [...mockProjects, ...storedProjects];
         
@@ -1896,7 +1867,6 @@
             project = allProjects.find(p => p.id === projectId);
         }
         
-        // 如果按 ID 没找到，尝试按名称匹配 (兼容旧链接)
         if (!project && projectName) {
             project = allProjects.find(p => p.name === projectName);
         }
@@ -1906,25 +1876,10 @@
             renderProject(project);
             renderQuickSwitchList(allProjects, project.id);
         } else {
-            // 404 处理
             document.getElementById('project-title').textContent = '未找到项目';
             const breadcrumbEl = document.getElementById('breadcrumb-project-name');
             if (breadcrumbEl) breadcrumbEl.textContent = '未找到项目';
         }
-
-        // 4. 绑定侧边栏点击事件
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const title = link.getAttribute('title');
-                if (title === '项目') {
-                    e.preventDefault();
-                    switchView('project');
-                } else if (title === '勘探') {
-                    e.preventDefault();
-                    switchView('exploration');
-                }
-            });
-        });
     });
 
     function renderQuickSwitchList(projects, currentId) {

@@ -274,10 +274,10 @@
         <div class="flex justify-between items-center h-10">
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-3">
-                    <h2 class="text-xl font-bold text-slate-800 dark:text-white" id="project-title">深圳市龙岗区中心小学新建项目</h2>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-white" id="project-title">加载中...</h2>
                     <div class="flex items-center gap-2 text-xs text-slate-500 border-l border-slate-200 dark:border-slate-700 pl-3">
-                        <span class="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400 scale-90" id="project-id">PROJ-2024-001</span>
-                        <span class="flex items-center gap-0.5 scale-90 origin-left"><span class="material-symbols-outlined text-sm">location_on</span> <span id="project-address">深圳市龙岗区</span></span>
+                        <span class="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400 scale-90" id="project-id"></span>
+                        <span class="flex items-center gap-0.5 scale-90 origin-left"><span class="material-symbols-outlined text-sm">location_on</span> <span id="project-address"></span></span>
                     </div>
                 </div>
             </div>
@@ -784,18 +784,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         modelManager = new ModelManager();
 
-        // 更新导航链接以携带项目ID
-        const params = new URLSearchParams(window.location.search);
-        const projectId = params.get('id');
-        if (projectId) {
-            const navLinks = document.querySelectorAll('nav a[href^="project-"]');
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && !href.includes('?')) {
-                    link.setAttribute('href', `${href}?id=${projectId}`);
-                }
-            });
-        }
+        // 导航链接的项目ID参数由 project-navigation.js 统一处理
     });
 </script>
 

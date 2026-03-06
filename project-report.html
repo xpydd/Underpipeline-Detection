@@ -310,10 +310,10 @@
         <div class="flex justify-between items-center h-10">
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-3">
-                    <h2 class="text-xl font-bold text-slate-800 dark:text-white" id="project-title">深圳市龙岗区中心小学新建项目</h2>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-white" id="project-title">加载中...</h2>
                     <div class="flex items-center gap-2 text-xs text-slate-500 border-l border-slate-200 dark:border-slate-700 pl-3">
-                        <span class="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400 scale-90" id="project-id">PROJ-2024-001</span>
-                        <span class="flex items-center gap-0.5 scale-90 origin-left"><span class="material-symbols-outlined text-sm">location_on</span> <span id="project-address">深圳市龙岗区</span></span>
+                        <span class="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400 scale-90" id="project-id"></span>
+                        <span class="flex items-center gap-0.5 scale-90 origin-left"><span class="material-symbols-outlined text-sm">location_on</span> <span id="project-address"></span></span>
                     </div>
                 </div>
             </div>
@@ -617,7 +617,7 @@
                                         <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                                             项目名称：<span class="text-red-500">（自动填入）</span>
                                         </label>
-                                        <input type="text" value="深圳市龙岗区中心小学新建项目" class="w-full px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        <input type="text" id="report-project-name" value="" class="w-full px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-2 focus:ring-primary focus:border-transparent">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
@@ -648,7 +648,7 @@
                                     <div>
                                         <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">报告正文：</label>
                                         <div class="flex items-center gap-2">
-                                            <input type="text" value="深圳市龙岗区中心小学新建项目地下管线探测技术报告.doc" readonly class="flex-1 px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-xs">
+                                            <input type="text" id="report-doc-name" value="" readonly class="flex-1 px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-xs">
                                             <button class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:text-primary border border-slate-300 dark:border-slate-600 rounded-lg text-xs transition-colors">
                                                 <span class="material-symbols-outlined text-base">folder_open</span>
                                             </button>
@@ -657,7 +657,7 @@
                                     <div>
                                         <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">成果文件：</label>
                                         <div class="flex items-center gap-2">
-                                            <input type="text" value="深圳市龙岗区中心小学新建项目地下管线探测成果文件.RAR" readonly class="flex-1 px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-xs">
+                                            <input type="text" id="report-rar-name" value="" readonly class="flex-1 px-2.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-xs">
                                             <button class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 hover:text-primary border border-slate-300 dark:border-slate-600 rounded-lg text-xs transition-colors">
                                                 <span class="material-symbols-outlined text-base">folder_open</span>
                                             </button>
@@ -980,17 +980,15 @@
             });
         }
 
-        // 更新导航链接以携带项目ID
-        const params = new URLSearchParams(window.location.search);
-        const projectId = params.get('id');
-        if (projectId) {
-            const navLinks = document.querySelectorAll('nav a[href^="project-"]');
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && !href.includes('?')) {
-                    link.setAttribute('href', `${href}?id=${projectId}`);
-                }
-            });
+        // 动态填充报告表单中的项目名称
+        var project = findCurrentProject();
+        if (project) {
+            var nameInput = document.getElementById('report-project-name');
+            var docInput = document.getElementById('report-doc-name');
+            var rarInput = document.getElementById('report-rar-name');
+            if (nameInput) nameInput.value = project.name;
+            if (docInput) docInput.value = project.name + '地下管线探测技术报告.doc';
+            if (rarInput) rarInput.value = project.name + '地下管线探测成果文件.RAR';
         }
     });
 </script>
