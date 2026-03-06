@@ -172,7 +172,7 @@
                             <div class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer group" onclick="selectCategory('point_type', this)">
                                 <span class="material-symbols-outlined text-sm text-slate-400" data-icon="chevron_right">chevron_right</span>
                                 <span class="material-symbols-outlined text-primary text-base" data-icon="category">category</span>
-                                <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">管点种类</span>
+                                <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">管点种类 <span class="text-[10px] text-slate-400 font-mono">point_type</span></span>
                                 <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">8</span>
                                 <div class="hidden group-hover:flex items-center gap-1" onclick="event.stopPropagation()">
                                     <button onclick="editCategory('point_type', '管点种类')" class="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="编辑分类">
@@ -190,7 +190,7 @@
                             <div class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer group" onclick="selectCategory('point_feature', this)">
                                 <span class="material-symbols-outlined text-sm text-slate-400" data-icon="chevron_right">chevron_right</span>
                                 <span class="material-symbols-outlined text-blue-600 text-base" data-icon="account_tree">account_tree</span>
-                                <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">特征值</span>
+                                <span class="text-xs font-medium text-slate-700 dark:text-slate-300 flex-1">特征值 <span class="text-[10px] text-slate-400 font-mono">point_feature</span></span>
                                 <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">143</span>
                                 <div class="hidden group-hover:flex items-center gap-1" onclick="event.stopPropagation()">
                                     <button onclick="editCategory('point_feature', '特征值')" class="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="编辑分类">
@@ -240,7 +240,6 @@
                                 <th class="px-6 py-3 w-16">序号</th>
                                 <th class="px-6 py-3">字典编码</th>
                                 <th class="px-6 py-3">字典名称</th>
-                                <th class="px-6 py-3">字典值</th>
                                 <th class="px-6 py-3">排序</th>
                                 <th class="px-6 py-3">父级字典</th>
                                 <th class="px-6 py-3">状态</th>
@@ -251,7 +250,7 @@
                         <tbody class="divide-y divide-slate-100 dark:divide-slate-800" id="dictTableBody">
                             <!-- 空状态 -->
                             <tr>
-                                <td colspan="9" class="px-6 py-12 text-center">
+                                <td colspan="8" class="px-6 py-12 text-center">
                                     <div class="flex flex-col items-center gap-3">
                                         <span class="material-symbols-outlined text-slate-300 text-5xl" data-icon="inbox">inbox</span>
                                         <p class="text-sm text-slate-400">请从左侧选择字典分类</p>
@@ -303,10 +302,6 @@
                         <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">字典名称 <span class="text-red-500">*</span></label>
                             <input type="text" name="dict_name" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如: 给水管">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">字典值 <span class="text-red-500">*</span></label>
-                            <input type="text" name="dict_value" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如: water_supply">
                         </div>
                         <div class="space-y-1">
                             <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">排序号</label>
@@ -607,7 +602,7 @@
             'point_type': '管点种类',
             'point_feature': '特征值'
         };
-        document.getElementById('currentCategoryTitle').textContent = categoryNames[categoryId] || '字典数据';
+        document.getElementById('currentCategoryTitle').innerHTML = `${categoryNames[categoryId] || '字典数据'} <span class="text-xs text-slate-400 font-mono">${categoryId}</span>`;
 
         // 加载数据
         loadDictData(categoryId);
@@ -651,7 +646,6 @@
                     <td class="px-6 py-4">
                         <div class="font-medium text-slate-900 dark:text-slate-100">${item.name}</div>
                     </td>
-                    <td class="px-6 py-4 text-slate-600 dark:text-slate-300 text-xs">${item.value}</td>
                     <td class="px-6 py-4 text-slate-500 text-xs">${item.sort}</td>
                     <td class="px-6 py-4 text-slate-500 text-xs">${parentName}</td>
                     <td class="px-6 py-4">
@@ -727,7 +721,6 @@
         if (form) {
             form.querySelector('[name="dict_code"]').value = dictItem.code || '';
             form.querySelector('[name="dict_name"]').value = dictItem.name || '';
-            form.querySelector('[name="dict_value"]').value = dictItem.value || '';
             form.querySelector('[name="sort_order"]').value = dictItem.sort || 0;
 
             // 设置状态
