@@ -222,7 +222,7 @@
                     <div class="flex border-b border-slate-200 dark:border-slate-800">
                         <button onclick="switchExplorationTab('radar')" class="exploration-tab active flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-blue-500 text-blue-600 dark:text-blue-400">探地雷达</button>
                         <button onclick="switchExplorationTab('detector')" class="exploration-tab flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">管线探测仪</button>
-                        <button onclick="switchExplorationTab('manual')" class="exploration-tab flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">人工勘察</button>
+                        <button onclick="switchExplorationTab('manual')" class="exploration-tab flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">人工勘探</button>
                     </div>
 
                     <!-- Tab Content -->
@@ -235,7 +235,7 @@
                             </button>
                             <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
-                                <span class="text-xs font-medium">勘测问题</span>
+                                <span class="text-xs font-medium">勘探问题</span>
                             </button>
                         </div>
 
@@ -263,11 +263,11 @@
                             </button>
                             <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
-                                <span class="text-xs font-medium">勘测问题</span>
+                                <span class="text-xs font-medium">勘探问题</span>
                             </button>
                         </div>
 
-                        <!-- Tab 3: 人工勘察 -->
+                        <!-- Tab 3: 人工勘探 -->
                         <div id="tab-manual" class="exploration-tab-content hidden grid grid-cols-2 gap-2">
                             <button onclick="document.getElementById('drawPipePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">share_location</span>
@@ -288,6 +288,10 @@
                             <button onclick="document.getElementById('coordinateInputModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">edit_location</span>
                                 <span class="text-xs font-medium">坐标输入</span>
+                            </button>
+                            <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                                <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
+                                <span class="text-xs font-medium">勘探问题</span>
                             </button>
                         </div>
 
@@ -326,7 +330,7 @@
                                    </label>
                                    <label class="flex items-center gap-2 cursor-pointer hover:text-orange-400">
                                        <input type="radio" name="explore-method" value="manual" class="rounded-full border-slate-600 bg-slate-700 text-orange-500 focus:ring-0 size-3">
-                                       人工勘察
+                                       人工勘探
                                    </label>
                                </div>
                            </div>
@@ -353,15 +357,15 @@
                         <!-- 模拟管点和管线 -->
                         <svg class="absolute inset-0 w-full h-full pointer-events-auto">
                             <!-- 管线 -->
-                            <line x1="20%" y1="30%" x2="40%" y2="40%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L001"/>
-                            <line x1="40%" y1="40%" x2="60%" y2="35%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L002"/>
-                            <line x1="60%" y1="35%" x2="80%" y2="50%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L003"/>
+                            <line x1="20%" y1="30%" x2="40%" y2="40%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L001" onclick="showPipelineMenu(event, 'L001')"/>
+                            <line x1="40%" y1="40%" x2="60%" y2="35%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L002" onclick="showPipelineMenu(event, 'L002')"/>
+                            <line x1="60%" y1="35%" x2="80%" y2="50%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L003" onclick="showPipelineMenu(event, 'L003')"/>
 
                             <!-- 管点 -->
-                            <circle cx="20%" cy="30%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P001"/>
-                            <circle cx="40%" cy="40%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P002"/>
-                            <circle cx="60%" cy="35%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P003"/>
-                            <circle cx="80%" cy="50%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P004"/>
+                            <circle cx="20%" cy="30%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P001" onclick="showPointMenu(event, 'P001')"/>
+                            <circle cx="40%" cy="40%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P002" onclick="showPointMenu(event, 'P002')"/>
+                            <circle cx="60%" cy="35%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P003" onclick="showPointMenu(event, 'P003')"/>
+                            <circle cx="80%" cy="50%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P004" onclick="showPointMenu(event, 'P004')"/>
                         </svg>
                     </div>
 
@@ -379,9 +383,10 @@
                 <div class="px-4 py-3 flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800">
                     <h4 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
                         <span class="material-symbols-outlined text-orange-500 text-lg">report_problem</span>
-                        勘测问题台账
+                        勘探问题台账
                     </h4>
                     <div class="flex gap-2 items-center flex-wrap">
+                        <input type="text" id="issuePointSearchInput" placeholder="管点编号..." class="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none w-32" oninput="filterIssuesTable()">
                         <input type="text" id="issueSearchInput" placeholder="搜索问题..." class="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none w-44" oninput="filterIssuesTable()">
                         <select id="issueStatusFilter" class="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary outline-none" onchange="filterIssuesTable()">
                             <option value="">全部状态</option>
@@ -921,6 +926,7 @@
         <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
             <div class="flex items-center gap-3">
                 <h3 class="text-base font-bold text-slate-800 dark:text-white">坐标输入</h3>
+                <input type="text" id="coordPointSearchInput" placeholder="管点编号..." class="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none w-32" oninput="filterCoordinateTable()">
                 <button onclick="importCoordinates()" class="px-3 py-1 text-xs font-medium text-primary hover:text-primary/80 border border-primary rounded transition-colors flex items-center gap-1">
                     <span class="material-symbols-outlined text-sm">upload_file</span>
                     请拖拽输入编号>>
@@ -940,15 +946,19 @@
             <table class="w-full text-xs">
                 <thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
                     <tr class="border-b border-slate-100 dark:border-slate-800">
-                        <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-32">物探编号</th>
+                        <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-32">管点编号</th>
                         <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300" colspan="2">平面坐标(m)</th>
                         <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-28">高程(m)</th>
+                        <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-20">更新人</th>
+                        <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-40">更新日期</th>
                         <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-24">操作</th>
                     </tr>
                     <tr class="border-b border-slate-100 dark:border-slate-800">
                         <th class="px-4 py-2 text-center font-medium text-slate-500 dark:text-slate-400"></th>
                         <th class="px-4 py-2 text-center font-medium text-slate-500 dark:text-slate-400">X</th>
                         <th class="px-4 py-2 text-center font-medium text-slate-500 dark:text-slate-400">Y</th>
+                        <th class="px-4 py-2 text-center font-medium text-slate-500 dark:text-slate-400"></th>
+                        <th class="px-4 py-2 text-center font-medium text-slate-500 dark:text-slate-400"></th>
                         <th class="px-4 py-2 text-center font-medium text-slate-500 dark:text-slate-400"></th>
                         <th class="px-4 py-2 text-center font-medium text-slate-500 dark:text-slate-400"></th>
                     </tr>
@@ -1406,24 +1416,24 @@
         </div>
         <div class="p-4 space-y-3">
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">管点/管线编号</label>
-                <input type="text" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入管点或管线编号">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>管点/管线编号</label>
+                <input type="text" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入管点或管线编号">
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">问题描述</label>
-                <textarea rows="3" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请描述遇到的问题"></textarea>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>问题描述</label>
+                <textarea rows="3" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请描述遇到的问题"></textarea>
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">解决方案</label>
-                <textarea rows="3" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入解决方案"></textarea>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>解决方案</label>
+                <textarea rows="3" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入解决方案"></textarea>
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">截止日期</label>
-                <input type="date" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>截止日期</label>
+                <input type="date" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">影像资料</label>
-                <input type="file" multiple accept="image/*" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>影像资料</label>
+                <input type="file" multiple accept="image/*" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
             </div>
         </div>
         <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27]">
@@ -1434,6 +1444,133 @@
 </dialog>
 
 <script>
+    // 管点和管线交互数据
+    const pointsData = {
+        'P001': { id: 'P001', type: '给水', feature: '三通', depth: '1.5m', coord: 'X: 2347184.25, Y: 434427.06', material: '球墨铸铁', diameter: 'DN300' },
+        'P002': { id: 'P002', type: '排水', feature: '弯头', depth: '2.1m', coord: 'X: 2347210.50, Y: 434445.30', material: 'PVC', diameter: 'DN400' },
+        'P003': { id: 'P003', type: '燃气', feature: '一般管点', depth: '1.8m', coord: 'X: 2347235.80, Y: 434438.90', material: 'PE', diameter: 'DN200' },
+        'P004': { id: 'P004', type: '电力', feature: '转折点', depth: '1.2m', coord: 'X: 2347265.40, Y: 434460.20', material: '电缆', diameter: '-' }
+    };
+
+    const pipelinesData = {
+        'L001': { id: 'L001', start: 'P001', end: 'P002', diameter: 'DN300', material: '球墨铸铁', length: '125.6m', depth: '1.5-2.1m', type: '给水' },
+        'L002': { id: 'L002', start: 'P002', end: 'P003', diameter: 'DN400', material: 'PVC', length: '98.3m', depth: '2.1-1.8m', type: '排水' },
+        'L003': { id: 'L003', start: 'P003', end: 'P004', diameter: 'DN200', material: 'PE', length: '156.8m', depth: '1.8-1.2m', type: '燃气' }
+    };
+
+    function showPointInfo(pointId) {
+        const point = pointsData[pointId];
+        if (!point) return;
+        const modal = document.getElementById('pipeInfoModal');
+        document.getElementById('pipeInfoTitle').textContent = '管点信息';
+        document.getElementById('pipeInfoContent').innerHTML = `
+            <div class="space-y-2">
+                <div class="flex justify-between"><span class="text-slate-500">编号:</span><span class="font-medium">${point.id}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">类型:</span><span class="font-medium">${point.type}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">特征:</span><span class="font-medium">${point.feature}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">埋深:</span><span class="font-medium">${point.depth}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">材质:</span><span class="font-medium">${point.material}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">管径:</span><span class="font-medium">${point.diameter}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">坐标:</span><span class="font-medium text-xs">${point.coord}</span></div>
+            </div>
+        `;
+        modal.showModal();
+    }
+
+    function showPipelineInfo(pipelineId) {
+        const pipeline = pipelinesData[pipelineId];
+        if (!pipeline) return;
+        const modal = document.getElementById('pipeInfoModal');
+        document.getElementById('pipeInfoTitle').textContent = '管线信息';
+        document.getElementById('pipeInfoContent').innerHTML = `
+            <div class="space-y-2">
+                <div class="flex justify-between"><span class="text-slate-500">编号:</span><span class="font-medium">${pipeline.id}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">类型:</span><span class="font-medium">${pipeline.type}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">起点:</span><span class="font-medium">${pipeline.start}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">终点:</span><span class="font-medium">${pipeline.end}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">管径:</span><span class="font-medium">${pipeline.diameter}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">材质:</span><span class="font-medium">${pipeline.material}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">长度:</span><span class="font-medium">${pipeline.length}</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">埋深:</span><span class="font-medium">${pipeline.depth}</span></div>
+            </div>
+        `;
+        modal.showModal();
+    }
+
+    function showPointMenu(event, pointId) {
+        event.preventDefault();
+        event.stopPropagation();
+        const menu = document.getElementById('contextMenu');
+        if (!menu) {
+            const newMenu = document.createElement('div');
+            newMenu.id = 'contextMenu';
+            newMenu.className = 'fixed bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-[200] hidden';
+            document.body.appendChild(newMenu);
+        }
+        const menu2 = document.getElementById('contextMenu');
+        menu2.innerHTML = `
+            <button onclick="deletePoint('${pointId}')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">delete</span>删除管点
+            </button>
+            <button onclick="editPoint('${pointId}')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">edit</span>编辑管点
+            </button>
+            <button onclick="mergePoint('${pointId}')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">merge</span>合并管点
+            </button>
+            <button onclick="document.getElementById('contextMenu').classList.add('hidden')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">close</span>取消
+            </button>
+        `;
+        menu2.style.left = event.pageX + 'px';
+        menu2.style.top = event.pageY + 'px';
+        menu2.classList.remove('hidden');
+        setTimeout(() => document.addEventListener('click', () => menu2.classList.add('hidden'), { once: true }), 0);
+    }
+
+    function showPipelineMenu(event, pipelineId) {
+        event.preventDefault();
+        event.stopPropagation();
+        const menu = document.getElementById('contextMenu');
+        if (!menu) {
+            const newMenu = document.createElement('div');
+            newMenu.id = 'contextMenu';
+            newMenu.className = 'fixed bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-[200] hidden';
+            document.body.appendChild(newMenu);
+        }
+        const menu2 = document.getElementById('contextMenu');
+        menu2.innerHTML = `
+            <button onclick="deletePipeline('${pipelineId}')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">delete</span>删除管线
+            </button>
+            <button onclick="editPipeline('${pipelineId}')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">edit</span>编辑管线
+            </button>
+            <button onclick="document.getElementById('contextMenu').classList.add('hidden')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">close</span>取消
+            </button>
+        `;
+        menu2.style.left = event.pageX + 'px';
+        menu2.style.top = event.pageY + 'px';
+        menu2.classList.remove('hidden');
+        setTimeout(() => document.addEventListener('click', () => menu2.classList.add('hidden'), { once: true }), 0);
+    }
+
+    function deletePoint(pointId) {
+        console.log('删除管点:', pointId);
+        document.getElementById('contextMenu').classList.add('hidden');
+    }
+
+    function mergePoint(pointId) {
+        console.log('合并管点:', pointId);
+        document.getElementById('contextMenu').classList.add('hidden');
+    }
+
+    function deletePipeline(pipelineId) {
+        console.log('删除管线:', pipelineId);
+        document.getElementById('contextMenu').classList.add('hidden');
+    }
+
     // 管点搜索下拉 - 模拟数据
     const pipelinePointsMock = [
         { id: 'DL001', type: '电力(DL)', feature: '一般管线', accessory: '无', date: '2018/11/12', owner: '-' },
@@ -1974,7 +2111,7 @@
         initPointTypeSelect();
     });
 
-    // 处理勘测问题弹窗的操作按钮
+    // 处理勘探问题弹窗的操作按钮
     function handleSurveyIssueAction(action) {
         switch(action) {
             case 'modify':
@@ -2411,12 +2548,16 @@
     const mockCoordinates = [];
 
     // 生成模拟坐标数据
+    const updaters = ['张伟', '李明', '王强', '赵敏', '周杰'];
     for (let i = 1; i <= 100; i++) {
+        const date = new Date(2024, 2, Math.floor(Math.random() * 28) + 1, Math.floor(Math.random() * 24), Math.floor(Math.random() * 60), Math.floor(Math.random() * 60));
         mockCoordinates.push({
             id: `DL${String(i).padStart(3, '0')}`,
             x: (2347184 + Math.random() * 1000).toFixed(3),
             y: (434427 + Math.random() * 1000).toFixed(3),
-            elevation: (38 + Math.random() * 10).toFixed(2)
+            elevation: (38 + Math.random() * 10).toFixed(2),
+            updater: updaters[Math.floor(Math.random() * updaters.length)],
+            updateDate: date.toISOString().slice(0, 19).replace('T', ' ')
         });
     }
 
@@ -2455,9 +2596,11 @@
     // 渲染坐标表格
     function renderCoordinateTable() {
         const tbody = document.getElementById('coordinateTableBody');
+        const searchTerm = (document.getElementById('coordPointSearchInput')?.value || '').toLowerCase();
+        const filtered = mockCoordinates.filter(coord => !searchTerm || coord.id.toLowerCase().includes(searchTerm));
         const start = (currentCoordinatePage - 1) * coordinatesPerPage;
         const end = start + coordinatesPerPage;
-        const pageData = mockCoordinates.slice(start, end);
+        const pageData = filtered.slice(start, end);
 
         tbody.innerHTML = pageData.map(coord => `
             <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
@@ -2471,11 +2614,19 @@
                 <td class="px-4 py-3">
                     <input type="text" value="${coord.elevation}" class="w-full px-2 py-1 text-center bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
                 </td>
+                <td class="px-4 py-3 text-center text-slate-600 dark:text-slate-400">${coord.updater}</td>
+                <td class="px-4 py-3 text-center text-slate-600 dark:text-slate-400 text-xs whitespace-nowrap">${coord.updateDate}</td>
                 <td class="px-4 py-3 text-center">
                     <button onclick="loadCoordinate(this)" class="text-primary hover:underline text-xs">载入</button>
                 </td>
             </tr>
         `).join('');
+    }
+
+    // 筛选坐标表格
+    function filterCoordinateTable() {
+        currentCoordinatePage = 1;
+        renderCoordinateTable();
     }
 
     // 导入坐标

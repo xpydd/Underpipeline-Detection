@@ -479,7 +479,7 @@
                      <div class="flex border-b border-slate-200 dark:border-slate-800">
                          <button onclick="switchDetailExplorationTab('radar')" class="detail-exploration-tab active flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-blue-500 text-blue-600 dark:text-blue-400">探地雷达</button>
                          <button onclick="switchDetailExplorationTab('detector')" class="detail-exploration-tab flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">管线探测仪</button>
-                         <button onclick="switchDetailExplorationTab('manual')" class="detail-exploration-tab flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">人工勘察</button>
+                         <button onclick="switchDetailExplorationTab('manual')" class="detail-exploration-tab flex-1 px-2 py-2.5 text-xs font-medium border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">人工勘探</button>
                      </div>
 
                      <!-- Tab Content -->
@@ -492,7 +492,7 @@
                              </button>
                              <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
-                                 <span class="text-xs font-medium">勘测问题</span>
+                                 <span class="text-xs font-medium">勘探问题</span>
                              </button>
                          </div>
 
@@ -520,11 +520,11 @@
                              </button>
                              <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">report_problem</span>
-                                 <span class="text-xs font-medium">勘测问题</span>
+                                 <span class="text-xs font-medium">勘探问题</span>
                              </button>
                          </div>
 
-                         <!-- Tab 3: 人工勘察 -->
+                         <!-- Tab 3: 人工勘探 -->
                          <div id="detail-tab-manual" class="detail-exploration-tab-content hidden grid grid-cols-2 gap-2">
                              <button onclick="document.getElementById('drawPipePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">share_location</span>
@@ -583,7 +583,7 @@
                                     </label>
                                     <label class="flex items-center gap-2 cursor-pointer hover:text-orange-400">
                                         <input type="radio" name="explore-method" value="manual" class="rounded-full border-slate-600 bg-slate-700 text-orange-500 focus:ring-0 size-3">
-                                        人工勘察
+                                        人工勘探
                                     </label>
                                 </div>
                             </div>
@@ -638,9 +638,10 @@
             <!-- 底部：问题台账 -->
             <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 p-4 h-[560px]">
                 <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-sm font-bold text-slate-800 dark:text-white">勘测问题台账</h4>
+                    <h4 class="text-sm font-bold text-slate-800 dark:text-white">勘探问题台账</h4>
                     <div class="flex gap-2 items-center">
-                        <input type="text" id="issueSearchInput" placeholder="搜索问题..." class="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none w-48" oninput="filterIssues()">
+                        <input type="text" id="issuePipelineSearchInput" placeholder="搜索管点编号..." class="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none w-40" oninput="filterIssues()">
+                        <input type="text" id="issueSearchInput" placeholder="搜索问题..." class="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none w-40" oninput="filterIssues()">
                         <select id="issueStatusFilter" class="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary outline-none" onchange="filterIssues()">
                             <option value="">全部状态</option>
                             <option value="pending">待处理</option>
@@ -667,6 +668,8 @@
                                 <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-24">影像资料</th>
                                 <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-20">创建人</th>
                                 <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-24">创建日期</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-20">更新人</th>
+                                <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-32">更新日期</th>
                                 <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-24">截止日期</th>
                                 <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-20">状态</th>
                                 <th class="px-3 py-2.5 text-left font-bold text-slate-600 dark:text-slate-300 w-28">操作</th>
@@ -707,6 +710,8 @@
                                 </td>
                                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400">张伟</td>
                                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-01</td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400">李明</td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-05 14:30:25</td>
                                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-10</td>
                                 <td class="px-3 py-3">
                                     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-50 text-red-600 text-[10px] font-medium border border-red-200 whitespace-nowrap">
@@ -759,6 +764,8 @@
                                 </td>
                                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400">李明</td>
                                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-02</td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400">王强</td>
+                                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-06 09:15:42</td>
                                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">2024-03-12</td>
                                 <td class="px-3 py-3">
                                     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-medium border border-emerald-200 whitespace-nowrap">
@@ -1188,7 +1195,7 @@
             <table class="w-full text-xs">
                 <thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
                     <tr class="border-b border-slate-100 dark:border-slate-800">
-                        <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-32">物探编号</th>
+                        <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-32">管点编号</th>
                         <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300" colspan="2">平面坐标(m)</th>
                         <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-28">高程(m)</th>
                         <th class="px-4 py-2.5 text-center font-bold text-slate-600 dark:text-slate-300 w-24">操作</th>
@@ -1283,24 +1290,24 @@
         </div>
         <div class="p-4 space-y-3">
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">管点/管线编号</label>
-                <input type="text" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入管点或管线编号">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>管点/管线编号</label>
+                <input type="text" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入管点或管线编号">
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">问题描述</label>
-                <textarea rows="3" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请描述遇到的问题"></textarea>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>问题描述</label>
+                <textarea rows="3" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请描述遇到的问题"></textarea>
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">解决方案</label>
-                <textarea rows="3" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入解决方案"></textarea>
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>解决方案</label>
+                <textarea rows="3" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入解决方案"></textarea>
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">截止日期</label>
-                <input type="date" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>截止日期</label>
+                <input type="date" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">影像资料</label>
-                <input type="file" multiple accept="image/*" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1"><span class="text-red-500 mr-0.5">*</span>影像资料</label>
+                <input type="file" multiple accept="image/*" required class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
             </div>
         </div>
         <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27]">
@@ -2000,7 +2007,7 @@
         initPointTypeSelect();
     });
 
-    // 处理勘测问题弹窗的操作按钮
+    // 处理勘探问题弹窗的操作按钮
     function handleSurveyIssueAction(action) {
         switch(action) {
             case 'modify':
@@ -2678,10 +2685,10 @@
 
     // 初始化问题台账表格
     let allIssues = [
-        { id: 1, pipeline: 'YJ001', desc: '管井封闭无法作业', solution: '联系业主单位协调开启', images: 3, creator: '张伟', createDate: '2024-03-01', deadline: '2024-03-10', status: 'pending' },
-        { id: 2, pipeline: 'GX-002', desc: '管线埋深超限', solution: '采用探地雷达辅助探测', images: 2, creator: '李明', createDate: '2024-03-02', deadline: '2024-03-12', status: 'resolved' },
-        { id: 3, pipeline: 'YJ003', desc: '管点位置偏移', solution: '重新测量坐标', images: 1, creator: '王强', createDate: '2024-03-03', deadline: '2024-03-15', status: 'pending' },
-        { id: 4, pipeline: 'GX-004', desc: '管线材质不明', solution: '现场开挖确认', images: 4, creator: '赵敏', createDate: '2024-03-04', deadline: '2024-03-14', status: 'resolved' }
+        { id: 1, pipeline: 'YJ001', desc: '管井封闭无法作业', solution: '联系业主单位协调开启', images: 3, creator: '张伟', createDate: '2024-03-01', updater: '李明', updateDate: '2024-03-05 14:30:25', deadline: '2024-03-10', status: 'pending' },
+        { id: 2, pipeline: 'GX-002', desc: '管线埋深超限', solution: '采用探地雷达辅助探测', images: 2, creator: '李明', createDate: '2024-03-02', updater: '王强', updateDate: '2024-03-06 09:15:42', deadline: '2024-03-12', status: 'resolved' },
+        { id: 3, pipeline: 'YJ003', desc: '管点位置偏移', solution: '重新测量坐标', images: 1, creator: '王强', createDate: '2024-03-03', updater: '赵敏', updateDate: '2024-03-04 16:20:10', deadline: '2024-03-15', status: 'pending' },
+        { id: 4, pipeline: 'GX-004', desc: '管线材质不明', solution: '现场开挖确认', images: 4, creator: '赵敏', createDate: '2024-03-04', updater: '张伟', updateDate: '2024-03-05 11:45:33', deadline: '2024-03-14', status: 'resolved' }
     ];
     let filteredIssues = [...allIssues];
     let currentIssuePage = 1;
@@ -2721,6 +2728,8 @@
                 </td>
                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400">${issue.creator}</td>
                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">${issue.createDate}</td>
+                <td class="px-3 py-3 text-slate-600 dark:text-slate-400">${issue.updater}</td>
+                <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">${issue.updateDate}</td>
                 <td class="px-3 py-3 text-slate-600 dark:text-slate-400 text-xs">${issue.deadline}</td>
                 <td class="px-3 py-3">
                     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${issue.status === 'pending' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-emerald-50 text-emerald-600 border-emerald-200'} text-[10px] font-medium border whitespace-nowrap">
@@ -2766,16 +2775,17 @@
     }
 
     function filterIssues() {
+        const pipelineSearchText = document.getElementById('issuePipelineSearchInput').value.toLowerCase();
         const searchText = document.getElementById('issueSearchInput').value.toLowerCase();
         const statusFilter = document.getElementById('issueStatusFilter').value;
 
         filteredIssues = allIssues.filter(issue => {
+            const matchPipeline = !pipelineSearchText || issue.pipeline.toLowerCase().includes(pipelineSearchText);
             const matchSearch = !searchText ||
-                issue.pipeline.toLowerCase().includes(searchText) ||
                 issue.desc.toLowerCase().includes(searchText) ||
                 issue.solution.toLowerCase().includes(searchText);
             const matchStatus = !statusFilter || issue.status === statusFilter;
-            return matchSearch && matchStatus;
+            return matchPipeline && matchSearch && matchStatus;
         });
 
         currentIssuePage = 1;
