@@ -126,16 +126,8 @@
                     <p class="error-message" id="passwordError">请输入密码</p>
                 </div>
 
-                <!-- 记住我和忘记密码 -->
-                <div class="flex items-center justify-between mb-6">
-                    <label class="flex items-center cursor-pointer">
-                        <input
-                            type="checkbox"
-                            id="rememberMe"
-                            class="w-4 h-4 text-primary bg-slate-50 border-slate-300 rounded focus:ring-2 focus:ring-primary dark:bg-slate-900 dark:border-slate-600"
-                        />
-                        <span class="ml-2 text-sm text-slate-600 dark:text-slate-400">记住我</span>
-                    </label>
+                <!-- 忘记密码 -->
+                <div class="flex items-center justify-end mb-6">
                     <a href="#" id="forgotPassword" class="text-sm text-primary hover:text-primary/80 font-medium transition-colors">
                         忘记密码？
                     </a>
@@ -260,10 +252,9 @@
             // 获取表单数据
             const phone = phoneInput.value.trim();
             const password = passwordInput.value.trim();
-            const rememberMe = document.getElementById('rememberMe').checked;
 
             // 模拟登录过程
-            console.log('登录信息:', { phone, password, rememberMe });
+            console.log('登录信息:', { phone, password });
 
             // 显示加载状态
             const submitButton = loginForm.querySelector('button[type="submit"]');
@@ -273,11 +264,6 @@
 
             // 模拟登录延迟
             setTimeout(() => {
-                // 保存登录状态（可选）
-                if (rememberMe) {
-                    localStorage.setItem('rememberedPhone', phone);
-                }
-
                 // 登录成功，跳转到项目管理页面
                 // 使用 APP_CONFIG 确保路径正确
                 if (window.APP_CONFIG) {
@@ -292,15 +278,6 @@
         forgotPasswordLink.addEventListener('click', function(e) {
             e.preventDefault();
             alert('请联系系统管理员重置密码\n联系电话：400-XXX-XXXX');
-        });
-
-        // 页面加载时检查是否有记住的手机号
-        window.addEventListener('DOMContentLoaded', function() {
-            const rememberedPhone = localStorage.getItem('rememberedPhone');
-            if (rememberedPhone) {
-                phoneInput.value = rememberedPhone;
-                document.getElementById('rememberMe').checked = true;
-            }
         });
 
         // 回车键快捷登录
