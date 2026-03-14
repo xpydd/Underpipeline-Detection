@@ -586,7 +586,6 @@
                                     <th rowspan="2" class="min-w-[80px]">管线点号</th>
                                     <th rowspan="2" class="min-w-[80px]">连接点号</th>
                                     <th rowspan="2" class="min-w-[80px]">连接点长度<br/>(m)</th>
-                                    <th rowspan="2" class="min-w-[70px]">管线走向</th>
                                     <th colspan="2">管线点类别</th>
                                     <th rowspan="2" class="min-w-[50px]">材质</th>
                                     <th colspan="2">管线规格(mm)</th>
@@ -709,7 +708,6 @@
                                 <th rowspan="2">管线点号</th>
                                 <th rowspan="2">连接点号</th>
                                 <th rowspan="2">连接点长度(m)</th>
-                                <th rowspan="2">管线走向</th>
                                 <th colspan="2">管线点类别</th>
                                 <th rowspan="2">材质</th>
                                 <th colspan="2">管线规格(mm)</th>
@@ -761,7 +759,6 @@
                                 <th rowspan="2">管线点号</th>
                                 <th rowspan="2">连接点号</th>
                                 <th rowspan="2">连接点长度(m)</th>
-                                <th rowspan="2">管线走向</th>
                                 <th colspan="2">管线点类别</th>
                                 <th rowspan="2">材质</th>
                                 <th colspan="2">管线规格(mm)</th>
@@ -881,7 +878,6 @@
                     <td>${row.pointNo}</td>
                     <td>${row.connectNo}</td>
                     <td>${row.length}</td>
-                    <td>${row.direction}</td>
                     <td>${row.feature}</td>
                     <td>${row.attachment}</td>
                     <td>${row.material}</td>
@@ -1402,7 +1398,6 @@
                     <td>${this.renderEditableCell(row.pointNo)}</td>
                     <td>${this.renderEditableCell(row.connectNo)}</td>
                     <td>${this.renderEditableCell(row.length)}</td>
-                    <td>${this.renderEditableCell(row.direction, '', 'select', ['南北向', '东西向', '东北-西南', '西北-东南'])}</td>
                     <td>${this.renderEditableCell(row.feature, '', 'select', ['管点', '折点', '三通', '弯头'])}</td>
                     <td>${this.renderEditableCell(row.attachment, '', 'select', ['', '井盖', '阀门', '标识桩'])}</td>
                     <td>${this.renderEditableCell(row.material, '', 'select', ['PE', 'PVC', '钢', '铸铁', '混凝土'])}</td>
