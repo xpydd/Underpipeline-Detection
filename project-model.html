@@ -111,11 +111,26 @@
 
         .model-tree-item {
             cursor: pointer;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 6px;
             transition: all 0.2s;
             color: #64748b;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .model-tree-item.font-semibold {
+            color: #475569;
+            font-weight: 600;
+            background-color: #f8fafc;
+            margin-bottom: 4px;
+        }
+
+        .dark .model-tree-item.font-semibold {
+            color: #cbd5e1;
+            background-color: #1e293b;
         }
 
         .dark .model-tree-item {
@@ -299,7 +314,7 @@
     </div>
 
     <!-- 页面布局：左侧导航 + 右侧内容 -->
-    <div class="flex gap-4 items-start h-[calc(100vh-10rem)]">
+    <div class="flex gap-4 items-start h-[calc(100vh-14rem)]">
         <!-- 二级菜单 (Left Sidebar) -->
         <nav class="w-16 shrink-0 space-y-2 sticky top-0 flex flex-col items-center py-2 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 h-full z-50">
             <a href="project-detail.html" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="项目">
@@ -329,40 +344,116 @@
             <!-- 模型视图 -->
             <div class="w-full h-full flex gap-4">
                 <!-- 左侧模型类型树 -->
-                <div class="w-[180px] shrink-0 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col">
-                    <div class="p-3 border-b border-slate-100 dark:border-slate-800">
-                        <button class="w-full px-3 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1">
-                            <span class="material-symbols-outlined text-sm">add_circle</span>
-                            生成模型
-                        </button>
+                <div class="w-[200px] shrink-0 space-y-3 flex flex-col h-full">
+                    <!-- 模型筛选区 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col flex-1 min-h-0">
+                        <div class="px-3 py-2 border-b border-slate-100 dark:border-slate-800">
+                            <h4 class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-sm">filter_alt</span>
+                                模型筛选
+                            </h4>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-2 custom-scrollbar model-tree" id="model-tree">
+                            <!-- 树形菜单将通过 JavaScript 动态生成 -->
+                        </div>
                     </div>
-                    <div class="flex-1 overflow-y-auto p-2 custom-scrollbar model-tree" id="model-tree">
-                        <!-- 树形菜单将通过 JavaScript 动态生成 -->
+
+                    <!-- 操作按钮区 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 p-3 space-y-2">
+                        <button class="w-full px-3 py-2.5 bg-gradient-to-r from-primary to-emerald-400 hover:from-primary/90 hover:to-emerald-400/90 text-white rounded-lg text-xs font-semibold transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-base">upload_file</span>
+                            导入数据生成模型
+                        </button>
+                        <button class="w-full px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-sm">save</span>
+                            保存模型
+                        </button>
+                        <button class="w-full px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-sm">download</span>
+                            导出图形
+                        </button>
                     </div>
                 </div>
 
                 <!-- 右侧模型显示区域 -->
                 <div class="flex-1 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col relative">
+                    <!-- 项目信息栏 -->
+                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-primary/5 to-transparent">
+                        <div class="flex items-center gap-6 text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">person</span>
+                                <span class="text-slate-500 dark:text-slate-400">模型处理：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="model-processor-info">张三</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">public</span>
+                                <span class="text-slate-500 dark:text-slate-400">坐标系：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="coordinate-system-info">CGCS2000</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">height</span>
+                                <span class="text-slate-500 dark:text-slate-400">高程系：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="elevation-system-info">1985国家高程基准</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 顶部工具栏 -->
-                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-900/30">
+                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-slate-50 to-slate-100/50 dark:from-slate-900/30 dark:to-slate-900/20">
                         <div class="flex items-center gap-3">
-                            <h3 class="text-sm font-bold text-slate-900 dark:text-white">模型</h3>
-                            <span class="text-xs text-slate-500 dark:text-slate-400">三维模型，鼠标控制，可调整视图方向</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-1 h-5 bg-primary rounded-full"></div>
+                                <h3 class="text-sm font-bold text-slate-900 dark:text-white">三维模型视图</h3>
+                            </div>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">info</span>
+                                鼠标控制视图方向
+                            </span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button id="wireframeBtn" onclick="switchRenderMode('wireframe')" class="px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 rounded text-xs font-medium transition-colors flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">line_style</span>
-                                线框
-                            </button>
-                            <button id="realisticBtn" onclick="switchRenderMode('realistic')" class="px-3 py-1.5 text-primary bg-primary/10 rounded text-xs font-medium transition-colors flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">check_box</span>
-                                真实
-                            </button>
-                            <div class="w-px h-4 bg-slate-300 dark:bg-slate-600"></div>
-                            <button class="px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-orange-50 dark:hover:bg-slate-800 hover:text-orange-600 rounded text-xs font-medium transition-colors flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">map</span>
+                            <div class="flex items-center bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 shadow-sm">
+                                <button id="wireframeBtn" onclick="switchRenderMode('wireframe')" class="px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md text-xs font-medium transition-all flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base">grid_4x4</span>
+                                    线框
+                                </button>
+                                <button id="realisticBtn" onclick="switchRenderMode('realistic')" class="px-3 py-1.5 text-white bg-primary shadow-sm rounded-md text-xs font-semibold transition-all flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base">view_in_ar</span>
+                                    真实
+                                </button>
+                            </div>
+                            <div class="w-px h-6 bg-slate-300 dark:bg-slate-600"></div>
+                            <button class="px-3 py-2 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 hover:border-orange-300 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium transition-all shadow-sm hover:shadow flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">content_cut</span>
                                 局部剖面
                             </button>
+                            <div class="w-px h-6 bg-slate-300 dark:bg-slate-600"></div>
+                            <div class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm">
+                                <span class="text-xs font-medium text-slate-700 dark:text-slate-300">三维地形</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="terrainToggle" class="sr-only peer">
+                                    <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
+                                </label>
+                            </div>
+                            <div class="w-px h-6 bg-slate-300 dark:bg-slate-600"></div>
+                            <div class="relative group">
+                                <button class="px-3 py-2 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium transition-all shadow-sm flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base">edit</span>
+                                    编辑
+                                    <span class="material-symbols-outlined text-sm">arrow_drop_down</span>
+                                </button>
+                                <div class="hidden group-hover:block absolute right-0 top-full mt-1 w-40 bg-white dark:bg-[#161e27] rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 py-1 z-50">
+                                    <div class="px-3 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">管点编辑</div>
+                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">新增管点</button>
+                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">删除管点</button>
+                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">移动管点</button>
+                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">合并管点</button>
+                                    <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                                    <div class="px-3 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">管线编辑</div>
+                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">新增管线</button>
+                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">删除管线</button>
+                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">修改管线</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -465,6 +556,18 @@
             this.renderModelTree();
             this.bindEvents();
             this.initCanvas();
+            this.initTerrainToggle();
+        }
+
+        // 初始化地形开关
+        initTerrainToggle() {
+            const toggle = document.getElementById('terrainToggle');
+            if (toggle) {
+                toggle.addEventListener('change', (e) => {
+                    this.terrainEnabled = e.target.checked;
+                    this.updateModel();
+                });
+            }
         }
 
         // 渲染模型类型树
@@ -481,32 +584,26 @@
             nodes.forEach(node => {
                 const paddingLeft = level * 12;
 
-                if (node.type === 'root') {
-                    // 根节点样式
-                    html += `<div class="mb-2">`;
-                    html += `<div class="model-tree-category" style="padding-left: ${paddingLeft}px;" data-node="${node.name}">${node.name} &gt;&gt;</div>`;
-
-                    if (node.children && node.children.length > 0 && node.expanded) {
-                        html += this.renderTreeNodes(node.children, level + 1);
-                    }
-
-                    html += `</div>`;
-                } else if (node.type === 'category') {
+                if (node.type === 'category') {
                     // 分类节点样式
-                    html += `<div class="model-tree-subcategory" style="padding-left: ${paddingLeft}px;">`;
-                    html += `<div class="model-tree-item" data-model="${node.name}" data-category="true">${node.name}</div>`;
+                    const icon = node.expanded ? 'expand_more' : 'chevron_right';
+                    html += `<div class="mb-1">`;
+                    html += `<div class="model-tree-item font-semibold" style="padding-left: ${paddingLeft}px;" data-model="${node.name}" data-category="true">
+                        <span>${node.name}</span>
+                        <span class="material-symbols-outlined text-base text-slate-400">${icon}</span>
+                    </div>`;
 
                     if (node.children && node.children.length > 0 && node.expanded) {
+                        html += `<div class="model-tree-subcategory">`;
                         html += this.renderTreeNodes(node.children, level + 1);
+                        html += `</div>`;
                     }
 
                     html += `</div>`;
                 } else if (node.type === 'item') {
                     // 叶子节点样式
                     const activeClass = node.name === this.currentModel ? 'active' : '';
-                    html += `<div class="model-tree-subcategory" style="padding-left: ${paddingLeft}px;">`;
-                    html += `<div class="model-tree-item ${activeClass}" data-model="${node.name}">${node.name}</div>`;
-                    html += `</div>`;
+                    html += `<div class="model-tree-item ${activeClass}" style="padding-left: ${paddingLeft}px;" data-model="${node.name}">${node.name}</div>`;
                 }
             });
 
@@ -539,23 +636,6 @@
                 });
             });
 
-            // 根节点点击展开/收起
-            document.querySelectorAll('.model-tree-category').forEach(category => {
-                category.addEventListener('click', (e) => {
-                    this.toggleRootNode(e.target.dataset.node);
-                });
-            });
-        }
-
-        // 切换根节点展开/收起
-        toggleRootNode(nodeName) {
-            const treeData = this.getTreeData();
-            const node = treeData.find(n => n.name === nodeName);
-            if (node) {
-                node.expanded = !node.expanded;
-                this.renderModelTree();
-                this.bindEvents();
-            }
         }
 
         // 切换分类节点展开/收起
@@ -585,116 +665,70 @@
         getTreeData() {
             if (!this.treeData) {
                 this.treeData = [
+                    { name: '全部', type: 'item' },
                     {
-                        name: '全部模型',
-                        type: 'root',
-                        expanded: true,
+                        name: '给水',
+                        type: 'category',
+                        expanded: false,
                         children: [
-                            { name: '全部', type: 'item' },
-                            {
-                                name: '给水',
-                                type: 'category',
-                                expanded: false,
-                                children: [
-                                    { name: '原水', type: 'item' },
-                                    { name: '输水', type: 'item' },
-                                    { name: '中水', type: 'item' },
-                                    { name: '配水', type: 'item' },
-                                    { name: '直饮水', type: 'item' },
-                                    { name: '消防水', type: 'item' },
-                                    { name: '绿化水', type: 'item' },
-                                    { name: '循环水', type: 'item' }
-                                ]
-                            },
-                            {
-                                name: '排水',
-                                type: 'category',
-                                expanded: false,
-                                children: [
-                                    { name: '雨水', type: 'item' },
-                                    { name: '污水', type: 'item' },
-                                    { name: '雨污合流', type: 'item' }
-                                ]
-                            },
-                            {
-                                name: '燃气',
-                                type: 'category',
-                                expanded: false,
-                                children: [
-                                    { name: '煤气', type: 'item' },
-                                    { name: '液化气', type: 'item' },
-                                    { name: '天然气', type: 'item' }
-                                ]
-                            },
-                            { name: '热力', type: 'category', expanded: false, children: [] },
-                            {
-                                name: '电力',
-                                type: 'category',
-                                expanded: false,
-                                children: [
-                                    { name: '供电', type: 'item' },
-                                    { name: '路灯', type: 'item' },
-                                    { name: '交通信号', type: 'item' },
-                                    { name: '电车', type: 'item' },
-                                    { name: '广告', type: 'item' }
-                                ]
-                            },
-                            {
-                                name: '通信',
-                                type: 'category',
-                                expanded: false,
-                                children: [
-                                    { name: '信息网络', type: 'item' },
-                                    { name: '电信', type: 'item' },
-                                    { name: '移动', type: 'item' },
-                                    { name: '联通', type: 'item' },
-                                    { name: '网通', type: 'item' },
-                                    { name: '架空通信', type: 'item' }
-                                ]
-                            },
-                            { name: '工业', type: 'category', expanded: false, children: [] },
-                            { name: '其他', type: 'category', expanded: false, children: [] },
-                            { name: '三维地形', type: 'category', expanded: false, children: [] }
+                            { name: '原水', type: 'item' },
+                            { name: '输水', type: 'item' },
+                            { name: '中水', type: 'item' },
+                            { name: '配水', type: 'item' },
+                            { name: '直饮水', type: 'item' },
+                            { name: '消防水', type: 'item' },
+                            { name: '绿化水', type: 'item' },
+                            { name: '循环水', type: 'item' }
                         ]
                     },
                     {
-                        name: '模型修改',
-                        type: 'root',
+                        name: '排水',
+                        type: 'category',
                         expanded: false,
                         children: [
-                            {
-                                name: '管点编辑',
-                                type: 'category',
-                                expanded: false,
-                                children: [
-                                    { name: '新增管点', type: 'item' },
-                                    { name: '删除管点', type: 'item' },
-                                    { name: '移动管点', type: 'item' },
-                                    { name: '合并管点', type: 'item' }
-                                ]
-                            },
-                            {
-                                name: '管线编辑',
-                                type: 'category',
-                                expanded: false,
-                                children: [
-                                    { name: '新增管线', type: 'item' },
-                                    { name: '删除管线', type: 'item' },
-                                    { name: '修改管线', type: 'item' }
-                                ]
-                            }
+                            { name: '雨水', type: 'item' },
+                            { name: '污水', type: 'item' },
+                            { name: '雨污合流', type: 'item' }
                         ]
                     },
                     {
-                        name: '后处理',
-                        type: 'root',
+                        name: '燃气',
+                        type: 'category',
                         expanded: false,
                         children: [
-                            { name: '保存模型', type: 'item' },
-                            { name: '导出图形', type: 'item' },
-                            { name: '模型转数据', type: 'item' }
+                            { name: '煤气', type: 'item' },
+                            { name: '液化气', type: 'item' },
+                            { name: '天然气', type: 'item' }
                         ]
-                    }
+                    },
+                    { name: '热力', type: 'category', expanded: false, children: [] },
+                    {
+                        name: '电力',
+                        type: 'category',
+                        expanded: false,
+                        children: [
+                            { name: '供电', type: 'item' },
+                            { name: '路灯', type: 'item' },
+                            { name: '交通信号', type: 'item' },
+                            { name: '电车', type: 'item' },
+                            { name: '广告', type: 'item' }
+                        ]
+                    },
+                    {
+                        name: '通信',
+                        type: 'category',
+                        expanded: false,
+                        children: [
+                            { name: '信息网络', type: 'item' },
+                            { name: '电信', type: 'item' },
+                            { name: '移动', type: 'item' },
+                            { name: '联通', type: 'item' },
+                            { name: '网通', type: 'item' },
+                            { name: '架空通信', type: 'item' }
+                        ]
+                    },
+                    { name: '工业', type: 'category', expanded: false, children: [] },
+                    { name: '其他', type: 'category', expanded: false, children: [] }
                 ];
             }
             return this.treeData;
@@ -759,6 +793,9 @@
 
             const modeText = this.renderMode === 'wireframe' ? '线框模式' : '真实模式';
             ctx.fillText(`渲染模式: ${modeText}`, width / 2, height / 2 + 40);
+
+            const terrainText = this.terrainEnabled ? '地形: 开启' : '地形: 关闭';
+            ctx.fillText(terrainText, width / 2, height / 2 + 70);
         }
 
         // 更新模型显示
@@ -801,15 +838,11 @@
         const realisticBtn = document.getElementById('realisticBtn');
 
         if (mode === 'wireframe') {
-            // 激活线框按钮
-            wireframeBtn.className = 'px-3 py-1.5 text-primary bg-primary/10 rounded text-xs font-medium transition-colors flex items-center gap-1';
-            // 取消真实按钮激活
-            realisticBtn.className = 'px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 rounded text-xs font-medium transition-colors flex items-center gap-1';
+            wireframeBtn.className = 'px-3 py-1.5 text-white bg-primary shadow-sm rounded-md text-xs font-semibold transition-all flex items-center gap-1.5';
+            realisticBtn.className = 'px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md text-xs font-medium transition-all flex items-center gap-1.5';
         } else if (mode === 'realistic') {
-            // 激活真实按钮
-            realisticBtn.className = 'px-3 py-1.5 text-primary bg-primary/10 rounded text-xs font-medium transition-colors flex items-center gap-1';
-            // 取消线框按钮激活
-            wireframeBtn.className = 'px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 rounded text-xs font-medium transition-colors flex items-center gap-1';
+            realisticBtn.className = 'px-3 py-1.5 text-white bg-primary shadow-sm rounded-md text-xs font-semibold transition-all flex items-center gap-1.5';
+            wireframeBtn.className = 'px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md text-xs font-medium transition-all flex items-center gap-1.5';
         }
 
         // 更新ModelManager的渲染模式

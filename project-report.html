@@ -114,7 +114,7 @@
 
         .report-tree-item {
             cursor: pointer;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 6px;
             transition: all 0.2s;
             color: #64748b;
@@ -150,43 +150,48 @@
         }
 
         .report-tree-category {
-            font-weight: 700;
+            font-weight: 600;
             color: #475569;
-            padding: 8px 10px;
+            padding: 8px 12px;
             cursor: pointer;
             user-select: none;
             border-radius: 6px;
             transition: all 0.2s;
             font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f8fafc;
+            margin-bottom: 4px;
         }
 
         .dark .report-tree-category {
-            color: #94a3b8;
+            color: #cbd5e1;
+            background-color: #1e293b;
         }
 
         .report-tree-category:hover {
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
             color: #1e293b;
         }
 
         .dark .report-tree-category:hover {
-            background-color: #1e293b;
+            background-color: #334155;
             color: #e2e8f0;
         }
 
         .report-tree-subcategory {
-            padding-left: 16px;
+            padding-left: 12px;
         }
 
         .report-tree-subcategory .report-tree-item {
             font-size: 12px;
-            padding: 5px 10px;
+            padding: 6px 10px;
         }
 
-        /* 嵌套的category样式（如成果汇总） */
         .report-tree-subcategory .report-tree-category {
             font-size: 12px;
-            padding: 5px 10px;
+            padding: 6px 10px;
             font-weight: 600;
         }
 
@@ -335,7 +340,7 @@
     </div>
 
     <!-- 页面布局：左侧导航 + 右侧内容 -->
-    <div class="flex gap-4 items-start h-[calc(100vh-10rem)]">
+    <div class="flex gap-4 items-start h-[calc(100vh-14rem)]">
         <!-- 二级菜单 (Left Sidebar) -->
         <nav class="w-16 shrink-0 space-y-2 sticky top-0 flex flex-col items-center py-2 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 h-full z-50">
             <a href="project-detail.html" class="w-10 h-10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center rounded-lg transition-colors group relative" title="项目">
@@ -365,29 +370,42 @@
             <!-- 报告视图 -->
             <div class="w-full h-full flex gap-4">
                 <!-- 左侧报告导航树 -->
-                <div class="w-[200px] shrink-0 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col">
-                    <div class="p-3">
-                        <button class="w-full px-3 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1">
+                <div class="w-[200px] shrink-0 space-y-3 flex flex-col h-full">
+                    <!-- 前端数据导入按钮 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 p-3">
+                        <button class="w-full px-3 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5">
                             <span class="material-symbols-outlined text-sm">upload_file</span>
                             前端数据导入
                         </button>
                     </div>
-                    <div class="flex-1 overflow-y-auto p-3 custom-scrollbar">
+
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col flex-1 min-h-0">
+                        <div class="px-3 py-2 border-b border-slate-100 dark:border-slate-800">
+                            <h4 class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-sm">description</span>
+                                报告管理
+                            </h4>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-2 custom-scrollbar">
                         <div class="space-y-1">
                             <div class="report-tree-item text-xs" data-view="preview">
                                 <span class="material-symbols-outlined text-sm">description</span>
                                 生成报告
                             </div>
                             <div class="report-tree-category text-xs" data-category="edit">
-                                <span class="material-symbols-outlined text-sm">edit</span>
-                                报告修改
+                                <span class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                    报告修改
+                                </span>
+                                <span class="material-symbols-outlined text-base text-slate-400">chevron_right</span>
                             </div>
-                            <div class="report-tree-subcategory" id="edit-submenu" style="display: none;">
+                            <div class="report-tree-subcategory" id="edit-submenu">
                                 <div class="report-tree-item text-xs" data-view="edit-text">
                                     报告正文
                                 </div>
                                 <div class="report-tree-category text-xs" data-category="summary">
-                                    成果汇总
+                                    <span>成果汇总</span>
+                                    <span class="material-symbols-outlined text-base text-slate-400">chevron_right</span>
                                 </div>
                                 <div class="report-tree-subcategory" id="summary-submenu" style="display: none;">
                                     <div class="report-tree-item text-xs" data-view="edit-drawing">
@@ -405,8 +423,11 @@
                                 </div>
                             </div>
                             <div class="report-tree-category text-xs" data-category="review">
-                                <span class="material-symbols-outlined text-sm">check_circle</span>
-                                报告校审
+                                <span class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-sm">check_circle</span>
+                                    报告校审
+                                </span>
+                                <span class="material-symbols-outlined text-base text-slate-400">chevron_right</span>
                             </div>
                             <div class="report-tree-subcategory" id="review-submenu" style="display: none;">
                                 <div class="report-tree-item text-xs" data-view="review-submit">
@@ -418,23 +439,42 @@
                             </div>
                         </div>
                     </div>
+                    </div>
+
+                    <!-- 导出报告按钮 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 p-3">
+                        <button class="w-full px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-sm">download</span>
+                            导出报告
+                        </button>
+                    </div>
                 </div>
 
                 <!-- 右侧报告内容区域 -->
                 <div class="flex-1 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col relative">
+                    <!-- 项目信息栏 -->
+                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-primary/5 to-transparent">
+                        <div class="flex items-center gap-6 text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">person</span>
+                                <span class="text-slate-500 dark:text-slate-400" id="person-label">报告编制：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="person-info">李四</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">map</span>
+                                <span class="text-slate-500 dark:text-slate-400">坐标系：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="coordinate-system-info">CGCS2000</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">height</span>
+                                <span class="text-slate-500 dark:text-slate-400">高程系：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="elevation-system-info">1985国家高程基准</span>
+                            </div>
+                        </div>
+                    </div>
                     <!-- 顶部工具栏 -->
-                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-900/30">
-                        <div class="flex items-center gap-3">
-                            <h3 id="view-title" class="text-sm font-bold text-slate-900 dark:text-white">生成报告</h3>
-                        </div>
-                        <div id="editor-toolbar" class="flex items-center gap-2" style="display: none;">
-                            <button class="px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-xs font-medium transition-colors">
-                                预览
-                            </button>
-                            <button class="px-3 py-1.5 bg-primary hover:bg-primary/90 text-white rounded text-xs font-semibold transition-colors">
-                                生成报告
-                            </button>
-                        </div>
+                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30">
+                        <h3 id="view-title" class="text-sm font-bold text-slate-900 dark:text-white">生成报告</h3>
                     </div>
 
                     <!-- 预览视图 -->
@@ -702,9 +742,12 @@
                                             <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">序号</th>
                                             <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">提交状态</th>
                                             <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">提交日期</th>
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">状态</th>
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">校审人</th>
                                             <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">校审日期</th>
                                             <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">结论</th>
                                             <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">结果附件</th>
+                                            <th class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -712,6 +755,10 @@
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">1</td>
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">第一次提交</td>
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2025/11/30</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center">
+                                                <span class="px-2 py-0.5 bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 rounded text-xs">不通过</span>
+                                            </td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">张三</td>
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2025/12/05</td>
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">
                                                 <div>无重大问题，</div>
@@ -720,15 +767,26 @@
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center">
                                                 <a href="#" class="text-primary hover:underline">文件RAR</a>
                                             </td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-400 dark:text-slate-500">
+                                                -
+                                            </td>
                                         </tr>
                                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2</td>
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-red-500">修改二次提交</td>
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2025/12/10</td>
-                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">2025/12/15</td>
-                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-900 dark:text-slate-100">通过校审</td>
                                             <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center">
-                                                <a href="#" class="text-primary hover:underline">文件RAR</a>
+                                                <span class="px-2 py-0.5 bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400 rounded text-xs">待审核</span>
+                                            </td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-400 dark:text-slate-500">-</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-400 dark:text-slate-500">-</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-400 dark:text-slate-500">-</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center text-slate-400 dark:text-slate-500">-</td>
+                                            <td class="border border-slate-300 dark:border-slate-600 px-3 py-2 text-xs text-center">
+                                                <div class="flex items-center justify-center gap-2">
+                                                    <button class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs transition-colors">不通过</button>
+                                                    <button class="px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs transition-colors">通过</button>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -861,8 +919,9 @@
         const editorView = document.getElementById('editor-view');
         const reviewSubmitView = document.getElementById('review-submit-view');
         const reviewResultView = document.getElementById('review-result-view');
-        const editorToolbar = document.getElementById('editor-toolbar');
         const viewTitle = document.getElementById('view-title');
+        const personLabel = document.getElementById('person-label');
+        const personInfo = document.getElementById('person-info');
 
         // 隐藏所有视图
         previewView.style.display = 'none';
@@ -871,42 +930,32 @@
         reviewResultView.style.display = 'none';
 
         if (viewType === 'preview') {
-            // 显示预览视图
             previewView.style.display = 'block';
             currentView = 'preview';
-            // 隐藏工具栏
-            editorToolbar.style.display = 'none';
-            // 更新标题
             viewTitle.textContent = '生成报告';
+            personLabel.textContent = '报告编制：';
+            personInfo.textContent = '李四';
         } else if (viewType === 'editor') {
-            // 显示编辑器视图
             editorView.style.display = 'block';
             currentView = 'editor';
-            // 显示工具栏
-            editorToolbar.style.display = 'flex';
-            // 更新标题
             viewTitle.textContent = title || '报告修改';
-
-            // 初始化编辑器（如果还没初始化）
+            personLabel.textContent = '报告编制：';
+            personInfo.textContent = '李四';
             if (!editorInitialized) {
                 initEditor();
             }
         } else if (viewType === 'review-submit') {
-            // 显示提交校审视图
             reviewSubmitView.style.display = 'block';
             currentView = 'review-submit';
-            // 隐藏工具栏
-            editorToolbar.style.display = 'none';
-            // 更新标题
             viewTitle.textContent = '提交校审';
+            personLabel.textContent = '校审人员：';
+            personInfo.textContent = '张三';
         } else if (viewType === 'review-result') {
-            // 显示校审结果视图
             reviewResultView.style.display = 'block';
             currentView = 'review-result';
-            // 隐藏工具栏
-            editorToolbar.style.display = 'none';
-            // 更新标题
             viewTitle.textContent = '校审结果';
+            personLabel.textContent = '校审人员：';
+            personInfo.textContent = '张三';
         }
     }
 
@@ -944,10 +993,13 @@
 
         if (editCategory && editSubmenu) {
             editCategory.addEventListener('click', function() {
+                const icon = this.querySelector('.material-symbols-outlined:last-child');
                 if (editSubmenu.style.display === 'none') {
                     editSubmenu.style.display = 'block';
+                    icon.textContent = 'expand_more';
                 } else {
                     editSubmenu.style.display = 'none';
+                    icon.textContent = 'chevron_right';
                 }
             });
         }
@@ -958,10 +1010,13 @@
 
         if (summaryCategory && summarySubmenu) {
             summaryCategory.addEventListener('click', function() {
+                const icon = this.querySelector('.material-symbols-outlined:last-child');
                 if (summarySubmenu.style.display === 'none') {
                     summarySubmenu.style.display = 'block';
+                    icon.textContent = 'expand_more';
                 } else {
                     summarySubmenu.style.display = 'none';
+                    icon.textContent = 'chevron_right';
                 }
             });
         }
@@ -972,10 +1027,13 @@
 
         if (reviewCategory && reviewSubmenu) {
             reviewCategory.addEventListener('click', function() {
+                const icon = this.querySelector('.material-symbols-outlined:last-child');
                 if (reviewSubmenu.style.display === 'none') {
                     reviewSubmenu.style.display = 'block';
+                    icon.textContent = 'expand_more';
                 } else {
                     reviewSubmenu.style.display = 'none';
+                    icon.textContent = 'chevron_right';
                 }
             });
         }

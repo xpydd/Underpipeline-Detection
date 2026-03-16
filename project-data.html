@@ -624,6 +624,74 @@
 
                     <!-- 汇总表容器 (默认隐藏) -->
                     <div id="summary-table-container" class="flex-1 overflow-auto custom-scrollbar hidden">
+                        <!-- 地下管线探测复杂程度判别标准 -->
+                        <div class="mb-3 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800 border border-blue-200 dark:border-slate-700 rounded-lg shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <h5 class="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-2">
+                                    <span class="w-1 h-5 bg-blue-500 rounded"></span>
+                                    地下管线探测复杂程度判别标准
+                                </h5>
+                                <div class="text-[10px] text-slate-500 dark:text-slate-400">根据以下4项指标评分</div>
+                            </div>
+
+                            <div class="grid grid-cols-4 gap-2 mb-2">
+                                <div class="bg-white dark:bg-slate-900 rounded p-2 border border-slate-200 dark:border-slate-700">
+                                    <div class="text-xs font-bold text-blue-600 dark:text-blue-400 mb-1">地形赋分 (S1)</div>
+                                    <div class="text-[10px] text-slate-600 dark:text-slate-400 space-y-0.5">
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-green-600">1分</span> 平坦空地/硬化路面</div>
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-yellow-600">2分</span> 绿化带/人行道</div>
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-red-600">3分</span> 草坪/集贸区/狭窄街巷</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white dark:bg-slate-900 rounded p-2 border border-slate-200 dark:border-slate-700">
+                                    <div class="text-xs font-bold text-purple-600 dark:text-purple-400 mb-1">定位点赋分 (S2)</div>
+                                    <div class="text-[9px] italic text-slate-500 mb-0.5">每公里管点数 = 总点数 ÷ 总长度(km)</div>
+                                    <div class="text-[10px] text-slate-600 dark:text-slate-400 space-y-0.5">
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-green-600">1分</span> ≤ 10个/km</div>
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-yellow-600">2分</span> 10~20个/km</div>
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-red-600">3分</span> > 20个/km</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white dark:bg-slate-900 rounded p-2 border border-slate-200 dark:border-slate-700">
+                                    <div class="text-xs font-bold text-orange-600 dark:text-orange-400 mb-1">种类赋分 (S3)</div>
+                                    <div class="text-[10px] text-slate-600 dark:text-slate-400 space-y-0.5">
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-green-600">1分</span> 管线种类 ≤ 3类</div>
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-yellow-600">2分</span> 管线种类 3~5类</div>
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-red-600">3分</span> 管线种类 > 5类</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white dark:bg-slate-900 rounded p-2 border border-slate-200 dark:border-slate-700">
+                                    <div class="text-xs font-bold text-teal-600 dark:text-teal-400 mb-1">障碍物赋分 (S4)</div>
+                                    <div class="text-[9px] italic text-slate-500 mb-0.5">建筑物面积占比</div>
+                                    <div class="text-[10px] text-slate-600 dark:text-slate-400 space-y-0.5">
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-green-600">1分</span> ≤ 30%</div>
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-yellow-600">2分</span> 30%~50%</div>
+                                        <div class="flex items-center gap-1"><span class="font-semibold text-red-600">3分</span> > 50%</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-900 rounded-lg p-2.5 border border-slate-300 dark:border-slate-600">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">计算公式</span>
+                                            <code class="px-3 py-1 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded border border-slate-300 dark:border-slate-600 text-sm font-mono font-bold">S = S1 + S2 + S3 + S4</code>
+                                        </div>
+                                        <div class="w-px h-6 bg-slate-300 dark:bg-slate-600"></div>
+                                        <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">复杂程度判定</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[11px] font-semibold">
+                                        <div class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-md border border-green-400 dark:border-green-600">简单 S ≤ 5</div>
+                                        <div class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-md border border-yellow-400 dark:border-yellow-600">中等 5 < S ≤ 9</div>
+                                        <div class="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-md border border-red-400 dark:border-red-600">复杂 S > 9</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <table class="data-table w-full min-w-[1000px]">
                             <thead>
                                 <tr>
