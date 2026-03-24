@@ -355,24 +355,9 @@
                         </div>
 
                         <!-- 模拟管点和管线 -->
-                        <svg class="absolute inset-0 w-full h-full pointer-events-auto">
-                            <!-- 管线 -->
-                            <line x1="20%" y1="30%" x2="40%" y2="40%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L001" onclick="showPipelineMenu(event, 'L001')"/>
-                            <line x1="40%" y1="40%" x2="60%" y2="35%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L002" onclick="showPipelineMenu(event, 'L002')"/>
-                            <line x1="60%" y1="35%" x2="80%" y2="50%" stroke="#3b82f6" stroke-width="3" class="pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors" data-type="line" data-id="L003" onclick="showPipelineMenu(event, 'L003')"/>
-
-                            <!-- 管点 -->
-                            <circle cx="20%" cy="30%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P001" onclick="showPointMenu(event, 'P001')"/>
-                            <text x="20%" y="30%" dy="-12" text-anchor="middle" class="text-xs fill-slate-700 dark:fill-slate-300 font-medium pointer-events-none select-none">P001</text>
-
-                            <circle cx="40%" cy="40%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P002" onclick="showPointMenu(event, 'P002')"/>
-                            <text x="40%" y="40%" dy="-12" text-anchor="middle" class="text-xs fill-slate-700 dark:fill-slate-300 font-medium pointer-events-none select-none">P002</text>
-
-                            <circle cx="60%" cy="35%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P003" onclick="showPointMenu(event, 'P003')"/>
-                            <text x="60%" y="35%" dy="-12" text-anchor="middle" class="text-xs fill-slate-700 dark:fill-slate-300 font-medium pointer-events-none select-none">P003</text>
-
-                            <circle cx="80%" cy="50%" r="6" fill="#ef4444" class="pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors" data-type="point" data-id="P004" onclick="showPointMenu(event, 'P004')"/>
-                            <text x="80%" y="50%" dy="-12" text-anchor="middle" class="text-xs fill-slate-700 dark:fill-slate-300 font-medium pointer-events-none select-none">P004</text>
+                        <svg id="pipelineMapSvg" class="absolute inset-0 w-full h-full pointer-events-auto">
+                            <g id="pipelineLinesLayer"></g>
+                            <g id="pipelinePointsLayer"></g>
                         </svg>
                     </div>
 
@@ -1450,13 +1435,225 @@
     </div>
 </dialog>
 
+<!-- 管点/管线操作弹窗 -->
+<dialog id="pipeActionModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-md open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-[120]">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white" id="pipeActionTitle">操作确认</h3>
+            <button onclick="closePipeActionModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+        <div class="p-4">
+            <p id="pipeActionMessage" class="text-sm text-slate-600 dark:text-slate-300 leading-6">请确认当前操作。</p>
+        </div>
+        <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27]">
+            <button type="button" onclick="closePipeActionModal()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
+            <button type="button" id="pipeActionConfirmButton" onclick="confirmPipeAction()" class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-lg shadow-lg shadow-red-500/20 transition-all">确定</button>
+        </div>
+    </div>
+</dialog>
+
+<!-- 合并管点弹窗 -->
+<dialog id="mergePointModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-6xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-[121]">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[92vh] flex flex-col">
+        <div class="px-4 py-2.5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-white tracking-wide">合并管点</h3>
+            <button onclick="closeMergePointModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+
+        <div class="p-3 overflow-y-auto text-[11px] leading-tight">
+            <div class="grid gap-3 lg:grid-cols-5">
+                <div class="lg:col-span-3 rounded-lg border border-slate-200 dark:border-slate-700 p-2.5 space-y-2.5">
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white">第1管点（主管点，可编辑属性）</h4>
+
+                    <div>
+                        <h5 class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">基础信息</h5>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">管点编号</label>
+                                <input id="mergePrimaryPointId" type="text" readonly class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-slate-500">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">管点类型</label>
+                                <input id="mergePrimaryPointType" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">特征</label>
+                                <input id="mergePrimaryPointFeature" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">附属物</label>
+                                <input id="mergePrimaryPointAccessory" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">埋深</label>
+                                <input id="mergePrimaryPointDepth" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">管径</label>
+                                <input id="mergePrimaryPointDiameter" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">材质</label>
+                                <input id="mergePrimaryPointMaterial" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">状态</label>
+                                <input id="mergePrimaryPointStatus" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded" placeholder="在用/停用">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h5 class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">空间信息</h5>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div class="lg:col-span-2">
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">坐标</label>
+                                <input id="mergePrimaryPointCoord" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">高程</label>
+                                <input id="mergePrimaryPointElevation" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">经度</label>
+                                <input id="mergePrimaryPointLongitude" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">纬度</label>
+                                <input id="mergePrimaryPointLatitude" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h5 class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">管理信息</h5>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">建设日期</label>
+                                <input id="mergePrimaryPointBuildDate" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded" placeholder="YYYY/MM/DD">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">权属单位</label>
+                                <input id="mergePrimaryPointOwner" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div class="lg:col-span-2">
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">数据来源</label>
+                                <input id="mergePrimaryPointSource" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+                            </div>
+                            <div class="col-span-2 lg:col-span-4">
+                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">备注</label>
+                                <textarea id="mergePrimaryPointRemark" rows="1" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded resize-none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 space-y-3">
+                    <div class="rounded-lg border border-slate-200 dark:border-slate-700 p-2.5">
+                        <h4 class="text-xs font-bold text-slate-800 dark:text-white mb-1.5">第2管点（被合并管点）</h4>
+                        <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">选择第2个管点</label>
+                        <select id="mergeSecondaryPointSelect" onchange="updateMergeSecondaryPointInfo()" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></select>
+                        <div id="mergeSecondaryPointInfo" class="mt-2 text-[11px] text-slate-600 dark:text-slate-300 leading-5"></div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 dark:border-slate-700 p-2.5 bg-slate-50 dark:bg-slate-800/40">
+                        <h4 class="text-xs font-bold text-slate-700 dark:text-slate-200 mb-1.5">合并说明</h4>
+                        <div class="text-[11px] text-slate-600 dark:text-slate-300 leading-5">
+                            <div>1. 第2管点关联管线会自动改挂到第1管点。</div>
+                            <div>2. 第2管点会被移除，请先核对数据。</div>
+                            <div>3. 若形成自环管线将自动清理。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 py-2 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+            <button type="button" onclick="closeMergePointModal()" class="px-3 py-1.5 text-[11px] font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors">取消</button>
+            <button type="button" onclick="confirmMergePoint()" class="px-3 py-1.5 text-[11px] font-bold text-white bg-primary hover:bg-primary/90 rounded shadow-lg shadow-primary/20 transition-all">确认合并</button>
+        </div>
+    </div>
+</dialog>
+
 <script>
     // 管点和管线交互数据
     const pointsData = {
-        'P001': { id: 'P001', type: '给水', feature: '三通', depth: '1.5m', coord: 'X: 2347184.25, Y: 434427.06', material: '球墨铸铁', diameter: 'DN300' },
-        'P002': { id: 'P002', type: '排水', feature: '弯头', depth: '2.1m', coord: 'X: 2347210.50, Y: 434445.30', material: 'PVC', diameter: 'DN400' },
-        'P003': { id: 'P003', type: '燃气', feature: '一般管点', depth: '1.8m', coord: 'X: 2347235.80, Y: 434438.90', material: 'PE', diameter: 'DN200' },
-        'P004': { id: 'P004', type: '电力', feature: '转折点', depth: '1.2m', coord: 'X: 2347265.40, Y: 434460.20', material: '电缆', diameter: '-' }
+        'P001': {
+            id: 'P001',
+            type: '给水',
+            feature: '三通',
+            accessory: '检查井',
+            depth: '1.5m',
+            coord: 'X: 2347184.25, Y: 434427.06',
+            elevation: '12.36m',
+            longitude: '121.473120',
+            latitude: '31.230400',
+            material: '球墨铸铁',
+            diameter: 'DN300',
+            buildDate: '2018/11/12',
+            owner: '市政给水',
+            status: '在用',
+            source: '普查外业测量',
+            remark: '井盖完好'
+        },
+        'P002': {
+            id: 'P002',
+            type: '排水',
+            feature: '弯头',
+            accessory: '雨水井',
+            depth: '2.1m',
+            coord: 'X: 2347210.50, Y: 434445.30',
+            elevation: '11.92m',
+            longitude: '121.473451',
+            latitude: '31.230582',
+            material: 'PVC',
+            diameter: 'DN400',
+            buildDate: '2019/03/05',
+            owner: '市政排水',
+            status: '在用',
+            source: '竣工图+复测',
+            remark: ''
+        },
+        'P003': {
+            id: 'P003',
+            type: '燃气',
+            feature: '一般管点',
+            accessory: '阀门井',
+            depth: '1.8m',
+            coord: 'X: 2347235.80, Y: 434438.90',
+            elevation: '12.05m',
+            longitude: '121.473780',
+            latitude: '31.230520',
+            material: 'PE',
+            diameter: 'DN200',
+            buildDate: '2017/09/22',
+            owner: '燃气集团',
+            status: '在用',
+            source: '专项排查',
+            remark: ''
+        },
+        'P004': {
+            id: 'P004',
+            type: '电力',
+            feature: '转折点',
+            accessory: '电缆井',
+            depth: '1.2m',
+            coord: 'X: 2347265.40, Y: 434460.20',
+            elevation: '12.62m',
+            longitude: '121.474080',
+            latitude: '31.230760',
+            material: '电缆',
+            diameter: '-',
+            buildDate: '2020/06/18',
+            owner: '国网电力',
+            status: '在用',
+            source: '探测仪采集',
+            remark: '周边车流较大'
+        }
     };
 
     const pipelinesData = {
@@ -1464,6 +1661,74 @@
         'L002': { id: 'L002', start: 'P002', end: 'P003', diameter: 'DN400', material: 'PVC', length: '98.3m', depth: '2.1-1.8m', type: '排水' },
         'L003': { id: 'L003', start: 'P003', end: 'P004', diameter: 'DN200', material: 'PE', length: '156.8m', depth: '1.8-1.2m', type: '燃气' }
     };
+
+    const pointPositions = {
+        'P001': { x: '20%', y: '30%' },
+        'P002': { x: '40%', y: '40%' },
+        'P003': { x: '60%', y: '35%' },
+        'P004': { x: '80%', y: '50%' }
+    };
+
+    let mergePrimaryPointId = null;
+
+    function renderPipelineMap() {
+        const linesLayer = document.getElementById('pipelineLinesLayer');
+        const pointsLayer = document.getElementById('pipelinePointsLayer');
+        if (!linesLayer || !pointsLayer) return;
+
+        linesLayer.innerHTML = '';
+        pointsLayer.innerHTML = '';
+
+        Object.values(pipelinesData).forEach(pipeline => {
+            const startPos = pointPositions[pipeline.start];
+            const endPos = pointPositions[pipeline.end];
+            if (!startPos || !endPos || !pointsData[pipeline.start] || !pointsData[pipeline.end]) return;
+
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', startPos.x);
+            line.setAttribute('y1', startPos.y);
+            line.setAttribute('x2', endPos.x);
+            line.setAttribute('y2', endPos.y);
+            line.setAttribute('stroke', '#3b82f6');
+            line.setAttribute('stroke-width', '3');
+            line.setAttribute('class', 'pipeline-line cursor-pointer hover:stroke-[#5ad98b] transition-colors');
+            line.setAttribute('data-type', 'line');
+            line.setAttribute('data-id', pipeline.id);
+            line.addEventListener('click', (event) => showPipelineMenu(event, pipeline.id));
+            linesLayer.appendChild(line);
+        });
+
+        Object.values(pointsData).forEach(point => {
+            const pos = pointPositions[point.id];
+            if (!pos) return;
+
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', pos.x);
+            circle.setAttribute('cy', pos.y);
+            circle.setAttribute('r', '6');
+            circle.setAttribute('fill', '#ef4444');
+            circle.setAttribute('class', 'pipeline-point cursor-pointer hover:fill-[#5ad98b] transition-colors');
+            circle.setAttribute('data-type', 'point');
+            circle.setAttribute('data-id', point.id);
+            circle.addEventListener('click', (event) => showPointMenu(event, point.id));
+            pointsLayer.appendChild(circle);
+
+            const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            label.setAttribute('x', pos.x);
+            label.setAttribute('y', pos.y);
+            label.setAttribute('dy', '-12');
+            label.setAttribute('text-anchor', 'middle');
+            label.setAttribute('class', 'text-xs fill-slate-700 dark:fill-slate-300 font-medium pointer-events-none select-none');
+            label.textContent = point.id;
+            pointsLayer.appendChild(label);
+        });
+    }
+
+    function getConnectedPipelineIds(pointId) {
+        return Object.values(pipelinesData)
+            .filter(pipeline => pipeline.start === pointId || pipeline.end === pointId)
+            .map(pipeline => pipeline.id);
+    }
 
     function showPointInfo(pointId) {
         const point = pointsData[pointId];
@@ -1525,7 +1790,7 @@
             <button onclick="mergePoint('${pointId}')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
                 <span class="material-symbols-outlined text-base">merge</span>合并管点
             </button>
-            <button onclick="document.getElementById('contextMenu').classList.add('hidden')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+            <button onclick="hideContextMenu()" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
                 <span class="material-symbols-outlined text-base">close</span>取消
             </button>
         `;
@@ -1553,7 +1818,7 @@
             <button onclick="editPipeline('${pipelineId}')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
                 <span class="material-symbols-outlined text-base">edit</span>编辑管线
             </button>
-            <button onclick="document.getElementById('contextMenu').classList.add('hidden')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
+            <button onclick="hideContextMenu()" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">
                 <span class="material-symbols-outlined text-base">close</span>取消
             </button>
         `;
@@ -1563,19 +1828,227 @@
         setTimeout(() => document.addEventListener('click', () => menu2.classList.add('hidden'), { once: true }), 0);
     }
 
+    let pipeActionHandler = null;
+
+    function hideContextMenu() {
+        const menu = document.getElementById('contextMenu');
+        if (menu) menu.classList.add('hidden');
+    }
+
+    function openPipeActionModal(options = {}) {
+        const modal = document.getElementById('pipeActionModal');
+        if (!modal) return;
+        document.getElementById('pipeActionTitle').textContent = options.title || '操作确认';
+        document.getElementById('pipeActionMessage').textContent = options.message || '请确认当前操作。';
+        const confirmButton = document.getElementById('pipeActionConfirmButton');
+        confirmButton.textContent = options.confirmText || '确定';
+        confirmButton.className = options.confirmClassName ||
+            'px-3 py-1.5 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-lg shadow-lg shadow-red-500/20 transition-all';
+        pipeActionHandler = typeof options.onConfirm === 'function' ? options.onConfirm : null;
+        modal.showModal();
+    }
+
+    function closePipeActionModal() {
+        const modal = document.getElementById('pipeActionModal');
+        if (modal?.open) modal.close();
+        pipeActionHandler = null;
+    }
+
+    function confirmPipeAction() {
+        if (pipeActionHandler) pipeActionHandler();
+        closePipeActionModal();
+    }
+
+    function editPoint(pointId) {
+        hideContextMenu();
+        const point = pointsData[pointId];
+        const modal = document.getElementById('drawPipePointModal');
+        if (!modal) return;
+
+        const title = modal.querySelector('h3');
+        if (title) title.textContent = `编辑管点 (${pointId})`;
+
+        const pointIdInput = modal.querySelector('input[type="text"]');
+        if (pointIdInput) pointIdInput.value = pointId;
+
+        if (point) {
+            const pointTypeSelect = document.getElementById('pointTypeSelect');
+            if (pointTypeSelect) {
+                const matched = Array.from(pointTypeSelect.options).find(opt => opt.textContent.includes(point.type));
+                if (matched) pointTypeSelect.value = matched.value;
+            }
+            if (typeof updateFeatureOptions === 'function') updateFeatureOptions();
+        }
+
+        modal.showModal();
+    }
+
+    function editPipeline(pipelineId) {
+        hideContextMenu();
+        const pipeline = pipelinesData[pipelineId];
+        const modal = document.getElementById('drawPipelineModal');
+        if (!modal) return;
+
+        const title = modal.querySelector('h3');
+        if (title) title.textContent = `编辑管线 (${pipelineId})`;
+
+        if (pipeline) {
+            const startInput = document.getElementById('drawStartPointSearch');
+            const endInput = document.getElementById('drawEndPointSearch');
+            if (startInput) startInput.value = pipeline.start;
+            if (endInput) endInput.value = pipeline.end;
+            if (typeof selectPipelinePoint === 'function') {
+                selectPipelinePoint('start', pipeline.start);
+                selectPipelinePoint('end', pipeline.end);
+            }
+        }
+
+        modal.showModal();
+    }
+
+    function openMergePointModal(primaryPointId) {
+        hideContextMenu();
+        const primary = pointsData[primaryPointId];
+        const modal = document.getElementById('mergePointModal');
+        if (!primary || !modal) return;
+
+        mergePrimaryPointId = primaryPointId;
+        document.getElementById('mergePrimaryPointId').value = primary.id || '';
+        document.getElementById('mergePrimaryPointType').value = primary.type || '';
+        document.getElementById('mergePrimaryPointFeature').value = primary.feature || '';
+        document.getElementById('mergePrimaryPointAccessory').value = primary.accessory || '';
+        document.getElementById('mergePrimaryPointDepth').value = primary.depth || '';
+        document.getElementById('mergePrimaryPointMaterial').value = primary.material || '';
+        document.getElementById('mergePrimaryPointDiameter').value = primary.diameter || '';
+        document.getElementById('mergePrimaryPointStatus').value = primary.status || '';
+        document.getElementById('mergePrimaryPointCoord').value = primary.coord || '';
+        document.getElementById('mergePrimaryPointElevation').value = primary.elevation || '';
+        document.getElementById('mergePrimaryPointLongitude').value = primary.longitude || '';
+        document.getElementById('mergePrimaryPointLatitude').value = primary.latitude || '';
+        document.getElementById('mergePrimaryPointBuildDate').value = primary.buildDate || '';
+        document.getElementById('mergePrimaryPointOwner').value = primary.owner || '';
+        document.getElementById('mergePrimaryPointSource').value = primary.source || '';
+        document.getElementById('mergePrimaryPointRemark').value = primary.remark || '';
+
+        const selectEl = document.getElementById('mergeSecondaryPointSelect');
+        const candidates = Object.keys(pointsData).filter(id => id !== primaryPointId);
+
+        if (candidates.length === 0) {
+            selectEl.innerHTML = '<option value="">暂无可合并的管点</option>';
+            selectEl.disabled = true;
+        } else {
+            selectEl.disabled = false;
+            selectEl.innerHTML = candidates.map(id => `<option value="${id}">${id}</option>`).join('');
+        }
+
+        updateMergeSecondaryPointInfo();
+        modal.showModal();
+    }
+
+    function updateMergeSecondaryPointInfo() {
+        const infoEl = document.getElementById('mergeSecondaryPointInfo');
+        const selectEl = document.getElementById('mergeSecondaryPointSelect');
+        if (!infoEl || !selectEl) return;
+
+        const secondaryId = selectEl.value;
+        if (!secondaryId || !pointsData[secondaryId]) {
+            infoEl.innerHTML = '<span class="text-slate-400">请选择要合并的第2个管点。</span>';
+            return;
+        }
+
+        const point = pointsData[secondaryId];
+        const relatedPipelines = getConnectedPipelineIds(secondaryId);
+        infoEl.innerHTML = `
+            <div>管点类型：${point.type || '-'}</div>
+            <div>特征：${point.feature || '-'}</div>
+            <div>权属单位：${point.owner || '-'}</div>
+            <div>建设日期：${point.buildDate || '-'}</div>
+            <div>状态：${point.status || '-'}</div>
+            <div>关联管线：${relatedPipelines.length > 0 ? relatedPipelines.join(', ') : '无'}</div>
+        `;
+    }
+
+    function closeMergePointModal() {
+        const modal = document.getElementById('mergePointModal');
+        if (modal?.open) modal.close();
+        mergePrimaryPointId = null;
+    }
+
+    function confirmMergePoint() {
+        if (!mergePrimaryPointId || !pointsData[mergePrimaryPointId]) {
+            alert('主管点不存在，无法合并。');
+            return;
+        }
+
+        const secondaryId = document.getElementById('mergeSecondaryPointSelect').value;
+        if (!secondaryId || !pointsData[secondaryId]) {
+            alert('请选择第2个管点。');
+            return;
+        }
+        if (secondaryId === mergePrimaryPointId) {
+            alert('第2个管点不能与主管点相同。');
+            return;
+        }
+
+        const primary = pointsData[mergePrimaryPointId];
+        primary.type = document.getElementById('mergePrimaryPointType').value.trim() || primary.type;
+        primary.feature = document.getElementById('mergePrimaryPointFeature').value.trim() || primary.feature;
+        primary.accessory = document.getElementById('mergePrimaryPointAccessory').value.trim();
+        primary.depth = document.getElementById('mergePrimaryPointDepth').value.trim() || primary.depth;
+        primary.material = document.getElementById('mergePrimaryPointMaterial').value.trim() || primary.material;
+        primary.diameter = document.getElementById('mergePrimaryPointDiameter').value.trim() || primary.diameter;
+        primary.status = document.getElementById('mergePrimaryPointStatus').value.trim();
+        primary.coord = document.getElementById('mergePrimaryPointCoord').value.trim();
+        primary.elevation = document.getElementById('mergePrimaryPointElevation').value.trim();
+        primary.longitude = document.getElementById('mergePrimaryPointLongitude').value.trim();
+        primary.latitude = document.getElementById('mergePrimaryPointLatitude').value.trim();
+        primary.buildDate = document.getElementById('mergePrimaryPointBuildDate').value.trim();
+        primary.owner = document.getElementById('mergePrimaryPointOwner').value.trim();
+        primary.source = document.getElementById('mergePrimaryPointSource').value.trim();
+        primary.remark = document.getElementById('mergePrimaryPointRemark').value.trim();
+
+        const removedPipelineIds = [];
+        Object.values(pipelinesData).forEach(pipeline => {
+            if (pipeline.start === secondaryId) pipeline.start = mergePrimaryPointId;
+            if (pipeline.end === secondaryId) pipeline.end = mergePrimaryPointId;
+            if (pipeline.start === pipeline.end) removedPipelineIds.push(pipeline.id);
+        });
+        removedPipelineIds.forEach(id => delete pipelinesData[id]);
+
+        delete pointsData[secondaryId];
+        delete pointPositions[secondaryId];
+
+        renderPipelineMap();
+        closeMergePointModal();
+        alert(`已完成管点合并：${secondaryId} -> ${mergePrimaryPointId}`);
+    }
+
     function deletePoint(pointId) {
-        console.log('删除管点:', pointId);
-        document.getElementById('contextMenu').classList.add('hidden');
+        hideContextMenu();
+        openPipeActionModal({
+            title: '删除管点',
+            message: `确认删除管点 ${pointId} 吗？删除后不可恢复。`,
+            confirmText: '确认删除',
+            onConfirm: () => {
+                console.log('删除管点:', pointId);
+            }
+        });
     }
 
     function mergePoint(pointId) {
-        console.log('合并管点:', pointId);
-        document.getElementById('contextMenu').classList.add('hidden');
+        openMergePointModal(pointId);
     }
 
     function deletePipeline(pipelineId) {
-        console.log('删除管线:', pipelineId);
-        document.getElementById('contextMenu').classList.add('hidden');
+        hideContextMenu();
+        openPipeActionModal({
+            title: '删除管线',
+            message: `确认删除管线 ${pipelineId} 吗？删除后不可恢复。`,
+            confirmText: '确认删除',
+            onConfirm: () => {
+                console.log('删除管线:', pipelineId);
+            }
+        });
     }
 
     // 管点搜索下拉 - 模拟数据
@@ -2126,6 +2599,7 @@
     // 页面加载完成后初始化
     document.addEventListener('DOMContentLoaded', function() {
         initPointTypeSelect();
+        renderPipelineMap();
     });
 
     // 处理勘探问题弹窗的操作按钮
