@@ -249,7 +249,7 @@
                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">timeline</span>
                                 <span class="text-xs font-medium">绘制管线</span>
                             </button>
-                            <button onclick="document.getElementById('addPipelinePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                            <button onclick="openAddPipelinePointModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-purple-500">add_circle</span>
                                 <span class="text-xs font-medium">管线加点</span>
                             </button>
@@ -277,7 +277,7 @@
                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">timeline</span>
                                 <span class="text-xs font-medium">绘制管线</span>
                             </button>
-                            <button onclick="document.getElementById('addPipelinePointModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                            <button onclick="openAddPipelinePointModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                 <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-orange-500">add_circle</span>
                                 <span class="text-xs font-medium">管线加点</span>
                             </button>
@@ -1032,52 +1032,47 @@
                 <span class="material-symbols-outlined text-lg">close</span>
             </button>
         </div>
-        <div class="p-3 space-y-2 max-h-[88vh] overflow-y-auto">
-            <!-- 管点信息（禁止修改） -->
-            <div class="grid grid-cols-2 gap-2">
-                <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-white">起始管点</h4>
-                        <span class="text-[10px] text-slate-400">(禁止修改)</span>
+        <div class="p-3 space-y-2">
+            <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">
+                <h4 class="text-xs font-bold text-slate-800 dark:text-white mb-2 pl-2 border-l-[3px] border-blue-600">关联选择</h4>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">初始管点（支持模糊搜索）</label>
+                        <div class="relative mt-0.5" id="addPointStartSearchWrap">
+                            <input type="text" id="addPointStartSearch" placeholder="请输入管点编号或类型"
+                                class="w-full pl-2 pr-6 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded text-[11px] focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+                                oninput="filterAddPointStartList(this.value)" onfocus="showAddPointStartDropdown()" autocomplete="off">
+                            <span class="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none">search</span>
+                            <div id="addPointStartDropdown" class="hidden absolute z-50 left-0 right-0 top-full mt-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded shadow-lg max-h-40 overflow-y-auto">
+                                <div class="p-0.5" id="addPointStartList"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="grid grid-cols-3 gap-x-3 gap-y-0.5 text-[10px]">
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">管点编号：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointStartId">DL001</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">管点种类：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointStartType">电力(DL)</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">特征点：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointStartFeature">一般管线</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">附属物：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointStartAccessory">无</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">建设日期：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointStartDate">2018/11/12</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">权属单位：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointStartOwner">-</span></div>
-                    </div>
-                </div>
-                <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-white">终止管点</h4>
-                        <span class="text-[10px] text-slate-400">(禁止修改)</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-x-3 gap-y-0.5 text-[10px]">
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">管点编号：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointEndId">DL002</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">管点种类：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointEndType">电力(DL)</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">特征点：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointEndFeature">一般管线</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">附属物：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointEndAccessory">无</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">建设日期：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointEndDate">2018/11/12</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">权属单位：</span><span class="text-slate-800 dark:text-white font-medium" id="addPointEndOwner">-</span></div>
+                    <div>
+                        <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">自动关联管线</label>
+                        <select id="addPointPipelineSelect" onchange="handleAddPipelineSelectionChange(this.value)"
+                            class="w-full mt-0.5 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded text-[11px] focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+                            <option value="">请先选择初始管点</option>
+                        </select>
+                        <div id="addPointPipelineHint" class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">选择初始管点后自动加载关联管线</div>
                     </div>
                 </div>
             </div>
+
             <!-- 基本信息 -->
             <div>
                 <h4 class="text-xs font-bold text-slate-800 dark:text-white mb-1.5 pl-2 border-l-[3px] border-blue-600">基本信息</h4>
                 <div class="grid grid-cols-3 gap-x-3 gap-y-1">
                     <div>
                         <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">管点种类：</label>
-                        <select class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs">
+                        <select id="addPointTypeAutoSelect" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs">
                             <option>电力(DL)</option>
                         </select>
                         <span class="text-[10px] text-red-500 leading-none">依据管线种类自动选择种类</span>
                     </div>
                     <div>
                         <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">管点编号：</label>
-                        <input type="text" value="DL001" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs">
+                        <input type="text" id="addPointNumberInput" value="DL001" class="w-full px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs">
                     </div>
                     <div>
                         <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">特征点：</label>
@@ -1202,7 +1197,7 @@
             </div>
         </div>
         <div class="px-4 py-2 border-t border-slate-100 dark:border-slate-800 flex justify-center gap-3 bg-slate-50 dark:bg-[#161e27]">
-            <button onclick="document.getElementById('addPipelinePointModal').close()" class="px-6 py-1 text-xs font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">确定</button>
+            <button onclick="confirmAddPipelinePoint()" class="px-6 py-1 text-xs font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">确定</button>
             <button onclick="document.getElementById('addPipelinePointModal').close()" class="px-6 py-1 text-xs font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg border border-slate-300 dark:border-slate-600 transition-colors">取消</button>
         </div>
     </div>
@@ -1730,6 +1725,225 @@
             .map(pipeline => pipeline.id);
     }
 
+    let addPipelineStartPointId = null;
+    let addPipelineSelectedPipelineId = null;
+
+    function getPointDetailById(pointId) {
+        if (!pointId) return null;
+        if (pointsData[pointId]) {
+            const point = pointsData[pointId];
+            return {
+                id: point.id || '-',
+                type: point.type || '-',
+                feature: point.feature || '-',
+                accessory: point.accessory || '-',
+                buildDate: point.buildDate || '-',
+                owner: point.owner || '-'
+            };
+        }
+
+        if (typeof pipelinePointsMock !== 'undefined') {
+            const point = pipelinePointsMock.find(item => item.id === pointId);
+            if (point) {
+                return {
+                    id: point.id || '-',
+                    type: point.type || '-',
+                    feature: point.feature || '-',
+                    accessory: point.accessory || '-',
+                    buildDate: point.date || '-',
+                    owner: point.owner || '-'
+                };
+            }
+        }
+        return null;
+    }
+
+    function fillAddPipelinePointPanel(prefix, pointId) {
+        const point = getPointDetailById(pointId);
+        const fieldValueMap = {
+            Id: point?.id || '-',
+            Type: point?.type || '-',
+            Feature: point?.feature || '-',
+            Accessory: point?.accessory || '-',
+            Date: point?.buildDate || '-',
+            Owner: point?.owner || '-'
+        };
+        Object.entries(fieldValueMap).forEach(([field, value]) => {
+            const el = document.getElementById(`addPoint${prefix}${field}`);
+            if (el) el.textContent = value;
+        });
+    }
+
+    function updateAddPointTypeAutoSelect(pipelineId) {
+        const typeSelect = document.getElementById('addPointTypeAutoSelect');
+        if (!typeSelect) return;
+        const pipeline = pipelinesData[pipelineId];
+        const pipelineType = pipeline?.type || '';
+
+        typeSelect.innerHTML = pipelineType
+            ? `<option selected>${pipelineType}</option>`
+            : '<option selected>请选择</option>';
+    }
+
+    function renderAddPointStartList(filter = '') {
+        const listEl = document.getElementById('addPointStartList');
+        if (!listEl) return;
+
+        const keyword = (filter || '').toLowerCase().trim();
+        const allPoints = Object.values(pointsData);
+        const filtered = keyword
+            ? allPoints.filter(point =>
+                point.id.toLowerCase().includes(keyword) ||
+                (point.type || '').toLowerCase().includes(keyword) ||
+                (point.feature || '').toLowerCase().includes(keyword))
+            : allPoints;
+
+        if (filtered.length === 0) {
+            listEl.innerHTML = '<div class="px-2 py-1.5 text-[10px] text-slate-400 text-center">无匹配管点</div>';
+            return;
+        }
+
+        listEl.innerHTML = filtered.map(point => `
+            <div class="px-2 py-1 hover:bg-primary/10 rounded cursor-pointer flex items-center justify-between text-[11px] transition-colors"
+                 onclick="selectAddPointStart('${point.id}')">
+                <span class="font-medium text-slate-800 dark:text-white">${point.id}</span>
+                <span class="text-[10px] text-slate-400">${point.type || '-'} · ${point.feature || '-'}</span>
+            </div>
+        `).join('');
+    }
+
+    function showAddPointStartDropdown() {
+        const dropdown = document.getElementById('addPointStartDropdown');
+        const input = document.getElementById('addPointStartSearch');
+        if (!dropdown || !input) return;
+        dropdown.classList.remove('hidden');
+        renderAddPointStartList(input.value);
+    }
+
+    function filterAddPointStartList(value) {
+        showAddPointStartDropdown();
+        renderAddPointStartList(value);
+    }
+
+    function renderConnectedPipelinesForAddPoint(pointId) {
+        const select = document.getElementById('addPointPipelineSelect');
+        const hint = document.getElementById('addPointPipelineHint');
+        if (!select || !hint) return;
+
+        const connectedIds = getConnectedPipelineIds(pointId);
+        select.innerHTML = '';
+
+        if (connectedIds.length === 0) {
+            select.innerHTML = '<option value="">当前管点暂无关联管线</option>';
+            select.disabled = true;
+            hint.textContent = '当前管点没有关联管线，无法自动挂接。';
+            addPipelineSelectedPipelineId = null;
+            fillAddPipelinePointPanel('End', null);
+            updateAddPointTypeAutoSelect(null);
+            return;
+        }
+
+        if (connectedIds.length > 1) {
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '请选择关联管线';
+            select.appendChild(placeholder);
+        }
+
+        connectedIds.forEach(pipelineId => {
+            const pipeline = pipelinesData[pipelineId];
+            if (!pipeline) return;
+            const otherPointId = pipeline.start === pointId ? pipeline.end : pipeline.start;
+            const option = document.createElement('option');
+            option.value = pipeline.id;
+            option.textContent = `${pipeline.id} (${pipeline.start} -> ${pipeline.end})`;
+            option.dataset.otherPointId = otherPointId || '';
+            select.appendChild(option);
+        });
+
+        select.disabled = false;
+        hint.textContent = connectedIds.length > 1
+            ? `检测到 ${connectedIds.length} 条关联管线，请手动选择。`
+            : '已自动匹配到 1 条关联管线。';
+
+        if (connectedIds.length === 1) {
+            select.value = connectedIds[0];
+            handleAddPipelineSelectionChange(select.value);
+            return;
+        }
+
+        select.value = '';
+        handleAddPipelineSelectionChange('');
+    }
+
+    function selectAddPointStart(pointId) {
+        const input = document.getElementById('addPointStartSearch');
+        const dropdown = document.getElementById('addPointStartDropdown');
+        const numberInput = document.getElementById('addPointNumberInput');
+
+        addPipelineStartPointId = pointId;
+        if (input) input.value = pointId;
+        if (dropdown) dropdown.classList.add('hidden');
+        if (numberInput) numberInput.value = pointId;
+
+        fillAddPipelinePointPanel('Start', pointId);
+        renderConnectedPipelinesForAddPoint(pointId);
+    }
+
+    function handleAddPipelineSelectionChange(pipelineId) {
+        addPipelineSelectedPipelineId = pipelineId || null;
+
+        if (!pipelineId || !addPipelineStartPointId || !pipelinesData[pipelineId]) {
+            fillAddPipelinePointPanel('End', null);
+            updateAddPointTypeAutoSelect(null);
+            return;
+        }
+
+        const pipeline = pipelinesData[pipelineId];
+        const endPointId = pipeline.start === addPipelineStartPointId ? pipeline.end : pipeline.start;
+        fillAddPipelinePointPanel('End', endPointId);
+        updateAddPointTypeAutoSelect(pipelineId);
+    }
+
+    function openAddPipelinePointModal(preferredPointId = null) {
+        const modal = document.getElementById('addPipelinePointModal');
+        const input = document.getElementById('addPointStartSearch');
+        if (!modal || !input) return;
+
+        const pointIds = Object.keys(pointsData);
+        const firstPointId = preferredPointId && pointsData[preferredPointId]
+            ? preferredPointId
+            : pointIds[0];
+
+        renderAddPointStartList('');
+        modal.showModal();
+        if (!firstPointId) return;
+
+        selectAddPointStart(firstPointId);
+    }
+
+    function confirmAddPipelinePoint() {
+        if (!addPipelineStartPointId) {
+            alert('请先选择初始管点。');
+            return;
+        }
+
+        if (!addPipelineSelectedPipelineId) {
+            alert('请先选择关联管线。');
+            return;
+        }
+
+        const modal = document.getElementById('addPipelinePointModal');
+        const pointNumber = document.getElementById('addPointNumberInput')?.value?.trim() || '';
+        console.log('管线加点提交:', {
+            startPointId: addPipelineStartPointId,
+            pipelineId: addPipelineSelectedPipelineId,
+            pointNumber
+        });
+
+        modal?.close();
+    }
+
     function showPointInfo(pointId) {
         const point = pointsData[pointId];
         if (!point) return;
@@ -2113,6 +2327,12 @@
             const dropdown = document.getElementById(type === 'start' ? 'drawStartPointDropdown' : 'drawEndPointDropdown');
             if (wrap && !wrap.contains(e.target)) dropdown.classList.add('hidden');
         });
+
+        const addPointWrap = document.getElementById('addPointStartSearchWrap');
+        const addPointDropdown = document.getElementById('addPointStartDropdown');
+        if (addPointWrap && addPointDropdown && !addPointWrap.contains(e.target)) {
+            addPointDropdown.classList.add('hidden');
+        }
     });
 
     // 字典数据 - 管点种类和特征值
