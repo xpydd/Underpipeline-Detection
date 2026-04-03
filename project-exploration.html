@@ -1491,20 +1491,12 @@
                                 <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">材质</label>
                                 <input id="mergePrimaryPointMaterial" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
                             </div>
-                            <div>
-                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">状态</label>
-                                <input id="mergePrimaryPointStatus" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded" placeholder="在用/停用">
-                            </div>
                         </div>
                     </div>
 
                     <div>
                         <h5 class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">空间信息</h5>
                         <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
-                            <div class="lg:col-span-2">
-                                <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">坐标</label>
-                                <input id="mergePrimaryPointCoord" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
-                            </div>
                             <div>
                                 <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">高程</label>
                                 <input id="mergePrimaryPointElevation" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
@@ -2126,8 +2118,6 @@
         document.getElementById('mergePrimaryPointDepth').value = primary.depth || '';
         document.getElementById('mergePrimaryPointMaterial').value = primary.material || '';
         document.getElementById('mergePrimaryPointDiameter').value = primary.diameter || '';
-        document.getElementById('mergePrimaryPointStatus').value = primary.status || '';
-        document.getElementById('mergePrimaryPointCoord').value = primary.coord || '';
         document.getElementById('mergePrimaryPointElevation').value = primary.elevation || '';
         document.getElementById('mergePrimaryPointLongitude').value = primary.longitude || '';
         document.getElementById('mergePrimaryPointLatitude').value = primary.latitude || '';
@@ -2169,7 +2159,6 @@
             <div>特征：${point.feature || '-'}</div>
             <div>权属单位：${point.owner || '-'}</div>
             <div>建设日期：${point.buildDate || '-'}</div>
-            <div>状态：${point.status || '-'}</div>
             <div>关联管线：${relatedPipelines.length > 0 ? relatedPipelines.join(', ') : '无'}</div>
         `;
     }
@@ -2203,8 +2192,6 @@
         primary.depth = document.getElementById('mergePrimaryPointDepth').value.trim() || primary.depth;
         primary.material = document.getElementById('mergePrimaryPointMaterial').value.trim() || primary.material;
         primary.diameter = document.getElementById('mergePrimaryPointDiameter').value.trim() || primary.diameter;
-        primary.status = document.getElementById('mergePrimaryPointStatus').value.trim();
-        primary.coord = document.getElementById('mergePrimaryPointCoord').value.trim();
         primary.elevation = document.getElementById('mergePrimaryPointElevation').value.trim();
         primary.longitude = document.getElementById('mergePrimaryPointLongitude').value.trim();
         primary.latitude = document.getElementById('mergePrimaryPointLatitude').value.trim();

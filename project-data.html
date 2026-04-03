@@ -580,7 +580,7 @@
 
                     <!-- 表格滚动容器 -->
                     <div id="detail-table-container" class="flex-1 overflow-auto custom-scrollbar">
-                        <table class="data-table w-full min-w-[1800px]">
+                        <table class="data-table w-full min-w-[1900px]">
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="min-w-[80px]">管线点号</th>
@@ -589,6 +589,7 @@
                                     <th colspan="2">管线点类别</th>
                                     <th rowspan="2" class="min-w-[50px]">材质</th>
                                     <th colspan="2">管线规格(mm)</th>
+                                    <th rowspan="2" class="min-w-[80px]">套管材质</th>
                                     <th colspan="3">载体特征</th>
                                     <th colspan="2" class="bg-slate-100 dark:bg-slate-800">平面坐标(m)</th>
                                     <th colspan="3" class="bg-slate-100 dark:bg-slate-800">高程(m)</th>
@@ -769,7 +770,7 @@
                     <p class="text-xs text-red-500 text-right shrink-0">勾选表示采用该行数据</p>
                 </div>
                 <div class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-auto">
-                    <table class="import-modal-table min-w-[1820px]">
+                    <table class="import-modal-table min-w-[1920px]">
                         <thead>
                             <tr>
                                 <th rowspan="2">序号</th>
@@ -779,6 +780,7 @@
                                 <th colspan="2">管线点类别</th>
                                 <th rowspan="2">材质</th>
                                 <th colspan="2">管线规格(mm)</th>
+                                <th rowspan="2">套管材质</th>
                                 <th colspan="3">载体特征</th>
                                 <th colspan="2">平面坐标(m)</th>
                                 <th colspan="3">高程(m)</th>
@@ -820,7 +822,7 @@
                     <p class="text-xs text-red-500 text-right shrink-0">未勾选行将忽略</p>
                 </div>
                 <div class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-auto">
-                    <table class="import-modal-table min-w-[1820px]">
+                    <table class="import-modal-table min-w-[1920px]">
                         <thead>
                             <tr>
                                 <th rowspan="2">序号</th>
@@ -830,6 +832,7 @@
                                 <th colspan="2">管线点类别</th>
                                 <th rowspan="2">材质</th>
                                 <th colspan="2">管线规格(mm)</th>
+                                <th rowspan="2">套管材质</th>
                                 <th colspan="3">载体特征</th>
                                 <th colspan="2">平面坐标(m)</th>
                                 <th colspan="3">高程(m)</th>
@@ -895,6 +898,7 @@
             const features = ['管点', '折点', '三通', '弯头'];
             const attachments = ['阀门', '井盖', '标识桩', ''];
             const materials = ['PE', 'PVC', '钢', '铸铁', '混凝土'];
+            const casingMaterials = ['', '钢', 'PE', 'PVC', '混凝土'];
             for (let i = 1; i <= 300; i++) {
                 data.push({
                     pointNo: `D${String(i).padStart(4, '0')}`,
@@ -906,6 +910,7 @@
                     material: materials[Math.floor(Math.random() * materials.length)],
                     diameter: `DN${[100, 150, 200, 300, 400][Math.floor(Math.random() * 5)]}`,
                     casing: Math.random() > 0.7 ? `DN${[200, 300, 400][Math.floor(Math.random() * 3)]}` : '',
+                    casingMaterial: '',
                     pressure: (Math.random() * 1.6).toFixed(2),
                     flow: Math.random() > 0.5 ? '进' : '出',
                     holes: Math.random() > 0.8 ? '12/8' : '',
@@ -922,6 +927,11 @@
                     note: ['雷达', '探测仪', '人工'][Math.floor(Math.random() * 3)]
                 });
             }
+            data.forEach(row => {
+                row.casingMaterial = row.casing
+                    ? casingMaterials[1 + Math.floor(Math.random() * (casingMaterials.length - 1))]
+                    : '';
+            });
             return data;
         }
 
@@ -951,6 +961,7 @@
                     <td>${row.material}</td>
                     <td>${row.diameter}</td>
                     <td>${row.casing}</td>
+                    <td>${row.casingMaterial}</td>
                     <td>${row.pressure}</td>
                     <td>${row.flow}</td>
                     <td>${row.holes}</td>
@@ -1225,6 +1236,7 @@
                     material: '钢',
                     diameter: 'DN200',
                     casing: 'DN300',
+                    casingMaterial: '钢',
                     pressure: '10kV',
                     flow: '2根',
                     holes: '5/4',
@@ -1254,6 +1266,7 @@
                     material: 'PE',
                     diameter: 'DN150',
                     casing: '',
+                    casingMaterial: '',
                     pressure: '0.40MPa',
                     flow: '进',
                     holes: '5/3',
@@ -1283,6 +1296,7 @@
                     material: '铸铁',
                     diameter: 'DN300',
                     casing: '',
+                    casingMaterial: '',
                     pressure: '',
                     flow: '',
                     holes: '',
@@ -1309,6 +1323,7 @@
                     material: 'PVC',
                     diameter: 'DN100',
                     casing: '',
+                    casingMaterial: '',
                     pressure: '380V',
                     flow: '4根',
                     holes: '12/7',
@@ -1338,6 +1353,7 @@
                     material: 'PE',
                     diameter: 'DN200',
                     casing: '',
+                    casingMaterial: '',
                     pressure: '',
                     flow: '出',
                     holes: '',
@@ -1364,6 +1380,7 @@
                     material: '钢',
                     diameter: 'DN400',
                     casing: 'DN500',
+                    casingMaterial: '钢',
                     pressure: '0.60MPa',
                     flow: '',
                     holes: '',
@@ -1390,6 +1407,7 @@
                     material: '铸铁',
                     diameter: 'DN150',
                     casing: '',
+                    casingMaterial: '',
                     pressure: '',
                     flow: '',
                     holes: '',
@@ -1416,6 +1434,7 @@
                     material: 'PVC',
                     diameter: 'DN100',
                     casing: '',
+                    casingMaterial: '',
                     pressure: '220V',
                     flow: '2根',
                     holes: '5/3',
@@ -1471,6 +1490,7 @@
                     <td>${this.renderEditableCell(row.material, '', 'select', ['PE', 'PVC', '钢', '铸铁', '混凝土'])}</td>
                     <td>${this.renderEditableCell(row.diameter)}</td>
                     <td>${this.renderEditableCell(row.casing)}</td>
+                    <td>${this.renderEditableCell(row.casingMaterial, '', 'select', ['', '钢', 'PE', 'PVC', '混凝土'])}</td>
                     <td>${this.renderEditableCell(row.pressure)}</td>
                     <td>${this.renderEditableCell(row.flow)}</td>
                     <td>${this.renderEditableCell(row.holes, getExtraClass(row.holesClass))}</td>
