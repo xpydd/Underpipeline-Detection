@@ -1,0 +1,4 @@
+interface:
+  display_name: "需求变更日志管理"
+  short_description: "生成、补全并持续维护带版本号和日期的中文需求变更日志 Markdown 文件"
+  default_prompt: "使用 $requirements-change-log-manager 在项目根目录生成或更新 spec-log.md，并按迭代追加变更记录。"

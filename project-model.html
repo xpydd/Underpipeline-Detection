@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html class="" lang="zh-CN">
 <head>
     <meta charset="utf-8"/>
@@ -107,91 +107,224 @@
         /* 模型类型树形菜单样式 */
         .model-tree {
             font-size: 13px;
+            padding-top: 0.25rem;
         }
 
-        .model-tree-item {
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: all 0.2s;
-            color: #64748b;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .model-tree-item.font-semibold {
-            color: #475569;
-            font-weight: 600;
-            background-color: #f8fafc;
-            margin-bottom: 4px;
-        }
-
-        .dark .model-tree-item.font-semibold {
-            color: #cbd5e1;
-            background-color: #1e293b;
-        }
-
-        .dark .model-tree-item {
-            color: #94a3b8;
-        }
-
-        .model-tree-item:hover {
-            background-color: #f1f5f9;
-            color: #334155;
-        }
-
-        .dark .model-tree-item:hover {
-            background-color: #1e293b;
-            color: #cbd5e1;
-        }
-
-        .model-tree-item.active {
-            background-color: #5ad98b20;
-            color: #5ad98b;
-            font-weight: 600;
-        }
-
-        .dark .model-tree-item.active {
-            background-color: #5ad98b30;
-            color: #5ad98b;
-        }
-
-        .model-tree-category {
-            font-weight: 700;
-            color: #475569;
-            padding: 8px 10px;
-            cursor: pointer;
-            user-select: none;
-            border-radius: 6px;
-            transition: all 0.2s;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .dark .model-tree-category {
-            color: #94a3b8;
-        }
-
-        .model-tree-category:hover {
-            background-color: #f8fafc;
-            color: #1e293b;
-        }
-
-        .dark .model-tree-category:hover {
-            background-color: #1e293b;
-            color: #e2e8f0;
+        .model-tree-group {
+            margin-bottom: 0.05rem;
         }
 
         .model-tree-subcategory {
-            padding-left: 16px;
+            margin: 0.05rem 0 0.15rem 0.8rem;
+            padding-left: 0.55rem;
+            border-left: 1px solid rgba(226, 232, 240, 0.9);
         }
 
-        .model-tree-subcategory .model-tree-item {
+        .dark .model-tree-subcategory {
+            border-left-color: rgba(51, 65, 85, 0.92);
+        }
+
+        .model-tree-item {
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.6rem;
+            padding: 0.4rem 0.55rem;
+            border-radius: 6px;
+            color: #475569;
+            transition: background-color 0.16s ease, color 0.16s ease;
+        }
+
+        .dark .model-tree-item {
+            color: #cbd5e1;
+        }
+
+        .model-tree-item:hover {
+            background: rgba(241, 245, 249, 0.9);
+            color: #0f172a;
+        }
+
+        .dark .model-tree-item:hover {
+            background: rgba(30, 41, 59, 0.75);
+            color: #f8fafc;
+        }
+
+        .model-tree-item.active {
+            background: rgba(90, 217, 139, 0.12);
+            color: #166534;
+        }
+
+        .dark .model-tree-item.active {
+            background: rgba(90, 217, 139, 0.18);
+            color: #bbf7d0;
+        }
+
+        .model-tree-item--category {
+            padding-top: 0.45rem;
+            padding-bottom: 0.45rem;
+            font-weight: 700;
+        }
+
+        .model-tree-item-label {
+            min-width: 0;
+        }
+
+        .model-tree-item-name {
+            display: block;
             font-size: 12px;
-            padding: 5px 10px;
+            font-weight: 700;
+            line-height: 1.1rem;
+            color: inherit;
+        }
+
+        .model-tree-item-note {
+            display: none;
+        }
+
+        .dark .model-tree-item-note {
+            color: #64748b;
+        }
+
+        .model-tree-item-leaf {
+            position: relative;
+            padding-top: 0.32rem;
+            padding-bottom: 0.32rem;
+            font-size: 12px;
+        }
+
+        .model-tree-item-leaf::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 9999px;
+            background: currentColor;
+            opacity: 0.4;
+            margin-right: 0.55rem;
+            flex-shrink: 0;
+        }
+
+        .model-tree-search {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 0.7rem;
+            border-radius: 10px;
+            border: 1px solid rgba(226, 232, 240, 0.96);
+            background: #f8fafc;
+            transition: border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .model-tree-search:focus-within {
+            border-color: rgba(90, 217, 139, 0.85);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(90, 217, 139, 0.1);
+        }
+
+        .dark .model-tree-search {
+            border-color: rgba(51, 65, 85, 0.96);
+            background: rgba(15, 23, 42, 0.92);
+        }
+
+        .dark .model-tree-search:focus-within {
+            border-color: rgba(90, 217, 139, 0.7);
+            background: rgba(15, 23, 42, 1);
+            box-shadow: 0 0 0 3px rgba(90, 217, 139, 0.1);
+        }
+
+        .model-tree-search input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 12px;
+            color: #0f172a;
+        }
+
+        .model-tree-search input::placeholder {
+            color: #94a3b8;
+        }
+
+        .dark .model-tree-search input {
+            color: #e2e8f0;
+        }
+
+        .model-tree-search-clear {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 9999px;
+            color: #64748b;
+            transition: background-color 0.16s ease, color 0.16s ease;
+        }
+
+        .model-tree-search-clear:hover {
+            background: rgba(226, 232, 240, 0.9);
+            color: #0f172a;
+        }
+
+        .dark .model-tree-search-clear:hover {
+            background: rgba(51, 65, 85, 0.86);
+            color: #f8fafc;
+        }
+
+        .model-tree-quick {
+            display: none;
+        }
+
+        .model-tree-chip {
+            display: none;
+        }
+
+        .model-tree-chip-badge,
+        .model-tree-badge {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.2rem;
+            height: 1.2rem;
+            padding: 0 0.3rem;
+            border-radius: 9999px;
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(226, 232, 240, 0.9);
+            color: #475569;
+        }
+
+        .dark .model-tree-chip-badge,
+        .dark .model-tree-badge {
+            background: rgba(51, 65, 85, 0.95);
+            color: #e2e8f0;
+        }
+
+        .model-tree-summary {
+            padding: 0.45rem 0.55rem;
+            border-radius: 8px;
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            background: rgba(248, 250, 252, 0.9);
+        }
+
+        .dark .model-tree-summary {
+            border-color: rgba(51, 65, 85, 0.95);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .model-tree-empty {
+            display: grid;
+            place-items: center;
+            min-height: 160px;
+            padding: 1rem 0.75rem;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .dark .model-tree-empty {
+            color: #64748b;
         }
 
         /* 3D 画布样式 */
@@ -230,6 +363,364 @@
             background: #334155;
             border-color: #5ad98b;
         }
+
+        .model-bubble-panel {
+            opacity: 0;
+            transform: translateY(10px) scale(0.96);
+            transform-origin: top left;
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+
+        .model-bubble-panel.is-open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .model-scene-hud,
+        .model-scene-focus {
+            border: 1px solid rgba(255, 255, 255, 0.36);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.72));
+            backdrop-filter: blur(18px);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        .dark .model-scene-hud,
+        .dark .model-scene-focus {
+            border-color: rgba(148, 163, 184, 0.18);
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.62));
+            box-shadow: 0 20px 44px rgba(2, 6, 23, 0.45);
+        }
+
+        .model-scene-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.7rem;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #0f172a;
+            background: rgba(255, 255, 255, 0.74);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .dark .model-scene-pill {
+            color: #e2e8f0;
+            background: rgba(30, 41, 59, 0.72);
+            border-color: rgba(100, 116, 139, 0.26);
+        }
+
+        .model-scene-stat {
+            border-radius: 18px;
+            padding: 0.9rem 1rem;
+            background: rgba(248, 250, 252, 0.82);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .dark .model-scene-stat {
+            background: rgba(15, 23, 42, 0.68);
+            border-color: rgba(51, 65, 85, 0.86);
+        }
+
+        .model-action-bubble {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 0.65rem;
+            width: 100%;
+            padding: 0.78rem 0.9rem;
+            border-radius: 14px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            background: rgba(248, 250, 252, 0.92);
+            color: #0f172a;
+            text-align: left;
+            transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .model-action-bubble > span:last-child {
+            flex: 1;
+        }
+
+        .model-action-bubble:hover {
+            transform: translateY(-1px);
+            background: rgba(241, 245, 249, 0.96);
+            border-color: rgba(148, 163, 184, 0.5);
+        }
+
+        .dark .model-action-bubble {
+            background: rgba(30, 41, 59, 0.88);
+            color: #e2e8f0;
+            border-color: rgba(71, 85, 105, 0.9);
+        }
+
+        .dark .model-action-bubble:hover {
+            background: rgba(51, 65, 85, 0.92);
+        }
+
+        .model-action-bubble--point:hover {
+            border-color: rgba(147, 51, 234, 0.32);
+            color: #7c3aed;
+        }
+
+        .dark .model-action-bubble--point:hover {
+            color: #c4b5fd;
+        }
+
+        .model-action-bubble--pipeline:hover {
+            border-color: rgba(249, 115, 22, 0.34);
+            color: #ea580c;
+        }
+
+        .dark .model-action-bubble--pipeline:hover {
+            color: #fdba74;
+        }
+
+        .model-bubble-card {
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+        }
+
+        .dark .model-bubble-card {
+            background: rgba(15, 23, 42, 0.82);
+            border-color: rgba(100, 116, 139, 0.38);
+            box-shadow: 0 16px 36px rgba(2, 6, 23, 0.42);
+        }
+
+        .model-scene-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .model-scene-overlay svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            pointer-events: none;
+        }
+
+        .model-scene-line {
+            pointer-events: visibleStroke;
+            cursor: pointer;
+            transition: stroke 0.18s ease, stroke-width 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .model-scene-line:hover,
+        .model-scene-line.is-active {
+            stroke-width: 8;
+            filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.26));
+            opacity: 1;
+        }
+
+        .model-scene-point {
+            pointer-events: all;
+            cursor: pointer;
+            transition: transform 0.18s ease, filter 0.18s ease, fill 0.18s ease, opacity 0.18s ease;
+            transform-origin: center;
+        }
+
+        .model-scene-point:hover,
+        .model-scene-point.is-active {
+            transform: scale(1.16);
+            filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.34));
+            opacity: 1;
+        }
+
+        .model-scene-label {
+            font-size: 11px;
+            font-weight: 700;
+            fill: #334155;
+            pointer-events: none;
+            user-select: none;
+            paint-order: stroke;
+            stroke: rgba(255, 255, 255, 0.72);
+            stroke-width: 3px;
+            stroke-linejoin: round;
+        }
+
+        .dark .model-scene-label {
+            fill: #e2e8f0;
+            stroke: rgba(15, 23, 42, 0.86);
+        }
+
+        .model-entity-bubble {
+            position: absolute;
+            z-index: 12;
+            min-width: 260px;
+            max-width: 300px;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px) scale(0.96);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+
+        .model-entity-bubble.is-open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .model-entity-bubble-arrow {
+            position: absolute;
+            top: var(--bubble-arrow-top, 18px);
+            left: -10px;
+            width: 22px;
+            height: 22px;
+            border-radius: 8px 0 0 0;
+            transform: rotate(45deg);
+            background: rgba(255, 255, 255, 0.9);
+            border-left: 1px solid rgba(148, 163, 184, 0.2);
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: -8px -8px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .dark .model-entity-bubble-arrow {
+            background: rgba(15, 23, 42, 0.9);
+            border-left-color: rgba(100, 116, 139, 0.34);
+            border-top-color: rgba(100, 116, 139, 0.34);
+            box-shadow: -8px -8px 24px rgba(2, 6, 23, 0.3);
+        }
+
+        .model-entity-bubble[data-side="left"] .model-entity-bubble-arrow {
+            left: auto;
+            right: -10px;
+            border-left: none;
+            border-top: none;
+            border-right: 1px solid rgba(148, 163, 184, 0.2);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 8px 8px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .dark .model-entity-bubble[data-side="left"] .model-entity-bubble-arrow {
+            border-right-color: rgba(100, 116, 139, 0.34);
+            border-bottom-color: rgba(100, 116, 139, 0.34);
+            box-shadow: 8px 8px 24px rgba(2, 6, 23, 0.3);
+        }
+
+        .model-entity-bubble-card {
+            position: relative;
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 18px 32px rgba(15, 23, 42, 0.18);
+            padding: 12px;
+        }
+
+        .dark .model-entity-bubble-card {
+            background: rgba(15, 23, 42, 0.92);
+            border-color: rgba(100, 116, 139, 0.36);
+            box-shadow: 0 20px 42px rgba(2, 6, 23, 0.46);
+        }
+
+        .model-entity-bubble-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.45rem;
+        }
+
+        .model-dialog-shell {
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
+            box-shadow: 0 30px 80px rgba(15, 23, 42, 0.24);
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark .model-dialog-shell {
+            border-color: rgba(100, 116, 139, 0.22);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.94));
+            box-shadow: 0 34px 90px rgba(2, 6, 23, 0.56);
+        }
+
+        .model-dialog-header {
+            padding: 1.25rem 1.4rem 1rem;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.86);
+            background:
+                radial-gradient(circle at top right, rgba(90, 217, 139, 0.16), transparent 34%),
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 30%),
+                rgba(248, 250, 252, 0.86);
+        }
+
+        .dark .model-dialog-header {
+            border-bottom-color: rgba(51, 65, 85, 0.88);
+            background:
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.18), transparent 36%),
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 34%),
+                rgba(15, 23, 42, 0.84);
+        }
+
+        .model-dialog-card {
+            border-radius: 24px;
+            padding: 1rem;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .dark .model-dialog-card {
+            border-color: rgba(51, 65, 85, 0.88);
+            background: rgba(15, 23, 42, 0.6);
+            box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.04);
+        }
+
+        .model-dialog-aside {
+            position: sticky;
+            top: 0;
+            align-self: start;
+        }
+
+        .model-kpi {
+            border-radius: 20px;
+            padding: 0.9rem 1rem;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            background: rgba(248, 250, 252, 0.86);
+        }
+
+        .dark .model-kpi {
+            border-color: rgba(51, 65, 85, 0.9);
+            background: rgba(15, 23, 42, 0.64);
+        }
+
+        .model-kpi-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .dark .model-kpi-value {
+            color: #f8fafc;
+        }
+
+        .model-kpi-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .dark .model-kpi-label {
+            color: #94a3b8;
+        }
+
+        .model-aside-list {
+            display: grid;
+            gap: 0.75rem;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        .dark .model-aside-list {
+            color: #cbd5e1;
+        }
     </style>
     <script src="js/config.js"></script>
     <script src="js/navigation.js"></script>
@@ -239,7 +730,7 @@
 <!-- 头部导航 -->
 <header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
 <div class="max-w-[1440px] mx-auto px-6">
-<!-- 顶部栏 -->
+<!-- 椤堕儴鏍?-->
 <div class="h-16 flex items-center justify-between">
 <div class="flex items-center gap-6 flex-1">
 <div class="flex items-center gap-3">
@@ -283,9 +774,9 @@
 
 <!-- 主内容区域 -->
 <main class="flex-1 max-w-[1440px] w-full mx-auto px-6 pt-6 pb-12" id="main-content">
-    <!-- 项目级头部区域 -->
+    <!-- 椤圭洰绾уご閮ㄥ尯鍩?-->
     <div class="mb-4 space-y-2">
-        <!-- 标题与操作 -->
+        <!-- 鏍囬涓庢搷浣?-->
         <div class="flex justify-between items-center h-10">
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-3">
@@ -298,7 +789,7 @@
             </div>
         </div>
 
-        <!-- 一级菜单 (Top Tabs) -->
+        <!-- 涓€绾ц彍鍗?(Top Tabs) -->
         <div class="border-b border-slate-200 dark:border-slate-800">
             <nav class="-mb-px flex space-x-6" aria-label="Tabs">
                 <a href="#" class="border-primary text-primary flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-bold text-sm">
@@ -313,7 +804,7 @@
         </div>
     </div>
 
-    <!-- 页面布局：左侧导航 + 右侧内容 -->
+    <!-- 椤甸潰甯冨眬锛氬乏渚у鑸?+ 鍙充晶鍐呭 -->
     <div class="flex gap-4 items-start h-[calc(100vh-14rem)]">
         <!-- 二级菜单 (Left Sidebar) -->
         <nav class="w-16 shrink-0 space-y-2 sticky top-0 flex flex-col items-center py-2 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 h-full z-50">
@@ -343,18 +834,30 @@
         <div class="flex-1 min-w-0 h-full overflow-hidden relative">
             <!-- 模型视图 -->
             <div class="w-full h-full flex gap-4">
-                <!-- 左侧模型类型树 -->
-                <div class="w-[200px] shrink-0 space-y-3 flex flex-col h-full">
+                <!-- 左侧模型类型栏 -->
+                <div class="w-[240px] shrink-0 space-y-3 flex flex-col h-full">
                     <!-- 模型筛选区 -->
                     <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col flex-1 min-h-0">
-                        <div class="px-3 py-2 border-b border-slate-100 dark:border-slate-800">
-                            <h4 class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                                <span class="material-symbols-outlined text-sm">filter_alt</span>
-                                模型筛选
-                            </h4>
+                        <div class="px-3 py-3 border-b border-slate-100 dark:border-slate-800 space-y-3">
+                            <div class="flex items-center justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-sm">filter_alt</span>
+                                    模型筛选
+                                </h4>
+                                <button type="button" id="modelTreeReset" class="text-[11px] font-semibold text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors">重置</button>
+                            </div>
+                            <label class="model-tree-search">
+                                <span class="material-symbols-outlined text-[18px] text-slate-400">search</span>
+                                <input type="text" id="modelTreeSearch" placeholder="搜索模型分类或管类">
+                                <button type="button" id="modelTreeSearchClear" class="model-tree-search-clear hidden" aria-label="清空搜索">
+                                    <span class="material-symbols-outlined text-[16px]">close</span>
+                                </button>
+                            </label>
+                            <div id="modelTreeQuickFilters" class="model-tree-quick"></div>
+                            <div id="modelTreeSummary" class="model-tree-summary"></div>
                         </div>
                         <div class="flex-1 overflow-y-auto p-2 custom-scrollbar model-tree" id="model-tree">
-                            <!-- 树形菜单将通过 JavaScript 动态生成 -->
+                            <!-- 鏍戝舰鑿滃崟灏嗛€氳繃 JavaScript 鍔ㄦ€佺敓鎴?-->
                         </div>
                     </div>
 
@@ -363,10 +866,6 @@
                         <button class="w-full px-3 py-2.5 bg-gradient-to-r from-primary to-emerald-400 hover:from-primary/90 hover:to-emerald-400/90 text-white rounded-lg text-xs font-semibold transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-1.5">
                             <span class="material-symbols-outlined text-base">upload_file</span>
                             导入数据生成模型
-                        </button>
-                        <button class="w-full px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5">
-                            <span class="material-symbols-outlined text-sm">save</span>
-                            保存模型
                         </button>
                         <button class="w-full px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5">
                             <span class="material-symbols-outlined text-sm">download</span>
@@ -398,17 +897,13 @@
                         </div>
                     </div>
 
-                    <!-- 顶部工具栏 -->
+                    <!-- 椤堕儴宸ュ叿鏍?-->
                     <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-gradient-to-r from-slate-50 to-slate-100/50 dark:from-slate-900/30 dark:to-slate-900/20">
                         <div class="flex items-center gap-3">
                             <div class="flex items-center gap-2">
                                 <div class="w-1 h-5 bg-primary rounded-full"></div>
                                 <h3 class="text-sm font-bold text-slate-900 dark:text-white">三维模型视图</h3>
                             </div>
-                            <span class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm">info</span>
-                                鼠标控制视图方向
-                            </span>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="flex items-center bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 shadow-sm">
@@ -424,8 +919,7 @@
                             <div class="w-px h-6 bg-slate-300 dark:bg-slate-600"></div>
                             <button class="px-3 py-2 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-slate-700 hover:text-orange-600 hover:border-orange-300 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium transition-all shadow-sm hover:shadow flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-base">content_cut</span>
-                                局部剖面
-                            </button>
+                                局部剖切                            </button>
                             <div class="w-px h-6 bg-slate-300 dark:bg-slate-600"></div>
                             <div class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm">
                                 <span class="text-xs font-medium text-slate-700 dark:text-slate-300">三维地形</span>
@@ -435,107 +929,40 @@
                                 </label>
                             </div>
                             <div class="w-px h-6 bg-slate-300 dark:bg-slate-600"></div>
-                            <div class="relative group">
-                                <button class="px-3 py-2 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium transition-all shadow-sm flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-base">edit</span>
-                                    编辑
-                                    <span class="material-symbols-outlined text-sm">arrow_drop_down</span>
-                                </button>
-                                <div class="hidden group-hover:block absolute right-0 top-full mt-1 w-40 bg-white dark:bg-[#161e27] rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 py-1 z-50">
-                                    <div class="px-3 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">管点编辑</div>
-                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">新增管点</button>
-                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">删除管点</button>
-                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">移动管点</button>
-                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">合并管点</button>
-                                    <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
-                                    <div class="px-3 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">管线编辑</div>
-                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">新增管线</button>
-                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">删除管线</button>
-                                    <button class="w-full text-left px-3 py-1.5 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">修改管线</button>
-                                </div>
-                            </div>
+                            <button onclick="openPointModal('create')" class="px-3 py-2 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 hover:border-emerald-300 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium transition-all shadow-sm hover:shadow flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">add_location_alt</span>
+                                新增管点
+                            </button>
+                            <button onclick="openPipelineModal('create')" class="px-3 py-2 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-sky-50 dark:hover:bg-slate-700 hover:text-sky-600 hover:border-sky-300 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium transition-all shadow-sm hover:shadow flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">timeline</span>
+                                新增管线
+                            </button>
                         </div>
                     </div>
 
                     <!-- 3D 模型画布 -->
-                    <div class="flex-1 relative">
+                    <div class="flex-1 relative overflow-hidden">
                         <canvas id="model-canvas"></canvas>
 
-                        <!-- 坐标轴指示器 (右上角) -->
-                        <div class="absolute top-4 right-4 w-24 h-24 pointer-events-none">
-                            <svg viewBox="0 0 100 100" class="w-full h-full">
-                                <!-- 3D 坐标轴示意图 -->
-                                <g transform="translate(50, 50)">
-                                    <!-- Z 轴 (向上) -->
-                                    <line x1="0" y1="0" x2="0" y2="-35" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowZ)"/>
-                                    <text x="5" y="-35" fill="#ef4444" font-size="12" font-weight="bold">Z</text>
+                        <div id="modelSceneOverlay" class="model-scene-overlay"></div>
 
-                                    <!-- Y 轴 (向左上) -->
-                                    <line x1="0" y1="0" x2="-25" y2="-15" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowY)"/>
-                                    <text x="-35" y="-15" fill="#22c55e" font-size="12" font-weight="bold">Y</text>
-
-                                    <!-- X 轴 (向右) -->
-                                    <line x1="0" y1="0" x2="35" y2="0" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowX)"/>
-                                    <text x="35" y="5" fill="#3b82f6" font-size="12" font-weight="bold">X</text>
-                                </g>
-
-                                <!-- 箭头定义 -->
-                                <defs>
-                                    <marker id="arrowX" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
-                                        <path d="M0,0 L0,6 L9,3 z" fill="#3b82f6"/>
-                                    </marker>
-                                    <marker id="arrowY" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
-                                        <path d="M0,0 L0,6 L9,3 z" fill="#22c55e"/>
-                                    </marker>
-                                    <marker id="arrowZ" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
-                                        <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"/>
-                                    </marker>
-                                </defs>
-                            </svg>
-                        </div>
-
-                        <!-- 3D 房屋示意图 (右上角小图标) -->
-                        <div class="absolute top-4 right-32 pointer-events-none">
-                            <svg width="80" height="80" viewBox="0 0 100 100">
-                                <g transform="translate(50, 30)">
-                                    <!-- 房屋主体 (立方体) -->
-                                    <path d="M 0,20 L 25,5 L 25,35 L 0,50 Z" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
-                                    <path d="M 0,20 L -25,5 L -25,35 L 0,50 Z" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/>
-                                    <path d="M 0,20 L 25,5 L 0,-10 L -25,5 Z" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
-
-                                    <!-- 标注线 -->
-                                    <line x1="30" y1="8" x2="45" y2="0" stroke="#64748b" stroke-width="1" stroke-dasharray="2,2"/>
-                                    <line x1="30" y1="32" x2="45" y2="24" stroke="#64748b" stroke-width="1" stroke-dasharray="2,2"/>
-                                    <line x1="45" y1="0" x2="45" y2="24" stroke="#64748b" stroke-width="1.5"/>
-
-                                    <!-- 标注文字 -->
-                                    <text x="48" y="14" fill="#475569" font-size="8" font-weight="bold">北</text>
-                                    <text x="48" y="30" fill="#475569" font-size="8" font-weight="bold">南</text>
-                                    <text x="-35" y="55" fill="#475569" font-size="8" font-weight="bold">西</text>
-                                    <text x="28" y="55" fill="#475569" font-size="8" font-weight="bold">东</text>
-                                </g>
-                            </svg>
-                        </div>
-
-                        <!-- 底部控制说明 -->
-                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 shadow-lg">
-                            <div class="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
-                                <span class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-sm">mouse</span>
-                                    左键拖动旋转
-                                </span>
-                                <span class="w-px h-3 bg-slate-300 dark:bg-slate-600"></span>
-                                <span class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-sm">zoom_in</span>
-                                    滚轮缩放
-                                </span>
-                                <span class="w-px h-3 bg-slate-300 dark:bg-slate-600"></span>
-                                <span class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-sm">pan_tool</span>
-                                    右键拖动平移
-                                </span>
+                        <div id="modelEntityBubble" class="model-entity-bubble">
+                            <div class="model-entity-bubble-arrow"></div>
+                            <div class="model-entity-bubble-card">
+                                <div class="flex items-start justify-between gap-3 mb-2">
+                                    <div>
+                                        <div id="modelEntityBubbleTitle" class="text-sm font-semibold text-slate-900 dark:text-white">管点操作</div>
+                                        <div id="modelEntityBubbleMeta" class="mt-1 text-[11px] text-slate-500 dark:text-slate-400"></div>
+                                    </div>
+                                    <button type="button" onclick="closeEntityBubble()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                                        <span class="material-symbols-outlined text-lg">close</span>
+                                    </button>
+                                </div>
+                                <div id="modelEntityBubbleHint" class="mb-3 text-[11px] leading-5 text-slate-600 dark:text-slate-300"></div>
+                                <div id="modelEntityBubbleActions" class="model-entity-bubble-actions"></div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -543,190 +970,634 @@
     </div>
 </main>
 
-<script type="module">
-    // 模型管理模块
-    class ModelManager {
+<dialog id="modelPointModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-3xl open:animate-in open:fade-in open:zoom-in-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[90vh]">
+        <div class="px-4 py-2.5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 shrink-0">
+            <div>
+                <h3 id="modelPointModalTitle" class="text-sm font-bold text-slate-800 dark:text-white">新增管点</h3>
+                <p id="modelPointModeHint" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">字段和交互参考勘探页管点表单。</p>
+            </div>
+            <button type="button" onclick="closePointModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+
+        <form id="modelPointForm" method="dialog" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-3 overflow-y-auto custom-scrollbar space-y-3">
+                <div class="grid md:grid-cols-[1fr_auto] gap-3 items-end">
+                    <div id="modelPointTargetWrap" class="hidden">
+                        <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-300 mb-1">选择管点</label>
+                        <select id="modelPointTargetSelect" onchange="handlePointTargetChange()" class="w-full min-w-[180px] px-2 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary"></select>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1 mb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-sm">info</span>
+                        基本信息
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管点编号</label>
+                            <input id="modelPointIdInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管点种类</label>
+                            <select id="modelPointTypeSelect" onchange="updateModelPointFeatureOptions()" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">特征点</label>
+                            <select id="modelPointFeatureSelect" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">附属物</label>
+                            <input id="modelPointAccessoryInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary" placeholder="如：检查井、阀门井">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">建设日期</label>
+                            <input id="modelPointBuildDateInput" type="date" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属单位</label>
+                            <input id="modelPointOwnerInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1 mb-1.5 border-b border-slate-100 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-primary text-sm">water_drop</span>
+                        管井信息
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2">
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井盖材质</label><input id="modelPointCoverMaterialInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井盖类型</label><input id="modelPointCoverTypeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井盖形状</label><input id="modelPointCoverShapeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井盖尺寸</label><input id="modelPointCoverSizeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井室规格</label><input id="modelPointChamberSpecInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井室尺寸</label><input id="modelPointChamberSizeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井脖尺寸</label><input id="modelPointNeckSizeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">井脖深</label><input id="modelPointNeckDepthInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-3">
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1 mb-1.5 border-b border-slate-100 dark:border-slate-800"><span class="material-symbols-outlined text-primary text-sm">location_on</span>空间信息</h4>
+                        <div class="grid grid-cols-3 gap-x-2 gap-y-2">
+                            <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">经度</label><input id="modelPointLongitudeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                            <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">纬度</label><input id="modelPointLatitudeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                            <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">H高程</label><input id="modelPointElevationInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1 mb-1.5 border-b border-slate-100 dark:border-slate-800"><span class="material-symbols-outlined text-primary text-sm">description</span>其他信息</h4>
+                        <div class="grid grid-cols-3 gap-x-2 gap-y-2">
+                            <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">调查日期</label><input id="modelPointSurveyDateInput" type="text" class="w-full px-2 py-1.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500"></div>
+                            <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">建构筑物</label><input id="modelPointBuildingInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                            <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">备注</label><input id="modelPointRemarkInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1 mb-1.5 border-b border-slate-100 dark:border-slate-800"><span class="material-symbols-outlined text-primary text-sm">image</span>影像信息</h4>
+                    <div class="flex flex-wrap gap-2" id="modelPointImageList">
+                        <label class="w-16 h-16 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:text-primary text-slate-400 transition-colors bg-slate-50 dark:bg-slate-800/50 shrink-0">
+                            <span class="material-symbols-outlined text-base">add_photo_alternate</span>
+                            <span class="text-[9px] mt-1">添加影像</span>
+                            <input id="modelPointImageInput" type="file" multiple accept="image/*,video/*" class="hidden" onchange="handleModelPointImageChange(this)">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-4 py-2.5 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button value="cancel" formmethod="dialog" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
+                <button value="confirm" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确定</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<dialog id="modelPipelineModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-3xl open:animate-in open:fade-in open:zoom-in-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[90vh]">
+        <div class="px-4 py-2.5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 shrink-0">
+            <div class="flex items-center gap-3">
+                <div>
+                    <h3 id="modelPipelineModalTitle" class="text-sm font-bold text-slate-800 dark:text-white">新增管线</h3>
+                    <p id="modelPipelineModeHint" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">字段和点位搜索交互参考勘探页管线表单。</p>
+                </div>
+                <span id="modelPipelineIdBadge" class="px-2 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">管线编号：自动生成</span>
+            </div>
+            <button type="button" onclick="closePipelineModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+
+        <form id="modelPipelineForm" method="dialog" class="flex flex-col flex-1 overflow-hidden">
+            <div class="p-3 overflow-y-auto custom-scrollbar space-y-3">
+                <div class="grid md:grid-cols-[1fr_auto] gap-3 items-end">
+                    <div id="modelPipelineTargetWrap" class="hidden">
+                        <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-300 mb-1">选择管线</label>
+                        <select id="modelPipelineTargetSelect" onchange="handlePipelineTargetChange()" class="w-full min-w-[180px] px-2 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary"></select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                    <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <h4 class="text-[11px] font-bold text-slate-800 dark:text-white shrink-0">起始管点</h4>
+                            <div class="relative flex-1" id="modelStartPointSearchWrap">
+                                <input type="text" id="modelStartPointSearch" placeholder="搜索管点编号..." class="w-full pl-2 pr-6 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded text-[11px] focus:ring-1 focus:ring-primary focus:border-primary outline-none" oninput="filterModelPipelinePointList('start', this.value)" onfocus="showModelPipelinePointDropdown('start')" autocomplete="off">
+                                <span class="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none">search</span>
+                                <div id="modelStartPointDropdown" class="hidden absolute z-50 left-0 right-0 top-full mt-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded shadow-lg max-h-36 overflow-y-auto">
+                                    <div class="p-0.5" id="modelStartPointList"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px]">
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">管点编号：</span><span id="modelStartPtId" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">管点种类：</span><span id="modelStartPtType" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">特征点：</span><span id="modelStartPtFeature" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">附属物：</span><span id="modelStartPtAccessory" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">建设日期：</span><span id="modelStartPtDate" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">权属单位：</span><span id="modelStartPtOwner" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <h4 class="text-[11px] font-bold text-slate-800 dark:text-white shrink-0">终止管点</h4>
+                            <div class="relative flex-1" id="modelEndPointSearchWrap">
+                                <input type="text" id="modelEndPointSearch" placeholder="搜索管点编号..." class="w-full pl-2 pr-6 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded text-[11px] focus:ring-1 focus:ring-primary focus:border-primary outline-none" oninput="filterModelPipelinePointList('end', this.value)" onfocus="showModelPipelinePointDropdown('end')" autocomplete="off">
+                                <span class="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none">search</span>
+                                <div id="modelEndPointDropdown" class="hidden absolute z-50 left-0 right-0 top-full mt-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded shadow-lg max-h-36 overflow-y-auto">
+                                    <div class="p-0.5" id="modelEndPointList"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px]">
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">管点编号：</span><span id="modelEndPtId" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">管点种类：</span><span id="modelEndPtType" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">特征点：</span><span id="modelEndPtFeature" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">附属物：</span><span id="modelEndPtAccessory" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">建设日期：</span><span id="modelEndPtDate" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                            <div class="flex justify-between gap-1"><span class="text-slate-500">权属单位：</span><span id="modelEndPtOwner" class="text-slate-800 dark:text-white font-medium">-</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1 mb-1.5 border-b border-slate-100 dark:border-slate-800"><span class="material-symbols-outlined text-primary text-sm">info</span>基本信息</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2">
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">起始点号</label><input id="modelPipelineStartIdInput" type="text" readonly class="w-full px-2 py-1.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">终止点号</label><input id="modelPipelineEndIdInput" type="text" readonly class="w-full px-2 py-1.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-500"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">埋设方式</label><input id="modelPipelineLayingMethodInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">起始埋深</label><input id="modelPipelineStartDepthInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">终止埋深</label><input id="modelPipelineEndDepthInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属单位</label><input id="modelPipelineOwnerInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1 mb-1.5 border-b border-slate-100 dark:border-slate-800"><span class="material-symbols-outlined text-primary text-sm">water_drop</span>管井信息</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2">
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管径/截面</label><input id="modelPipelineDiameterInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">套管尺寸</label><input id="modelPipelineCasingSizeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">套管材质</label><input id="modelPipelineCasingMaterialInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">孔径</label><input id="modelPipelineApertureInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">流向/根数</label><input id="modelPipelineFlowInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">电压/压力</label><input id="modelPipelinePressureInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">鎬诲瓟鏁?/label><input id="modelPipelineTotalHolesInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">已用孔数</label><input id="modelPipelineUsedHolesInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">权属孔数</label><input id="modelPipelineOwnedHolesInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">管线材质</label><input id="modelPipelineMaterialInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">埋设年代</label><input id="modelPipelineBuriedYearInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center gap-1.5 pb-1 mb-1.5 border-b border-slate-100 dark:border-slate-800"><span class="material-symbols-outlined text-primary text-sm">description</span>其他信息</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-2">
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">线型</label><input id="modelPipelineLineTypeInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">保护材质</label><input id="modelPipelineProtectMaterialInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 dark:text-slate-400">备注</label><input id="modelPipelineRemarkInput" type="text" class="w-full px-2 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs focus:ring-1 focus:ring-primary focus:border-primary"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-4 py-2.5 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+                <button value="cancel" formmethod="dialog" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
+                <button value="confirm" class="px-3 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded-lg shadow-lg shadow-primary/20 transition-all">确定</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<dialog id="modelDeleteModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-lg open:animate-in open:fade-in open:zoom-in-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <div>
+                <h3 id="modelDeleteModalTitle" class="text-base font-bold text-slate-800 dark:text-white">删除管点</h3>
+                <p id="modelDeleteModalHint" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">删除操作将先进行确认，避免误删当前实体。</p>
+            </div>
+            <button type="button" onclick="closeDeleteModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+        <div class="p-4 space-y-4">
+            <div id="modelDeleteTargetWrap">
+                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">选择对象</label>
+                <select id="modelDeleteTargetSelect" onchange="updateDeleteSummary()" class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary"></select>
+            </div>
+            <div class="rounded-xl border border-rose-200 dark:border-rose-900/40 bg-rose-50/70 dark:bg-rose-950/20 px-3 py-3">
+                <div class="flex items-center gap-2 text-rose-600 dark:text-rose-300 text-sm font-semibold">
+                    <span class="material-symbols-outlined text-base">warning</span>
+                    删除后不可恢复                </div>
+                <div id="modelDeleteSummary" class="mt-2 text-xs leading-6 text-slate-600 dark:text-slate-300"></div>
+            </div>
+        </div>
+        <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27]">
+            <button type="button" onclick="closeDeleteModal()" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
+            <button id="modelDeleteConfirmButton" type="button" onclick="confirmDeleteAction()" class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-lg shadow-lg shadow-red-500/20 transition-all">确认删除</button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="modelMergePointModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-6xl open:animate-in open:fade-in open:zoom-in-95">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[92vh] flex flex-col">
+        <div class="px-4 py-2.5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+            <div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white tracking-wide">合并管点</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">保留勘探页的双管点比对形式，并增加主管点选择。</p>
+            </div>
+            <button type="button" onclick="closeMergePointModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+
+        <div class="p-3 overflow-y-auto text-[11px] leading-tight">
+            <div class="grid gap-3 lg:grid-cols-5">
+                <div class="lg:col-span-3 rounded-lg border border-slate-200 dark:border-slate-700 p-2.5 space-y-2.5">
+                    <div class="grid md:grid-cols-[auto_1fr] gap-2 items-end">
+                        <div class="text-xs font-bold text-slate-800 dark:text-white">第1管点（主管点，可编辑属性）</div>
+                        <div>
+                            <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">选择主管点</label>
+                            <select id="mergePrimaryPointSelect" onchange="handleMergePrimaryChange()" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h5 class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">基础信息</h5>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">管点编号</label><input id="mergePrimaryPointId" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded text-slate-500"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">管点类型</label><input id="mergePrimaryPointType" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">特征</label><input id="mergePrimaryPointFeature" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">附属物</label><input id="mergePrimaryPointAccessory" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">埋深</label><input id="mergePrimaryPointDepth" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">管径</label><input id="mergePrimaryPointDiameter" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">材质</label><input id="mergePrimaryPointMaterial" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h5 class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">空间信息</h5>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">高程</label><input id="mergePrimaryPointElevation" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">经度</label><input id="mergePrimaryPointLongitude" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">纬度</label><input id="mergePrimaryPointLatitude" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h5 class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">管理信息</h5>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">建设日期</label><input id="mergePrimaryPointBuildDate" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded" placeholder="YYYY/MM/DD"></div>
+                            <div><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">权属单位</label><input id="mergePrimaryPointOwner" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div class="lg:col-span-2"><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">数据来源</label><input id="mergePrimaryPointSource" type="text" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></div>
+                            <div class="col-span-2 lg:col-span-4"><label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">备注</label><textarea id="mergePrimaryPointRemark" rows="2" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded resize-none"></textarea></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 space-y-3">
+                    <div class="rounded-lg border border-slate-200 dark:border-slate-700 p-2.5">
+                        <h4 class="text-xs font-bold text-slate-800 dark:text-white mb-1.5">第2管点（被合并管点）</h4>
+                        <label class="text-[11px] font-medium text-slate-700 dark:text-slate-300">选择待合并管点</label>
+                        <select id="mergeSecondaryPointSelect" onchange="updateMergeSecondaryPointInfo()" class="w-full mt-0.5 px-2 py-1.5 text-[11px] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded"></select>
+                        <div id="mergeSecondaryPointInfo" class="mt-2 text-[11px] text-slate-600 dark:text-slate-300 leading-5"></div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 dark:border-slate-700 p-2.5 bg-slate-50 dark:bg-slate-800/40">
+                        <h4 class="text-xs font-bold text-slate-700 dark:text-slate-200 mb-1.5">合并说明</h4>
+                        <div class="text-[11px] text-slate-600 dark:text-slate-300 leading-5">
+                            <div>1. 第2管点关联管线会自动改挂到第1管点。</div>
+                            <div>2. 第2管点会被移除，请先核对主管点属性。</div>
+                            <div>3. 若形成自环管线会在确认时自动清理。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 py-2.5 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-[#161e27] shrink-0">
+            <button type="button" onclick="closeMergePointModal()" class="px-3 py-1.5 text-[11px] font-medium text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors">取消</button>
+            <button type="button" onclick="confirmMergePoint()" class="px-3 py-1.5 text-[11px] font-bold text-white bg-primary hover:bg-primary/90 rounded shadow-lg shadow-primary/20 transition-all">确认合并</button>
+        </div>
+    </div>
+</dialog>
+
+<script>
+    function updateSceneHud(snapshot = window.modelManager?.getSceneSnapshot?.()) {
+        return snapshot;
+    }
+
+    class EnhancedModelManager {
         constructor() {
             this.currentModel = '全部';
-            this.renderMode = 'realistic'; // 默认为真实模式
+            this.renderMode = 'realistic';
+            this.terrainEnabled = true;
+            this.palette = ['#38bdf8', '#5ad98b', '#fb7185', '#f59e0b', '#a78bfa', '#14b8a6'];
+            this.viewport = { width: 0, height: 0 };
+            this.camera = { yaw: -0.72, pitch: 1.04, zoom: 1, panX: 0, panY: 34 };
+            this.dragState = null;
+            this.sceneSnapshot = { width: 0, height: 0, points: [], pipelines: [] };
+            this.treeData = null;
+            this.treeKeyword = '';
+            this.animationFrame = null;
+            this.needsRender = false;
+            this.canvas = null;
+            this.ctx = null;
             this.init();
         }
 
         init() {
             this.renderModelTree();
-            this.bindEvents();
+            this.bindTreeControls();
+            this.bindTreeEvents();
             this.initCanvas();
             this.initTerrainToggle();
         }
 
-        // 初始化地形开关
         initTerrainToggle() {
             const toggle = document.getElementById('terrainToggle');
-            if (toggle) {
-                toggle.addEventListener('change', (e) => {
-                    this.terrainEnabled = e.target.checked;
-                    this.updateModel();
+            if (!toggle) return;
+            toggle.checked = true;
+            this.terrainEnabled = true;
+            toggle.addEventListener('change', (event) => {
+                this.terrainEnabled = event.target.checked;
+                this.updateModel();
+            });
+        }
+
+        bindTreeControls() {
+            const searchInput = document.getElementById('modelTreeSearch');
+            const clearButton = document.getElementById('modelTreeSearchClear');
+            const resetButton = document.getElementById('modelTreeReset');
+
+            if (searchInput && !searchInput.dataset.bound) {
+                searchInput.dataset.bound = 'true';
+                searchInput.addEventListener('input', (event) => {
+                    this.treeKeyword = event.target.value || '';
+                    this.renderModelTree();
+                    this.bindTreeEvents();
+                });
+            }
+
+            if (clearButton && !clearButton.dataset.bound) {
+                clearButton.dataset.bound = 'true';
+                clearButton.addEventListener('click', () => {
+                    this.treeKeyword = '';
+                    if (searchInput) searchInput.value = '';
+                    this.renderModelTree();
+                    this.bindTreeEvents();
+                });
+            }
+
+            if (resetButton && !resetButton.dataset.bound) {
+                resetButton.dataset.bound = 'true';
+                resetButton.addEventListener('click', () => {
+                    this.resetTreeFilters();
                 });
             }
         }
 
-        // 渲染模型类型树
         renderModelTree() {
-            const treeData = this.getTreeData();
             const treeContainer = document.getElementById('model-tree');
-            treeContainer.innerHTML = this.renderTreeNodes(treeData, 0);
+            if (!treeContainer) return;
+
+            const html = this.renderTreeNodes(this.getTreeData(), 0);
+            treeContainer.innerHTML = html || `
+                <div class="model-tree-empty">
+                    <div>
+                        <div class="text-sm font-semibold text-slate-600 dark:text-slate-300">未找到匹配的模型类型</div>
+                        <div class="mt-2 text-[11px] leading-5">试试更短的关键词，或点击“重置”恢复默认筛选。</div>
+                    </div>
+                </div>
+            `;
+
+            this.renderTreeQuickFilters();
+            this.updateTreeSummary();
         }
 
-        // 递归渲染树节点
-        renderTreeNodes(nodes, level) {
-            let html = '';
+        renderTreeQuickFilters() {
+            const container = document.getElementById('modelTreeQuickFilters');
+            if (!container) return;
+            container.innerHTML = '';
+        }
 
-            nodes.forEach(node => {
-                const paddingLeft = level * 12;
+        updateTreeSummary() {
+            const summary = document.getElementById('modelTreeSummary');
+            const clearButton = document.getElementById('modelTreeSearchClear');
+            if (clearButton) clearButton.classList.toggle('hidden', !this.treeKeyword);
+            if (!summary) return;
+
+            const keywordText = this.treeKeyword ? `，关键词“${this.treeKeyword}”` : '';
+            summary.innerHTML = `
+                <div class="text-[11px] leading-5 text-slate-500 dark:text-slate-400">
+                    当前筛选：<span class="font-semibold text-slate-700 dark:text-slate-200">${this.currentModel || '全部'}</span>${keywordText}
+                </div>
+            `;
+        }
+
+        renderTreeNodes(nodes, level, parentName = '') {
+            const keyword = this.normalizeTreeKeyword(this.treeKeyword);
+            return nodes.map((node) => {
+                const paddingLeft = level * 10;
 
                 if (node.type === 'category') {
-                    // 分类节点样式
-                    const icon = node.expanded ? 'expand_more' : 'chevron_right';
-                    html += `<div class="mb-1">`;
-                    html += `<div class="model-tree-item font-semibold" style="padding-left: ${paddingLeft}px;" data-model="${node.name}" data-category="true">
-                        <span>${node.name}</span>
-                        <span class="material-symbols-outlined text-base text-slate-400">${icon}</span>
-                    </div>`;
+                    const categoryMatched = !keyword || this.matchesTreeKeyword(node.name);
+                    const visibleChildren = keyword
+                        ? (node.children || []).filter((child) => categoryMatched || this.matchesTreeKeyword(child.name))
+                        : (node.children || []);
 
-                    if (node.children && node.children.length > 0 && node.expanded) {
-                        html += `<div class="model-tree-subcategory">`;
-                        html += this.renderTreeNodes(node.children, level + 1);
-                        html += `</div>`;
-                    }
+                    if (keyword && !categoryMatched && !visibleChildren.length) return '';
 
-                    html += `</div>`;
-                } else if (node.type === 'item') {
-                    // 叶子节点样式
-                    const activeClass = node.name === this.currentModel ? 'active' : '';
-                    html += `<div class="model-tree-item ${activeClass}" style="padding-left: ${paddingLeft}px;" data-model="${node.name}">${node.name}</div>`;
+                    const icon = this.getTreeCategoryIcon(node.name);
+                    const expanded = keyword ? true : !!node.expanded;
+                    const childrenHtml = visibleChildren.length
+                        ? `<div class="model-tree-subcategory ${expanded ? '' : 'hidden'}">${this.renderTreeNodes(visibleChildren, level + 1, node.name)}</div>`
+                        : '';
+
+                    return `
+                        <div class="model-tree-group">
+                            <button type="button" class="model-tree-item model-tree-item--category font-semibold ${node.name === this.currentModel ? 'active' : ''}" style="padding-left: ${paddingLeft}px;" data-model="${node.name}" data-category="true">
+                                <span class="flex items-center gap-2 min-w-0">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400">${icon}</span>
+                                    <span class="model-tree-item-label">
+                                        <span class="model-tree-item-name">${node.name}</span>
+                                    </span>
+                                </span>
+                                <span class="flex items-center gap-2 shrink-0">
+                                    <span class="material-symbols-outlined text-base text-slate-400">${expanded ? 'expand_more' : 'chevron_right'}</span>
+                                </span>
+                            </button>
+                            ${childrenHtml}
+                        </div>
+                    `;
                 }
-            });
 
-            return html;
+                if (keyword && !this.matchesTreeKeyword(node.name) && !this.matchesTreeKeyword(parentName)) return '';
+
+                const activeClass = node.name === this.currentModel ? 'active' : '';
+                return `
+                    <button type="button" class="model-tree-item model-tree-item-leaf ${activeClass}" style="padding-left: ${paddingLeft}px;" data-model="${node.name}">
+                        <span class="min-w-0 truncate">${node.name}</span>
+                    </button>
+                `;
+            }).join('');
         }
 
-        // 绑定事件
-        bindEvents() {
-            // 模型类型选择
-            document.querySelectorAll('.model-tree-item').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    const isCategory = e.target.dataset.category === 'true';
-
-                    if (!isCategory) {
-                        // 移除所有激活状态
-                        document.querySelectorAll('.model-tree-item').forEach(i => {
-                            i.classList.remove('active');
-                        });
-
-                        // 设置当前激活状态
-                        e.target.classList.add('active');
-                        this.currentModel = e.target.dataset.model;
-
-                        // 更新模型显示
-                        this.updateModel();
-                    } else {
-                        // 分类节点点击时展开/收起
-                        this.toggleCategory(e.target.dataset.model);
+        bindTreeEvents() {
+            document.querySelectorAll('#model-tree .model-tree-item').forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    const target = event.currentTarget;
+                    const isCategory = target.dataset.category === 'true';
+                    if (isCategory) {
+                        this.toggleCategory(target.dataset.model);
+                        return;
                     }
+                    this.selectTreeModel(target.dataset.model || '全部');
                 });
             });
 
+            document.querySelectorAll('[data-quick-model]').forEach((item) => {
+                item.addEventListener('click', (event) => {
+                    this.selectTreeModel(event.currentTarget.dataset.quickModel || '全部');
+                });
+            });
         }
 
-        // 切换分类节点展开/收起
+        selectTreeModel(modelName) {
+            this.currentModel = modelName || '全部';
+            if (this.currentModel !== '全部') this.expandCategory(this.currentModel);
+            this.renderModelTree();
+            this.bindTreeEvents();
+            this.updateModel();
+        }
+
+        resetTreeFilters() {
+            this.currentModel = '全部';
+            this.treeKeyword = '';
+            this.collapseAllCategories();
+            const searchInput = document.getElementById('modelTreeSearch');
+            if (searchInput) searchInput.value = '';
+            this.renderModelTree();
+            this.bindTreeEvents();
+            this.updateModel();
+        }
+
         toggleCategory(categoryName) {
-            const treeData = this.getTreeData();
-            const toggleInTree = (nodes) => {
-                for (let node of nodes) {
-                    if (node.name === categoryName && node.type === 'category') {
+            const walk = (nodes) => {
+                for (const node of nodes) {
+                    if (node.type === 'category' && node.name === categoryName) {
                         node.expanded = !node.expanded;
                         return true;
                     }
-                    if (node.children && node.children.length > 0) {
-                        if (toggleInTree(node.children)) {
-                            return true;
-                        }
+                    if (node.children?.length && walk(node.children)) return true;
+                }
+                return false;
+            };
+            walk(this.getTreeData());
+            this.renderModelTree();
+            this.bindTreeEvents();
+        }
+
+        collapseAllCategories() {
+            const walk = (nodes) => {
+                nodes.forEach((node) => {
+                    if (node.type === 'category') node.expanded = false;
+                    if (node.children?.length) walk(node.children);
+                });
+            };
+            walk(this.getTreeData());
+        }
+
+        expandCategory(categoryName) {
+            const walk = (nodes) => {
+                for (const node of nodes) {
+                    if (node.name === categoryName) {
+                        if (node.type === 'category') node.expanded = true;
+                        return true;
+                    }
+                    if (node.children?.length && walk(node.children)) {
+                        if (node.type === 'category') node.expanded = true;
+                        return true;
                     }
                 }
                 return false;
             };
-
-            toggleInTree(treeData);
-            this.renderModelTree();
-            this.bindEvents();
+            walk(this.getTreeData());
         }
 
-        // 获取树数据（保持状态）
+        getQuickFilters() {
+            return ['全部', '给水', '排水', '燃气', '电力', '通信'];
+        }
+
+        getTreeMetrics(modelName = '全部') {
+            const points = typeof pointList === 'function' ? pointList() : [];
+            const pipelines = typeof pipelineList === 'function' ? pipelineList() : [];
+            if (!modelName || modelName === '全部') {
+                return { points: points.length, pipelines: pipelines.length };
+            }
+            const pointsCount = points.filter((item) => `${item.type || ''} ${item.id || ''}`.includes(modelName)).length;
+            const pipelinesCount = pipelines.filter((item) => `${item.type || ''} ${item.id || ''}`.includes(modelName)).length;
+            return { points: pointsCount, pipelines: pipelinesCount };
+        }
+
+        getTreeCategoryIcon(name) {
+            const iconMap = {
+                '给水': 'water_drop',
+                '排水': 'waves',
+                '燃气': 'local_fire_department',
+                '电力': 'bolt',
+                '通信': 'router',
+                '热力': 'mode_heat',
+                '工业': 'factory',
+                '其他': 'layers'
+            };
+            return iconMap[name] || 'category';
+        }
+
+        normalizeTreeKeyword(value = '') {
+            return String(value || '').trim().toLowerCase();
+        }
+
+        matchesTreeKeyword(label = '') {
+            const keyword = this.normalizeTreeKeyword(this.treeKeyword);
+            return !keyword || this.normalizeTreeKeyword(label).includes(keyword);
+        }
+
         getTreeData() {
             if (!this.treeData) {
                 this.treeData = [
                     { name: '全部', type: 'item' },
-                    {
-                        name: '给水',
-                        type: 'category',
-                        expanded: false,
-                        children: [
-                            { name: '原水', type: 'item' },
-                            { name: '输水', type: 'item' },
-                            { name: '中水', type: 'item' },
-                            { name: '配水', type: 'item' },
-                            { name: '直饮水', type: 'item' },
-                            { name: '消防水', type: 'item' },
-                            { name: '绿化水', type: 'item' },
-                            { name: '循环水', type: 'item' }
-                        ]
-                    },
-                    {
-                        name: '排水',
-                        type: 'category',
-                        expanded: false,
-                        children: [
-                            { name: '雨水', type: 'item' },
-                            { name: '污水', type: 'item' },
-                            { name: '雨污合流', type: 'item' }
-                        ]
-                    },
-                    {
-                        name: '燃气',
-                        type: 'category',
-                        expanded: false,
-                        children: [
-                            { name: '煤气', type: 'item' },
-                            { name: '液化气', type: 'item' },
-                            { name: '天然气', type: 'item' }
-                        ]
-                    },
+                    { name: '给水', type: 'category', expanded: false, children: [{ name: '原水', type: 'item' }, { name: '输水', type: 'item' }, { name: '中水', type: 'item' }, { name: '配水', type: 'item' }, { name: '直饮水', type: 'item' }, { name: '消防水', type: 'item' }, { name: '绿化水', type: 'item' }] },
+                    { name: '排水', type: 'category', expanded: false, children: [{ name: '雨水', type: 'item' }, { name: '污水', type: 'item' }, { name: '雨污合流', type: 'item' }] },
+                    { name: '燃气', type: 'category', expanded: false, children: [{ name: '煤气', type: 'item' }, { name: '液化气', type: 'item' }, { name: '天然气', type: 'item' }] },
+                    { name: '电力', type: 'category', expanded: false, children: [{ name: '供电', type: 'item' }, { name: '路灯', type: 'item' }, { name: '交通信号', type: 'item' }] },
+                    { name: '通信', type: 'category', expanded: false, children: [{ name: '信息网络', type: 'item' }, { name: '电信', type: 'item' }, { name: '移动', type: 'item' }, { name: '联通', type: 'item' }] },
                     { name: '热力', type: 'category', expanded: false, children: [] },
-                    {
-                        name: '电力',
-                        type: 'category',
-                        expanded: false,
-                        children: [
-                            { name: '供电', type: 'item' },
-                            { name: '路灯', type: 'item' },
-                            { name: '交通信号', type: 'item' },
-                            { name: '电车', type: 'item' },
-                            { name: '广告', type: 'item' }
-                        ]
-                    },
-                    {
-                        name: '通信',
-                        type: 'category',
-                        expanded: false,
-                        children: [
-                            { name: '信息网络', type: 'item' },
-                            { name: '电信', type: 'item' },
-                            { name: '移动', type: 'item' },
-                            { name: '联通', type: 'item' },
-                            { name: '网通', type: 'item' },
-                            { name: '架空通信', type: 'item' }
-                        ]
-                    },
                     { name: '工业', type: 'category', expanded: false, children: [] },
                     { name: '其他', type: 'category', expanded: false, children: [] }
                 ];
@@ -734,95 +1605,1274 @@
             return this.treeData;
         }
 
-        // 初始化画布
         initCanvas() {
-            const canvas = document.getElementById('model-canvas');
-            const ctx = canvas.getContext('2d');
+            this.canvas = document.getElementById('model-canvas');
+            this.ctx = this.canvas?.getContext('2d');
+            if (!this.canvas || !this.ctx) return;
 
-            // 设置画布大小
             const resizeCanvas = () => {
-                const container = canvas.parentElement;
-                canvas.width = container.clientWidth;
-                canvas.height = container.clientHeight;
-                this.drawPlaceholder(ctx);
+                const container = this.canvas.parentElement;
+                const ratio = window.devicePixelRatio || 1;
+                this.viewport.width = container.clientWidth;
+                this.viewport.height = container.clientHeight;
+                this.canvas.width = Math.round(this.viewport.width * ratio);
+                this.canvas.height = Math.round(this.viewport.height * ratio);
+                this.canvas.style.width = `${this.viewport.width}px`;
+                this.canvas.style.height = `${this.viewport.height}px`;
+                this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+                this.requestRender();
             };
 
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas);
-
-            // 绘制占位符
-            this.drawPlaceholder(ctx);
+            this.bindCanvasInteractions();
+            this.startRenderLoop();
         }
 
-        // 绘制占位符
-        drawPlaceholder(ctx) {
-            const width = ctx.canvas.width;
-            const height = ctx.canvas.height;
+        bindCanvasInteractions() {
+            const interactionSurface = this.canvas.parentElement || this.canvas;
+            interactionSurface.addEventListener('contextmenu', (event) => {
+                if (event.target instanceof Element && event.target.closest('#modelEntityBubble')) return;
+                event.preventDefault();
+            });
+            interactionSurface.addEventListener('mousedown', (event) => {
+                if (event.target instanceof Element && event.target.closest('#modelEntityBubble')) return;
+                event.preventDefault();
+                this.dragState = {
+                    mode: event.button === 2 || event.shiftKey ? 'pan' : 'rotate',
+                    x: event.clientX,
+                    y: event.clientY
+                };
+            });
 
-            // 清空画布
-            ctx.clearRect(0, 0, width, height);
+            window.addEventListener('mousemove', (event) => {
+                if (!this.dragState) return;
+                const dx = event.clientX - this.dragState.x;
+                const dy = event.clientY - this.dragState.y;
+                this.dragState.x = event.clientX;
+                this.dragState.y = event.clientY;
+                if (this.dragState.mode === 'rotate') {
+                    this.camera.yaw += dx * 0.008;
+                    this.camera.pitch = this.clamp(this.camera.pitch + dy * 0.004, 0.74, 1.3);
+                } else {
+                    this.camera.panX += dx;
+                    this.camera.panY += dy;
+                }
+                this.requestRender();
+            });
 
-            // 绘制网格
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.lineWidth = 1;
+            window.addEventListener('mouseup', () => {
+                this.dragState = null;
+            });
 
-            const gridSize = 50;
-            for (let x = 0; x < width; x += gridSize) {
+            interactionSurface.addEventListener('wheel', (event) => {
+                if (event.target instanceof Element && event.target.closest('#modelEntityBubble')) return;
+                event.preventDefault();
+                this.camera.zoom = this.clamp(this.camera.zoom + (event.deltaY > 0 ? -0.08 : 0.08), 0.72, 1.84);
+                this.requestRender();
+            }, { passive: false });
+        }
+
+        startRenderLoop() {
+            const tick = () => {
+                if (this.needsRender) {
+                    this.needsRender = false;
+                    this.drawScene();
+                }
+                this.animationFrame = requestAnimationFrame(tick);
+            };
+            if (!this.animationFrame) tick();
+        }
+
+        requestRender() {
+            this.needsRender = true;
+        }
+
+        getPointWorld(point) {
+            const x = (Number(point.sceneX) - 50) * 7.8;
+            const z = (Number(point.sceneY) - 55) * 6.8;
+            const surfaceY = this.getTerrainHeight(x, z);
+            const depth = Number.parseFloat(point.depth) || 1.2;
+            const elevation = Number.parseFloat(point.elevation) || 12;
+            const y = surfaceY - 12 - depth * 10 - Math.max(0, elevation - 12) * 0.6;
+            return { x, y, z, surfaceY, depth, elevation };
+        }
+
+        getTerrainHeight(x, z) {
+            if (!this.terrainEnabled) return 0;
+            return Math.sin((x + 22) / 18) * 5.5 + Math.cos((z - 12) / 16) * 4 + Math.sin((x - z) / 22) * 2.8;
+        }
+
+        projectWorld(point) {
+            const cosYaw = Math.cos(this.camera.yaw);
+            const sinYaw = Math.sin(this.camera.yaw);
+            const cosPitch = Math.cos(this.camera.pitch);
+            const sinPitch = Math.sin(this.camera.pitch);
+            const rotatedX = point.x * cosYaw - point.z * sinYaw;
+            const rotatedZ = point.x * sinYaw + point.z * cosYaw;
+            const pitchedY = point.y * cosPitch - rotatedZ * sinPitch;
+            const pitchedZ = point.y * sinPitch + rotatedZ * cosPitch;
+            const depthScale = 1 + this.clamp(pitchedZ / 300, -0.24, 0.24);
+            const scale = this.camera.zoom * 5.2 * depthScale;
+            return {
+                x: this.viewport.width / 2 + rotatedX * scale + this.camera.panX,
+                y: this.viewport.height * 0.52 + pitchedY * scale + this.camera.panY,
+                depth: pitchedZ
+            };
+        }
+
+        buildSceneSnapshot() {
+            const selection = typeof modelState !== 'undefined' ? modelState.sceneSelection : null;
+            const points = (typeof pointList === 'function' ? pointList() : []).map((point) => {
+                const world = this.getPointWorld(point);
+                const underground = this.projectWorld(world);
+                const surface = this.projectWorld({ x: world.x, y: world.surfaceY, z: world.z });
+                return {
+                    ...point,
+                    world,
+                    surface,
+                    underground,
+                    color: this.getPaletteColor(point.type || point.id),
+                    emphasis: this.getMatchWeight(point.type, point.id),
+                    isActive: selection?.type === 'point' && selection.id === point.id
+                };
+            });
+
+            const pointMap = new Map(points.map((point) => [point.id, point]));
+            const pipelines = (typeof pipelineList === 'function' ? pipelineList() : []).map((pipeline) => {
+                const start = pointMap.get(pipeline.start);
+                const end = pointMap.get(pipeline.end);
+                if (!start || !end) return null;
+                const controlWorld = {
+                    x: (start.world.x + end.world.x) / 2,
+                    y: Math.max(start.world.y, end.world.y) + (this.renderMode === 'realistic' ? 7 : 2),
+                    z: (start.world.z + end.world.z) / 2
+                };
+                return {
+                    ...pipeline,
+                    start,
+                    end,
+                    control: this.projectWorld(controlWorld),
+                    label: this.projectWorld({ x: controlWorld.x, y: controlWorld.y + 6, z: controlWorld.z }),
+                    color: this.getPaletteColor(pipeline.type || pipeline.id),
+                    emphasis: Math.max(start.emphasis, end.emphasis, this.getMatchWeight(pipeline.type, pipeline.id)),
+                    isActive: selection?.type === 'pipeline' && selection.id === pipeline.id
+                };
+            }).filter(Boolean);
+
+            return { width: this.viewport.width, height: this.viewport.height, points, pipelines };
+        }
+
+        drawScene() {
+            if (!this.ctx || !this.viewport.width || !this.viewport.height) return;
+            const ctx = this.ctx;
+            ctx.clearRect(0, 0, this.viewport.width, this.viewport.height);
+            this.drawBackground(ctx);
+            this.drawTerrain(ctx);
+            this.drawGrid(ctx);
+            this.drawContextBlocks(ctx);
+            this.sceneSnapshot = this.buildSceneSnapshot();
+            this.drawPipelines(ctx, this.sceneSnapshot.pipelines);
+            this.drawPoints(ctx, this.sceneSnapshot.points);
+            this.drawCaption(ctx);
+            if (typeof renderModelScene === 'function') renderModelScene();
+            updateSceneHud(this.sceneSnapshot);
+        }
+
+        drawBackground(ctx) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, this.viewport.height);
+            gradient.addColorStop(0, this.renderMode === 'realistic' ? '#e0f2fe' : '#eef2ff');
+            gradient.addColorStop(0.45, '#dbeafe');
+            gradient.addColorStop(1, '#cbd5e1');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, this.viewport.width, this.viewport.height);
+
+            const halo = ctx.createRadialGradient(this.viewport.width * 0.22, this.viewport.height * 0.16, 12, this.viewport.width * 0.22, this.viewport.height * 0.16, this.viewport.width * 0.6);
+            halo.addColorStop(0, 'rgba(255,255,255,0.88)');
+            halo.addColorStop(0.45, 'rgba(186,230,253,0.28)');
+            halo.addColorStop(1, 'rgba(186,230,253,0)');
+            ctx.fillStyle = halo;
+            ctx.fillRect(0, 0, this.viewport.width, this.viewport.height);
+        }
+
+        drawTerrain(ctx) {
+            for (let band = 6; band >= 0; band -= 1) {
+                const z = 110 - band * 24;
+                const topLine = [];
+                for (let x = -170; x <= 170; x += 14) {
+                    topLine.push(this.projectWorld({ x, y: this.getTerrainHeight(x, z), z }));
+                }
+                const leftBase = this.projectWorld({ x: -170, y: -48, z });
+                const rightBase = this.projectWorld({ x: 170, y: -48, z });
                 ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, height);
+                ctx.moveTo(topLine[0].x, topLine[0].y);
+                topLine.forEach((point) => ctx.lineTo(point.x, point.y));
+                ctx.lineTo(rightBase.x, rightBase.y);
+                ctx.lineTo(leftBase.x, leftBase.y);
+                ctx.closePath();
+                ctx.fillStyle = this.hexToRgba('#5ad98b', this.renderMode === 'wireframe' ? 0.04 : 0.07 + band * 0.012);
+                ctx.fill();
+                ctx.strokeStyle = this.hexToRgba('#0f766e', 0.08 + band * 0.01);
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        drawGrid(ctx) {
+            for (let z = -110; z <= 110; z += 22) {
+                ctx.beginPath();
+                for (let x = -170; x <= 170; x += 12) {
+                    const point = this.projectWorld({ x, y: this.terrainEnabled ? this.getTerrainHeight(x, z) : 0, z });
+                    if (x === -170) ctx.moveTo(point.x, point.y);
+                    else ctx.lineTo(point.x, point.y);
+                }
+                ctx.strokeStyle = this.hexToRgba('#334155', z === 0 ? 0.16 : 0.08);
+                ctx.lineWidth = z === 0 ? 1.4 : 1;
                 ctx.stroke();
             }
 
-            for (let y = 0; y < height; y += gridSize) {
+            for (let x = -170; x <= 170; x += 24) {
                 ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(width, y);
+                for (let z = -110; z <= 110; z += 12) {
+                    const point = this.projectWorld({ x, y: this.terrainEnabled ? this.getTerrainHeight(x, z) : 0, z });
+                    if (z === -110) ctx.moveTo(point.x, point.y);
+                    else ctx.lineTo(point.x, point.y);
+                }
+                ctx.strokeStyle = this.hexToRgba('#1e293b', 0.08);
+                ctx.lineWidth = 1;
                 ctx.stroke();
             }
-
-            // 绘制中心文字
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = 'bold 24px "PingFang SC", "Microsoft YaHei", sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('三维模型加载区域', width / 2, height / 2 - 30);
-
-            ctx.font = '16px "PingFang SC", "Microsoft YaHei", sans-serif';
-            ctx.fillText(`当前选择: ${this.currentModel}`, width / 2, height / 2 + 10);
-
-            const modeText = this.renderMode === 'wireframe' ? '线框模式' : '真实模式';
-            ctx.fillText(`渲染模式: ${modeText}`, width / 2, height / 2 + 40);
-
-            const terrainText = this.terrainEnabled ? '地形: 开启' : '地形: 关闭';
-            ctx.fillText(terrainText, width / 2, height / 2 + 70);
         }
 
-        // 更新模型显示
+        drawContextBlocks(ctx) {
+            const blocks = [
+                { x: -118, z: -78, w: 26, d: 24, h: 24, color: '#94a3b8' },
+                { x: -72, z: 56, w: 34, d: 20, h: 30, color: '#cbd5e1' },
+                { x: 82, z: -54, w: 38, d: 26, h: 34, color: '#e2e8f0' },
+                { x: 128, z: 42, w: 22, d: 18, h: 22, color: '#94a3b8' }
+            ];
+
+            blocks.forEach((block) => {
+                const a = this.projectWorld({ x: block.x, y: 0, z: block.z });
+                const b = this.projectWorld({ x: block.x + block.w, y: 0, z: block.z });
+                const c = this.projectWorld({ x: block.x + block.w, y: 0, z: block.z + block.d });
+                const e = this.projectWorld({ x: block.x, y: block.h, z: block.z });
+                const f = this.projectWorld({ x: block.x + block.w, y: block.h, z: block.z });
+                const g = this.projectWorld({ x: block.x + block.w, y: block.h, z: block.z + block.d });
+                if (this.renderMode === 'wireframe') {
+                    ctx.strokeStyle = this.hexToRgba('#334155', 0.22);
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(a.x, a.y);
+                    ctx.lineTo(b.x, b.y);
+                    ctx.lineTo(c.x, c.y);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(e.x, e.y);
+                    ctx.lineTo(f.x, f.y);
+                    ctx.lineTo(g.x, g.y);
+                    ctx.stroke();
+                } else {
+                    this.fillPolygon(ctx, [a, b, f, e], this.hexToRgba(block.color, 0.46));
+                    this.fillPolygon(ctx, [b, c, g, f], this.hexToRgba(block.color, 0.32));
+                    this.fillPolygon(ctx, [e, f, g], this.hexToRgba('#ffffff', 0.4));
+                }
+            });
+        }
+
+        drawPipelines(ctx, pipelines) {
+            [...pipelines].sort((left, right) => left.control.depth - right.control.depth).forEach((pipeline) => {
+                const strokeColor = pipeline.isActive ? '#2563eb' : pipeline.color;
+                const lineWidth = pipeline.isActive ? 6.2 : (this.renderMode === 'wireframe' ? 2.6 : 4.8);
+                const opacity = pipeline.isActive ? 1 : 0.34 + pipeline.emphasis * 0.52;
+                if (this.renderMode === 'realistic') {
+                    ctx.beginPath();
+                    ctx.moveTo(pipeline.start.underground.x, pipeline.start.underground.y);
+                    ctx.quadraticCurveTo(pipeline.control.x, pipeline.control.y, pipeline.end.underground.x, pipeline.end.underground.y);
+                    ctx.strokeStyle = this.hexToRgba(strokeColor, opacity * 0.22);
+                    ctx.lineWidth = lineWidth + 6;
+                    ctx.stroke();
+                }
+                ctx.beginPath();
+                ctx.moveTo(pipeline.start.underground.x, pipeline.start.underground.y);
+                ctx.quadraticCurveTo(pipeline.control.x, pipeline.control.y, pipeline.end.underground.x, pipeline.end.underground.y);
+                ctx.strokeStyle = this.hexToRgba(strokeColor, opacity);
+                ctx.lineWidth = lineWidth;
+                ctx.lineCap = 'round';
+                ctx.setLineDash(this.renderMode === 'wireframe' ? [8, 6] : []);
+                ctx.stroke();
+            });
+        }
+
+        drawPoints(ctx, points) {
+            [...points].sort((left, right) => left.underground.depth - right.underground.depth).forEach((point) => {
+                const color = point.isActive ? '#10b981' : point.color;
+                const opacity = point.isActive ? 1 : 0.34 + point.emphasis * 0.52;
+                ctx.beginPath();
+                ctx.moveTo(point.surface.x, point.surface.y);
+                ctx.lineTo(point.underground.x, point.underground.y);
+                ctx.strokeStyle = this.hexToRgba(color, this.renderMode === 'wireframe' ? opacity * 0.86 : opacity * 0.56);
+                ctx.lineWidth = point.isActive ? 2.8 : 1.7;
+                ctx.setLineDash(this.renderMode === 'wireframe' ? [4, 4] : []);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(point.surface.x, point.surface.y, point.isActive ? 7 : 5.6, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.92)';
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = this.hexToRgba(color, 0.72);
+                ctx.stroke();
+
+                if (this.renderMode === 'realistic') {
+                    ctx.beginPath();
+                    ctx.arc(point.underground.x, point.underground.y, point.isActive ? 10 : 8.2, 0, Math.PI * 2);
+                    ctx.fillStyle = this.hexToRgba(color, 0.18 + point.emphasis * 0.08);
+                    ctx.fill();
+                }
+
+                ctx.beginPath();
+                ctx.arc(point.underground.x, point.underground.y, point.isActive ? 5.8 : 4.6, 0, Math.PI * 2);
+                ctx.fillStyle = this.hexToRgba(color, opacity);
+                ctx.fill();
+            });
+        }
+
+        drawCaption(ctx) {
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.66)';
+            ctx.font = '600 12px "Inter", "PingFang SC", "Microsoft YaHei", sans-serif';
+            ctx.fillText(`当前视图: ${this.currentModel}`, 28, this.viewport.height - 56);
+            ctx.fillStyle = 'rgba(71, 85, 105, 0.86)';
+            ctx.font = '500 11px "Inter", "PingFang SC", "Microsoft YaHei", sans-serif';
+            ctx.fillText(`${this.renderMode === 'wireframe' ? '线框模式' : '真实模式'} / ${this.terrainEnabled ? '地形已开启' : '地形已关闭'}`, 28, this.viewport.height - 36);
+        }
+
+        fillPolygon(ctx, points, fillStyle) {
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            points.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
+            ctx.closePath();
+            ctx.fillStyle = fillStyle;
+            ctx.fill();
+        }
+
         updateModel() {
-            const canvas = document.getElementById('model-canvas');
-            const ctx = canvas.getContext('2d');
-            this.drawPlaceholder(ctx);
+            this.requestRender();
         }
 
-        // 切换渲染模式
         setRenderMode(mode) {
             this.renderMode = mode;
-            const canvas = document.getElementById('model-canvas');
-            const ctx = canvas.getContext('2d');
-            this.drawPlaceholder(ctx);
+            this.requestRender();
+        }
+
+        getSceneSnapshot() {
+            return this.sceneSnapshot;
+        }
+
+        getPaletteColor(label) {
+            const seed = Array.from(String(label || 'scene')).reduce((total, char) => total + char.charCodeAt(0), 0);
+            return this.palette[seed % this.palette.length];
+        }
+
+        getMatchWeight(type, label) {
+            if (!this.currentModel || this.currentModel === '全部') return 1;
+            const source = `${type || ''} ${label || ''}`;
+            if (source.includes(this.currentModel) || this.currentModel.includes(type || '')) return 1;
+            const roots = ['给水', '排水', '燃气', '电力', '通信', '热力', '工业', '其他'];
+            const currentRoot = roots.find((item) => this.currentModel.includes(item));
+            return currentRoot && source.includes(currentRoot) ? 0.92 : 0.22;
+        }
+
+        describeCamera() {
+            const directions = ['北', '东北', '东', '东南', '南', '西南', '西', '西北'];
+            const normalized = ((this.camera.yaw % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+            return `俯视方向：${directions[Math.round(normalized / (Math.PI / 4)) % directions.length]}`;
+        }
+
+        clamp(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+        hexToRgba(hex, alpha) {
+            const raw = String(hex).replace('#', '');
+            const normalized = raw.length === 3 ? raw.split('').map((item) => item + item).join('') : raw;
+            const red = Number.parseInt(normalized.slice(0, 2), 16);
+            const green = Number.parseInt(normalized.slice(2, 4), 16);
+            const blue = Number.parseInt(normalized.slice(4, 6), 16);
+            return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
         }
     }
 
-    // 全局ModelManager实例
-    let modelManager = null;
-
-    // 初始化
-    document.addEventListener('DOMContentLoaded', () => {
-        modelManager = new ModelManager();
-
-        // 导航链接的项目ID参数由 project-navigation.js 统一处理
+    window.addEventListener('load', () => {
+        window.modelManager = new EnhancedModelManager();
+        globalThis.modelManager = window.modelManager;
+        updateSceneHud();
     });
+</script>
+
+<script>
+    const modelPointTypeOptions = [
+        { name: '给水', features: ['一般管点', '三通', '阀门', '弯头'] },
+        { name: '排水', features: ['一般管点', '弯头', '雨水口', '三通'] },
+        { name: '燃气', features: ['一般管点', '阀门', '弯头'] },
+        { name: '电力', features: ['一般管点', '转折点', '接线点'] },
+        { name: '通信', features: ['一般管点', '人孔', '手孔'] }
+    ];
+
+    const modelPointsData = {
+        P001: { id: 'P001', type: '给水', feature: '三通', accessory: '检查井', depth: '1.5m', diameter: 'DN300', material: '球墨铸铁', buildDate: '2018-11-12', owner: '市政给水', longitude: '121.473120', latitude: '31.230400', elevation: '12.36m', surveyDate: '2026/04/08', source: '普查外业测量', remark: '井盖完好', sceneX: 18, sceneY: 63 },
+        P002: { id: 'P002', type: '排水', feature: '弯头', accessory: '雨水井', depth: '2.1m', diameter: 'DN400', material: 'PVC', buildDate: '2019-03-05', owner: '市政排水', longitude: '121.473451', latitude: '31.230582', elevation: '11.92m', surveyDate: '2026/04/08', source: '竣工图复测', remark: '', sceneX: 36, sceneY: 51 },
+        P003: { id: 'P003', type: '燃气', feature: '一般管点', accessory: '阀门井', depth: '1.8m', diameter: 'DN200', material: 'PE', buildDate: '2017-09-22', owner: '燃气集团', longitude: '121.473780', latitude: '31.230520', elevation: '12.05m', surveyDate: '2026/04/08', source: '专项排查', remark: '', sceneX: 56, sceneY: 59 },
+        P004: { id: 'P004', type: '电力', feature: '转折点', accessory: '电缆井', depth: '1.2m', diameter: '-', material: '电缆', buildDate: '2020-06-18', owner: '国网电力', longitude: '121.474080', latitude: '31.230760', elevation: '12.62m', surveyDate: '2026/04/08', source: '探测仪采集', remark: '周边车流较大', sceneX: 74, sceneY: 46 }
+    };
+
+    const modelPipelinesData = {
+        L001: { id: 'L001', start: 'P001', end: 'P002', layingMethod: '一般管线', startDepth: '1.336', endDepth: '2.335', owner: '市政给水', diameter: 'DN300', casingSize: 'DN350', casingMaterial: '混凝土', aperture: '-', flow: '西向东', pressure: '0.30MPa', totalHoles: '-', usedHoles: '-', ownedHoles: '-', material: '球墨铸铁', buriedYear: '2018', lineType: '实线', protectMaterial: '混凝土', remark: '道路下穿', type: '给水' },
+        L002: { id: 'L002', start: 'P002', end: 'P003', layingMethod: '一般管线', startDepth: '2.100', endDepth: '1.800', owner: '市政排水', diameter: 'DN400', casingSize: '-', casingMaterial: '-', aperture: '-', flow: '南向北', pressure: '重力流', totalHoles: '-', usedHoles: '-', ownedHoles: '-', material: 'PVC', buriedYear: '2019', lineType: '虚线', protectMaterial: '砂垫层', remark: '转角段', type: '排水' },
+        L003: { id: 'L003', start: 'P003', end: 'P004', layingMethod: '套管敷设', startDepth: '1.800', endDepth: '1.200', owner: '燃气集团', diameter: 'DN200', casingSize: 'DN250', casingMaterial: '钢', aperture: '-', flow: '东向西', pressure: '中压', totalHoles: '-', usedHoles: '-', ownedHoles: '-', material: 'PE', buriedYear: '2017', lineType: '实线', protectMaterial: '警示带', remark: '穿越车行道', type: '燃气' }
+    };
+
+    const modelState = {
+        pointMode: 'create',
+        pipelineMode: 'create',
+        activePointId: null,
+        activePipelineId: null,
+        deleteType: 'point',
+        deleteTargetId: null,
+        sceneSelection: null,
+        sceneBubbleAnchor: null
+    };
+
+    function pointList() {
+        return Object.values(modelPointsData).sort((a, b) => a.id.localeCompare(b.id, 'zh-CN'));
+    }
+
+    function pipelineList() {
+        return Object.values(modelPipelinesData).sort((a, b) => a.id.localeCompare(b.id, 'zh-CN'));
+    }
+
+    function nextEntityId(prefix, list) {
+        const max = list.reduce((value, item) => {
+            const match = String(item.id || '').match(/\d+$/);
+            return Math.max(value, match ? Number(match[0]) : 0);
+        }, 0);
+        return `${prefix}${String(max + 1).padStart(3, '0')}`;
+    }
+
+    function setValue(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.value = value ?? '';
+    }
+
+    function setText(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value ?? '-';
+    }
+
+    function populateSimpleSelect(selectId, items, selectedValue, emptyLabel) {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        const options = (emptyLabel ? `<option value="">${emptyLabel}</option>` : '') + items.map(item => {
+            const value = item.id || item;
+            const label = item.label || item.id || item;
+            return `<option value="${value}">${label}</option>`;
+        }).join('');
+        select.innerHTML = options;
+        if (selectedValue && [...select.options].some(option => option.value === selectedValue)) {
+            select.value = selectedValue;
+        }
+    }
+
+    function updateModelPointFeatureOptions(selectedFeature = '') {
+        const type = document.getElementById('modelPointTypeSelect')?.value;
+        const featureSelect = document.getElementById('modelPointFeatureSelect');
+        if (!featureSelect) return;
+        const matched = modelPointTypeOptions.find(item => item.name === type);
+        const features = matched ? matched.features : [];
+        featureSelect.innerHTML = (features.length ? '<option value="">请选择特征点</option>' : '<option value="">请先选择管点种类</option>') +
+            features.map(name => `<option value="${name}">${name}</option>`).join('');
+        if (selectedFeature && features.includes(selectedFeature)) featureSelect.value = selectedFeature;
+    }
+
+    function fillPipelinePointPanel(prefix, pointId) {
+        const point = modelPointsData[pointId];
+        setText(`model${prefix}PtId`, point?.id);
+        setText(`model${prefix}PtType`, point?.type);
+        setText(`model${prefix}PtFeature`, point?.feature);
+        setText(`model${prefix}PtAccessory`, point?.accessory);
+        setText(`model${prefix}PtDate`, point?.buildDate);
+        setText(`model${prefix}PtOwner`, point?.owner);
+        setValue(`modelPipeline${prefix}IdInput`, point?.id);
+    }
+
+    function renderModelPipelinePointList(type, keyword = '') {
+        const listId = type === 'start' ? 'modelStartPointList' : 'modelEndPointList';
+        const target = document.getElementById(listId);
+        if (!target) return;
+        const q = keyword.trim().toLowerCase();
+        const items = pointList().filter(point => !q || `${point.id}${point.type}${point.feature}`.toLowerCase().includes(q));
+        target.innerHTML = items.length ? items.map(point => `
+            <button type="button" class="w-full px-2 py-1.5 hover:bg-primary/10 rounded text-left flex items-center justify-between text-[11px] transition-colors"
+                onclick="selectModelPipelinePoint('${type}', '${point.id}')">
+                <span class="font-medium text-slate-800 dark:text-white">${point.id}</span>
+                <span class="text-slate-400">${point.type} · ${point.feature}</span>
+            </button>
+        `).join('') : '<div class="px-2 py-1.5 text-[10px] text-slate-400 text-center">鏃犲尮閰嶇鐐?/div>';
+    }
+
+    function showModelPipelinePointDropdown(type) {
+        document.getElementById(type === 'start' ? 'modelStartPointDropdown' : 'modelEndPointDropdown')?.classList.remove('hidden');
+        renderModelPipelinePointList(type, document.getElementById(type === 'start' ? 'modelStartPointSearch' : 'modelEndPointSearch')?.value || '');
+    }
+
+    function filterModelPipelinePointList(type, value) {
+        showModelPipelinePointDropdown(type);
+        renderModelPipelinePointList(type, value);
+    }
+
+    function selectModelPipelinePoint(type, pointId) {
+        const input = document.getElementById(type === 'start' ? 'modelStartPointSearch' : 'modelEndPointSearch');
+        if (input) input.value = pointId;
+        fillPipelinePointPanel(type === 'start' ? 'Start' : 'End', pointId);
+        document.getElementById(type === 'start' ? 'modelStartPointDropdown' : 'modelEndPointDropdown')?.classList.add('hidden');
+        updatePipelineDialogSummary();
+    }
+
+    function renderModelScene() {
+        const overlay = document.getElementById('modelSceneOverlay');
+        const snapshot = window.modelManager?.getSceneSnapshot?.();
+        if (!overlay || !snapshot?.width || !snapshot?.height) return;
+
+        const lineHtml = snapshot.pipelines.map((pipeline) => {
+            const activeClass = pipeline.isActive ? 'is-active' : '';
+            const opacity = pipeline.isActive ? 1 : (0.38 + pipeline.emphasis * 0.5).toFixed(2);
+            const path = `M ${pipeline.start.underground.x.toFixed(1)} ${pipeline.start.underground.y.toFixed(1)} Q ${pipeline.control.x.toFixed(1)} ${pipeline.control.y.toFixed(1)} ${pipeline.end.underground.x.toFixed(1)} ${pipeline.end.underground.y.toFixed(1)}`;
+            return `
+                <g>
+                    <path class="model-scene-line ${activeClass}" d="${path}" stroke="${pipeline.color}" stroke-width="${pipeline.isActive ? 7.4 : 5.4}" opacity="${opacity}" fill="none" data-entity-type="pipeline" data-entity-id="${pipeline.id}" data-bubble-x="${pipeline.label.x.toFixed(1)}" data-bubble-y="${pipeline.label.y.toFixed(1)}"></path>
+                    <text class="model-scene-label" x="${pipeline.label.x.toFixed(1)}" y="${(pipeline.label.y - 10).toFixed(1)}" text-anchor="middle">${pipeline.id}</text>
+                </g>
+            `;
+        }).join('');
+
+        const pointHtml = snapshot.points.map((point) => {
+            const activeClass = point.isActive ? 'is-active' : '';
+            const opacity = point.isActive ? 1 : (0.46 + point.emphasis * 0.44).toFixed(2);
+            return `
+                <g>
+                    <circle class="model-scene-point ${activeClass}" cx="${point.underground.x.toFixed(1)}" cy="${point.underground.y.toFixed(1)}" r="${point.isActive ? 7.4 : 5.8}" fill="${point.isActive ? '#10b981' : point.color}" opacity="${opacity}" data-entity-type="point" data-entity-id="${point.id}" data-bubble-x="${point.underground.x.toFixed(1)}" data-bubble-y="${point.underground.y.toFixed(1)}"></circle>
+                    <circle cx="${point.surface.x.toFixed(1)}" cy="${point.surface.y.toFixed(1)}" r="4.4" fill="rgba(255,255,255,0.95)" stroke="${point.color}" stroke-width="1.5"></circle>
+                    <text class="model-scene-label" x="${point.underground.x.toFixed(1)}" y="${(point.underground.y - 14).toFixed(1)}" text-anchor="middle">${point.id}</text>
+                </g>
+            `;
+        }).join('');
+
+        overlay.innerHTML = `<svg viewBox="0 0 ${snapshot.width} ${snapshot.height}" preserveAspectRatio="none">${lineHtml}${pointHtml}</svg>`;
+        syncEntityBubblePosition();
+    }
+
+    function requestModelSceneRender() {
+        if (window.modelManager?.requestRender) {
+            window.modelManager.requestRender();
+            return;
+        }
+        renderModelScene();
+    }
+
+    function resolveSceneEntityAnchor(type, id, snapshot = window.modelManager?.getSceneSnapshot?.()) {
+        if (!snapshot) return null;
+        if (type === 'point') {
+            const point = snapshot.points.find((item) => item.id === id);
+            return point ? { x: point.underground.x, y: point.underground.y } : null;
+        }
+        const pipeline = snapshot.pipelines.find((item) => item.id === id);
+        return pipeline ? { x: pipeline.label.x, y: pipeline.label.y } : null;
+    }
+
+    function syncEntityBubblePosition() {
+        const bubble = document.getElementById('modelEntityBubble');
+        const container = document.getElementById('modelSceneOverlay')?.parentElement;
+        const selection = modelState.sceneSelection;
+        if (!bubble || !container || !selection || !bubble.classList.contains('is-open')) return;
+
+        const anchor = resolveSceneEntityAnchor(selection.type, selection.id) || modelState.sceneBubbleAnchor;
+        if (!anchor) {
+            closeEntityBubble();
+            return;
+        }
+        modelState.sceneBubbleAnchor = anchor;
+
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        const bubbleWidth = Math.max(bubble.offsetWidth || 0, 260);
+        const bubbleHeight = Math.max(bubble.offsetHeight || 0, 180);
+        const preferLeft = anchor.x > width * 0.58;
+        let left = preferLeft ? anchor.x - bubbleWidth - 20 : anchor.x + 18;
+        left = Math.min(Math.max(left, 16), Math.max(16, width - bubbleWidth - 16));
+        const top = Math.min(Math.max(anchor.y - bubbleHeight / 2, 16), Math.max(16, height - bubbleHeight - 16));
+        const arrowTop = Math.min(Math.max(anchor.y - top - 11, 18), Math.max(18, bubbleHeight - 30));
+
+        bubble.dataset.side = left < anchor.x ? 'left' : 'right';
+        bubble.style.left = `${left}px`;
+        bubble.style.top = `${top}px`;
+        bubble.style.setProperty('--bubble-arrow-top', `${arrowTop}px`);
+    }
+
+    function closeEntityBubble() {
+        const bubble = document.getElementById('modelEntityBubble');
+        if (bubble) {
+            bubble.classList.remove('is-open');
+            delete bubble.dataset.side;
+            bubble.style.removeProperty('--bubble-arrow-top');
+        }
+        modelState.sceneSelection = null;
+        modelState.sceneBubbleAnchor = null;
+        requestModelSceneRender();
+        updatePointDialogSummary();
+        updatePipelineDialogSummary();
+    }
+
+    function getEntityBubbleActions(type, id) {
+        if (type === 'point') {
+            return [
+                { label: '编辑当前管点', note: '修改属性和空间信息', icon: 'edit_location_alt', handler: `openPointModal('edit', '${id}')`, className: 'model-action-bubble model-action-bubble--point' },
+                { label: '合并当前管点', note: '对重复节点进行归并', icon: 'merge', handler: `openMergePointModal('${id}')`, className: 'model-action-bubble model-action-bubble--point' },
+                { label: '删除当前管点', note: '删除前会再次确认', icon: 'delete', handler: `openDeleteModal('point', '${id}')`, className: 'model-action-bubble model-action-bubble--point' }
+            ];
+        }
+        return [
+            { label: '编辑当前管线', note: '调整起止点和属性', icon: 'edit_note', handler: `openPipelineModal('edit', '${id}')`, className: 'model-action-bubble model-action-bubble--pipeline' },
+            { label: '删除当前管线', note: '删除前会再次确认', icon: 'delete_forever', handler: `openDeleteModal('pipeline', '${id}')`, className: 'model-action-bubble model-action-bubble--pipeline' }
+        ];
+    }
+
+    function getEntityBubbleHint(type, entity) {
+        if (type === 'point') {
+            return `当前管点 ${entity.id || '-'} 可直接进行编辑、合并或删除操作。`;
+        }
+        return `当前管线 ${entity.id || '-'} 可直接进入编辑或删除确认。`;
+    }
+
+    function showEntityBubble(type, id, x, y) {
+        const bubble = document.getElementById('modelEntityBubble');
+        const actions = document.getElementById('modelEntityBubbleActions');
+        const title = document.getElementById('modelEntityBubbleTitle');
+        const meta = document.getElementById('modelEntityBubbleMeta');
+        const hint = document.getElementById('modelEntityBubbleHint');
+        if (!bubble || !actions || !title || !meta || !hint) return;
+
+        const entity = type === 'point' ? modelPointsData[id] : modelPipelinesData[id];
+        if (!entity) return;
+
+        modelState.sceneSelection = { type, id };
+        modelState.sceneBubbleAnchor = Number.isFinite(x) && Number.isFinite(y)
+            ? { x, y }
+            : resolveSceneEntityAnchor(type, id);
+        title.textContent = type === 'point' ? '管点操作' : '管线操作';
+        meta.textContent = type === 'point'
+            ? `${entity.id || id} · ${entity.type || '-'} · ${entity.feature || '-'}`
+            : `${entity.id || id} · ${entity.start || '-'} → ${entity.end || '-'} · ${entity.type || '-'}`;
+        hint.textContent = getEntityBubbleHint(type, entity);
+
+        const actionItems = getEntityBubbleActions(type, id);
+        actions.innerHTML = actionItems.map((item) => `
+            <button type="button" class="${item.className}" onclick="${item.handler}">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/70 text-slate-700 shadow-sm dark:bg-slate-900/60 dark:text-slate-200">
+                    <span class="material-symbols-outlined text-[18px]">${item.icon}</span>
+                </span>
+                <span class="min-w-0">
+                    <span class="block text-[12px] font-semibold">${item.label}</span>
+                    <span class="mt-0.5 block text-[10px] leading-4 text-slate-500 dark:text-slate-400">${item.note}</span>
+                </span>
+            </button>
+        `).join('');
+
+        bubble.classList.add('is-open');
+        syncEntityBubblePosition();
+        requestModelSceneRender();
+    }
+
+    function handleSceneOverlayClick(event) {
+        const directTarget = event.target instanceof Element ? event.target.closest('[data-entity-type]') : null;
+        const pathTarget = typeof event.composedPath === 'function'
+            ? event.composedPath().find((node) => node instanceof Element && node.hasAttribute?.('data-entity-type'))
+            : null;
+        const target = directTarget || pathTarget;
+        if (!target) {
+            closeEntityBubble();
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+
+        const type = target.getAttribute('data-entity-type');
+        const id = target.getAttribute('data-entity-id');
+        const x = Number.parseFloat(target.getAttribute('data-bubble-x') || '');
+        const y = Number.parseFloat(target.getAttribute('data-bubble-y') || '');
+        if (!type || !id || Number.isNaN(x) || Number.isNaN(y)) return;
+        showEntityBubble(type, id, x, y);
+    }
+
+    function getPointToSegmentDistance(px, py, x1, y1, x2, y2) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        if (!dx && !dy) return Math.hypot(px - x1, py - y1);
+        const t = Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)));
+        const cx = x1 + dx * t;
+        const cy = y1 + dy * t;
+        return Math.hypot(px - cx, py - cy);
+    }
+
+    function pickSceneEntityAt(x, y, snapshot) {
+        if (!snapshot) return null;
+
+        const pointThreshold = 14;
+        const pipelineThreshold = 10;
+
+        let nearestPoint = null;
+        snapshot.points.forEach((point) => {
+            const d = Math.hypot(x - point.underground.x, y - point.underground.y);
+            if (d <= pointThreshold && (!nearestPoint || d < nearestPoint.distance)) {
+                nearestPoint = { type: 'point', id: point.id, x: point.underground.x, y: point.underground.y, distance: d };
+            }
+        });
+        if (nearestPoint) return nearestPoint;
+
+        let nearestPipeline = null;
+        snapshot.pipelines.forEach((pipeline) => {
+            const p0 = pipeline.start.underground;
+            const p1 = pipeline.control;
+            const p2 = pipeline.end.underground;
+            let min = Number.POSITIVE_INFINITY;
+            let nearestT = 0.5;
+            let prev = p0;
+            const segments = 24;
+            for (let i = 1; i <= segments; i += 1) {
+                const t = i / segments;
+                const nt = 1 - t;
+                const current = {
+                    x: nt * nt * p0.x + 2 * nt * t * p1.x + t * t * p2.x,
+                    y: nt * nt * p0.y + 2 * nt * t * p1.y + t * t * p2.y
+                };
+                const d = getPointToSegmentDistance(x, y, prev.x, prev.y, current.x, current.y);
+                if (d < min) {
+                    min = d;
+                    nearestT = t;
+                }
+                prev = current;
+            }
+
+            if (min <= pipelineThreshold && (!nearestPipeline || min < nearestPipeline.distance)) {
+                const nt = 1 - nearestT;
+                nearestPipeline = {
+                    type: 'pipeline',
+                    id: pipeline.id,
+                    x: nt * nt * p0.x + 2 * nt * nearestT * p1.x + nearestT * nearestT * p2.x,
+                    y: nt * nt * p0.y + 2 * nt * nearestT * p1.y + nearestT * nearestT * p2.y,
+                    distance: min
+                };
+            }
+        });
+
+        return nearestPipeline;
+    }
+
+    function handleSceneCanvasClick(event) {
+        const canvas = event.currentTarget;
+        if (!(canvas instanceof HTMLCanvasElement)) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const snapshot = window.modelManager?.getSceneSnapshot?.();
+        const hit = pickSceneEntityAt(x, y, snapshot);
+        if (!hit) {
+            closeEntityBubble();
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        showEntityBubble(hit.type, hit.id, hit.x, hit.y);
+    }
+</script>
+
+
+<script>
+    function ensureDialogEnhancements() {
+        const decorateShell = (dialogId) => {
+            const shell = document.querySelector(`#${dialogId} > div`);
+            if (!shell) return null;
+            shell.classList.add('model-dialog-shell');
+            const header = shell.firstElementChild;
+            if (header) header.classList.add('model-dialog-header');
+            return shell;
+        };
+
+        ['modelPointModal', 'modelPipelineModal', 'modelDeleteModal', 'modelMergePointModal'].forEach(decorateShell);
+
+        const normalizeFormPanel = (selector) => {
+            const scroller = document.querySelector(selector);
+            if (!scroller) return;
+            scroller.classList.remove('space-y-3');
+            scroller.classList.add('space-y-2');
+            scroller.querySelectorAll('#modelPointAside, #modelPipelineAside').forEach((node) => node.remove());
+            scroller.querySelectorAll(':scope > div').forEach((section, index) => {
+                section.classList.add('model-dialog-card');
+                if (index === 0) {
+                    section.classList.add('border-slate-200', 'dark:border-slate-700', 'bg-slate-50/85', 'dark:bg-slate-800/45');
+                }
+                section.querySelectorAll('h4').forEach((heading) => {
+                    heading.classList.remove('flex', 'items-center', 'gap-1.5', 'pb-1', 'mb-1.5', 'border-b', 'border-slate-100', 'dark:border-slate-800');
+                    heading.classList.add('text-xs', 'font-bold', 'text-slate-800', 'dark:text-white', 'mb-2', 'pl-2', 'border-l-[3px]', 'border-blue-600');
+                });
+            });
+        };
+
+        normalizeFormPanel('#modelPointForm > div');
+        normalizeFormPanel('#modelPipelineForm > div');
+
+        document.getElementById('modelDeleteTargetWrap')?.classList.add('space-y-1');
+        document.getElementById('modelDeleteSummary')?.parentElement?.classList.add('shadow-sm');
+    }
+
+    function updatePointDialogSummary() {
+        setText('modelPointSummaryId', document.getElementById('modelPointIdInput')?.value || '-');
+        setText('modelPointSummaryType', document.getElementById('modelPointTypeSelect')?.value || '未选择');
+        setText('modelPointSummaryFeature', document.getElementById('modelPointFeatureSelect')?.value || '未选择');
+        setText('modelPointSummaryBuildDate', document.getElementById('modelPointBuildDateInput')?.value || '待填写');
+        setText('modelPointSummaryOwner', document.getElementById('modelPointOwnerInput')?.value || '待填写');
+
+        const geoParts = [
+            document.getElementById('modelPointLongitudeInput')?.value ? `经度 ${document.getElementById('modelPointLongitudeInput').value}` : '',
+            document.getElementById('modelPointLatitudeInput')?.value ? `纬度 ${document.getElementById('modelPointLatitudeInput').value}` : '',
+            document.getElementById('modelPointElevationInput')?.value ? `高程 ${document.getElementById('modelPointElevationInput').value}` : ''
+        ].filter(Boolean);
+        setText('modelPointSummaryGeo', geoParts.length ? geoParts.join(' / ') : '待补充空间坐标');
+
+        const hint = !document.getElementById('modelPointLongitudeInput')?.value || !document.getElementById('modelPointLatitudeInput')?.value
+            ? '建议补全经纬度和高程后再保存，方便 3D 场景定位。'
+            : '空间坐标已具备，可继续核对附属物和权属信息。';
+        setText('modelPointSummaryHint', hint);
+    }
+
+    function updatePipelineDialogSummary() {
+        const pipelineIdText = (document.getElementById('modelPipelineIdBadge')?.textContent || '').replace(/^.*[:：]/, '').trim() || '自动生成';
+        setText('modelPipelineSummaryId', pipelineIdText);
+        setText('modelPipelineSummaryType', document.getElementById('modelStartPtType')?.textContent || '未识别');
+        setText('modelPipelineSummarySpan', `${document.getElementById('modelPipelineStartIdInput')?.value || '-'} → ${document.getElementById('modelPipelineEndIdInput')?.value || '-'}`);
+        setText('modelPipelineSummaryDepth', `${document.getElementById('modelPipelineStartDepthInput')?.value || '-'} / ${document.getElementById('modelPipelineEndDepthInput')?.value || '-'}`);
+        setText('modelPipelineSummaryOwner', document.getElementById('modelPipelineOwnerInput')?.value || '待填写');
+
+        const start = document.getElementById('modelPipelineStartIdInput')?.value;
+        const end = document.getElementById('modelPipelineEndIdInput')?.value;
+        const hint = !start || !end || start === end
+            ? '请先确认有效的起止点组合，避免生成无效管线。'
+            : '起止点已锁定，可继续完善管径、敷设方式和埋深。';
+        setText('modelPipelineSummaryHint', hint);
+    }
+</script>
+
+<script>
+    function refreshModalSelectors() {
+        populateSimpleSelect('modelPointTargetSelect', pointList(), modelState.activePointId, '请选择管点');
+        populateSimpleSelect('modelPipelineTargetSelect', pipelineList(), modelState.activePipelineId, '请选择管线');
+        populateSimpleSelect('mergePrimaryPointSelect', pointList(), document.getElementById('mergePrimaryPointSelect')?.value, '请选择主管点');
+    }
+
+    function resetPointForm(pointId) {
+        const point = pointId ? modelPointsData[pointId] : null;
+        const nextId = point?.id || nextEntityId('P', pointList());
+        setValue('modelPointIdInput', nextId);
+        populateSimpleSelect('modelPointTypeSelect', modelPointTypeOptions.map(item => item.name), point?.type, '请选择管点种类');
+        updateModelPointFeatureOptions(point?.feature || '');
+        setValue('modelPointAccessoryInput', point?.accessory || '');
+        setValue('modelPointBuildDateInput', point?.buildDate || '');
+        setValue('modelPointOwnerInput', point?.owner || '');
+        setValue('modelPointCoverMaterialInput', point?.material || '');
+        setValue('modelPointCoverTypeInput', '');
+        setValue('modelPointCoverShapeInput', '');
+        setValue('modelPointCoverSizeInput', '');
+        setValue('modelPointChamberSpecInput', '');
+        setValue('modelPointChamberSizeInput', '');
+        setValue('modelPointNeckSizeInput', '');
+        setValue('modelPointNeckDepthInput', '');
+        setValue('modelPointLongitudeInput', point?.longitude || '');
+        setValue('modelPointLatitudeInput', point?.latitude || '');
+        setValue('modelPointElevationInput', point?.elevation || '');
+        setValue('modelPointSurveyDateInput', point?.surveyDate || '2026/04/08');
+        setValue('modelPointBuildingInput', '');
+        setValue('modelPointRemarkInput', point?.remark || '');
+        handleModelPointImageChange();
+        updatePointDialogSummary();
+    }
+
+    function openPointModal(mode, preferredPointId = null) {
+        modelState.pointMode = mode;
+        closeEntityBubble();
+        refreshModalSelectors();
+        document.getElementById('modelPointModalTitle').textContent = mode === 'edit' ? '编辑管点' : '新增管点';
+        document.getElementById('modelPointModeHint').textContent = mode === 'edit' ? '选择已有管点后会自动回填勘探页同结构字段。' : '按勘探页字段新增管点信息。';
+        document.getElementById('modelPointTargetWrap').classList.toggle('hidden', mode !== 'edit');
+        if (mode === 'edit') {
+            const firstId = preferredPointId && modelPointsData[preferredPointId]
+                ? preferredPointId
+                : (modelState.activePointId && modelPointsData[modelState.activePointId] ? modelState.activePointId : pointList()[0]?.id);
+            modelState.activePointId = firstId || null;
+            populateSimpleSelect('modelPointTargetSelect', pointList(), modelState.activePointId, '请选择管点');
+            resetPointForm(modelState.activePointId);
+        } else {
+            modelState.activePointId = null;
+            resetPointForm(null);
+        }
+        document.getElementById('modelPointModal').showModal();
+    }
+
+    function handlePointTargetChange() {
+        modelState.activePointId = document.getElementById('modelPointTargetSelect')?.value || null;
+        resetPointForm(modelState.activePointId);
+    }
+
+    function closePointModal() {
+        document.getElementById('modelPointModal')?.close();
+    }
+
+    function handleModelPointImageChange(input) {
+        const container = document.getElementById('modelPointImageList');
+        if (!container) return;
+        container.querySelectorAll('.model-point-image-chip').forEach(item => item.remove());
+        const files = input?.files ? Array.from(input.files) : [];
+        files.forEach(file => {
+            const chip = document.createElement('div');
+            chip.className = 'model-point-image-chip px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-[11px] text-slate-600 dark:text-slate-300';
+            chip.textContent = file.name;
+            container.appendChild(chip);
+        });
+    }
+
+    function submitPointForm() {
+        const id = document.getElementById('modelPointIdInput')?.value.trim();
+        if (!id) return false;
+        const originalId = modelState.activePointId;
+        const point = {
+            ...(originalId ? modelPointsData[originalId] || {} : {}),
+            id,
+            type: document.getElementById('modelPointTypeSelect')?.value || '',
+            feature: document.getElementById('modelPointFeatureSelect')?.value || '',
+            accessory: document.getElementById('modelPointAccessoryInput')?.value || '',
+            buildDate: document.getElementById('modelPointBuildDateInput')?.value || '',
+            owner: document.getElementById('modelPointOwnerInput')?.value || '',
+            material: document.getElementById('modelPointCoverMaterialInput')?.value || '',
+            longitude: document.getElementById('modelPointLongitudeInput')?.value || '',
+            latitude: document.getElementById('modelPointLatitudeInput')?.value || '',
+            elevation: document.getElementById('modelPointElevationInput')?.value || '',
+            surveyDate: document.getElementById('modelPointSurveyDateInput')?.value || '',
+            remark: document.getElementById('modelPointRemarkInput')?.value || '',
+            depth: (originalId && modelPointsData[originalId]?.depth) || '',
+            diameter: (originalId && modelPointsData[originalId]?.diameter) || '',
+            source: (originalId && modelPointsData[originalId]?.source) || ''
+        };
+        if (originalId && originalId !== id) {
+            Object.values(modelPipelinesData).forEach(item => {
+                if (item.start === originalId) item.start = id;
+                if (item.end === originalId) item.end = id;
+            });
+            delete modelPointsData[originalId];
+        }
+        modelPointsData[id] = point;
+        modelState.activePointId = id;
+        refreshModalSelectors();
+        requestModelSceneRender();
+        closePointModal();
+        return true;
+    }
+
+    function resetPipelineForm(pipelineId) {
+        const pipeline = pipelineId ? modelPipelinesData[pipelineId] : null;
+        const pipelineIdText = pipeline?.id || nextEntityId('L', pipelineList());
+        document.getElementById('modelPipelineIdBadge').textContent = `管线编号：${pipelineIdText}`;
+        setValue('modelPipelineLayingMethodInput', pipeline?.layingMethod || '');
+        setValue('modelPipelineStartDepthInput', pipeline?.startDepth || '');
+        setValue('modelPipelineEndDepthInput', pipeline?.endDepth || '');
+        setValue('modelPipelineOwnerInput', pipeline?.owner || '');
+        setValue('modelPipelineDiameterInput', pipeline?.diameter || '');
+        setValue('modelPipelineCasingSizeInput', pipeline?.casingSize || '');
+        setValue('modelPipelineCasingMaterialInput', pipeline?.casingMaterial || '');
+        setValue('modelPipelineApertureInput', pipeline?.aperture || '');
+        setValue('modelPipelineFlowInput', pipeline?.flow || '');
+        setValue('modelPipelinePressureInput', pipeline?.pressure || '');
+        setValue('modelPipelineTotalHolesInput', pipeline?.totalHoles || '');
+        setValue('modelPipelineUsedHolesInput', pipeline?.usedHoles || '');
+        setValue('modelPipelineOwnedHolesInput', pipeline?.ownedHoles || '');
+        setValue('modelPipelineMaterialInput', pipeline?.material || '');
+        setValue('modelPipelineBuriedYearInput', pipeline?.buriedYear || '');
+        setValue('modelPipelineLineTypeInput', pipeline?.lineType || '');
+        setValue('modelPipelineProtectMaterialInput', pipeline?.protectMaterial || '');
+        setValue('modelPipelineRemarkInput', pipeline?.remark || '');
+
+        const points = pointList();
+        const startId = pipeline?.start || points[0]?.id || '';
+        const endId = pipeline?.end || points[1]?.id || points[0]?.id || '';
+        setValue('modelStartPointSearch', startId);
+        setValue('modelEndPointSearch', endId);
+        selectModelPipelinePoint('start', startId);
+        selectModelPipelinePoint('end', endId);
+        updatePipelineDialogSummary();
+    }
+
+    function openPipelineModal(mode, preferredPipelineId = null) {
+        modelState.pipelineMode = mode;
+        closeEntityBubble();
+        refreshModalSelectors();
+        document.getElementById('modelPipelineModalTitle').textContent = mode === 'edit' ? '编辑管线' : '新增管线';
+        document.getElementById('modelPipelineModeHint').textContent = mode === 'edit' ? '选择已有管线后会自动回填起止点和字段。' : '按勘探页字段和点位搜索方式新增管线。';
+        document.getElementById('modelPipelineTargetWrap').classList.toggle('hidden', mode !== 'edit');
+        if (mode === 'edit') {
+            const firstId = preferredPipelineId && modelPipelinesData[preferredPipelineId]
+                ? preferredPipelineId
+                : (modelState.activePipelineId && modelPipelinesData[modelState.activePipelineId] ? modelState.activePipelineId : pipelineList()[0]?.id);
+            modelState.activePipelineId = firstId || null;
+            populateSimpleSelect('modelPipelineTargetSelect', pipelineList(), modelState.activePipelineId, '请选择管线');
+            resetPipelineForm(modelState.activePipelineId);
+        } else {
+            modelState.activePipelineId = null;
+            resetPipelineForm(null);
+        }
+        document.getElementById('modelPipelineModal').showModal();
+    }
+
+    function handlePipelineTargetChange() {
+        modelState.activePipelineId = document.getElementById('modelPipelineTargetSelect')?.value || null;
+        resetPipelineForm(modelState.activePipelineId);
+    }
+
+    function closePipelineModal() {
+        document.getElementById('modelPipelineModal')?.close();
+    }
+
+    function submitPipelineForm() {
+        const start = document.getElementById('modelPipelineStartIdInput')?.value.trim();
+        const end = document.getElementById('modelPipelineEndIdInput')?.value.trim();
+        if (!start || !end || start === end) return false;
+        const id = modelState.pipelineMode === 'edit' && modelState.activePipelineId ? modelState.activePipelineId : nextEntityId('L', pipelineList());
+        modelPipelinesData[id] = {
+            id,
+            start,
+            end,
+            layingMethod: document.getElementById('modelPipelineLayingMethodInput')?.value || '',
+            startDepth: document.getElementById('modelPipelineStartDepthInput')?.value || '',
+            endDepth: document.getElementById('modelPipelineEndDepthInput')?.value || '',
+            owner: document.getElementById('modelPipelineOwnerInput')?.value || '',
+            diameter: document.getElementById('modelPipelineDiameterInput')?.value || '',
+            casingSize: document.getElementById('modelPipelineCasingSizeInput')?.value || '',
+            casingMaterial: document.getElementById('modelPipelineCasingMaterialInput')?.value || '',
+            aperture: document.getElementById('modelPipelineApertureInput')?.value || '',
+            flow: document.getElementById('modelPipelineFlowInput')?.value || '',
+            pressure: document.getElementById('modelPipelinePressureInput')?.value || '',
+            totalHoles: document.getElementById('modelPipelineTotalHolesInput')?.value || '',
+            usedHoles: document.getElementById('modelPipelineUsedHolesInput')?.value || '',
+            ownedHoles: document.getElementById('modelPipelineOwnedHolesInput')?.value || '',
+            material: document.getElementById('modelPipelineMaterialInput')?.value || '',
+            buriedYear: document.getElementById('modelPipelineBuriedYearInput')?.value || '',
+            lineType: document.getElementById('modelPipelineLineTypeInput')?.value || '',
+            protectMaterial: document.getElementById('modelPipelineProtectMaterialInput')?.value || '',
+            remark: document.getElementById('modelPipelineRemarkInput')?.value || '',
+            type: modelPointsData[start]?.type || ''
+        };
+        modelState.activePipelineId = id;
+        refreshModalSelectors();
+        requestModelSceneRender();
+        closePipelineModal();
+        return true;
+    }
+</script>
+
+<script>
+    function openDeleteModal(type, preferredId = null) {
+        modelState.deleteType = type;
+        modelState.deleteTargetId = preferredId || null;
+        closeEntityBubble();
+        const items = type === 'point' ? pointList() : pipelineList();
+        const selectedId = preferredId && items.some(item => item.id === preferredId) ? preferredId : items[0]?.id;
+        const isDirectAction = Boolean(selectedId);
+        document.getElementById('modelDeleteModalTitle').textContent = type === 'point' ? '删除管点' : '删除管线';
+        document.getElementById('modelDeleteModalHint').textContent = isDirectAction
+            ? `当前${type === 'point' ? '管点' : '管线'}会在确认后删除，删除后不可恢复。`
+            : `请先选择要删除的${type === 'point' ? '管点' : '管线'}，再进行确认。`;
+        document.getElementById('modelDeleteTargetWrap')?.classList.toggle('hidden', isDirectAction);
+        document.getElementById('modelDeleteConfirmButton').textContent = '确认删除';
+        populateSimpleSelect('modelDeleteTargetSelect', items, selectedId, type === 'point' ? '请选择管点' : '请选择管线');
+        updateDeleteSummary();
+        document.getElementById('modelDeleteModal').showModal();
+    }
+
+    function updateDeleteSummary() {
+        const id = document.getElementById('modelDeleteTargetSelect')?.value;
+        const summary = document.getElementById('modelDeleteSummary');
+        if (!summary || !id) return;
+        if (modelState.deleteType === 'point') {
+            const point = modelPointsData[id];
+            const related = pipelineList().filter(item => item.start === id || item.end === id).map(item => item.id);
+            summary.innerHTML = `管点编号：${point?.id || '-'}<br>管点类型：${point?.type || '-'}<br>附属物：${point?.accessory || '-'}<br>关联管线：${related.length ? related.join('、') : '无'}`;
+        } else {
+            const pipeline = modelPipelinesData[id];
+            summary.innerHTML = `管线编号：${pipeline?.id || '-'}<br>起止点：${pipeline?.start || '-'} → ${pipeline?.end || '-'}<br>管线材质：${pipeline?.material || '-'}<br>埋设方式：${pipeline?.layingMethod || '-'}`;
+        }
+    }
+
+    function closeDeleteModal() {
+        modelState.deleteTargetId = null;
+        document.getElementById('modelDeleteModal')?.close();
+    }
+
+    function confirmDeleteAction() {
+        const id = modelState.deleteTargetId || document.getElementById('modelDeleteTargetSelect')?.value;
+        if (!id) return;
+        if (modelState.deleteType === 'point') {
+            delete modelPointsData[id];
+            Object.keys(modelPipelinesData).forEach(key => {
+                if (modelPipelinesData[key].start === id || modelPipelinesData[key].end === id) delete modelPipelinesData[key];
+            });
+            if (modelState.activePointId === id) modelState.activePointId = null;
+        } else {
+            delete modelPipelinesData[id];
+            if (modelState.activePipelineId === id) modelState.activePipelineId = null;
+        }
+        refreshModalSelectors();
+        requestModelSceneRender();
+        closeDeleteModal();
+    }
+
+    function openMergePointModal(preferredPointId = null) {
+        closeEntityBubble();
+        refreshModalSelectors();
+        const primaryId = preferredPointId && modelPointsData[preferredPointId] ? preferredPointId : (pointList()[0]?.id || '');
+        populateSimpleSelect('mergePrimaryPointSelect', pointList(), primaryId, '请选择主管点');
+        handleMergePrimaryChange();
+        document.getElementById('modelMergePointModal').showModal();
+    }
+
+    function handleMergePrimaryChange() {
+        const primaryId = document.getElementById('mergePrimaryPointSelect')?.value;
+        const point = modelPointsData[primaryId];
+        setValue('mergePrimaryPointId', point?.id || '');
+        setValue('mergePrimaryPointType', point?.type || '');
+        setValue('mergePrimaryPointFeature', point?.feature || '');
+        setValue('mergePrimaryPointAccessory', point?.accessory || '');
+        setValue('mergePrimaryPointDepth', point?.depth || '');
+        setValue('mergePrimaryPointDiameter', point?.diameter || '');
+        setValue('mergePrimaryPointMaterial', point?.material || '');
+        setValue('mergePrimaryPointElevation', point?.elevation || '');
+        setValue('mergePrimaryPointLongitude', point?.longitude || '');
+        setValue('mergePrimaryPointLatitude', point?.latitude || '');
+        setValue('mergePrimaryPointBuildDate', point?.buildDate || '');
+        setValue('mergePrimaryPointOwner', point?.owner || '');
+        setValue('mergePrimaryPointSource', point?.source || '');
+        setValue('mergePrimaryPointRemark', point?.remark || '');
+
+        const secondaryItems = pointList().filter(item => item.id !== primaryId);
+        populateSimpleSelect('mergeSecondaryPointSelect', secondaryItems, secondaryItems[0]?.id, secondaryItems.length ? '请选择待合并管点' : '暂无可合并管点');
+        updateMergeSecondaryPointInfo();
+    }
+
+    function updateMergeSecondaryPointInfo() {
+        const secondaryId = document.getElementById('mergeSecondaryPointSelect')?.value;
+        const info = document.getElementById('mergeSecondaryPointInfo');
+        if (!info) return;
+        const point = modelPointsData[secondaryId];
+        const related = pipelineList().filter(item => item.start === secondaryId || item.end === secondaryId).map(item => item.id);
+        info.innerHTML = point ? `编号：${point.id}<br>类型：${point.type}<br>特征：${point.feature}<br>权属单位：${point.owner || '-'}<br>关联管线：${related.length ? related.join('、') : '无'}` : '请先选择待合并管点';
+    }
+
+    function closeMergePointModal() {
+        document.getElementById('modelMergePointModal')?.close();
+    }
+
+    function confirmMergePoint() {
+        const primaryId = document.getElementById('mergePrimaryPointSelect')?.value;
+        const secondaryId = document.getElementById('mergeSecondaryPointSelect')?.value;
+        if (!primaryId || !secondaryId || primaryId === secondaryId) return;
+        const newPrimaryId = document.getElementById('mergePrimaryPointId')?.value.trim() || primaryId;
+        if (newPrimaryId === secondaryId) return;
+        const mergedPoint = {
+            ...(modelPointsData[primaryId] || {}),
+            id: newPrimaryId,
+            type: document.getElementById('mergePrimaryPointType')?.value || '',
+            feature: document.getElementById('mergePrimaryPointFeature')?.value || '',
+            accessory: document.getElementById('mergePrimaryPointAccessory')?.value || '',
+            depth: document.getElementById('mergePrimaryPointDepth')?.value || '',
+            diameter: document.getElementById('mergePrimaryPointDiameter')?.value || '',
+            material: document.getElementById('mergePrimaryPointMaterial')?.value || '',
+            elevation: document.getElementById('mergePrimaryPointElevation')?.value || '',
+            longitude: document.getElementById('mergePrimaryPointLongitude')?.value || '',
+            latitude: document.getElementById('mergePrimaryPointLatitude')?.value || '',
+            buildDate: document.getElementById('mergePrimaryPointBuildDate')?.value || '',
+            owner: document.getElementById('mergePrimaryPointOwner')?.value || '',
+            source: document.getElementById('mergePrimaryPointSource')?.value || '',
+            remark: document.getElementById('mergePrimaryPointRemark')?.value || ''
+        };
+
+        Object.values(modelPipelinesData).forEach(item => {
+            if (item.start === primaryId || item.start === secondaryId) item.start = newPrimaryId;
+            if (item.end === primaryId || item.end === secondaryId) item.end = newPrimaryId;
+        });
+        Object.keys(modelPipelinesData).forEach(key => {
+            if (modelPipelinesData[key].start === modelPipelinesData[key].end) delete modelPipelinesData[key];
+        });
+
+        if (newPrimaryId !== primaryId) delete modelPointsData[primaryId];
+        delete modelPointsData[secondaryId];
+        modelPointsData[newPrimaryId] = mergedPoint;
+        modelState.activePointId = newPrimaryId;
+        refreshModalSelectors();
+        requestModelSceneRender();
+        closeMergePointModal();
+    }
+
+    function initModelActionUI() {
+        ensureDialogEnhancements();
+        refreshModalSelectors();
+        populateSimpleSelect('modelPointTypeSelect', modelPointTypeOptions.map(item => item.name), '', '请选择管点种类');
+        updateModelPointFeatureOptions();
+        renderModelPipelinePointList('start');
+        renderModelPipelinePointList('end');
+        requestModelSceneRender();
+
+        document.getElementById('modelSceneOverlay')?.addEventListener('click', handleSceneOverlayClick);
+        document.getElementById('model-canvas')?.addEventListener('click', handleSceneCanvasClick);
+
+        document.getElementById('modelPointForm')?.addEventListener('submit', event => {
+            event.preventDefault();
+            if (submitPointForm()) event.target.closest('dialog')?.close();
+        });
+        document.getElementById('modelPointForm')?.addEventListener('input', updatePointDialogSummary);
+        document.getElementById('modelPointForm')?.addEventListener('change', updatePointDialogSummary);
+        document.getElementById('modelPipelineForm')?.addEventListener('submit', event => {
+            event.preventDefault();
+            if (submitPipelineForm()) event.target.closest('dialog')?.close();
+        });
+        document.getElementById('modelPipelineForm')?.addEventListener('input', updatePipelineDialogSummary);
+        document.getElementById('modelPipelineForm')?.addEventListener('change', updatePipelineDialogSummary);
+
+        document.addEventListener('click', event => {
+            const bubble = document.getElementById('modelEntityBubble');
+            const target = event.target;
+            const hitSceneEntity = target instanceof Element ? target.closest('[data-entity-type]') : null;
+            if (bubble && !bubble.contains(target) && !hitSceneEntity) {
+                closeEntityBubble();
+            }
+
+            ['start', 'end'].forEach(type => {
+                const wrap = document.getElementById(type === 'start' ? 'modelStartPointSearchWrap' : 'modelEndPointSearchWrap');
+                const dropdown = document.getElementById(type === 'start' ? 'modelStartPointDropdown' : 'modelEndPointDropdown');
+                if (wrap && dropdown && !wrap.contains(event.target)) dropdown.classList.add('hidden');
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initModelActionUI);
+    } else {
+        initModelActionUI();
+    }
 </script>
 
 <script>
@@ -845,11 +2895,20 @@
             wireframeBtn.className = 'px-3 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md text-xs font-medium transition-all flex items-center gap-1.5';
         }
 
-        // 更新ModelManager的渲染模式
+        // 更新 ModelManager 的渲染模式
         modelManager.setRenderMode(mode);
     }
 </script>
 
-<script>    function handleLogout() {        if (confirm('确定要退出登录吗？')) {            localStorage.removeItem('userToken');            localStorage.removeItem('userInfo');            window.APP_CONFIG.navigateTo('index.html');        }    }</script>
+<script>
+    function handleLogout() {
+        if (confirm('确定要退出登录吗？')) {
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('userInfo');
+            window.APP_CONFIG.navigateTo('index.html');
+        }
+    }
+</script>
 </body>
 </html>
+

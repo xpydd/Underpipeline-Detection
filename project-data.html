@@ -326,6 +326,210 @@
             line-height: 1.3;
         }
 
+        .table-selector-head,
+        .table-selector-cell {
+            background: #f8fafc;
+            min-width: 48px;
+            width: 48px;
+        }
+
+        .dark .table-selector-head,
+        .dark .table-selector-cell {
+            background: #1e293b;
+        }
+
+        .table-inline-input,
+        .table-inline-select {
+            width: 100%;
+            min-width: 0;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 11px;
+            line-height: 1.4;
+            background: #ffffff;
+            color: #0f172a;
+        }
+
+        .dark .table-inline-input,
+        .dark .table-inline-select {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+
+        .table-inline-input:focus,
+        .table-inline-select:focus {
+            outline: none;
+            border-color: #5ad98b;
+            box-shadow: 0 0 0 2px rgba(90, 217, 139, 0.15);
+        }
+
+        .table-row-editing {
+            background: rgba(90, 217, 139, 0.08);
+        }
+
+        .table-search-bar {
+            display: none;
+        }
+
+        .table-search-bar.active {
+            display: flex;
+        }
+
+        .export-loading-spinner {
+            width: 56px;
+            height: 56px;
+            border-radius: 9999px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #5ad98b;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .toast-enter {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .add-record-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            background: linear-gradient(180deg, rgba(90, 217, 139, 0.05), rgba(255, 255, 255, 0.98));
+        }
+
+        .dark .add-record-card {
+            border-color: #334155;
+            background: linear-gradient(180deg, rgba(90, 217, 139, 0.08), rgba(15, 23, 42, 0.98));
+        }
+
+        .add-record-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .add-record-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .add-record-field--wide {
+            grid-column: span 3;
+        }
+
+        .add-record-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .dark .add-record-label {
+            color: #94a3b8;
+        }
+
+        .add-record-input,
+        .add-record-select,
+        .point-picker-input {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 8px 10px;
+            background: #ffffff;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #0f172a;
+            outline: none;
+        }
+
+        .dark .add-record-input,
+        .dark .add-record-select,
+        .dark .point-picker-input {
+            border-color: #334155;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .add-record-input:focus,
+        .add-record-select:focus,
+        .point-picker-input:focus {
+            border-color: #5ad98b;
+            box-shadow: 0 0 0 3px rgba(90, 217, 139, 0.15);
+        }
+
+        .point-picker {
+            position: relative;
+        }
+
+        .point-picker-dropdown {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(100% + 6px);
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+            max-height: 180px;
+            overflow: auto;
+            z-index: 30;
+        }
+
+        .dark .point-picker-dropdown {
+            background: #0f172a;
+            border-color: #334155;
+            box-shadow: 0 12px 24px rgba(2, 6, 23, 0.45);
+        }
+
+        .point-picker-option {
+            width: 100%;
+            text-align: left;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: #334155;
+            transition: background-color 0.15s ease;
+        }
+
+        .point-picker-option:hover {
+            background: rgba(90, 217, 139, 0.12);
+            color: #065f46;
+        }
+
+        .dark .point-picker-option {
+            color: #cbd5e1;
+        }
+
+        .dark .point-picker-option:hover {
+            background: rgba(90, 217, 139, 0.12);
+            color: #bbf7d0;
+        }
+
+        @media (max-width: 1024px) {
+            .add-record-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .add-record-field--wide {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .add-record-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .add-record-field--wide {
+                grid-column: span 1;
+            }
+        }
+
     </style>
     <script src="js/config.js"></script>
     <script src="js/navigation.js"></script>
@@ -578,11 +782,19 @@
                         </div>
                     </div>
 
+                    <div id="table-search-bar" class="table-search-bar px-4 py-3 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/20 items-center gap-2">
+                        <span class="material-symbols-outlined text-slate-400 text-base">search</span>
+                        <input id="table-search-input" type="text" placeholder="请输入管点编号关键字" class="flex-1 min-w-[220px] px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                        <button id="table-search-submit" class="px-3 py-2 text-xs font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors">搜索</button>
+                        <button id="table-search-reset" class="px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">重置</button>
+                        <button id="table-search-close" class="px-3 py-2 text-xs font-medium text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">收起</button>
+                    </div>
+
                     <!-- 表格滚动容器 -->
                     <div id="detail-table-container" class="flex-1 overflow-auto custom-scrollbar">
                         <table class="data-table w-full min-w-[1900px]">
                             <thead>
-                                <tr>
+                                <tr id="data-table-head-top">
                                     <th rowspan="2" class="min-w-[80px]">管线点号</th>
                                     <th rowspan="2" class="min-w-[80px]">连接点号</th>
                                     <th rowspan="2" class="min-w-[80px]">连接点长度<br/>(m)</th>
@@ -598,7 +810,7 @@
                                     <th rowspan="2" class="min-w-[80px]">权属单位</th>
                                     <th rowspan="2" class="min-w-[80px]">备注</th>
                                 </tr>
-                                <tr>
+                                <tr id="data-table-head-bottom">
                                     <th class="min-w-[60px]">特征</th>
                                     <th class="min-w-[60px]">附属物</th>
                                     <th class="min-w-[80px]">管径或断面尺寸</th>
@@ -761,7 +973,7 @@
         </div>
 
         <div class="p-4 overflow-auto custom-scrollbar flex-1 space-y-4">
-            <section class="space-y-2">
+            <section id="import-update-section" class="space-y-2">
                 <div class="flex items-start justify-between gap-3">
                     <div>
                         <h4 class="text-sm font-bold text-slate-800 dark:text-white">更新数据</h4>
@@ -813,7 +1025,7 @@
                 </div>
             </section>
 
-            <section class="space-y-2">
+            <section id="import-new-section" class="space-y-2">
                 <div class="flex items-start justify-between gap-3">
                     <div>
                         <h4 class="text-sm font-bold text-slate-800 dark:text-white">新增数据</h4>
@@ -864,6 +1076,20 @@
                     </table>
                 </div>
             </section>
+            <section id="add-record-form-section" class="hidden space-y-3">
+                <div class="flex items-start justify-between gap-3">
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800 dark:text-white">新增记录表单</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">按卡片逐条补充信息，管线点号和连接点号需通过搜索下拉选择现有点位。</p>
+                    </div>
+                    <button id="add-record-card-btn" class="px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">add_circle</span>
+                        再加一条
+                    </button>
+                </div>
+                <div id="add-record-card-list" class="space-y-3"></div>
+            </section>
+            <div id="import-modal-message" class="hidden rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200"></div>
         </div>
 
         <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 shrink-0">
@@ -873,7 +1099,35 @@
     </div>
 </dialog>
 
-<script type="module">
+<dialog id="delete-confirm-dialog" class="bg-transparent backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm p-0 w-full max-w-sm rounded-xl z-[110]">
+    <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+            <span class="material-symbols-outlined text-red-500 text-lg">delete_forever</span>
+            <h3 class="text-sm font-bold text-slate-800 dark:text-white">确认删除</h3>
+        </div>
+        <div class="px-4 py-4">
+            <p id="delete-confirm-message" class="text-sm text-slate-600 dark:text-slate-300 leading-6">确认删除选中的记录吗？</p>
+        </div>
+        <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-slate-900/30">
+            <button id="delete-confirm-cancel" class="px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">取消</button>
+            <button id="delete-confirm-submit" class="px-3 py-2 text-xs font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors">确认删除</button>
+        </div>
+    </div>
+</dialog>
+
+<div id="export-loading-overlay" class="hidden fixed inset-0 z-[120] bg-slate-950/70 backdrop-blur-sm items-center justify-center">
+    <div class="flex flex-col items-center gap-4 text-white">
+        <div class="export-loading-spinner"></div>
+        <div class="text-center space-y-1">
+            <p class="text-sm font-semibold">正在导出综合地下管线成果表</p>
+            <p class="text-xs text-slate-300">系统正在生成 Excel，请稍候...</p>
+        </div>
+    </div>
+</div>
+
+<div id="page-toast" class="hidden fixed right-6 top-24 z-[130] max-w-sm rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-xl dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"></div>
+
+<script type="text/plain" id="legacy-pipeline-data-script">
     // 数据管理模块
     class PipelineDataManager {
         constructor() {
@@ -1662,7 +1916,8 @@
     });
 </script>
 
+<script src="js/project-data-manager.js" defer></script>
+
 <script>    function handleLogout() {        if (confirm('确定要退出登录吗？')) {            localStorage.removeItem('userToken');            localStorage.removeItem('userInfo');            window.APP_CONFIG.navigateTo('index.html');        }    }</script>
 </body>
 </html>
-

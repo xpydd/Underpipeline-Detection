@@ -1,0 +1,4 @@
+interface:
+  display_name: "需求文档管理"
+  short_description: "生成、补全并持续维护带版本号和日期的中文需求文档 Markdown 文件"
+  default_prompt: "使用 $requirements-doc-manager 在项目根目录生成或更新 product-spec.md，并同步维护版本号、日期与迭代内容。"
