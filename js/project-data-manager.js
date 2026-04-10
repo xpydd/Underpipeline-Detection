@@ -762,56 +762,97 @@ class PipelineDataManager {
 
         container.innerHTML = this.importRows.new.map((row, index) => `
             <div class="add-record-card" data-card-index="${index}">
-                <div class="flex items-center justify-between gap-3 mb-4">
+                <div class="add-record-card-head">
                     <div>
                         <div class="text-sm font-semibold text-slate-800 dark:text-white">新增记录 ${index + 1}</div>
-                        <div class="text-[11px] text-slate-500 dark:text-slate-400">点号和连接点号需从现有点位中选择，避免录入无效编号。</div>
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400">点号与连接点号需从现有点位中选择，字段填写方式与新增导入保持一致。</div>
                     </div>
                     <button type="button" data-remove-add-card="${index}" class="px-2.5 py-1.5 text-xs font-medium text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors ${this.importRows.new.length === 1 ? 'hidden' : ''}">删除此条</button>
                 </div>
-                <div class="add-record-grid">
-                    ${this.renderAddCardPointPicker('pointNo', '管线点号', row.pointNo, pointOptions, row.pointNoClass)}
-                    ${this.renderAddCardPointPicker('connectNo', '连接点号', row.connectNo, pointOptions, row.connectNoClass)}
-                    ${this.renderAddCardField('length', '连接点长度(m)', row.length)}
-                    ${this.renderAddCardSelect('feature', '特征', row.feature, ['管点', '折点', '三通', '弯头'])}
-                    ${this.renderAddCardSelect('attachment', '附属物', row.attachment, ['', '井盖', '阀门', '标识桩'])}
-                    ${this.renderAddCardSelect('material', '材质', row.material, ['PE', 'PVC', '钢', '铸铁', '混凝土'])}
-                    ${this.renderAddCardField('diameter', '管径或断面', row.diameter)}
-                    ${this.renderAddCardField('casing', '套管尺寸', row.casing)}
-                    ${this.renderAddCardSelect('casingMaterial', '套管材质', row.casingMaterial, ['', '钢', 'PE', 'PVC', '混凝土'])}
-                    ${this.renderAddCardField('pressure', '压力/电压', row.pressure)}
-                    ${this.renderAddCardField('flow', '流向/根数', row.flow)}
-                    ${this.renderAddCardField('holes', '总孔数/已用孔数', row.holes)}
-                    ${this.renderAddCardField('x', 'X 坐标', row.x)}
-                    ${this.renderAddCardField('y', 'Y 坐标', row.y)}
-                    ${this.renderAddCardField('groundElev', '地面高程', row.groundElev)}
-                    ${this.renderAddCardField('topElev', '管顶高程', row.topElev)}
-                    ${this.renderAddCardField('bottomElev', '管底高程', row.bottomElev)}
-                    ${this.renderAddCardField('startDepth', '起点埋深', row.startDepth)}
-                    ${this.renderAddCardField('endDepth', '终点埋深', row.endDepth)}
-                    ${this.renderAddCardSelect('method', '埋设方式', row.method, ['直埋', '管沟', '架空'])}
-                    ${this.renderAddCardField('year', '年代', row.year)}
-                    ${this.renderAddCardField('owner', '权属单位', row.owner)}
-                    ${this.renderAddCardField('note', '备注', row.note || '', true)}
+                <div class="add-record-card-body">
+                    <section class="add-record-section">
+                        <div class="add-record-section-head">
+                            <div class="add-record-section-title">点位信息</div>
+                            <div class="add-record-section-note">优先选择点号，再补充特征与材质</div>
+                        </div>
+                        <div class="add-record-grid">
+                            ${this.renderAddCardPointPicker('pointNo', '管线点号', row.pointNo, pointOptions, row.pointNoClass)}
+                            ${this.renderAddCardPointPicker('connectNo', '连接点号', row.connectNo, pointOptions, row.connectNoClass)}
+                            ${this.renderAddCardField('length', '连接点长度(m)', row.length)}
+                            ${this.renderAddCardSelect('feature', '特征', row.feature, ['管点', '折点', '三通', '弯头'])}
+                            ${this.renderAddCardSelect('attachment', '附属物', row.attachment, ['', '井盖', '阀门', '标识桩'])}
+                            ${this.renderAddCardSelect('material', '材质', row.material, ['PE', 'PVC', '钢', '铸铁', '混凝土'])}
+                        </div>
+                    </section>
+
+                    <section class="add-record-section">
+                        <div class="add-record-section-head">
+                            <div class="add-record-section-title">规格与载体</div>
+                            <div class="add-record-section-note">对应新增导入中的规格、压力和孔数字段</div>
+                        </div>
+                        <div class="add-record-grid">
+                            ${this.renderAddCardField('diameter', '管径或断面', row.diameter)}
+                            ${this.renderAddCardField('casing', '套管尺寸', row.casing)}
+                            ${this.renderAddCardSelect('casingMaterial', '套管材质', row.casingMaterial, ['', '钢', 'PE', 'PVC', '混凝土'])}
+                            ${this.renderAddCardField('pressure', '压力/电压', row.pressure)}
+                            ${this.renderAddCardField('flow', '流向/根数', row.flow)}
+                            ${this.renderAddCardField('holes', '总孔数/已用孔数', row.holes)}
+                        </div>
+                    </section>
+
+                    <section class="add-record-section">
+                        <div class="add-record-section-head">
+                            <div class="add-record-section-title">空间与埋深</div>
+                            <div class="add-record-section-note">坐标、高程与埋深信息可连续录入</div>
+                        </div>
+                        <div class="add-record-grid">
+                            ${this.renderAddCardField('x', 'X 坐标', row.x)}
+                            ${this.renderAddCardField('y', 'Y 坐标', row.y)}
+                            ${this.renderAddCardField('groundElev', '地面高程', row.groundElev)}
+                            ${this.renderAddCardField('topElev', '管顶高程', row.topElev)}
+                            ${this.renderAddCardField('bottomElev', '管底高程', row.bottomElev)}
+                            ${this.renderAddCardField('startDepth', '起点埋深', row.startDepth)}
+                            ${this.renderAddCardField('endDepth', '终点埋深', row.endDepth)}
+                            ${this.renderAddCardSelect('method', '埋设方式', row.method, ['直埋', '管沟', '架空'])}
+                        </div>
+                    </section>
+
+                    <section class="add-record-section">
+                        <div class="add-record-section-head">
+                            <div class="add-record-section-title">管理信息</div>
+                            <div class="add-record-section-note">用于导入后的台账归属与备注说明</div>
+                        </div>
+                        <div class="add-record-grid">
+                            ${this.renderAddCardField('year', '年代', row.year)}
+                            ${this.renderAddCardField('owner', '权属单位', row.owner)}
+                            ${this.renderAddCardField('note', '备注', row.note || '', true, '', 'textarea')}
+                        </div>
+                    </section>
                 </div>
             </div>
         `).join('');
     }
 
-    renderAddCardField(key, label, value, wide = false) {
+    renderAddCardField(key, label, value, wide = false, extraClass = '', control = 'input') {
+        const className = this.escapeHtml(extraClass || '');
+        const valueText = this.escapeHtml(value || '');
+        const fieldClass = wide ? 'add-record-field add-record-field--wide' : 'add-record-field';
+        const controlHtml = control === 'textarea'
+            ? `<textarea class="add-record-textarea ${className}" data-add-field="${key}">${valueText}</textarea>`
+            : `<input class="add-record-input ${className}" data-add-field="${key}" value="${valueText}">`;
         return `
-            <label class="add-record-field ${wide ? 'add-record-field--wide' : ''}">
+            <label class="${fieldClass}">
                 <span class="add-record-label">${label}</span>
-                <input class="add-record-input" data-add-field="${key}" value="${this.escapeHtml(value || '')}">
+                ${controlHtml}
             </label>
         `;
     }
 
-    renderAddCardSelect(key, label, value, options) {
+    renderAddCardSelect(key, label, value, options, extraClass = '') {
         return `
             <label class="add-record-field">
                 <span class="add-record-label">${label}</span>
-                <select class="add-record-select" data-add-field="${key}">
+                <select class="add-record-select ${this.escapeHtml(extraClass || '')}" data-add-field="${key}">
                     ${options.map(option => `<option value="${this.escapeHtml(option)}" ${option === value ? 'selected' : ''}>${this.escapeHtml(option || '请选择')}</option>`).join('')}
                 </select>
             </label>
