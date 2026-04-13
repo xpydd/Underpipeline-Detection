@@ -256,6 +256,7 @@
         .dark .ql-snow .ql-picker-label {
             color: #94a3b8;
         }
+
     </style>
     <script src="js/config.js"></script>
     <script src="js/navigation.js"></script>
@@ -368,7 +369,231 @@
         <!-- 内容区域 -->
         <div class="flex-1 min-w-0 h-full overflow-hidden relative">
             <!-- 报告视图 -->
-            <div class="w-full h-full flex gap-4">
+            <div id="report-workbench-v2" class="w-full h-full flex gap-4">
+                <div class="w-[240px] shrink-0 flex flex-col gap-3 h-full">
+                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col flex-1 min-h-0">
+                        <div class="px-3 py-2.5 border-b border-slate-100 dark:border-slate-800">
+                            <h4 class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-sm">account_tree</span>
+                                报告导航
+                            </h4>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-2 custom-scrollbar">
+                            <div class="space-y-1 report-tree">
+                                <div class="report-tree-item text-xs active" data-view="preview">
+                                    <span class="material-symbols-outlined text-sm">description</span>
+                                    生成报告
+                                </div>
+                                <div class="report-tree-item text-xs" data-view="edit-text">
+                                    <span class="material-symbols-outlined text-sm">edit_document</span>
+                                    报告编辑
+                                </div>
+                                <div class="report-tree-category text-xs" data-category="review">
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="material-symbols-outlined text-sm">fact_check</span>
+                                        报告校审
+                                    </span>
+                                    <span class="material-symbols-outlined text-base text-slate-400">expand_more</span>
+                                </div>
+                                <div class="report-tree-subcategory" id="v2-review-submenu">
+                                    <div class="report-tree-item text-xs" data-view="review-submit">
+                                        提交校审
+                                    </div>
+                                    <div class="report-tree-item text-xs" data-view="review-result">
+                                        校审结果
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col relative overflow-hidden">
+                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-primary/5 to-transparent">
+                        <div class="flex flex-wrap items-center gap-4 text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">person</span>
+                                <span class="text-slate-500 dark:text-slate-400" id="v2-person-label">报告编制：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="v2-person-info">-</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">map</span>
+                                <span class="text-slate-500 dark:text-slate-400">坐标系：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="v2-coordinate-system-info">CGCS2000</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">height</span>
+                                <span class="text-slate-500 dark:text-slate-400">高程系：</span>
+                                <span class="font-semibold text-slate-900 dark:text-white" id="v2-elevation-system-info">1985 国家高程基准</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30 flex items-center justify-between gap-3">
+                        <div>
+                            <h3 id="v2-view-title" class="text-sm font-bold text-slate-900 dark:text-white">生成报告</h3>
+                            <p id="v2-view-subtitle" class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                模板目录来自《白云区鹤龙街黄边村更新改造复建安置区项目勘察设计施工总承包（EPC）》PDF 书签目录。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="v2-preview-view" class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                        <div class="max-w-xl mx-auto h-full min-h-[420px] flex items-center justify-center">
+                            <div class="w-full px-8 py-10 text-center rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#161e27]">
+                                <div class="w-16 h-16 mx-auto rounded-2xl bg-primary/12 text-primary flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-[32px]">description</span>
+                                </div>
+                                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mt-6">地下管线探测技术报告</h2>
+                                <p id="v2-generate-project-name" class="text-sm text-slate-500 dark:text-slate-400 mt-2"></p>
+                                <div class="mt-8">
+                                    <button
+                                        id="v2-generate-report-btn"
+                                        class="px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl text-sm font-semibold transition-colors shadow-sm"
+                                    >
+                                        生成报告
+                                    </button>
+                                </div>
+                                <div id="v2-generate-status" class="mt-4 text-sm text-primary font-medium hidden">正在生成报告...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="v2-editor-view" class="flex-1 overflow-hidden hidden">
+                        <div class="h-full flex flex-col">
+                            <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-end gap-3">
+                                <button
+                                    id="v2-revert-report-version-btn"
+                                    class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:border-primary hover:text-primary transition-colors"
+                                >
+                                    版本回退
+                                </button>
+                                <button
+                                    id="v2-save-report-version-btn"
+                                    class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-1.5"
+                                >
+                                    <span class="material-symbols-outlined text-base">save</span>
+                                    保存版本
+                                </button>
+                                <button
+                                    id="v2-reset-template-btn"
+                                    class="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg text-sm font-semibold transition-colors"
+                                >
+                                    恢复模板
+                                </button>
+                            </div>
+
+                            <div class="flex-1 min-h-0">
+                                <div id="v2-editor-container" class="h-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="v2-review-submit-view" class="flex-1 overflow-y-auto p-6 custom-scrollbar hidden">
+                        <div class="max-w-4xl mx-auto space-y-6">
+                            <div class="flex items-center justify-between gap-3">
+                                <h2 class="text-xl font-bold text-slate-900 dark:text-white">地下管线探测技术报告校审提交</h2>
+                                <div class="text-sm font-semibold text-slate-500 dark:text-slate-400" id="v2-submit-status-chip">首次提交</div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">项目名称 <span class="text-red-500">（自动填入）</span></label>
+                                    <input type="text" id="v2-report-project-name" readonly class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">提交时间 <span class="text-red-500">（自动填入）</span></label>
+                                    <input type="text" id="v2-review-submit-time" readonly class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">提交校审人 <span class="text-red-500">（自动填入）</span></label>
+                                    <input type="text" id="v2-review-submitter" readonly class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">项目审核人 <span class="text-red-500">（自动填入）</span></label>
+                                    <input type="text" id="v2-reviewer-name" readonly class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm">
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">报告文档</label>
+                                    <input type="text" id="v2-report-doc-name" readonly class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">成果附件（选择已保存版本）</label>
+                                    <div class="flex gap-2">
+                                        <select id="v2-review-version-select" class="flex-1 px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-primary focus:border-transparent"></select>
+                                        <button
+                                            id="v2-review-view-version-btn"
+                                            class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:border-primary hover:text-primary transition-colors"
+                                        >
+                                            在线查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">提交状态</label>
+                                <input type="text" id="v2-review-submit-label" readonly class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm">
+                            </div>
+
+                            <div class="flex justify-center gap-3">
+                                <button id="v2-submit-review-btn" class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-semibold transition-colors">
+                                    提交校审
+                                </button>
+                                <button id="v2-cancel-review-btn" class="px-6 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-semibold transition-colors">
+                                    返回报告编辑
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="v2-review-result-view" class="flex-1 overflow-y-auto p-6 custom-scrollbar hidden">
+                        <div class="max-w-6xl mx-auto space-y-5">
+                            <div class="flex flex-wrap items-end justify-between gap-4">
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">地下管线探测技术报告校审结果</h2>
+                                </div>
+                                <div class="px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300" id="v2-review-record-count">
+                                    0 条记录
+                                </div>
+                            </div>
+
+                            <div id="v2-review-result-body" class="space-y-4"></div>
+                            <div id="v2-review-pagination" class="flex items-center justify-between gap-3 pt-2"></div>
+                        </div>
+                    </div>
+
+                    <div id="v2-readonly-doc-modal" class="absolute inset-0 bg-slate-950/45 backdrop-blur-sm p-4 md:p-6 z-20 hidden">
+                        <div class="h-full max-w-5xl mx-auto bg-white dark:bg-[#161e27] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden">
+                            <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-start justify-between gap-4">
+                                <div>
+                                    <div class="text-xs uppercase tracking-[0.22em] text-primary font-semibold">在线只读文档</div>
+                                    <h3 id="v2-readonly-doc-title" class="text-lg font-bold text-slate-900 dark:text-white mt-1">报告文档</h3>
+                                    <p id="v2-readonly-doc-meta" class="text-sm text-slate-500 dark:text-slate-400 mt-2"></p>
+                                </div>
+                                <button id="v2-close-readonly-doc-btn" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors">
+                                    <span class="material-symbols-outlined">close</span>
+                                </button>
+                            </div>
+                            <div class="flex-1 overflow-y-auto custom-scrollbar px-5 py-4">
+                                <div class="rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+                                    <div class="px-4 py-2 bg-slate-50 dark:bg-slate-900/30 border-b border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400">
+                                        该文档为提交快照，仅支持查看，不支持编辑。
+                                    </div>
+                                    <div class="ql-container ql-snow border-0">
+                                        <div id="v2-readonly-doc-content" class="ql-editor min-h-[520px] bg-white dark:bg-[#161e27]"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full h-full flex gap-4 hidden" aria-hidden="true">
                 <!-- 左侧报告导航树 -->
                 <div class="w-[200px] shrink-0 space-y-3 flex flex-col h-full">
                     <!-- 前端数据导入按钮 -->
@@ -800,7 +1025,7 @@
     </div>
 </main>
 
-<script type="module">
+<script type="application/json" id="legacy-report-script">
     // 富文本编辑器实例
     let quill = null;
     let editorInitialized = false;
@@ -1052,5 +1277,688 @@
 </script>
 
 <script>    function handleLogout() {        if (confirm('确定要退出登录吗？')) {            localStorage.removeItem('userToken');            localStorage.removeItem('userInfo');            window.APP_CONFIG.navigateTo('index.html');        }    }</script>
+<script type="module">
+    const REPORT_TEMPLATE_SOURCE = '白云区鹤龙街黄边村更新改造复建安置区项目勘察设计施工总承包（EPC）.pdf';
+    const REPORT_TEMPLATE_SECTIONS = [
+        '一、工程概况',
+        '二、工作原理及方法',
+        '三、地下管线测量',
+        '四、技术要求',
+        '五、主要仪器设备',
+        '六、质量评述',
+        '七、结论及建议',
+        '八、质量评定',
+        '九、提交成果'
+    ];
+
+    const root = document.getElementById('report-workbench-v2');
+
+    if (root) {
+        let quill = null;
+        let editorInitialized = false;
+        let currentProject = null;
+        let reportVersions = [];
+        let reviewRecords = [];
+        let activeVersionId = '';
+        let selectedReviewVersionId = '';
+        let currentReviewPage = 1;
+        const REVIEW_PAGE_SIZE = 4;
+
+        const $ = selector => root.querySelector(selector);
+        const $$ = selector => Array.from(root.querySelectorAll(selector));
+
+        function getProjectKey() {
+            if (!currentProject) return 'default-project';
+            return currentProject.id || currentProject.name || 'default-project';
+        }
+
+        function getStorageKey(type) {
+            return `project-report:${type}:${getProjectKey()}`;
+        }
+
+        function readStorage(key, fallback) {
+            try {
+                const value = localStorage.getItem(key);
+                return value ? JSON.parse(value) : fallback;
+            } catch (error) {
+                return fallback;
+            }
+        }
+
+        function writeStorage(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+        }
+
+        function formatDate(date = new Date(), withTime = false) {
+            const pad = value => String(value).padStart(2, '0');
+            const text = `${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())}`;
+            return withTime ? `${text} ${pad(date.getHours())}:${pad(date.getMinutes())}` : text;
+        }
+
+        function getProjectName() {
+            return currentProject && currentProject.name ? currentProject.name : '项目名称';
+        }
+
+        function getSubmitterName() {
+            const raw = currentProject && currentProject.reportIds ? currentProject.reportIds : '';
+            return raw ? String(raw).split(',')[0].trim() : '报告编制人';
+        }
+
+        function getReviewerName() {
+            const raw = currentProject && currentProject.reviewerIds ? currentProject.reviewerIds : '';
+            return raw ? String(raw).split(',')[0].trim() : '项目审核人';
+        }
+
+        function getCoordinateText() {
+            return currentProject && currentProject.coordSystem ? currentProject.coordSystem : 'CGCS2000';
+        }
+
+        function getElevationText() {
+            return currentProject && currentProject.elevSystem ? currentProject.elevSystem : '1985 国家高程基准';
+        }
+
+        function createVersionDocName(versionName) {
+            return `${getProjectName()}-${versionName}-在线文档`;
+        }
+
+        function getSubmissionLabel(index) {
+            if (index === 0) return '第一次提交';
+            if (index === 1) return '修改二次提交';
+            if (index === 2) return '修改三次提交';
+            return `修改第${index + 1}次提交`;
+        }
+
+        function buildTemplateHtml() {
+            const toc = REPORT_TEMPLATE_SECTIONS.map(section => `<li>${section}</li>`).join('');
+            const sections = REPORT_TEMPLATE_SECTIONS.map(section => `<h2>${section}</h2><p><br></p><p><br></p>`).join('');
+
+            return `
+                <h1 style="text-align:center;">${getProjectName()}地下管线探测技术报告</h1>
+                <p style="text-align:center;"><em>目录与格式标题提取自 ${REPORT_TEMPLATE_SOURCE}</em></p>
+                <p><br></p>
+                <h2>目录</h2>
+                <ol>${toc}</ol>
+                <p><br></p>
+                ${sections}
+            `;
+        }
+
+        function buildSampleDocumentHtml(versionName, summaryText) {
+            const toc = REPORT_TEMPLATE_SECTIONS.map(section => `<li>${section}</li>`).join('');
+
+            return `
+                <h1 style="text-align:center;">${getProjectName()}地下管线探测技术报告</h1>
+                <p style="text-align:center;"><strong>${versionName}</strong></p>
+                <p style="text-align:center;"><em>${summaryText}</em></p>
+                <p><br></p>
+                <h2>目录</h2>
+                <ol>${toc}</ol>
+                <p><br></p>
+                <h2>一、工程概况</h2>
+                <p>${getProjectName()}，示例项目范围约 2.4km，场地环境以居住区和市政道路为主。</p>
+                <p><br></p>
+                <h2>二、工作原理及方法</h2>
+                <p>采用金属管线探测、控制测量与现场核验相结合的方式开展外业示例作业。</p>
+                <p><br></p>
+                <h2>三、地下管线测量</h2>
+                <p>完成燃气、给水、排水、电力及通信等管线点位采集，并形成示例台账。</p>
+                <p><br></p>
+                <h2>四、技术要求</h2>
+                <p>按现行地下管线探测规范组织成果，报告格式保持章节完整。</p>
+                <p><br></p>
+                <h2>五、主要仪器设备</h2>
+                <ul>
+                    <li>管线探测仪</li>
+                    <li>RTK 测量系统</li>
+                    <li>全站仪</li>
+                </ul>
+                <p><br></p>
+                <h2>六、质量评述</h2>
+                <p>示例成果完整，图表和正文已初步对齐，可进入校审流程。</p>
+                <p><br></p>
+                <h2>七、结论及建议</h2>
+                <p>建议对复杂交叉节点补充断面说明，提升成果表达完整度。</p>
+                <p><br></p>
+                <h2>八、质量评定</h2>
+                <p>示例评定结果为合格。</p>
+                <p><br></p>
+                <h2>九、提交成果</h2>
+                <p>提交在线文档、成果图纸目录和示例数据表。</p>
+            `;
+        }
+
+        function getDefaultVersions() {
+            return [
+                {
+                    id: 'sample-version-3',
+                    name: '校审修改稿 V3',
+                    html: buildSampleDocumentHtml('校审修改稿 V3', '已根据第一次校审意见补充结论与成果清单。'),
+                    createdAt: '2026/04/12 14:20',
+                    updatedAt: '2026/04/13 09:30',
+                    docName: createVersionDocName('校审修改稿 V3')
+                },
+                {
+                    id: 'sample-version-2',
+                    name: '送审稿 V2',
+                    html: buildSampleDocumentHtml('送审稿 V2', '已完善工程概况、技术要求和设备章节示例内容。'),
+                    createdAt: '2026/04/11 15:10',
+                    updatedAt: '2026/04/12 18:40',
+                    docName: createVersionDocName('送审稿 V2')
+                },
+                {
+                    id: 'sample-version-1',
+                    name: '初稿 V1',
+                    html: buildTemplateHtml(),
+                    createdAt: '2026/04/10 10:00',
+                    updatedAt: '2026/04/10 17:25',
+                    docName: createVersionDocName('初稿 V1')
+                }
+            ];
+        }
+
+        function getDefaultReviewRecords(versions) {
+            const v3 = versions[0];
+            const v2 = versions[1];
+            return [
+                {
+                    id: 'sample-review-2',
+                    submitLabel: '修改二次提交',
+                    submitDate: '2026/04/13 10:00',
+                    status: '待校审',
+                    reviewer: getReviewerName(),
+                    reviewDate: '',
+                    conclusion: '',
+                    docName: v3.docName,
+                    snapshotHtml: v3.html
+                },
+                {
+                    id: 'sample-review-1',
+                    submitLabel: '第一次提交',
+                    submitDate: '2026/04/12 09:10',
+                    status: '未通过',
+                    reviewer: getReviewerName(),
+                    reviewDate: '2026/04/12 16:20',
+                    conclusion: '补充结论章节，并统一提交成果清单命名。',
+                    docName: v2.docName,
+                    snapshotHtml: v2.html
+                }
+            ];
+        }
+
+        function loadState() {
+            reportVersions = readStorage(getStorageKey('versions'), []);
+            reviewRecords = readStorage(getStorageKey('reviews'), []);
+            if (!reportVersions.length) {
+                reportVersions = getDefaultVersions();
+            }
+            if (!reviewRecords.length) {
+                reviewRecords = getDefaultReviewRecords(reportVersions);
+            }
+            activeVersionId = reportVersions[0] ? reportVersions[0].id : '';
+            selectedReviewVersionId = activeVersionId;
+        }
+
+        function saveVersions() {
+            writeStorage(getStorageKey('versions'), reportVersions);
+        }
+
+        function saveReviewRecords() {
+            writeStorage(getStorageKey('reviews'), reviewRecords);
+        }
+
+        function initEditor() {
+            if (editorInitialized) return;
+
+            quill = new Quill('#v2-editor-container', {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        [{ header: [1, 2, 3, 4, false] }],
+                        ['bold', 'italic', 'underline'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        [{ align: [] }],
+                        ['blockquote', 'link'],
+                        ['clean']
+                    ]
+                },
+                placeholder: '请输入报告正文内容...'
+            });
+
+            quill.root.innerHTML = buildTemplateHtml();
+            editorInitialized = true;
+        }
+
+        function getEditorHtml() {
+            initEditor();
+            return quill.root.innerHTML;
+        }
+
+        function setEditorHtml(html) {
+            initEditor();
+            quill.root.innerHTML = html;
+        }
+
+        function findVersion(versionId) {
+            return reportVersions.find(item => item.id === versionId) || null;
+        }
+
+        function getSelectedReviewVersion() {
+            return findVersion(selectedReviewVersionId) || findVersion(activeVersionId) || reportVersions[0] || null;
+        }
+
+        function renderTemplateOutline() {
+            const container = $('#v2-template-outline-list');
+            if (!container) return;
+
+            container.innerHTML = REPORT_TEMPLATE_SECTIONS.map((section, index) => `
+                <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-4 flex items-start gap-4">
+                    <div class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-sm font-bold shrink-0">${index + 1}</div>
+                    <div class="min-w-0">
+                        <div class="text-base font-semibold text-slate-900 dark:text-white">${section}</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">当前模板只保留目录和格式标题，正文内容为空。</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMetaFields() {
+            $('#v2-coordinate-system-info').textContent = getCoordinateText();
+            $('#v2-elevation-system-info').textContent = getElevationText();
+            $('#v2-person-info').textContent = getSubmitterName();
+            $('#v2-generate-project-name').textContent = getProjectName();
+            $('#v2-report-project-name').value = getProjectName();
+            $('#v2-review-submit-time').value = formatDate(new Date(), true);
+            $('#v2-review-submitter').value = getSubmitterName();
+            $('#v2-reviewer-name').value = getReviewerName();
+            $('#v2-review-submit-label').value = getSubmissionLabel(reviewRecords.length);
+            $('#v2-submit-status-chip').textContent = getSubmissionLabel(reviewRecords.length);
+        }
+
+        function renderVersionControls() {
+            const reviewSelect = $('#v2-review-version-select');
+            const docNameInput = $('#v2-report-doc-name');
+
+            reviewSelect.innerHTML = reportVersions.length
+                ? reportVersions.map(version => `<option value="${version.id}" ${version.id === selectedReviewVersionId ? 'selected' : ''}>${version.name} · ${version.updatedAt}</option>`).join('')
+                : '<option value="">请先在报告编辑中保存版本</option>';
+
+            if (!reportVersions.length) {
+                docNameInput.value = '暂无已保存版本';
+                return;
+            }
+
+            const selectedReviewVersion = getSelectedReviewVersion();
+            if (selectedReviewVersion) {
+                selectedReviewVersionId = selectedReviewVersion.id;
+                reviewSelect.value = selectedReviewVersion.id;
+                docNameInput.value = selectedReviewVersion.docName;
+            }
+        }
+
+        function getStatusClass(status) {
+            if (status === '通过') return 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400';
+            if (status === '未通过') return 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400';
+            return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
+        }
+
+        function handleGenerateReport() {
+            const button = $('#v2-generate-report-btn');
+            const status = $('#v2-generate-status');
+            if (!button || !status) return;
+
+            button.disabled = true;
+            button.classList.add('opacity-70', 'cursor-not-allowed');
+            status.classList.remove('hidden');
+
+            setTimeout(() => {
+                button.disabled = false;
+                button.classList.remove('opacity-70', 'cursor-not-allowed');
+                status.classList.add('hidden');
+                if (!editorInitialized) initEditor();
+                switchView('edit-text');
+            }, 1200);
+        }
+
+        function getReviewPageCount() {
+            return Math.max(1, Math.ceil(reviewRecords.length / REVIEW_PAGE_SIZE));
+        }
+
+        function goToReviewPage(page) {
+            currentReviewPage = Math.min(Math.max(1, page), getReviewPageCount());
+            renderReviewResults();
+        }
+
+        function renderReviewResults() {
+            const tbody = $('#v2-review-result-body');
+            const pagination = $('#v2-review-pagination');
+            const pageCount = getReviewPageCount();
+
+            currentReviewPage = Math.min(currentReviewPage, pageCount);
+            $('#v2-review-record-count').textContent = `${reviewRecords.length} 条记录`;
+
+            if (!reviewRecords.length) {
+                tbody.innerHTML = `
+                    <div class="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#161e27]">
+                        暂无校审台账记录。
+                    </div>
+                `;
+                pagination.innerHTML = '';
+                return;
+            }
+
+            const start = (currentReviewPage - 1) * REVIEW_PAGE_SIZE;
+            const pageRecords = reviewRecords.slice(start, start + REVIEW_PAGE_SIZE);
+
+            tbody.innerHTML = pageRecords.map((record, index) => `
+                <div class="px-4 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#161e27]">
+                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+                        <div class="min-w-[132px] flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[11px] font-bold flex items-center justify-center">${start + index + 1}</span>
+                            <span class="text-sm font-semibold text-slate-900 dark:text-white">${record.submitLabel}</span>
+                        </div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 min-w-[132px]">${record.submitDate}</div>
+                        <div class="min-w-[96px]">
+                            <span class="px-2 py-1 rounded-full text-[10px] ${getStatusClass(record.status)}">${record.status}</span>
+                        </div>
+                        <div class="text-xs text-slate-600 dark:text-slate-300 min-w-[96px]">${record.reviewer}</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 min-w-[110px]">${record.reviewDate || '-'}</div>
+                        <a href="#" data-action="view-submitted-doc" data-id="${record.id}" class="text-xs font-medium text-primary hover:underline truncate max-w-[260px]">${record.docName}</a>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-3 mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+                        <div class="text-xs text-slate-500 dark:text-slate-400 leading-5 flex-1 min-w-[220px]">
+                            ${record.conclusion || '待校审处理中'}
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            ${record.status === '待校审'
+                                ? `
+                                    <button data-action="review-reject" data-id="${record.id}" class="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg text-xs font-semibold transition-colors">不通过</button>
+                                    <button data-action="review-pass" data-id="${record.id}" class="px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white rounded-lg text-xs font-semibold transition-colors">通过</button>
+                                `
+                                : '<span class="text-xs text-slate-400 dark:text-slate-500">已处理</span>'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            pagination.innerHTML = `
+                <div class="text-xs text-slate-500 dark:text-slate-400">
+                    第 ${currentReviewPage} / ${pageCount} 页
+                </div>
+                <div class="flex items-center gap-2">
+                    <button
+                        id="v2-review-prev-page"
+                        class="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-semibold ${currentReviewPage === 1 ? 'text-slate-400 dark:text-slate-500 cursor-not-allowed' : 'text-slate-700 dark:text-slate-200 hover:border-primary hover:text-primary transition-colors'}"
+                        ${currentReviewPage === 1 ? 'disabled' : ''}
+                    >
+                        上一页
+                    </button>
+                    <button
+                        id="v2-review-next-page"
+                        class="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-semibold ${currentReviewPage === pageCount ? 'text-slate-400 dark:text-slate-500 cursor-not-allowed' : 'text-slate-700 dark:text-slate-200 hover:border-primary hover:text-primary transition-colors'}"
+                        ${currentReviewPage === pageCount ? 'disabled' : ''}
+                    >
+                        下一页
+                    </button>
+                </div>
+            `;
+
+            const prevButton = $('#v2-review-prev-page');
+            const nextButton = $('#v2-review-next-page');
+            if (prevButton) prevButton.addEventListener('click', () => goToReviewPage(currentReviewPage - 1));
+            if (nextButton) nextButton.addEventListener('click', () => goToReviewPage(currentReviewPage + 1));
+        }
+
+        function openReadonlyDocument(title, meta, html) {
+            $('#v2-readonly-doc-title').textContent = title;
+            $('#v2-readonly-doc-meta').textContent = meta;
+            $('#v2-readonly-doc-content').innerHTML = html;
+            $('#v2-readonly-doc-modal').classList.remove('hidden');
+        }
+
+        function closeReadonlyDocument() {
+            $('#v2-readonly-doc-modal').classList.add('hidden');
+        }
+
+        function updateActiveMenu(view) {
+            $$('.report-tree-item[data-view]').forEach(item => {
+                item.classList.toggle('active', item.getAttribute('data-view') === view);
+            });
+        }
+
+        function switchView(view) {
+            $('#v2-preview-view').classList.add('hidden');
+            $('#v2-editor-view').classList.add('hidden');
+            $('#v2-review-submit-view').classList.add('hidden');
+            $('#v2-review-result-view').classList.add('hidden');
+
+            if (view === 'preview') {
+                $('#v2-preview-view').classList.remove('hidden');
+                $('#v2-view-title').textContent = '生成报告';
+                $('#v2-view-subtitle').textContent = '';
+                $('#v2-person-label').textContent = '报告编制：';
+                $('#v2-person-info').textContent = getSubmitterName();
+                updateActiveMenu('preview');
+                return;
+            }
+
+            if (view === 'edit-text') {
+                $('#v2-editor-view').classList.remove('hidden');
+                $('#v2-view-title').textContent = '报告编辑';
+                $('#v2-view-subtitle').textContent = '';
+                $('#v2-person-label').textContent = '报告编制：';
+                $('#v2-person-info').textContent = getSubmitterName();
+                initEditor();
+                updateActiveMenu('edit-text');
+                return;
+            }
+
+            if (view === 'review-submit') {
+                $('#v2-review-submit-view').classList.remove('hidden');
+                $('#v2-view-title').textContent = '提交校审';
+                $('#v2-view-subtitle').textContent = '';
+                $('#v2-person-label').textContent = '校审人员：';
+                $('#v2-person-info').textContent = getReviewerName();
+                renderMetaFields();
+                renderVersionControls();
+                updateActiveMenu('review-submit');
+                return;
+            }
+
+            $('#v2-review-result-view').classList.remove('hidden');
+            $('#v2-view-title').textContent = '校审结果';
+            $('#v2-view-subtitle').textContent = '';
+            $('#v2-person-label').textContent = '校审人员：';
+            $('#v2-person-info').textContent = getReviewerName();
+            renderReviewResults();
+            updateActiveMenu('review-result');
+        }
+
+function saveCurrentVersion() {
+            const currentVersion = findVersion(activeVersionId);
+            const defaultName = currentVersion ? currentVersion.name : `报告版本 ${reportVersions.length + 1}`;
+            const versionName = window.prompt('请输入版本名称', defaultName);
+            if (versionName === null) return;
+            const finalName = versionName.trim() || defaultName;
+            const now = formatDate(new Date(), true);
+            const html = getEditorHtml();
+
+            if (currentVersion && currentVersion.name === finalName) {
+                currentVersion.html = html;
+                currentVersion.updatedAt = now;
+                currentVersion.docName = createVersionDocName(finalName);
+            } else {
+                const version = {
+                    id: `version-${Date.now()}`,
+                    name: finalName,
+                    html,
+                    createdAt: now,
+                    updatedAt: now,
+                    docName: createVersionDocName(finalName)
+                };
+                reportVersions.unshift(version);
+                activeVersionId = version.id;
+            }
+
+            selectedReviewVersionId = activeVersionId;
+            saveVersions();
+            renderVersionControls();
+            renderMetaFields();
+        }
+
+        function revertToSavedVersion() {
+            if (!reportVersions.length) {
+                alert('暂无可回退的已保存版本。');
+                return;
+            }
+
+            const options = reportVersions
+                .map((version, index) => `${index + 1}. ${version.name} (${version.updatedAt})`)
+                .join('\n');
+
+            const input = window.prompt(`请输入要回退的版本序号：\n${options}`, '1');
+            if (input === null) return;
+
+            const targetIndex = Number(input.trim()) - 1;
+            if (!Number.isInteger(targetIndex) || targetIndex < 0 || targetIndex >= reportVersions.length) {
+                alert('请输入有效的版本序号。');
+                return;
+            }
+
+            const targetVersion = reportVersions[targetIndex];
+            const confirmed = window.confirm(`确认回退到“${targetVersion.name}”吗？当前未保存内容将被覆盖。`);
+            if (!confirmed) return;
+
+            activeVersionId = targetVersion.id;
+            selectedReviewVersionId = targetVersion.id;
+            setEditorHtml(targetVersion.html);
+            renderVersionControls();
+        }
+
+        function resetTemplate() {
+            activeVersionId = '';
+            setEditorHtml(buildTemplateHtml());
+            renderVersionControls();
+        }
+
+        function submitReview() {
+            const version = getSelectedReviewVersion();
+            if (!version) {
+                alert('请先在“报告编辑”中保存报告版本，再提交校审。');
+                switchView('edit-text');
+                return;
+            }
+
+            reviewRecords.unshift({
+                id: `review-${Date.now()}`,
+                submitLabel: getSubmissionLabel(reviewRecords.length),
+                submitDate: formatDate(new Date(), true),
+                status: '待校审',
+                reviewer: getReviewerName(),
+                reviewDate: '',
+                conclusion: '',
+                docName: version.docName,
+                snapshotHtml: version.html
+            });
+
+            currentReviewPage = 1;
+            saveReviewRecords();
+            renderMetaFields();
+            renderReviewResults();
+            switchView('review-result');
+        }
+
+        function updateReviewRecord(recordId, passed) {
+            const record = reviewRecords.find(item => item.id === recordId);
+            if (!record) return;
+            record.status = passed ? '通过' : '未通过';
+            record.reviewDate = formatDate(new Date(), true);
+            record.conclusion = passed ? '校审通过，可进入归档/交付。' : '校审未通过，请根据意见修改后再次提交。';
+            currentReviewPage = Math.min(currentReviewPage, getReviewPageCount());
+            saveReviewRecords();
+            renderReviewResults();
+        }
+
+        function bindEvents() {
+            $$('.report-tree-item[data-view]').forEach(item => {
+                item.addEventListener('click', () => switchView(item.getAttribute('data-view')));
+            });
+
+            const reviewCategory = $('.report-tree-category[data-category="review"]');
+            const reviewSubmenu = $('#v2-review-submenu');
+            reviewCategory.addEventListener('click', () => {
+                const icon = reviewCategory.querySelector('.material-symbols-outlined:last-child');
+                const isHidden = reviewSubmenu.style.display === 'none';
+                reviewSubmenu.style.display = isHidden ? 'block' : 'none';
+                icon.textContent = isHidden ? 'expand_more' : 'chevron_right';
+            });
+
+            $('#v2-save-report-version-btn').addEventListener('click', saveCurrentVersion);
+            $('#v2-revert-report-version-btn').addEventListener('click', revertToSavedVersion);
+            $('#v2-reset-template-btn').addEventListener('click', resetTemplate);
+            $('#v2-generate-report-btn').addEventListener('click', handleGenerateReport);
+
+            $('#v2-review-version-select').addEventListener('change', event => {
+                selectedReviewVersionId = event.target.value;
+                const version = getSelectedReviewVersion();
+                $('#v2-report-doc-name').value = version ? version.docName : '暂无已保存版本';
+            });
+
+            $('#v2-review-view-version-btn').addEventListener('click', () => {
+                const version = getSelectedReviewVersion();
+                if (!version) {
+                    alert('暂无可查看的已保存版本。');
+                    return;
+                }
+                openReadonlyDocument(version.docName, `版本名称：${version.name} · 保存时间：${version.updatedAt}`, version.html);
+            });
+
+            $('#v2-submit-review-btn').addEventListener('click', submitReview);
+            $('#v2-cancel-review-btn').addEventListener('click', () => switchView('edit-text'));
+
+            $('#v2-review-result-body').addEventListener('click', event => {
+                const target = event.target.closest('[data-action]');
+                if (!target) return;
+                event.preventDefault();
+                const action = target.getAttribute('data-action');
+                const recordId = target.getAttribute('data-id');
+
+                if (action === 'review-pass') {
+                    updateReviewRecord(recordId, true);
+                    return;
+                }
+
+                if (action === 'review-reject') {
+                    updateReviewRecord(recordId, false);
+                    return;
+                }
+
+                if (action === 'view-submitted-doc') {
+                    const record = reviewRecords.find(item => item.id === recordId);
+                    if (!record) return;
+                    openReadonlyDocument(record.docName, `${record.submitLabel} · 提交时间：${record.submitDate}`, record.snapshotHtml);
+                }
+            });
+
+            $('#v2-close-readonly-doc-btn').addEventListener('click', closeReadonlyDocument);
+            $('#v2-readonly-doc-modal').addEventListener('click', event => {
+                if (event.target === $('#v2-readonly-doc-modal')) {
+                    closeReadonlyDocument();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            currentProject = typeof findCurrentProject === 'function' ? findCurrentProject() : null;
+            loadState();
+            renderTemplateOutline();
+            renderMetaFields();
+            renderVersionControls();
+            renderReviewResults();
+            bindEvents();
+            switchView('preview');
+        });
+    }
+</script>
 </body>
 </html>
