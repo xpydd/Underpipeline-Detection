@@ -12,17 +12,90 @@ class PipelineDataManager {
         this.importModalMode = 'import';
         this.importRows = { update: [], new: [] };
         this.pendingDeleteIds = [];
+        this.typeMeta = {
+            electricity: {
+                label: '电力',
+                prefix: 'E',
+                owner: '电力公司',
+                features: ['一般管线点', '转折点', '分支点', '三分支', '四分支', '五分支', '多分支', '预留口', '非普查', '入户', '井边点', '井内点', '上杆', '拐点', '弯头', '出地', '终止点'],
+                attachments: ['', '电缆井', '电缆沟', '工作井', '箱变', '标识桩']
+            },
+            drainage: {
+                label: '排水',
+                prefix: 'D',
+                owner: '市政公司',
+                features: ['一般管线点', '三通', '四通', '五通', '六通', '七通', '八通', '九通', '多通', '户出', '入户', '起始点', '终止点', '进水口', '出水口', '预留口', '非普查', '出地', '变径', '拐点', '井边点', '井内点', '沟边点', '连接暗井', '转折点'],
+                attachments: ['', '检查井', '雨水井', '污水井', '跌水井', '井盖']
+            },
+            gas: {
+                label: '燃气',
+                prefix: 'G',
+                owner: '燃气公司',
+                features: ['一般管线点', '变径', '出地', '盖堵', '弯头', '拐点', '三通', '四通', '五通', '多通', '预留口', '非普查', '入户', '井边点', '井内点', '起始点', '终止点', '变深'],
+                attachments: ['', '阀门井', '阀门', '凝水井', '调压箱', '标识桩']
+            },
+            industrial: {
+                label: '工业',
+                prefix: 'I',
+                owner: '工业园区',
+                features: ['一般管线点', '变径', '出地', '盖堵', '弯头', '拐点', '三通', '四通', '五通', '多通', '预留口', '非普查', '入户', '井边点', '井内点', '起始点', '终止点', '变深'],
+                attachments: ['', '检查井', '阀门井', '仪表井', '支架', '标识桩']
+            },
+            telecom: {
+                label: '通信',
+                prefix: 'T',
+                owner: '通信公司',
+                features: ['一般管线点', '转折点', '分支点', '三分支', '四分支', '五分支', '多分支', '预留口', '非普查', '入户', '井边点', '井内点', '上杆', '拐点', '弯头', '出地', '终止点'],
+                attachments: ['', '人孔井', '手孔井', '交接箱', '分纤箱', '标识桩']
+            },
+            water: {
+                label: '给水',
+                prefix: 'W',
+                owner: '自来水公司',
+                features: ['一般管线点', '变径', '出地', '盖堵', '弯头', '拐点', '三通', '四通', '五通', '多通', '预留口', '非普查', '入户', '井边点', '井内点', '起始点', '终止点', '变深'],
+                attachments: ['', '阀门井', '阀门', '水表井', '消防栓', '检查井']
+            },
+            heat: {
+                label: '热力',
+                prefix: 'H',
+                owner: '热力公司',
+                features: ['一般管线点', '变径', '出地', '盖堵', '弯头', '拐点', '三通', '四通', '五通', '多通', '预留口', '非普查', '入户', '井边点', '井内点', '起始点', '终止点', '变深'],
+                attachments: ['', '阀门井', '补偿器井', '放气井', '检查井', '固定支架']
+            },
+            other: {
+                label: '其他',
+                prefix: 'O',
+                owner: '综合管养单位',
+                features: ['一般管线点', '变径', '出地', '盖堵', '弯头', '拐点', '三通', '四通', '五通', '多通', '预留口', '非普查', '入户', '井边点', '井内点', '起始点', '终止点', '变深'],
+                attachments: ['', '检查井', '阀门井', '标识桩', '接线箱', '其他']
+            }
+        };
         this.typeOptions = ['water', 'gas', 'drainage', 'electricity', 'heat', 'telecom', 'industrial', 'other'];
+        this.pointCategoryOrder = ['electricity', 'drainage', 'gas', 'industrial', 'telecom', 'water', 'heat', 'other'];
+        this.staticSelectOptions = {
+            material: ['PE', 'PVC', '钢', '铸铁', '混凝土'],
+            casingMaterial: ['', '钢', 'PE', 'PVC', '混凝土'],
+            method: ['直埋', '管沟', '架空']
+        };
+        this.featureAliases = {
+            管点: '一般管线点',
+            折点: '转折点'
+        };
+        this.attachmentAliases = {
+            井盖: '检查井',
+            阀门: '阀门井'
+        };
         this.columnDefs = [
             { key: 'pointNo', bg: '' },
             { key: 'connectNo', bg: '' },
             { key: 'length', bg: '' },
-            { key: 'feature', bg: '', type: 'select', options: ['管点', '折点', '三通', '弯头'] },
-            { key: 'attachment', bg: '', type: 'select', options: ['', '井盖', '阀门', '标识桩'] },
-            { key: 'material', bg: '', type: 'select', options: ['PE', 'PVC', '钢', '铸铁', '混凝土'] },
+            { key: 'pointCategory', bg: '', type: 'select' },
+            { key: 'feature', bg: '', type: 'select' },
+            { key: 'attachment', bg: '', type: 'select' },
+            { key: 'material', bg: '', type: 'select', options: this.staticSelectOptions.material },
             { key: 'diameter', bg: '' },
             { key: 'casing', bg: '' },
-            { key: 'casingMaterial', bg: '', type: 'select', options: ['', '钢', 'PE', 'PVC', '混凝土'] },
+            { key: 'casingMaterial', bg: '', type: 'select', options: this.staticSelectOptions.casingMaterial },
             { key: 'pressure', bg: '' },
             { key: 'flow', bg: '' },
             { key: 'holes', bg: '' },
@@ -33,21 +106,22 @@ class PipelineDataManager {
             { key: 'bottomElev', bg: 'bg-slate-50 dark:bg-slate-800' },
             { key: 'startDepth', bg: 'bg-slate-50 dark:bg-slate-800' },
             { key: 'endDepth', bg: 'bg-slate-50 dark:bg-slate-800' },
-            { key: 'method', bg: '', type: 'select', options: ['直埋', '管沟', '架空'] },
+            { key: 'method', bg: '', type: 'select', options: this.staticSelectOptions.method },
             { key: 'year', bg: '' },
             { key: 'owner', bg: '' },
             { key: 'note', bg: '' }
         ];
         this.importColumnDefs = [
             { key: 'pointNo', type: 'text', classKey: 'pointNoClass' },
-            { key: 'connectNo', type: 'text' },
+            { key: 'connectNo', type: 'text', classKey: 'connectNoClass' },
             { key: 'length', type: 'text' },
-            { key: 'feature', type: 'select', options: ['管点', '折点', '三通', '弯头'] },
-            { key: 'attachment', type: 'select', options: ['', '井盖', '阀门', '标识桩'] },
-            { key: 'material', type: 'select', options: ['PE', 'PVC', '钢', '铸铁', '混凝土'] },
+            { key: 'pointCategory', type: 'select' },
+            { key: 'feature', type: 'select' },
+            { key: 'attachment', type: 'select' },
+            { key: 'material', type: 'select', options: this.staticSelectOptions.material },
             { key: 'diameter', type: 'text' },
             { key: 'casing', type: 'text' },
-            { key: 'casingMaterial', type: 'select', options: ['', '钢', 'PE', 'PVC', '混凝土'] },
+            { key: 'casingMaterial', type: 'select', options: this.staticSelectOptions.casingMaterial },
             { key: 'pressure', type: 'text' },
             { key: 'flow', type: 'text' },
             { key: 'holes', type: 'text', classKey: 'holesClass' },
@@ -58,7 +132,7 @@ class PipelineDataManager {
             { key: 'bottomElev', type: 'text' },
             { key: 'startDepth', type: 'text' },
             { key: 'endDepth', type: 'text' },
-            { key: 'method', type: 'select', options: ['直埋', '管沟', '架空'] },
+            { key: 'method', type: 'select', options: this.staticSelectOptions.method },
             { key: 'year', type: 'text' },
             { key: 'owner', type: 'text' }
         ];
@@ -73,12 +147,92 @@ class PipelineDataManager {
         this.updateTypeButtons();
     }
 
+    getCurrentDefaultType() {
+        return this.currentType === 'all' ? 'drainage' : this.currentType;
+    }
+
+    getTypeLabel(typeKey) {
+        return this.typeMeta[typeKey]?.label || this.typeMeta[this.getCurrentDefaultType()].label;
+    }
+
+    getPointCategoryOptions() {
+        return this.pointCategoryOrder.map(typeKey => this.typeMeta[typeKey].label);
+    }
+
+    inferTypeFromPointNo(pointNo, fallback = null) {
+        const normalizedPointNo = String(pointNo || '').trim().toUpperCase();
+        if (!normalizedPointNo) return this.resolveTypeKey(fallback);
+
+        const matchedType = Object.entries(this.typeMeta).find(([, meta]) => normalizedPointNo.startsWith(meta.prefix.toUpperCase()));
+        if (matchedType) return matchedType[0];
+        return this.resolveTypeKey(fallback);
+    }
+
+    resolveTypeKey(pointCategoryOrType, fallback = null) {
+        if (pointCategoryOrType && this.typeMeta[pointCategoryOrType]) return pointCategoryOrType;
+        const byLabel = Object.entries(this.typeMeta).find(([, meta]) => meta.label === pointCategoryOrType);
+        if (byLabel) return byLabel[0];
+        return this.typeMeta[fallback] ? fallback : this.getCurrentDefaultType();
+    }
+
+    getFeatureOptions(typeKey) {
+        return this.typeMeta[this.resolveTypeKey(typeKey)].features;
+    }
+
+    getAttachmentOptions(typeKey) {
+        return this.typeMeta[this.resolveTypeKey(typeKey)].attachments;
+    }
+
+    getFieldOptions(fieldKey, rowOrType = null) {
+        const typeKey = typeof rowOrType === 'string'
+            ? this.resolveTypeKey(rowOrType)
+            : this.resolveTypeKey(rowOrType?.pointCategory || rowOrType?.type, rowOrType?.type);
+        if (fieldKey === 'pointCategory') return this.getPointCategoryOptions();
+        if (fieldKey === 'feature') return this.getFeatureOptions(typeKey);
+        if (fieldKey === 'attachment') return this.getAttachmentOptions(typeKey);
+        return this.staticSelectOptions[fieldKey] || [];
+    }
+
+    pickRandom(options) {
+        return options[Math.floor(Math.random() * options.length)];
+    }
+
+    normalizeChoice(value, options, aliases = {}, fallback = '') {
+        if (!options.length) return value || fallback;
+        if (options.includes(value)) return value;
+        const aliasValue = aliases[value];
+        if (aliasValue && options.includes(aliasValue)) return aliasValue;
+        return fallback;
+    }
+
+    applyPointCategoryToRow(row, typeKey, { preserveFeature = true, preserveAttachment = true } = {}) {
+        const inferredType = this.inferTypeFromPointNo(row.pointNo, typeKey || row.type);
+        const resolvedType = this.resolveTypeKey(inferredType, row.type);
+        const featureOptions = this.getFeatureOptions(resolvedType);
+        const attachmentOptions = this.getAttachmentOptions(resolvedType);
+        row.type = resolvedType;
+        row.pointCategory = this.getTypeLabel(resolvedType);
+        row.feature = preserveFeature
+            ? this.normalizeChoice(row.feature, featureOptions, this.featureAliases, featureOptions[0] || '')
+            : (featureOptions[0] || '');
+        row.attachment = preserveAttachment
+            ? this.normalizeChoice(row.attachment, attachmentOptions, this.attachmentAliases, attachmentOptions[0] || '')
+            : (attachmentOptions[0] || '');
+        if (!row.owner?.trim()) row.owner = this.typeMeta[resolvedType].owner;
+        return row;
+    }
+
+    normalizeLedgerRow(row) {
+        const normalized = { ...row };
+        return this.applyPointCategoryToRow(normalized, this.inferTypeFromPointNo(normalized.pointNo, normalized.pointCategory || normalized.type));
+    }
+
     loadData() {
         try {
             const raw = localStorage.getItem(this.storageKey);
             if (raw) {
                 const parsed = JSON.parse(raw);
-                if (Array.isArray(parsed) && parsed.length) return parsed;
+                if (Array.isArray(parsed) && parsed.length) return parsed.map(row => this.normalizeLedgerRow(row));
             }
         } catch (error) {
             console.warn('load data failed', error);
@@ -93,50 +247,28 @@ class PipelineDataManager {
     }
 
     generateMockData() {
-        const featureOptions = ['管点', '折点', '三通', '弯头'];
-        const attachmentOptions = ['', '井盖', '阀门', '标识桩'];
-        const materialOptions = ['PE', 'PVC', '钢', '铸铁', '混凝土'];
-        const casingMaterials = ['', '钢', 'PE', 'PVC', '混凝土'];
-        const ownerMap = {
-            water: '自来水公司',
-            gas: '燃气公司',
-            drainage: '市政公司',
-            electricity: '电力公司',
-            heat: '热力公司',
-            telecom: '通信公司',
-            industrial: '工业园区',
-            other: '综合管养单位'
-        };
-        const prefixMap = {
-            water: 'W',
-            gas: 'G',
-            drainage: 'D',
-            electricity: 'E',
-            heat: 'H',
-            telecom: 'T',
-            industrial: 'I',
-            other: 'O'
-        };
         const data = [];
 
         for (let i = 1; i <= 300; i++) {
             const type = this.typeOptions[(i - 1) % this.typeOptions.length];
-            const prefix = prefixMap[type];
+            const meta = this.typeMeta[type];
+            const prefix = meta.prefix;
             const pointNum = i.toString().padStart(4, '0');
             const connectNum = (i + 1).toString().padStart(4, '0');
             const casing = Math.random() > 0.7 ? `DN${[200, 300, 400, 500][Math.floor(Math.random() * 4)]}` : '';
-            data.push({
+            data.push(this.applyPointCategoryToRow({
                 id: `LEDGER-${pointNum}`,
                 type,
+                pointCategory: meta.label,
                 pointNo: `${prefix}${pointNum}`,
                 connectNo: `${prefix}${connectNum}`,
                 length: (Math.random() * 50 + 10).toFixed(2),
-                feature: featureOptions[Math.floor(Math.random() * featureOptions.length)],
-                attachment: attachmentOptions[Math.floor(Math.random() * attachmentOptions.length)],
-                material: materialOptions[Math.floor(Math.random() * materialOptions.length)],
+                feature: this.pickRandom(this.getFeatureOptions(type)),
+                attachment: this.pickRandom(this.getAttachmentOptions(type)),
+                material: this.pickRandom(this.staticSelectOptions.material),
                 diameter: `DN${[100, 150, 200, 300, 400][Math.floor(Math.random() * 5)]}`,
                 casing,
-                casingMaterial: casing ? casingMaterials[1 + Math.floor(Math.random() * 4)] : '',
+                casingMaterial: casing ? this.pickRandom(this.staticSelectOptions.casingMaterial.slice(1)) : '',
                 pressure: Math.random() > 0.5 ? `${(Math.random() * 1.2 + 0.2).toFixed(2)}MPa` : `${[220, 380, 10][Math.floor(Math.random() * 3)]}V`,
                 flow: Math.random() > 0.5 ? '双向' : '单向',
                 holes: Math.random() > 0.75 ? `${4 + Math.floor(Math.random() * 8)}/${2 + Math.floor(Math.random() * 6)}` : '',
@@ -147,11 +279,11 @@ class PipelineDataManager {
                 bottomElev: (50 + Math.random() * 3).toFixed(2),
                 startDepth: (0.6 + Math.random() * 1.2).toFixed(2),
                 endDepth: (0.6 + Math.random() * 1.2).toFixed(2),
-                method: ['直埋', '管沟', '架空'][Math.floor(Math.random() * 3)],
+                method: this.pickRandom(this.staticSelectOptions.method),
                 year: `${2014 + Math.floor(Math.random() * 12)}`,
-                owner: ownerMap[type],
+                owner: meta.owner,
                 note: ['雷达校核', '人工补录', '综合修测', '历史成果'][Math.floor(Math.random() * 4)]
-            });
+            }, type));
         }
 
         return data;
@@ -195,7 +327,7 @@ class PipelineDataManager {
             const cells = this.columnDefs.map(column => {
                 const value = row[column.key] ?? '';
                 const className = column.bg ? ` class="${column.bg}"` : '';
-                if (isEditingRow) return `<td${className}>${this.renderInlineEditor(column, value)}</td>`;
+                if (isEditingRow) return `<td${className}>${this.renderInlineEditor(column, value, row)}</td>`;
                 return `<td${className}>${this.escapeHtml(value)}</td>`;
             }).join('');
 
@@ -345,9 +477,10 @@ class PipelineDataManager {
         return '';
     }
 
-    renderInlineEditor(column, value) {
+    renderInlineEditor(column, value, row) {
         if (column.type === 'select') {
-            return `<select class="table-inline-select" data-field="${column.key}">${column.options.map(option => `<option value="${this.escapeHtml(option)}" ${option === value ? 'selected' : ''}>${this.escapeHtml(option)}</option>`).join('')}</select>`;
+            const options = column.options || this.getFieldOptions(column.key, row);
+            return `<select class="table-inline-select" data-field="${column.key}">${options.map(option => `<option value="${this.escapeHtml(option)}" ${option === value ? 'selected' : ''}>${this.escapeHtml(option || '请选择')}</option>`).join('')}</select>`;
         }
         return `<input class="table-inline-input" data-field="${column.key}" value="${this.escapeHtml(value)}">`;
     }
@@ -509,6 +642,19 @@ class PipelineDataManager {
             this.renderTable();
             return;
         }
+        if (event.target.matches('.table-inline-select[data-field="pointCategory"]')) {
+            this.syncEditRowCascade(event.target.closest('tr'), this.resolveTypeKey(event.target.value));
+            return;
+        }
+        if (event.target.matches('.add-record-select[data-add-field="pointCategory"]')) {
+            const card = event.target.closest('.add-record-card');
+            const cardIndex = Number(card?.dataset.cardIndex);
+            this.syncAddRecordDrafts();
+            const row = this.importRows.new[cardIndex];
+            if (row) this.applyPointCategoryToRow(row, this.resolveTypeKey(event.target.value, row.type));
+            this.renderAddRecordCards();
+            return;
+        }
         if (event.target.matches('.row-delete-checkbox')) {
             const id = event.target.value;
             if (event.target.checked) this.selectedDeleteIds.add(id);
@@ -526,6 +672,20 @@ class PipelineDataManager {
         }
     }
 
+    syncEditRowCascade(rowElement, typeKey) {
+        if (!rowElement) return;
+        const featureSelect = rowElement.querySelector('.table-inline-select[data-field="feature"]');
+        const attachmentSelect = rowElement.querySelector('.table-inline-select[data-field="attachment"]');
+        const updateSelectOptions = (select, options) => {
+            if (!select) return;
+            const currentValue = select.value;
+            const nextValue = options.includes(currentValue) ? currentValue : (options[0] || '');
+            select.innerHTML = options.map(option => `<option value="${this.escapeHtml(option)}" ${option === nextValue ? 'selected' : ''}>${this.escapeHtml(option || '请选择')}</option>`).join('');
+        };
+        updateSelectOptions(featureSelect, this.getFeatureOptions(typeKey));
+        updateSelectOptions(attachmentSelect, this.getAttachmentOptions(typeKey));
+    }
+
     handleAddRecordCardInput(event) {
         if (event.target.matches('.point-picker-input')) {
             const card = event.target.closest('.add-record-card');
@@ -536,6 +696,17 @@ class PipelineDataManager {
             dropdown.innerHTML = this.renderPointOptions(query, event.target.dataset.selectedValue || '');
             dropdown.classList.remove('hidden');
         }
+    }
+
+    syncAddRecordPointCategory(card, pointNo) {
+        const cardIndex = Number(card?.dataset.cardIndex);
+        if (Number.isNaN(cardIndex)) return;
+        this.syncAddRecordDrafts();
+        const row = this.importRows.new[cardIndex];
+        if (!row) return;
+        row.pointNo = pointNo;
+        this.applyPointCategoryToRow(row, this.inferTypeFromPointNo(pointNo, row.type));
+        this.renderAddRecordCards();
     }
 
     updateTypeButtons() {
@@ -605,6 +776,7 @@ class PipelineDataManager {
         rowElement.querySelectorAll('[data-field]').forEach(input => {
             updated[input.dataset.field] = input.value.trim();
         });
+        this.applyPointCategoryToRow(updated, this.resolveTypeKey(updated.pointCategory, current.type));
 
         const duplicate = this.data.find(item => item.id !== updated.id && item.pointNo.toLowerCase() === updated.pointNo.toLowerCase());
         if (!updated.pointNo) {
@@ -714,11 +886,46 @@ class PipelineDataManager {
     }
 
     createBlankImportRow(seq) {
-        return this.createImportRow({ seq, pointNo: '', connectNo: '', length: '', feature: '管点', attachment: '', material: 'PE', diameter: '', casing: '', casingMaterial: '', pressure: '', flow: '', holes: '', x: '', y: '', groundElev: '', topElev: '', bottomElev: '', startDepth: '', endDepth: '', method: '直埋', year: `${new Date().getFullYear()}`, owner: '', checked: true }, this.currentType === 'all' ? 'drainage' : this.currentType);
+        return this.createImportRow({ seq, pointNo: '', connectNo: '', length: '', material: 'PE', diameter: '', casing: '', casingMaterial: '', pressure: '', flow: '', holes: '', x: '', y: '', groundElev: '', topElev: '', bottomElev: '', startDepth: '', endDepth: '', method: '直埋', year: `${new Date().getFullYear()}`, owner: '', note: '', checked: true }, this.getCurrentDefaultType());
     }
 
     createImportRow(values, type) {
-        return { seq: values.seq, type, pointNo: values.pointNo || '', connectNo: values.connectNo || '', length: values.length || '', feature: values.feature || '管点', attachment: values.attachment || '', material: values.material || 'PE', diameter: values.diameter || '', casing: values.casing || '', casingMaterial: values.casingMaterial || '', pressure: values.pressure || '', flow: values.flow || '', holes: values.holes || '', x: values.x || '', y: values.y || '', groundElev: values.groundElev || '', topElev: values.topElev || '', bottomElev: values.bottomElev || '', startDepth: values.startDepth || '', endDepth: values.endDepth || '', method: values.method || '直埋', year: values.year || '', owner: values.owner || '', checked: values.checked !== false };
+        const typeKey = this.resolveTypeKey(values.pointCategory || type, type);
+        return this.applyPointCategoryToRow({
+            seq: values.seq,
+            type: typeKey,
+            pointCategory: values.pointCategory || this.getTypeLabel(typeKey),
+            pointNo: values.pointNo || '',
+            connectNo: values.connectNo || '',
+            length: values.length || '',
+            feature: values.feature || '',
+            attachment: values.attachment || '',
+            material: values.material || 'PE',
+            diameter: values.diameter || '',
+            casing: values.casing || '',
+            casingMaterial: values.casingMaterial || '',
+            pressure: values.pressure || '',
+            flow: values.flow || '',
+            holes: values.holes || '',
+            x: values.x || '',
+            y: values.y || '',
+            groundElev: values.groundElev || '',
+            topElev: values.topElev || '',
+            bottomElev: values.bottomElev || '',
+            startDepth: values.startDepth || '',
+            endDepth: values.endDepth || '',
+            method: values.method || '直埋',
+            year: values.year || '',
+            owner: values.owner || '',
+            note: values.note || '',
+            checked: values.checked !== false,
+            pointNoClass: values.pointNoClass || '',
+            connectNoClass: values.connectNoClass || '',
+            holesClass: values.holesClass || '',
+            xClass: values.xClass || '',
+            yClass: values.yClass || '',
+            groundClass: values.groundClass || ''
+        }, typeKey);
     }
 
     renderImportModalTables() {
@@ -752,7 +959,7 @@ class PipelineDataManager {
     renderImportRows(tbodyId, rows) {
         const tbody = document.getElementById(tbodyId);
         if (!tbody) return;
-        tbody.innerHTML = rows.map((row, index) => `<tr data-row-index="${index}"><td>${this.escapeHtml(row.seq)}</td>${this.importColumnDefs.map(column => `<td>${this.renderEditableCell(row[column.key], row[column.classKey] || '', column.type, column.options || [])}</td>`).join('')}<td class="import-sticky-use"><input type="checkbox" class="h-4 w-4 accent-primary import-row-check" ${row.checked ? 'checked' : ''}></td></tr>`).join('');
+        tbody.innerHTML = rows.map((row, index) => `<tr data-row-index="${index}"><td>${this.escapeHtml(row.seq)}</td>${this.importColumnDefs.map(column => `<td>${this.renderEditableCell(column.key, row[column.key], row[column.classKey] || '', column.type, column.options || this.getFieldOptions(column.key, row))}</td>`).join('')}<td class="import-sticky-use"><input type="checkbox" class="h-4 w-4 accent-primary import-row-check" ${row.checked ? 'checked' : ''}></td></tr>`).join('');
     }
 
     renderAddRecordCards() {
@@ -773,14 +980,15 @@ class PipelineDataManager {
                     <section class="add-record-section">
                         <div class="add-record-section-head">
                             <div class="add-record-section-title">点位信息</div>
-                            <div class="add-record-section-note">优先选择点号，再补充特征与材质</div>
+                            <div class="add-record-section-note">先定管点分类，再对特征点和附属物做级联选择</div>
                         </div>
                         <div class="add-record-grid">
                             ${this.renderAddCardPointPicker('pointNo', '管线点号', row.pointNo, pointOptions, row.pointNoClass)}
                             ${this.renderAddCardPointPicker('connectNo', '连接点号', row.connectNo, pointOptions, row.connectNoClass)}
                             ${this.renderAddCardField('length', '连接点长度(m)', row.length)}
-                            ${this.renderAddCardSelect('feature', '特征', row.feature, ['管点', '折点', '三通', '弯头'])}
-                            ${this.renderAddCardSelect('attachment', '附属物', row.attachment, ['', '井盖', '阀门', '标识桩'])}
+                            ${this.renderAddCardSelect('pointCategory', '管点分类', row.pointCategory, this.getPointCategoryOptions())}
+                            ${this.renderAddCardSelect('feature', '特征点', row.feature, this.getFeatureOptions(row.type))}
+                            ${this.renderAddCardSelect('attachment', '附属物', row.attachment, this.getAttachmentOptions(row.type))}
                             ${this.renderAddCardSelect('material', '材质', row.material, ['PE', 'PVC', '钢', '铸铁', '混凝土'])}
                         </div>
                     </section>
@@ -888,9 +1096,9 @@ class PipelineDataManager {
         return Array.from(new Set(rows.map(row => row.pointNo))).sort();
     }
 
-    renderEditableCell(value = '', extraClass = '', type = 'text', options = []) {
+    renderEditableCell(fieldKey, value = '', extraClass = '', type = 'text', options = []) {
         const cls = extraClass ? ` ${extraClass}` : '';
-        return `<span class="editable-cell${cls}" data-value="${this.escapeHtml(value)}" data-type="${type}" data-options="${this.escapeHtml(JSON.stringify(options))}">${this.escapeHtml(value)}</span>`;
+        return `<span class="editable-cell${cls}" data-field="${fieldKey}" data-value="${this.escapeHtml(value)}" data-type="${type}" data-options="${this.escapeHtml(JSON.stringify(options))}">${this.escapeHtml(value)}</span>`;
     }
 
     handleCellEdit(event) {
@@ -936,6 +1144,9 @@ class PipelineDataManager {
         cell.classList.remove('editing');
         cell.dataset.value = value;
         cell.textContent = value;
+        if (['pointCategory', 'pointNo'].includes(cell.dataset.field)) {
+            this.syncImportRowCategory(cell.closest('tr'));
+        }
     }
 
     collectImportRows(tbodyId, defaultType) {
@@ -946,7 +1157,7 @@ class PipelineDataManager {
                 values[column.key] = cells[columnIndex]?.dataset.value?.trim?.() ?? '';
                 if (column.classKey) values[column.classKey] = cells[columnIndex]?.className.replace('editable-cell', '').replace('editing', '').trim() || '';
             });
-            return { seq: index + 1, type: defaultType, checked: row.querySelector('.import-row-check')?.checked ?? false, ...values };
+            return this.createImportRow({ seq: index + 1, checked: row.querySelector('.import-row-check')?.checked ?? false, ...values }, this.resolveTypeKey(values.pointCategory, defaultType));
         });
     }
 
@@ -956,13 +1167,22 @@ class PipelineDataManager {
             card.querySelectorAll('[data-add-field]').forEach(field => {
                 row[field.dataset.addField] = field.value.trim();
             });
-            return row;
+            return this.createImportRow(row, this.resolveTypeKey(row.pointCategory, defaultType));
         });
+    }
+
+    syncImportRowCategory(rowElement) {
+        const tbody = rowElement?.closest('tbody');
+        if (!tbody) return;
+        const rows = this.collectImportRows(tbody.id, this.getCurrentDefaultType());
+        if (tbody.id === 'import-update-tbody') this.importRows.update = rows;
+        if (tbody.id === 'import-new-tbody') this.importRows.new = rows;
+        this.renderImportRows(tbody.id, rows);
     }
 
     syncAddRecordDrafts() {
         if (this.importModalMode !== 'add') return;
-        const defaultType = this.currentType === 'all' ? 'drainage' : this.currentType;
+        const defaultType = this.getCurrentDefaultType();
         const cards = document.querySelectorAll('#add-record-card-list .add-record-card');
         if (!cards.length) return;
         this.importRows.new = this.collectAddRecordCards(defaultType);
@@ -995,10 +1215,13 @@ class PipelineDataManager {
         input.value = value;
         input.dataset.selectedValue = value;
         dropdown.classList.add('hidden');
+        if (input.dataset.field === 'pointNo') {
+            this.syncAddRecordPointCategory(button.closest('.add-record-card'), value);
+        }
     }
 
     confirmImportModal() {
-        const defaultType = this.currentType === 'all' ? 'drainage' : this.currentType;
+        const defaultType = this.getCurrentDefaultType();
         const updateRows = this.collectImportRows('import-update-tbody', defaultType);
         const newRows = this.importModalMode === 'add'
             ? this.collectAddRecordCards(defaultType)
@@ -1078,9 +1301,10 @@ class PipelineDataManager {
     }
 
     importRowToLedgerRow(row, forceId = null, forceType = null) {
-        return {
+        const normalizedRow = this.applyPointCategoryToRow({
             id: forceId || `LEDGER-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
-            type: forceType || row.type || (this.currentType === 'all' ? 'drainage' : this.currentType),
+            type: forceType || row.type || this.getCurrentDefaultType(),
+            pointCategory: row.pointCategory?.trim() || '',
             pointNo: row.pointNo.trim(),
             connectNo: row.connectNo.trim(),
             length: row.length.trim(),
@@ -1103,8 +1327,9 @@ class PipelineDataManager {
             method: row.method.trim(),
             year: row.year.trim(),
             owner: row.owner.trim(),
-            note: '手动维护'
-        };
+            note: row.note?.trim() || '手动维护'
+        }, this.inferTypeFromPointNo(row.pointNo, forceType || row.type || row.pointCategory));
+        return normalizedRow;
     }
 
     showImportMessage(message) {
@@ -1120,7 +1345,7 @@ class PipelineDataManager {
 
         window.setTimeout(() => {
             const rows = this.getFilteredData();
-            const html = `<table border="1"><thead><tr><th>管点编号</th><th>连接点编号</th><th>连接点长度(m)</th><th>特征</th><th>附属特征</th><th>材质</th><th>管径或断面</th><th>套管尺寸</th><th>套管材质</th><th>压力(电压)</th><th>流向(根数)</th><th>总孔数/已用孔数</th><th>X</th><th>Y</th><th>地面高程</th><th>管顶</th><th>管底</th><th>起点埋深</th><th>终点埋深</th><th>埋设方式</th><th>年代</th><th>权属单位</th><th>备注</th></tr></thead><tbody>${rows.map(row => `<tr><td>${this.escapeHtml(row.pointNo)}</td><td>${this.escapeHtml(row.connectNo)}</td><td>${this.escapeHtml(row.length)}</td><td>${this.escapeHtml(row.feature)}</td><td>${this.escapeHtml(row.attachment)}</td><td>${this.escapeHtml(row.material)}</td><td>${this.escapeHtml(row.diameter)}</td><td>${this.escapeHtml(row.casing)}</td><td>${this.escapeHtml(row.casingMaterial)}</td><td>${this.escapeHtml(row.pressure)}</td><td>${this.escapeHtml(row.flow)}</td><td>${this.escapeHtml(row.holes)}</td><td>${this.escapeHtml(row.x)}</td><td>${this.escapeHtml(row.y)}</td><td>${this.escapeHtml(row.groundElev)}</td><td>${this.escapeHtml(row.topElev)}</td><td>${this.escapeHtml(row.bottomElev)}</td><td>${this.escapeHtml(row.startDepth)}</td><td>${this.escapeHtml(row.endDepth)}</td><td>${this.escapeHtml(row.method)}</td><td>${this.escapeHtml(row.year)}</td><td>${this.escapeHtml(row.owner)}</td><td>${this.escapeHtml(row.note)}</td></tr>`).join('')}</tbody></table>`;
+            const html = `<table border="1"><thead><tr><th>管点编号</th><th>连接点编号</th><th>连接点长度(m)</th><th>管点分类</th><th>特征点</th><th>附属物</th><th>材质</th><th>管径或断面</th><th>套管尺寸</th><th>套管材质</th><th>压力(电压)</th><th>流向(根数)</th><th>总孔数/已用孔数</th><th>X</th><th>Y</th><th>地面高程</th><th>管顶</th><th>管底</th><th>起点埋深</th><th>终点埋深</th><th>埋设方式</th><th>年代</th><th>权属单位</th><th>备注</th></tr></thead><tbody>${rows.map(row => `<tr><td>${this.escapeHtml(row.pointNo)}</td><td>${this.escapeHtml(row.connectNo)}</td><td>${this.escapeHtml(row.length)}</td><td>${this.escapeHtml(row.pointCategory)}</td><td>${this.escapeHtml(row.feature)}</td><td>${this.escapeHtml(row.attachment)}</td><td>${this.escapeHtml(row.material)}</td><td>${this.escapeHtml(row.diameter)}</td><td>${this.escapeHtml(row.casing)}</td><td>${this.escapeHtml(row.casingMaterial)}</td><td>${this.escapeHtml(row.pressure)}</td><td>${this.escapeHtml(row.flow)}</td><td>${this.escapeHtml(row.holes)}</td><td>${this.escapeHtml(row.x)}</td><td>${this.escapeHtml(row.y)}</td><td>${this.escapeHtml(row.groundElev)}</td><td>${this.escapeHtml(row.topElev)}</td><td>${this.escapeHtml(row.bottomElev)}</td><td>${this.escapeHtml(row.startDepth)}</td><td>${this.escapeHtml(row.endDepth)}</td><td>${this.escapeHtml(row.method)}</td><td>${this.escapeHtml(row.year)}</td><td>${this.escapeHtml(row.owner)}</td><td>${this.escapeHtml(row.note)}</td></tr>`).join('')}</tbody></table>`;
             const blob = new Blob([`\ufeff${html}`], { type: 'application/vnd.ms-excel;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
