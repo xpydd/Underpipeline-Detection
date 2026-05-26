@@ -1,0 +1,461 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e8]: settings_input_component
+          - heading "管网多模态全过程智慧探测系统" [level=1] [ref=e9]
+        - navigation [ref=e10]:
+          - link "account_tree 项目管理" [ref=e11] [cursor=pointer]:
+            - /url: project-management.html?id=PROJ-2024-001
+            - generic [ref=e12]: account_tree
+            - generic [ref=e13]: 项目管理
+          - link "corporate_fare 业主管理" [ref=e14] [cursor=pointer]:
+            - /url: owner-management.html
+            - generic [ref=e15]: corporate_fare
+            - generic [ref=e16]: 业主管理
+          - link "library_books 知识中心" [ref=e17] [cursor=pointer]:
+            - /url: knowledge-center.html
+            - generic [ref=e18]: library_books
+            - generic [ref=e19]: 知识中心
+          - link "tune 系统设置 arrow_drop_down" [ref=e21] [cursor=pointer]:
+            - /url: dictionary-management.html
+            - generic [ref=e22]: tune
+            - generic [ref=e23]: 系统设置
+            - generic [ref=e24]: arrow_drop_down
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: 当前用户
+          - paragraph [ref=e28]: 管理员
+        - button "account_circle" [ref=e30] [cursor=pointer]:
+          - generic [ref=e31]: account_circle
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - heading "北区燃气干线探测" [level=2] [ref=e36]
+        - generic [ref=e37]:
+          - generic [ref=e38]: PROJ-2024-001
+          - generic [ref=e39]:
+            - generic [ref=e40]: location_on
+            - generic [ref=e41]: 上海市 · 浦东新区
+      - navigation "Tabs" [ref=e42]:
+        - link "work 工作平台" [ref=e43] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e44]: work
+          - text: 工作平台
+        - link "developer_board 控制台" [ref=e45] [cursor=pointer]:
+          - /url: project-detail.html?id=PROJ-2024-001#console
+          - generic [ref=e46]: developer_board
+          - text: 控制台
+        - link "menu_book 知识中心" [ref=e47] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e48]: menu_book
+          - text: 知识中心
+    - generic [ref=e49]:
+      - navigation [ref=e50]:
+        - link "dashboard 项目" [ref=e51] [cursor=pointer]:
+          - /url: project-detail.html?id=PROJ-2024-001
+          - generic [ref=e52]: dashboard
+          - generic [ref=e53]: 项目
+        - link "explore 勘探" [ref=e54] [cursor=pointer]:
+          - /url: project-exploration.html?id=PROJ-2024-001
+          - generic [ref=e55]: explore
+          - generic [ref=e56]: 勘探
+        - link "database 数据" [ref=e57] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e58]: database
+          - generic [ref=e59]: 数据
+        - link "view_in_ar 模型" [ref=e60] [cursor=pointer]:
+          - /url: project-model.html?id=PROJ-2024-001
+          - generic [ref=e61]: view_in_ar
+          - generic [ref=e62]: 模型
+        - link "description 报告" [ref=e63] [cursor=pointer]:
+          - /url: project-report.html?id=PROJ-2024-001
+          - generic [ref=e64]: description
+          - generic [ref=e65]: 报告
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - heading "category 数据操作菜单" [level=3] [ref=e70]:
+            - generic [ref=e71]: category
+            - text: 数据操作菜单
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - heading "数据管理" [level=4] [ref=e74]: 数据管理
+              - button "upload 导入数据" [ref=e77] [cursor=pointer]:
+                - generic [ref=e78]: upload
+                - generic [ref=e79]: 导入数据
+            - generic [ref=e80]:
+              - heading "管线分类" [level=4] [ref=e81]: 管线分类
+              - generic [ref=e83]:
+                - button "apps 全部" [ref=e84] [cursor=pointer]:
+                  - generic [ref=e85]: apps
+                  - generic [ref=e86]: 全部
+                - button "water_drop 给水" [ref=e87] [cursor=pointer]:
+                  - generic [ref=e88]: water_drop
+                  - generic [ref=e89]: 给水
+                - button "local_fire_department 燃气" [ref=e90] [cursor=pointer]:
+                  - generic [ref=e91]: local_fire_department
+                  - generic [ref=e92]: 燃气
+                - button "water 排水" [ref=e93] [cursor=pointer]:
+                  - generic [ref=e94]: water
+                  - generic [ref=e95]: 排水
+                - button "bolt 电力" [ref=e96] [cursor=pointer]:
+                  - generic [ref=e97]: bolt
+                  - generic [ref=e98]: 电力
+                - button "thermostat 热力" [ref=e99] [cursor=pointer]:
+                  - generic [ref=e100]: thermostat
+                  - generic [ref=e101]: 热力
+                - button "wifi 通信" [ref=e102] [cursor=pointer]:
+                  - generic [ref=e103]: wifi
+                  - generic [ref=e104]: 通信
+                - button "factory 工业" [ref=e105] [cursor=pointer]:
+                  - generic [ref=e106]: factory
+                  - generic [ref=e107]: 工业
+                - button "more_horiz 其他" [ref=e108] [cursor=pointer]:
+                  - generic [ref=e109]: more_horiz
+                  - generic [ref=e110]: 其他
+          - button "summarize 数据汇总表" [ref=e112] [cursor=pointer]:
+            - generic [ref=e113]: summarize
+            - text: 数据汇总表
+        - generic [ref=e114]:
+          - generic [ref=e116]:
+            - generic [ref=e117]:
+              - generic [ref=e118]: person
+              - generic [ref=e119]: 数据整理：
+              - generic [ref=e120]: 陈明
+            - generic [ref=e121]:
+              - generic [ref=e122]: public
+              - generic [ref=e123]: 坐标系：
+              - generic [ref=e124]: CGCS2000
+            - generic [ref=e125]:
+              - generic [ref=e126]: height
+              - generic [ref=e127]: 高程系：
+              - generic [ref=e128]: 1956黄海高程系
+          - generic [ref=e129]:
+            - generic [ref=e130]:
+              - heading "综合地下管线成果表" [level=3] [ref=e131]
+              - generic [ref=e132]: 共 300 条记录
+            - generic [ref=e133]:
+              - button "add_circle 新增记录" [ref=e134] [cursor=pointer]:
+                - generic [ref=e135]: add_circle
+                - text: 新增记录
+              - button "edit 编辑记录" [ref=e136] [cursor=pointer]:
+                - generic [ref=e137]: edit
+                - text: 编辑记录
+              - button "delete 删除记录" [ref=e138] [cursor=pointer]:
+                - generic [ref=e139]: delete
+                - text: 删除记录
+              - button "search 搜索记录" [ref=e140] [cursor=pointer]:
+                - generic [ref=e141]: search
+                - text: 搜索记录
+              - button "download 导出数据" [ref=e143] [cursor=pointer]:
+                - generic [ref=e144]: download
+                - text: 导出数据
+          - table [ref=e146]:
+            - rowgroup [ref=e147]:
+              - row "管线点号 连接点号 连接点长度 (m) 管线点类别 材质 管线规格(mm) 套管材质 载体特征 平面坐标(m) 高程(m) 埋深(m) 埋设 权属单位 备注" [ref=e148]:
+                - columnheader "管线点号" [ref=e149]
+                - columnheader "连接点号" [ref=e150]
+                - columnheader "连接点长度 (m)" [ref=e151]:
+                  - text: 连接点长度
+                  - text: (m)
+                - columnheader "管线点类别" [ref=e152]
+                - columnheader "材质" [ref=e153]
+                - columnheader "管线规格(mm)" [ref=e154]
+                - columnheader "套管材质" [ref=e155]
+                - columnheader "载体特征" [ref=e156]
+                - columnheader "平面坐标(m)" [ref=e157]
+                - columnheader "高程(m)" [ref=e158]
+                - columnheader "埋深(m)" [ref=e159]
+                - columnheader "埋设" [ref=e160]
+                - columnheader "权属单位" [ref=e161]
+                - columnheader "备注" [ref=e162]
+              - row "管点分类 特征点 附属物 管径或断面尺寸 套管尺寸 压力 (电压) 流向 (根数) 总孔数/已用孔数 X Y 地面高程 管（沟、块）顶 管（沟、块）底 起点埋深 终点埋深 方式 年代" [ref=e163]:
+                - columnheader "管点分类" [ref=e164]
+                - columnheader "特征点" [ref=e165]
+                - columnheader "附属物" [ref=e166]
+                - columnheader "管径或断面尺寸" [ref=e167]
+                - columnheader "套管尺寸" [ref=e168]
+                - columnheader "压力 (电压)" [ref=e169]:
+                  - text: 压力
+                  - text: (电压)
+                - columnheader "流向 (根数)" [ref=e170]:
+                  - text: 流向
+                  - text: (根数)
+                - columnheader "总孔数/已用孔数" [ref=e171]
+                - columnheader "X" [ref=e172]
+                - columnheader "Y" [ref=e173]
+                - columnheader "地面高程" [ref=e174]
+                - columnheader "管（沟、块）顶" [ref=e175]
+                - columnheader "管（沟、块）底" [ref=e176]
+                - columnheader "起点埋深" [ref=e177]
+                - columnheader "终点埋深" [ref=e178]
+                - columnheader "方式" [ref=e179]
+                - columnheader "年代" [ref=e180]
+            - rowgroup [ref=e181]:
+              - row "W0001 W0002 24.34 给水 井内点 消防栓 钢 DN100 380V 单向 4/2 2347122.542 5067585.902 54.41 51.75 51.14 1.72 0.65 管沟 2022 自来水公司 综合修测" [ref=e182]:
+                - cell "W0001" [ref=e183]
+                - cell "W0002" [ref=e184]
+                - cell "24.34" [ref=e185]
+                - cell "给水" [ref=e186]
+                - cell "井内点" [ref=e187]
+                - cell "消防栓" [ref=e188]
+                - cell "钢" [ref=e189]
+                - cell "DN100" [ref=e190]
+                - cell [ref=e191]
+                - cell [ref=e192]
+                - cell "380V" [ref=e193]
+                - cell "单向" [ref=e194]
+                - cell "4/2" [ref=e195]
+                - cell "2347122.542" [ref=e196]
+                - cell "5067585.902" [ref=e197]
+                - cell "54.41" [ref=e198]
+                - cell "51.75" [ref=e199]
+                - cell "51.14" [ref=e200]
+                - cell "1.72" [ref=e201]
+                - cell "0.65" [ref=e202]
+                - cell "管沟" [ref=e203]
+                - cell "2022" [ref=e204]
+                - cell "自来水公司" [ref=e205]
+                - cell "综合修测" [ref=e206]
+              - row "G0002 G0003 55.39 燃气 起始点 标识桩 PVC DN100 220V 单向 2347156.567 5068068.015 54.84 51.77 52.62 1.11 0.79 架空 2018 燃气公司 历史成果" [ref=e207]:
+                - cell "G0002" [ref=e208]
+                - cell "G0003" [ref=e209]
+                - cell "55.39" [ref=e210]
+                - cell "燃气" [ref=e211]
+                - cell "起始点" [ref=e212]
+                - cell "标识桩" [ref=e213]
+                - cell "PVC" [ref=e214]
+                - cell "DN100" [ref=e215]
+                - cell [ref=e216]
+                - cell [ref=e217]
+                - cell "220V" [ref=e218]
+                - cell "单向" [ref=e219]
+                - cell [ref=e220]
+                - cell "2347156.567" [ref=e221]
+                - cell "5068068.015" [ref=e222]
+                - cell "54.84" [ref=e223]
+                - cell "51.77" [ref=e224]
+                - cell "52.62" [ref=e225]
+                - cell "1.11" [ref=e226]
+                - cell "0.79" [ref=e227]
+                - cell "架空" [ref=e228]
+                - cell "2018" [ref=e229]
+                - cell "燃气公司" [ref=e230]
+                - cell "历史成果" [ref=e231]
+              - row "D0003 D0004 59.12 排水 起始点 PVC DN150 10V 双向 2347394.245 5067983.529 54.28 53.60 50.12 0.91 0.62 直埋 2015 市政公司 综合修测" [ref=e232]:
+                - cell "D0003" [ref=e233]
+                - cell "D0004" [ref=e234]
+                - cell "59.12" [ref=e235]
+                - cell "排水" [ref=e236]
+                - cell "起始点" [ref=e237]
+                - cell [ref=e238]
+                - cell "PVC" [ref=e239]
+                - cell "DN150" [ref=e240]
+                - cell [ref=e241]
+                - cell [ref=e242]
+                - cell "10V" [ref=e243]
+                - cell "双向" [ref=e244]
+                - cell [ref=e245]
+                - cell "2347394.245" [ref=e246]
+                - cell "5067983.529" [ref=e247]
+                - cell "54.28" [ref=e248]
+                - cell "53.60" [ref=e249]
+                - cell "50.12" [ref=e250]
+                - cell "0.91" [ref=e251]
+                - cell "0.62" [ref=e252]
+                - cell "直埋" [ref=e253]
+                - cell "2015" [ref=e254]
+                - cell "市政公司" [ref=e255]
+                - cell "综合修测" [ref=e256]
+              - row "E0004 E0005 12.30 电力 终止点 电缆沟 PE DN100 DN200 PE 380V 双向 6/2 2347056.514 5067429.583 52.53 53.95 52.13 1.49 0.76 架空 2020 电力公司 雷达校核" [ref=e257]:
+                - cell "E0004" [ref=e258]
+                - cell "E0005" [ref=e259]
+                - cell "12.30" [ref=e260]
+                - cell "电力" [ref=e261]
+                - cell "终止点" [ref=e262]
+                - cell "电缆沟" [ref=e263]
+                - cell "PE" [ref=e264]
+                - cell "DN100" [ref=e265]
+                - cell "DN200" [ref=e266]
+                - cell "PE" [ref=e267]
+                - cell "380V" [ref=e268]
+                - cell "双向" [ref=e269]
+                - cell "6/2" [ref=e270]
+                - cell "2347056.514" [ref=e271]
+                - cell "5067429.583" [ref=e272]
+                - cell "52.53" [ref=e273]
+                - cell "53.95" [ref=e274]
+                - cell "52.13" [ref=e275]
+                - cell "1.49" [ref=e276]
+                - cell "0.76" [ref=e277]
+                - cell "架空" [ref=e278]
+                - cell "2020" [ref=e279]
+                - cell "电力公司" [ref=e280]
+                - cell "雷达校核" [ref=e281]
+              - row "H0005 H0006 33.16 热力 井内点 阀门井 混凝土 DN200 220V 单向 2347442.298 5067985.472 53.67 52.21 51.48 1.26 1.63 架空 2024 热力公司 综合修测" [ref=e282]:
+                - cell "H0005" [ref=e283]
+                - cell "H0006" [ref=e284]
+                - cell "33.16" [ref=e285]
+                - cell "热力" [ref=e286]
+                - cell "井内点" [ref=e287]
+                - cell "阀门井" [ref=e288]
+                - cell "混凝土" [ref=e289]
+                - cell "DN200" [ref=e290]
+                - cell [ref=e291]
+                - cell [ref=e292]
+                - cell "220V" [ref=e293]
+                - cell "单向" [ref=e294]
+                - cell [ref=e295]
+                - cell "2347442.298" [ref=e296]
+                - cell "5067985.472" [ref=e297]
+                - cell "53.67" [ref=e298]
+                - cell "52.21" [ref=e299]
+                - cell "51.48" [ref=e300]
+                - cell "1.26" [ref=e301]
+                - cell "1.63" [ref=e302]
+                - cell "架空" [ref=e303]
+                - cell "2024" [ref=e304]
+                - cell "热力公司" [ref=e305]
+                - cell "综合修测" [ref=e306]
+              - row "T0006 T0007 20.54 通信 多分支 手孔井 钢 DN400 DN200 PVC 10V 双向 2347054.317 5068129.586 54.99 52.39 50.25 0.92 1.46 管沟 2022 通信公司 人工补录" [ref=e307]:
+                - cell "T0006" [ref=e308]
+                - cell "T0007" [ref=e309]
+                - cell "20.54" [ref=e310]
+                - cell "通信" [ref=e311]
+                - cell "多分支" [ref=e312]
+                - cell "手孔井" [ref=e313]
+                - cell "钢" [ref=e314]
+                - cell "DN400" [ref=e315]
+                - cell "DN200" [ref=e316]
+                - cell "PVC" [ref=e317]
+                - cell "10V" [ref=e318]
+                - cell "双向" [ref=e319]
+                - cell [ref=e320]
+                - cell "2347054.317" [ref=e321]
+                - cell "5068129.586" [ref=e322]
+                - cell "54.99" [ref=e323]
+                - cell "52.39" [ref=e324]
+                - cell "50.25" [ref=e325]
+                - cell "0.92" [ref=e326]
+                - cell "1.46" [ref=e327]
+                - cell "管沟" [ref=e328]
+                - cell "2022" [ref=e329]
+                - cell "通信公司" [ref=e330]
+                - cell "人工补录" [ref=e331]
+              - row "I0007 I0008 37.56 工业 变径 标识桩 PE DN300 380V 双向 2348187.435 5067156.742 53.83 51.07 52.53 1.64 0.68 直埋 2025 工业园区 综合修测" [ref=e332]:
+                - cell "I0007" [ref=e333]
+                - cell "I0008" [ref=e334]
+                - cell "37.56" [ref=e335]
+                - cell "工业" [ref=e336]
+                - cell "变径" [ref=e337]
+                - cell "标识桩" [ref=e338]
+                - cell "PE" [ref=e339]
+                - cell "DN300" [ref=e340]
+                - cell [ref=e341]
+                - cell [ref=e342]
+                - cell "380V" [ref=e343]
+                - cell "双向" [ref=e344]
+                - cell [ref=e345]
+                - cell "2348187.435" [ref=e346]
+                - cell "5067156.742" [ref=e347]
+                - cell "53.83" [ref=e348]
+                - cell "51.07" [ref=e349]
+                - cell "52.53" [ref=e350]
+                - cell "1.64" [ref=e351]
+                - cell "0.68" [ref=e352]
+                - cell "直埋" [ref=e353]
+                - cell "2025" [ref=e354]
+                - cell "工业园区" [ref=e355]
+                - cell "综合修测" [ref=e356]
+              - row "O0008 O0009 33.64 其他 五通 钢 DN150 0.58MPa 单向 8/4 2347035.964 5067153.765 54.39 53.78 52.02 1.69 0.95 直埋 2025 综合管养单位 人工补录" [ref=e357]:
+                - cell "O0008" [ref=e358]
+                - cell "O0009" [ref=e359]
+                - cell "33.64" [ref=e360]
+                - cell "其他" [ref=e361]
+                - cell "五通" [ref=e362]
+                - cell [ref=e363]
+                - cell "钢" [ref=e364]
+                - cell "DN150" [ref=e365]
+                - cell [ref=e366]
+                - cell [ref=e367]
+                - cell "0.58MPa" [ref=e368]
+                - cell "单向" [ref=e369]
+                - cell "8/4" [ref=e370]
+                - cell "2347035.964" [ref=e371]
+                - cell "5067153.765" [ref=e372]
+                - cell "54.39" [ref=e373]
+                - cell "53.78" [ref=e374]
+                - cell "52.02" [ref=e375]
+                - cell "1.69" [ref=e376]
+                - cell "0.95" [ref=e377]
+                - cell "直埋" [ref=e378]
+                - cell "2025" [ref=e379]
+                - cell "综合管养单位" [ref=e380]
+                - cell "人工补录" [ref=e381]
+              - row "W0009 W0010 36.39 给水 拐点 阀门井 PE DN150 0.69MPa 单向 2347049.992 5067647.249 54.17 51.08 52.72 0.63 1.29 架空 2019 自来水公司 综合修测" [ref=e382]:
+                - cell "W0009" [ref=e383]
+                - cell "W0010" [ref=e384]
+                - cell "36.39" [ref=e385]
+                - cell "给水" [ref=e386]
+                - cell "拐点" [ref=e387]
+                - cell "阀门井" [ref=e388]
+                - cell "PE" [ref=e389]
+                - cell "DN150" [ref=e390]
+                - cell [ref=e391]
+                - cell [ref=e392]
+                - cell "0.69MPa" [ref=e393]
+                - cell "单向" [ref=e394]
+                - cell [ref=e395]
+                - cell "2347049.992" [ref=e396]
+                - cell "5067647.249" [ref=e397]
+                - cell "54.17" [ref=e398]
+                - cell "51.08" [ref=e399]
+                - cell "52.72" [ref=e400]
+                - cell "0.63" [ref=e401]
+                - cell "1.29" [ref=e402]
+                - cell "架空" [ref=e403]
+                - cell "2019" [ref=e404]
+                - cell "自来水公司" [ref=e405]
+                - cell "综合修测" [ref=e406]
+              - row "G0010 G0011 10.46 燃气 变径 阀门 钢 DN400 1.24MPa 单向 2347996.619 5067541.013 54.73 53.20 50.93 0.61 0.90 管沟 2016 燃气公司 综合修测" [ref=e407]:
+                - cell "G0010" [ref=e408]
+                - cell "G0011" [ref=e409]
+                - cell "10.46" [ref=e410]
+                - cell "燃气" [ref=e411]
+                - cell "变径" [ref=e412]
+                - cell "阀门" [ref=e413]
+                - cell "钢" [ref=e414]
+                - cell "DN400" [ref=e415]
+                - cell [ref=e416]
+                - cell [ref=e417]
+                - cell "1.24MPa" [ref=e418]
+                - cell "单向" [ref=e419]
+                - cell [ref=e420]
+                - cell "2347996.619" [ref=e421]
+                - cell "5067541.013" [ref=e422]
+                - cell "54.73" [ref=e423]
+                - cell "53.20" [ref=e424]
+                - cell "50.93" [ref=e425]
+                - cell "0.61" [ref=e426]
+                - cell "0.90" [ref=e427]
+                - cell "管沟" [ref=e428]
+                - cell "2016" [ref=e429]
+                - cell "燃气公司" [ref=e430]
+                - cell "综合修测" [ref=e431]
+          - generic [ref=e432]:
+            - generic [ref=e433]: 共 30 页记录
+            - generic [ref=e434]:
+              - generic [ref=e435]:
+                - button "<" [ref=e436]
+                - button "1" [ref=e437] [cursor=pointer]
+                - button "2" [ref=e438] [cursor=pointer]
+                - button "3" [ref=e439] [cursor=pointer]
+                - button "4" [ref=e440] [cursor=pointer]
+                - generic [ref=e441]: ...
+                - button "30" [ref=e442] [cursor=pointer]
+                - button ">" [ref=e443] [cursor=pointer]
+              - generic [ref=e444]:
+                - generic [ref=e445]: 跳至
+                - spinbutton [ref=e446]: "1"
+                - generic [ref=e447]: 页

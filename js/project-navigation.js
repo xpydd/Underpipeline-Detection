@@ -178,17 +178,24 @@ function buildProjectUrl(baseUrl, projectId) {
         projectId = getCurrentProjectId();
     }
 
+    var hash = '';
+    var hashIndex = baseUrl.indexOf('#');
+    if (hashIndex !== -1) {
+        hash = baseUrl.slice(hashIndex);
+        baseUrl = baseUrl.slice(0, hashIndex);
+    }
+
     // 尝试修正路径 (OSS部署支持)
-    if (typeof window.APP_CONFIG !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof window.APP_CONFIG !== 'undefined') {
         baseUrl = window.APP_CONFIG.resolvePath(baseUrl);
     }
 
     if (!projectId) {
-        return baseUrl;
+        return `${baseUrl}${hash}`;
     }
 
     const separator = baseUrl.includes('?') ? '&' : '?';
-    return `${baseUrl}${separator}id=${encodeURIComponent(projectId)}`;
+    return `${baseUrl}${separator}id=${encodeURIComponent(projectId)}${hash}`;
 }
 
 // 更新页面中所有项目相关链接，添加项目ID参数

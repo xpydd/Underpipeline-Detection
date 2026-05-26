@@ -1,0 +1,351 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e8]: settings_input_component
+          - heading "管网多模态全过程智慧探测系统" [level=1] [ref=e9]
+        - navigation [ref=e10]:
+          - link "account_tree 项目管理" [ref=e11] [cursor=pointer]:
+            - /url: project-management.html?id=PROJ-2024-001
+            - generic [ref=e12]: account_tree
+            - generic [ref=e13]: 项目管理
+          - link "corporate_fare 业主管理" [ref=e14] [cursor=pointer]:
+            - /url: owner-management.html
+            - generic [ref=e15]: corporate_fare
+            - generic [ref=e16]: 业主管理
+          - link "library_books 知识中心" [ref=e17] [cursor=pointer]:
+            - /url: knowledge-center.html
+            - generic [ref=e18]: library_books
+            - generic [ref=e19]: 知识中心
+          - link "tune 系统设置 arrow_drop_down" [ref=e21] [cursor=pointer]:
+            - /url: dictionary-management.html
+            - generic [ref=e22]: tune
+            - generic [ref=e23]: 系统设置
+            - generic [ref=e24]: arrow_drop_down
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: 当前用户
+          - paragraph [ref=e28]: 管理员
+        - button "account_circle" [ref=e30] [cursor=pointer]:
+          - generic [ref=e31]: account_circle
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - heading "北区燃气干线探测" [level=2] [ref=e36]
+          - button "arrow_drop_down" [ref=e38] [cursor=pointer]:
+            - generic [ref=e39]: arrow_drop_down
+        - generic [ref=e40]:
+          - generic [ref=e41]: PROJ-2024-001
+          - generic [ref=e42]:
+            - generic [ref=e43]: location_on
+            - generic [ref=e44]: 上海市 · 浦东新区
+      - navigation "Tabs" [ref=e45]:
+        - link "work 工作平台" [ref=e46] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e47]: work
+          - text: 工作平台
+        - link "developer_board 控制台" [ref=e48] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e49]: developer_board
+          - text: 控制台
+        - link "menu_book 知识中心" [ref=e50] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e51]: menu_book
+          - text: 知识中心
+    - generic [ref=e52]:
+      - navigation [ref=e53]:
+        - link "dashboard 项目" [ref=e54] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e55]: dashboard
+          - generic [ref=e56]: 项目
+        - link "explore 勘探" [ref=e57] [cursor=pointer]:
+          - /url: project-exploration.html?id=PROJ-2024-001
+          - generic [ref=e58]: explore
+          - generic [ref=e59]: 勘探
+        - link "database 数据" [ref=e60] [cursor=pointer]:
+          - /url: project-data.html?id=PROJ-2024-001
+          - generic [ref=e61]: database
+          - generic [ref=e62]: 数据
+        - link "view_in_ar 模型" [ref=e63] [cursor=pointer]:
+          - /url: project-model.html?id=PROJ-2024-001
+          - generic [ref=e64]: view_in_ar
+          - generic [ref=e65]: 模型
+        - link "description 报告" [ref=e66] [cursor=pointer]:
+          - /url: project-report.html?id=PROJ-2024-001
+          - generic [ref=e67]: description
+          - generic [ref=e68]: 报告
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - generic [ref=e73]:
+            - generic [ref=e74]:
+              - generic [ref=e75]:
+                - generic [ref=e76]: developer_board
+                - heading "项目设备控制台" [level=3] [ref=e77]
+                - generic [ref=e78]: 项目负责人 / 勘探人员
+              - paragraph [ref=e79]: 已同步 3 条探测回传记录
+            - button "settings_input_antenna 设备对接" [ref=e81] [cursor=pointer]:
+              - generic [ref=e82]: settings_input_antenna
+              - text: 设备对接
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - generic [ref=e85]:
+                - generic [ref=e86]: precision_manufacturing
+                - text: 绑定设备
+              - generic [ref=e87]: LD-GTL310-66P
+            - generic [ref=e88]:
+              - generic [ref=e89]:
+                - generic [ref=e90]: sensors
+                - text: 连接状态
+              - generic [ref=e92]: 已对接
+            - generic [ref=e94]:
+              - generic [ref=e95]:
+                - generic [ref=e96]: explore
+                - text: 当前方向
+              - generic [ref=e97]: 北偏东 45°
+            - generic [ref=e98]:
+              - generic [ref=e99]:
+                - generic [ref=e100]: battery_5_bar
+                - text: 电池状态
+              - generic [ref=e101]: 80% / 48.0V
+            - generic [ref=e102]:
+              - generic [ref=e103]:
+                - generic [ref=e104]: my_location
+                - text: 当前位置
+              - generic [ref=e105]: 2347184.25, 434427.06
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - generic [ref=e108]: near_me
+                - text: 车身角度
+              - generic [ref=e109]: 45.0°
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - generic [ref=e112]: progress_activity
+                - text: 任务进度
+              - generic [ref=e113]: 未开始 0%
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - generic [ref=e116]: article
+                - text: 回传队列
+              - generic [ref=e117]: 2 条
+        - generic [ref=e118]:
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - heading "tune 初始值与方向" [level=3] [ref=e121]:
+                - generic [ref=e122]: tune
+                - text: 初始值与方向
+              - generic [ref=e124]: 未下发
+            - generic [ref=e125]:
+              - generic [ref=e126]:
+                - generic [ref=e127]: "1"
+                - generic [ref=e128]: 车辆定位
+              - generic [ref=e129]:
+                - generic [ref=e130]: "2"
+                - generic [ref=e131]: 方向放线
+              - generic [ref=e132]:
+                - generic [ref=e133]: "3"
+                - generic [ref=e134]: 起点打点
+              - generic [ref=e135]:
+                - generic [ref=e136]: "4"
+                - generic [ref=e137]: 范围确认
+            - generic [ref=e138]:
+              - generic [ref=e139]:
+                - text: 测线编号
+                - textbox "测线编号" [ref=e140]: A303_2026-04-21_0001_0
+              - generic [ref=e141]:
+                - text: 坐标系
+                - textbox "坐标系" [ref=e142]: WGS84
+              - generic [ref=e143]:
+                - text: 初始 X
+                - generic [ref=e144]: 在地图上点击标记后自动获取的起点 X 坐标。
+                - spinbutton "初始 X 在地图上点击标记后自动获取的起点 X 坐标。" [ref=e145]: "2347184"
+              - generic [ref=e146]:
+                - text: 初始 Y
+                - generic [ref=e147]: 在地图上点击标记后自动获取的起点 Y 坐标。
+                - spinbutton "初始 Y 在地图上点击标记后自动获取的起点 Y 坐标。" [ref=e148]: "434429.29"
+              - generic [ref=e149]:
+                - text: 探测长度
+                - generic [ref=e150]: 对应 MQTT detection_plan.length_m，单位米，由系统按规划范围自动计算，只读展示。
+                - spinbutton "探测长度 对应 MQTT detection_plan.length_m，单位米，由系统按规划范围自动计算，只读展示。" [ref=e151]: "4"
+              - generic [ref=e152]:
+                - text: 探测宽度
+                - generic [ref=e153]: 对应 MQTT detection_plan.width_m，单位米，表示矩形探测区域的横向宽度，影响小车覆盖范围。
+                - spinbutton "探测宽度 对应 MQTT detection_plan.width_m，单位米，表示矩形探测区域的横向宽度，影响小车覆盖范围。" [ref=e154]: "3.5"
+              - generic [ref=e155]:
+                - text: 几字间距(m)
+                - generic [ref=e156]: 几字型测点之间的间距，影响折返测点疏密。
+                - spinbutton "几字间距(m) 几字型测点之间的间距，影响折返测点疏密。" [ref=e157]: "3.5"
+              - generic [ref=e158]:
+                - text: 测点数量
+                - spinbutton "测点数量" [ref=e159]: "5"
+              - generic [ref=e160]:
+                - text: 规划侧
+                - generic [ref=e161]: 从起点和方向看，选择向左侧或右侧生成探测区域。
+                - combobox "规划侧 从起点和方向看，选择向左侧或右侧生成探测区域。" [ref=e162]:
+                  - option "左侧" [selected]
+                  - option "右侧"
+              - generic [ref=e163]:
+                - generic [ref=e164]: 设备方向：北偏东 45°
+                - generic [ref=e165]:
+                  - slider "设备方向：北偏东 45°" [ref=e166]: "45"
+                  - spinbutton [ref=e167]: "45"
+            - generic [ref=e169]:
+              - generic [ref=e170]:
+                - generic [ref=e171]: 执行命令
+                - generic [ref=e172]: 已完成车辆定位、方向、起点和范围确认，可下发 detection_plan
+              - button "start 下发规划" [ref=e173] [cursor=pointer]:
+                - generic [ref=e174]: start
+                - text: 下发规划
+            - group [ref=e175]:
+              - generic "高级设置" [ref=e176] [cursor=pointer]
+            - group [ref=e177]:
+              - generic "雷达采集参数（预留）" [ref=e178] [cursor=pointer]
+              - option "直线扫描" [selected]
+              - option "折线扫描"
+              - option "单天线" [selected]
+              - option "双天线"
+            - group [ref=e179]:
+              - generic "定位扩展参数（预留）" [ref=e180] [cursor=pointer]
+          - generic [ref=e181]:
+            - generic [ref=e182]:
+              - heading "map 实时地图定位" [level=3] [ref=e183]:
+                - generic [ref=e184]: map
+                - text: 实时地图定位
+              - generic [ref=e185]:
+                - generic [ref=e186]: 3 个探测回传点 / 小车位置已同步
+                - generic [ref=e187]: 点击地图标记探测起点
+            - generic [ref=e188]:
+              - generic:
+                - generic: ●
+                - generic: 设备方向
+                - generic: 北偏东 45°
+                - generic: 角度 45.0°
+              - generic [ref=e190]: WGS84
+              - generic [ref=e191]:
+                - generic [ref=e192]: "1"
+                - generic [ref=e193]: 探测回传点
+              - img
+              - generic:
+                - generic: 探测长度 4.00m
+                - generic: 探测宽度 3.50m
+              - img
+              - generic:
+                - generic:
+                  - generic: location_on
+                  - generic: 起点 X 2347184.00 / Y 434429.29
+              - generic "雷达探测小车实时定位":
+                - generic:
+                  - img "雷达探测小车"
+                  - generic: 雷达探测小车 2347184.25, 434427.06
+              - button "1" [ref=e194] [cursor=pointer]:
+                - generic [ref=e195]: "1"
+              - button "2" [ref=e196] [cursor=pointer]:
+                - generic [ref=e197]: "2"
+              - button "3" [ref=e198] [cursor=pointer]:
+                - generic [ref=e199]: "3"
+            - generic [ref=e201]:
+              - generic [ref=e202]:
+                - generic [ref=e203]:
+                  - heading "settings_remote 设备控制" [level=4] [ref=e204]:
+                    - generic [ref=e205]: settings_remote
+                    - text: 设备控制
+                  - generic [ref=e206]: 等待指令
+                - generic [ref=e207]:
+                  - button "play_arrow 继续" [ref=e208] [cursor=pointer]:
+                    - generic [ref=e209]: play_arrow
+                    - text: 继续
+                  - button "pause 暂停" [ref=e210] [cursor=pointer]:
+                    - generic [ref=e211]: pause
+                    - text: 暂停
+                  - button "flag 结束" [ref=e212] [cursor=pointer]:
+                    - generic [ref=e213]: flag
+                    - text: 结束
+                - generic [ref=e214]:
+                  - generic [ref=e215]:
+                    - generic [ref=e216]: 连接
+                    - strong [ref=e217]: 已对接
+                  - generic [ref=e218]:
+                    - generic [ref=e219]: 任务
+                    - strong [ref=e220]: 未开始 0%
+                  - generic [ref=e221]:
+                    - generic [ref=e222]: 回传
+                    - strong [ref=e223]: 2 条
+              - generic [ref=e224]:
+                - generic [ref=e225]:
+                  - generic [ref=e226]: 遥杆
+                  - generic [ref=e227]: 0 速归零
+                - generic [ref=e228]:
+                  - button "keyboard_arrow_up" [ref=e230] [cursor=pointer]:
+                    - generic [ref=e231]: keyboard_arrow_up
+                  - button "keyboard_arrow_left" [ref=e233] [cursor=pointer]:
+                    - generic [ref=e234]: keyboard_arrow_left
+                  - button "radio_button_checked" [ref=e235] [cursor=pointer]:
+                    - generic [ref=e236]: radio_button_checked
+                  - button "keyboard_arrow_right" [ref=e237] [cursor=pointer]:
+                    - generic [ref=e238]: keyboard_arrow_right
+                  - button "keyboard_arrow_down" [ref=e240] [cursor=pointer]:
+                    - generic [ref=e241]: keyboard_arrow_down
+        - generic [ref=e243]:
+          - generic [ref=e244]:
+            - heading "receipt_long 指令回执台账" [level=3] [ref=e245]:
+              - generic [ref=e246]: receipt_long
+              - text: 指令回执台账
+            - generic [ref=e247]:
+              - generic [ref=e248]: 0 条
+              - button "sync 同步回传" [ref=e249] [cursor=pointer]:
+                - generic [ref=e250]: sync
+                - text: 同步回传
+          - table [ref=e252]:
+            - rowgroup [ref=e253]:
+              - row "下发时间 指令 Topic Message ID ACK 状态" [ref=e254]:
+                - columnheader "下发时间" [ref=e255]
+                - columnheader "指令" [ref=e256]
+                - columnheader "Topic" [ref=e257]
+                - columnheader "Message ID" [ref=e258]
+                - columnheader "ACK" [ref=e259]
+                - columnheader "状态" [ref=e260]
+            - rowgroup [ref=e261]:
+              - row "暂无指令回执" [ref=e262]:
+                - cell "暂无指令回执" [ref=e263]
+        - generic [ref=e264]:
+          - generic [ref=e265]:
+            - heading "table_chart 探测记录回传台账" [level=3] [ref=e266]:
+              - generic [ref=e267]: table_chart
+              - text: 探测记录回传台账
+            - generic [ref=e268]: 3 条
+          - table [ref=e270]:
+            - rowgroup [ref=e271]:
+              - row "回传时间 测线 类型 深度 置信度 定位数据 状态" [ref=e272]:
+                - columnheader "回传时间" [ref=e273]
+                - columnheader "测线" [ref=e274]
+                - columnheader "类型" [ref=e275]
+                - columnheader "深度" [ref=e276]
+                - columnheader "置信度" [ref=e277]
+                - columnheader "定位数据" [ref=e278]
+                - columnheader "状态" [ref=e279]
+            - rowgroup [ref=e280]:
+              - row "2026-05-21 09:12:24 A303_2026-04-21_0001_0 给水 0.85m 95% CGCS2000 116.407698, 39.904595, 50.80m 待研判" [ref=e281]:
+                - cell "2026-05-21 09:12:24" [ref=e282]
+                - cell "A303_2026-04-21_0001_0" [ref=e283]
+                - cell "给水" [ref=e284]
+                - cell "0.85m" [ref=e285]
+                - cell "95%" [ref=e286]
+                - cell "CGCS2000 116.407698, 39.904595, 50.80m" [ref=e287]
+                - cell "待研判" [ref=e288]
+              - row "2026-05-21 09:12:24 A303_2026-04-21_0001_0 电力 1.12m 88% CGCS2000 116.407798, 39.904695, 50.90m 待研判" [ref=e289]:
+                - cell "2026-05-21 09:12:24" [ref=e290]
+                - cell "A303_2026-04-21_0001_0" [ref=e291]
+                - cell "电力" [ref=e292]
+                - cell "1.12m" [ref=e293]
+                - cell "88%" [ref=e294]
+                - cell "CGCS2000 116.407798, 39.904695, 50.90m" [ref=e295]
+                - cell "待研判" [ref=e296]
+              - row "2026-05-21 09:13:02 A303_2026-04-21_0002_0 燃气 0.72m 90% CGCS2000 116.407698, 39.904595, 50.80m 待研判" [ref=e297]:
+                - cell "2026-05-21 09:13:02" [ref=e298]
+                - cell "A303_2026-04-21_0002_0" [ref=e299]
+                - cell "燃气" [ref=e300]
+                - cell "0.72m" [ref=e301]
+                - cell "90%" [ref=e302]
+                - cell "CGCS2000 116.407698, 39.904595, 50.80m" [ref=e303]
+                - cell "待研判" [ref=e304]

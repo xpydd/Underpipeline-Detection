@@ -1,0 +1,241 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e8]: settings_input_component
+          - heading "管网多模态全过程智慧探测系统" [level=1] [ref=e9]
+        - navigation [ref=e10]:
+          - link "account_tree 项目管理" [ref=e11] [cursor=pointer]:
+            - /url: project-management.html?id=PROJ-2024-001
+            - generic [ref=e12]: account_tree
+            - generic [ref=e13]: 项目管理
+          - link "corporate_fare 业主管理" [ref=e14] [cursor=pointer]:
+            - /url: owner-management.html
+            - generic [ref=e15]: corporate_fare
+            - generic [ref=e16]: 业主管理
+          - link "library_books 知识中心" [ref=e17] [cursor=pointer]:
+            - /url: knowledge-center.html
+            - generic [ref=e18]: library_books
+            - generic [ref=e19]: 知识中心
+          - link "tune 系统设置 arrow_drop_down" [ref=e21] [cursor=pointer]:
+            - /url: dictionary-management.html
+            - generic [ref=e22]: tune
+            - generic [ref=e23]: 系统设置
+            - generic [ref=e24]: arrow_drop_down
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: 当前用户
+          - paragraph [ref=e28]: 管理员
+        - button "account_circle" [ref=e30] [cursor=pointer]:
+          - generic [ref=e31]: account_circle
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - heading "北区燃气干线探测" [level=2] [ref=e36]
+          - button "arrow_drop_down" [ref=e38] [cursor=pointer]:
+            - generic [ref=e39]: arrow_drop_down
+        - generic [ref=e40]:
+          - generic [ref=e41]: PROJ-2024-001
+          - generic [ref=e42]:
+            - generic [ref=e43]: location_on
+            - generic [ref=e44]: 上海市 · 浦东新区
+      - navigation "Tabs" [ref=e45]:
+        - link "work 工作平台" [active] [ref=e46] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e47]: work
+          - text: 工作平台
+        - link "developer_board 控制台" [ref=e48] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e49]: developer_board
+          - text: 控制台
+        - link "menu_book 知识中心" [ref=e50] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e51]: menu_book
+          - text: 知识中心
+    - generic [ref=e52]:
+      - navigation [ref=e53]:
+        - link "dashboard 项目" [ref=e54] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e55]: dashboard
+          - generic [ref=e56]: 项目
+        - link "explore 勘探" [ref=e57] [cursor=pointer]:
+          - /url: project-exploration.html?id=PROJ-2024-001
+          - generic [ref=e58]: explore
+          - generic [ref=e59]: 勘探
+        - link "database 数据" [ref=e60] [cursor=pointer]:
+          - /url: project-data.html?id=PROJ-2024-001
+          - generic [ref=e61]: database
+          - generic [ref=e62]: 数据
+        - link "view_in_ar 模型" [ref=e63] [cursor=pointer]:
+          - /url: project-model.html?id=PROJ-2024-001
+          - generic [ref=e64]: view_in_ar
+          - generic [ref=e65]: 模型
+        - link "description 报告" [ref=e66] [cursor=pointer]:
+          - /url: project-report.html?id=PROJ-2024-001
+          - generic [ref=e67]: description
+          - generic [ref=e68]: 报告
+      - generic [ref=e295]:
+        - generic [ref=e296]:
+          - generic [ref=e297]:
+            - button "info 项目基础信息 expand_less" [ref=e298] [cursor=pointer]:
+              - heading "info 项目基础信息" [level=3] [ref=e299]:
+                - generic [ref=e300]: info
+                - text: 项目基础信息
+              - generic [ref=e301]: expand_less
+            - generic [ref=e302]:
+              - generic [ref=e303]:
+                - generic [ref=e304]:
+                  - generic [ref=e305]: 业主单位
+                  - generic [ref=e306]: 城市建设投资集团
+                - generic [ref=e307]:
+                  - generic [ref=e308]: 状态
+                  - generic [ref=e310]: 实施中
+                - generic [ref=e312]:
+                  - generic [ref=e313]: 场景类型
+                  - generic [ref=e314]: 地下管线普查
+                - generic [ref=e315]:
+                  - generic [ref=e316]: 探测范围
+                  - generic [ref=e317]: 5000 平方米
+                - generic [ref=e318]:
+                  - generic [ref=e319]: 计划开始
+                  - generic [ref=e320]: 2024-01-15
+                - generic [ref=e321]:
+                  - generic [ref=e322]: 计划结束
+                  - generic [ref=e323]: 2024-03-15
+                - generic [ref=e324]:
+                  - generic [ref=e325]: 坐标系
+                  - generic [ref=e326]: 2000国家大地坐标系
+                - generic [ref=e327]:
+                  - generic [ref=e328]: 高程系
+                  - generic [ref=e329]: wusong
+              - generic [ref=e330]:
+                - generic [ref=e331]:
+                  - generic [ref=e332]: 项目负责
+                  - text: 陈明
+                - generic [ref=e333]:
+                  - generic [ref=e334]: 报告编制
+                  - text: 孙小美
+                - generic [ref=e335]:
+                  - generic [ref=e336]: 数据整理
+                  - text: 李丽
+                - generic [ref=e337]:
+                  - generic [ref=e338]: 校审人员
+                  - text: 陈明
+                - generic [ref=e339]:
+                  - generic [ref=e340]: 现场勘探
+                  - text: 王强, 周杰
+          - generic [ref=e341]:
+            - button "analytics 勘探统计 expand_less" [ref=e342] [cursor=pointer]:
+              - heading "analytics 勘探统计" [level=3] [ref=e343]:
+                - generic [ref=e344]: analytics
+                - text: 勘探统计
+              - generic [ref=e345]: expand_less
+            - generic [ref=e346]:
+              - generic [ref=e347]:
+                - generic [ref=e348]: 给水
+                - generic [ref=e349]: 污水
+                - generic [ref=e350]: 燃气
+                - generic [ref=e351]: 电力
+                - generic [ref=e352]: 通信
+              - generic [ref=e353]:
+                - generic [ref=e354]:
+                  - generic [ref=e355]: 检查井数
+                  - generic [ref=e356]: 50 个
+                - generic [ref=e357]:
+                  - generic [ref=e358]: 管线长度
+                  - generic [ref=e359]: 600 m
+                - generic [ref=e360]:
+                  - generic [ref=e361]: 材质
+                  - generic [ref=e362]: 混凝土
+                - generic [ref=e363]:
+                  - generic [ref=e364]: 埋深
+                  - generic [ref=e365]: 1.5-3m
+          - generic [ref=e366]:
+            - button "report_problem 勘探问题 expand_less" [ref=e367] [cursor=pointer]:
+              - heading "report_problem 勘探问题" [level=3] [ref=e368]:
+                - generic [ref=e369]: report_problem
+                - text: 勘探问题
+              - generic [ref=e370]: expand_less
+            - generic [ref=e371]:
+              - generic [ref=e372]:
+                - generic [ref=e373]:
+                  - generic [ref=e374]: "全部: 3"
+                  - generic [ref=e375]: "待处理: 1"
+                - generic [ref=e376] [cursor=pointer]: 筛选
+              - list [ref=e377]:
+                - listitem [ref=e378] [cursor=pointer]:
+                  - generic [ref=e379]:
+                    - generic [ref=e380]: "1"
+                    - generic [ref=e381]:
+                      - paragraph [ref=e382]: YJ001 处管井封闭无法作业
+                      - text: 2024-03-15 10:30
+                  - generic [ref=e383]: 待处理
+                - listitem [ref=e384] [cursor=pointer]:
+                  - generic [ref=e385]:
+                    - generic [ref=e386]: "2"
+                    - generic [ref=e387]:
+                      - paragraph [ref=e388]: YJ002 处管线埋深超限
+                      - text: 2024-03-14 16:20
+                  - generic [ref=e389]: 已处理
+          - generic [ref=e390]:
+            - button "database 数据信息 expand_less" [ref=e391] [cursor=pointer]:
+              - heading "database 数据信息" [level=3] [ref=e392]:
+                - generic [ref=e393]: database
+                - text: 数据信息
+              - generic [ref=e394]: expand_less
+            - generic [ref=e395]:
+              - generic [ref=e396]:
+                - generic [ref=e397]:
+                  - generic [ref=e398]: 实景照片
+                  - text: 28 张
+                - generic [ref=e399]:
+                  - generic [ref=e400]: 数据照片
+                  - text: 98 张
+                - generic [ref=e401]:
+                  - generic [ref=e402]: 探测图像
+                  - text: 77 张
+                - generic [ref=e403]:
+                  - generic [ref=e404]: 数据组装
+                  - text: 33 组
+              - generic [ref=e405]: "最近更新: 2024-03-15 12:00"
+        - generic [ref=e406]:
+          - generic [ref=e407]:
+            - img [ref=e409]
+            - generic: 3D GIS View
+          - generic [ref=e415]:
+            - generic [ref=e416]: map
+            - generic [ref=e417]: 叠加地图
+            - checkbox [ref=e419]
+          - generic [ref=e422]:
+            - generic [ref=e423] [cursor=pointer]:
+              - generic [ref=e424]: 图层控制
+              - generic [ref=e425]: layers
+            - generic [ref=e426]:
+              - generic [ref=e427] [cursor=pointer]:
+                - checkbox "给水管网" [checked] [ref=e428]
+                - text: 给水管网
+              - generic [ref=e430] [cursor=pointer]:
+                - checkbox "燃气管网" [checked] [ref=e431]
+                - text: 燃气管网
+              - generic [ref=e433] [cursor=pointer]:
+                - checkbox "电力管网" [ref=e434]
+                - text: 电力管网
+              - generic [ref=e436] [cursor=pointer]:
+                - checkbox "landscape 地质模型" [checked] [ref=e437]
+                - generic [ref=e438]: landscape
+                - text: 地质模型
+          - generic [ref=e439]:
+            - button "add" [ref=e440] [cursor=pointer]:
+              - generic [ref=e441]: add
+            - button "remove" [ref=e442] [cursor=pointer]:
+              - generic [ref=e443]: remove
+            - button "my_location" [ref=e444] [cursor=pointer]:
+              - generic [ref=e445]: my_location
+          - generic:
+            - generic:
+              - generic: "N"
+          - generic:
+            - generic:
+              - generic: 50m
