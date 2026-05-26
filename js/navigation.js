@@ -94,7 +94,7 @@ const NavigationManager = {
     getMenuFromHash(hash) {
         if (!hash) return '';
         const normalized = hash.replace('#', '').trim().toLowerCase();
-        const known = ['project', 'owner', 'workbench', 'knowledge', 'system', 'tools'];
+        const known = ['project', 'owner', 'console', 'knowledge', 'system', 'tools'];
         return known.includes(normalized) ? normalized : '';
     },
 
@@ -119,6 +119,8 @@ const NavigationManager = {
 
         const ownerPages = new Set(['owner-management.html', 'owner-detail.html']);
         if (ownerPages.has(page)) return 'owner';
+
+        if (page === 'console.html') return 'console';
 
         if (page === 'knowledge-center.html') return 'knowledge';
 

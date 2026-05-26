@@ -50,7 +50,13 @@
                 time_window_ns: toNumber(input.timeWindowNs, 21),
                 distance_scale_m_per_px: toNumber(input.distanceScaleMPerPx, 0.01),
                 antenna_config: toNumber(input.antennaConfig, 0),
-                coordinate_system: input.coordinateSystem || 'CGCS2000'
+                coordinate_system: input.coordinateSystem || 'CGCS2000',
+                initial_point: {
+                    x: toNumber(input.initialX, 0),
+                    y: toNumber(input.initialY, 0),
+                    elevation_m: toNumber(input.initialElevation, 0)
+                },
+                heading_degrees: toNumber(input.directionDeg, 0)
             }
         };
     }

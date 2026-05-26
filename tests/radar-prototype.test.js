@@ -20,7 +20,11 @@ test('buildInitializationPayload creates device initialization command', () => {
         timeWindowNs: '21',
         distanceScaleMPerPx: '0.01',
         antennaConfig: '1',
-        coordinateSystem: 'CGCS2000'
+        coordinateSystem: 'CGCS2000',
+        initialX: '2347184.25',
+        initialY: '434427.06',
+        initialElevation: '4.82',
+        directionDeg: '45'
     });
 
     assert.equal(payload.command, 'initialize_scan');
@@ -33,6 +37,12 @@ test('buildInitializationPayload creates device initialization command', () => {
     assert.equal(payload.parameters.distance_scale_m_per_px, 0.01);
     assert.equal(payload.parameters.antenna_config, 1);
     assert.equal(payload.parameters.coordinate_system, 'CGCS2000');
+    assert.deepEqual(payload.parameters.initial_point, {
+        x: 2347184.25,
+        y: 434427.06,
+        elevation_m: 4.82
+    });
+    assert.equal(payload.parameters.heading_degrees, 45);
 });
 
 test('parseDetectionMessage expands result_json into survey line and candidates', () => {

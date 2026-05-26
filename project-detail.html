@@ -90,6 +90,9 @@
     </style>
     <script src="js/config.js"></script>
     <script src="js/navigation.js"></script>
+    <script src="js/radar-prototype.js"></script>
+    <script src="js/radar-adapter.js"></script>
+    <script src="js/project-console.js"></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
 <header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
@@ -174,6 +177,10 @@
                 <a href="#" class="border-primary text-primary flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-bold text-sm">
                     <span class="material-symbols-outlined text-base">work</span>
                     工作平台
+                </a>
+                <a href="#" onclick="switchToConsole(event)" class="border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:border-slate-300 flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm transition-colors" id="consoleTab">
+                    <span class="material-symbols-outlined text-base">developer_board</span>
+                    控制台
                 </a>
                 <a href="#" class="border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:border-slate-300 flex items-center gap-1.5 whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm transition-colors">
                     <span class="material-symbols-outlined text-base">menu_book</span>
@@ -794,6 +801,111 @@
                     <div class="flex items-center gap-2">
                         <button onclick="changeIssuePage('prev')" class="px-3 py-1 border border-slate-300 dark:border-slate-600 rounded hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed" id="issuePrevBtn">上一页</button>
                         <button onclick="changeIssuePage('next')" class="px-3 py-1 border border-slate-300 dark:border-slate-600 rounded hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed" id="issueNextBtn">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 视图：控制台 (Console) -->
+            <div id="view-console" class="w-full h-full flex flex-col gap-4 hidden">
+                <!-- 未绑定设备提示 -->
+                <div id="noDeviceWarning" class="hidden">
+                    <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-8 text-center">
+                        <span class="material-symbols-outlined text-amber-500 text-6xl mb-4">warning</span>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">未绑定设备</h3>
+                        <p class="text-slate-600 dark:text-slate-400">当前项目尚未绑定探测设备，请联系管理员进行设备绑定。</p>
+                    </div>
+                </div>
+
+                <!-- 已绑定设备内容 -->
+                <div id="deviceContent" class="hidden flex flex-col gap-4 h-full">
+                    <!-- 设备状态卡片 -->
+                    <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-700 p-4">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">router</span>
+                            设备状态
+                        </h3>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                <div class="text-xs text-slate-500 mb-1">设备编号</div>
+                                <div class="font-bold text-slate-800 dark:text-white" id="deviceId">LD-GTL310-66P</div>
+                            </div>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                <div class="text-xs text-slate-500 mb-1">连接状态</div>
+                                <div class="flex items-center gap-2">
+                                    <span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span class="font-bold text-green-600">在线</span>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                <div class="text-xs text-slate-500 mb-1">当前方向</div>
+                                <div class="font-bold text-slate-800 dark:text-white" id="deviceDirection">北偏东 45°</div>
+                            </div>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                <div class="text-xs text-slate-500 mb-1">最近心跳</div>
+                                <div class="font-bold text-slate-800 dark:text-white">3秒前</div>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex gap-2">
+                            <button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                                设置初始值
+                            </button>
+                            <button class="px-4 py-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                调整方向
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 实时地图与探测记录 -->
+                    <div class="flex-1 grid grid-cols-2 gap-4 min-h-0">
+                        <!-- 实时地图定位 -->
+                        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-700 p-4 flex flex-col">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">map</span>
+                                实时地图定位
+                            </h3>
+                            <div class="flex-1 bg-slate-900 rounded-lg relative overflow-hidden">
+                                <div class="absolute inset-0 flex items-center justify-center text-white/20 text-2xl font-bold">
+                                    实时地图视图
+                                </div>
+                                <div class="absolute top-4 right-4 bg-slate-800/90 px-3 py-1 rounded text-white text-xs">
+                                    <span class="text-green-400">●</span> 实时更新中
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 探测记录台账 -->
+                        <div class="bg-white dark:bg-[#161e27] rounded-xl border border-slate-200 dark:border-slate-700 p-4 flex flex-col">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">table_chart</span>
+                                探测记录回传
+                            </h3>
+                            <div class="flex-1 overflow-auto">
+                                <table class="w-full text-xs">
+                                    <thead class="bg-slate-50 dark:bg-slate-900/50 sticky top-0">
+                                        <tr class="border-b border-slate-100 dark:border-slate-800">
+                                            <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">时间</th>
+                                            <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">类型</th>
+                                            <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">深度</th>
+                                            <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
+                                            <td class="px-3 py-2 text-slate-700 dark:text-slate-300">10:15:23</td>
+                                            <td class="px-3 py-2 text-slate-700 dark:text-slate-300">给水</td>
+                                            <td class="px-3 py-2 text-slate-700 dark:text-slate-300">1.2m</td>
+                                            <td class="px-3 py-2"><span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">已确认</span></td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
+                                            <td class="px-3 py-2 text-slate-700 dark:text-slate-300">10:14:18</td>
+                                            <td class="px-3 py-2 text-slate-700 dark:text-slate-300">电力</td>
+                                            <td class="px-3 py-2 text-slate-700 dark:text-slate-300">0.8m</td>
+                                            <td class="px-3 py-2"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">待审核</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
