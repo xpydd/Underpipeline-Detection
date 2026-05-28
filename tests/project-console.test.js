@@ -584,7 +584,7 @@ test('console action layout keeps primary actions in their owning panels with co
     assert.deepEqual(layout.headerActions, ['connectDevice']);
     assert.equal(layout.planningPanel, 'workModeAndInitialValues');
     assert.deepEqual(layout.planningPanelActions, ['sendPlan']);
-    assert.deepEqual(layout.commandStatusActions, ['syncReturn']);
+    assert.deepEqual(layout.mapOverlayActions, ['syncReturn']);
     assert.equal(layout.buttonSize, 'compact');
 });
 
@@ -594,7 +594,8 @@ test('device control layout sits below map and separates task commands from manu
     assert.equal(layout.title, '设备控制');
     assert.equal(layout.placement, 'belowMap');
     assert.equal(layout.density, 'compact');
-    assert.deepEqual(layout.sections, ['taskCommands', 'controlSummary', 'manualDrivePad', 'commandStatusStream']);
+    assert.equal(layout.commandStatusPlacement, 'mapTopLeftMarquee');
+    assert.deepEqual(layout.sections, ['taskCommands', 'controlSummary', 'manualDrivePad']);
     assert.deepEqual(layout.taskCommands, ['continue_task', 'pause_task', 'finish_task']);
     assert.deepEqual(layout.summaryMetrics, ['connectionState', 'taskProgress', 'returnQueue']);
     assert.equal(layout.manualDriveButtons.length, 5);
@@ -605,22 +606,30 @@ test('device control layout sits below map and separates task commands from manu
     });
 });
 
-test('console renders command acknowledgements as rolling status stream', () => {
+test('console renders command acknowledgements as a map top-left marquee', () => {
     const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
-    const panelStart = source.indexOf('data-role="command-status-panel"');
+    const renderMapStart = source.indexOf('function renderMap()');
+    const renderLedgerStart = source.indexOf('function renderLedger()');
     const ledgerStart = source.indexOf('探测记录回传台账');
-    const panelSource = source.slice(panelStart, ledgerStart);
+    const renderMapSource = source.slice(renderMapStart, renderLedgerStart);
+    const deviceControlSource = source.slice(source.indexOf('data-role="device-control-card"'), ledgerStart);
 
-    assert.ok(panelStart > -1);
-    assert.match(panelSource, /实时指令状态/);
-    assert.match(panelSource, /data-role="command-status-stream"/);
-    assert.match(panelSource, /id="pcCommandStream"/);
-    assert.match(panelSource, /overflow-y-auto/);
-    assert.match(panelSource, /id="pcPullBtn"/);
+    assert.ok(renderMapStart > -1);
+    assert.match(source, /buildCommandStatusMarquee/);
+    assert.match(renderMapSource, /const commandMarqueeHtml = buildCommandStatusMarquee/);
+    assert.match(renderMapSource, /\$\{commandMarqueeHtml\}/);
+    assert.match(source, /data-role="command-status-marquee"/);
+    assert.match(source, /左上角跑马灯/);
+    assert.match(source, /id="pcCommandStream"/);
+    assert.match(source, /pc-command-marquee-track/);
+    assert.match(source, /id="pcPullBtn"/);
     assert.match(source, /renderCommandStatusStream/);
     assert.doesNotMatch(source, /指令回执台账/);
     assert.doesNotMatch(source, /id="pcCommandBody"/);
-    assert.doesNotMatch(panelSource, /<table/);
+    assert.doesNotMatch(source, /data-role="command-status-panel"/);
+    assert.doesNotMatch(deviceControlSource, /id="pcCommandStream"/);
+    assert.doesNotMatch(deviceControlSource, /overflow-y-auto/);
+    assert.doesNotMatch(deviceControlSource, /<table/);
 });
 
 test('video live layout overlays map and uses device stream field', () => {

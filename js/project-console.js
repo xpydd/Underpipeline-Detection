@@ -104,7 +104,7 @@
         headerActions: ['connectDevice'],
         planningPanel: 'workModeAndInitialValues',
         planningPanelActions: ['sendPlan'],
-        commandStatusActions: ['syncReturn'],
+        mapOverlayActions: ['syncReturn'],
         buttonSize: 'compact'
     };
 
@@ -112,7 +112,8 @@
         title: '设备控制',
         placement: 'belowMap',
         density: 'compact',
-        sections: ['taskCommands', 'controlSummary', 'manualDrivePad', 'commandStatusStream'],
+        commandStatusPlacement: 'mapTopLeftMarquee',
+        sections: ['taskCommands', 'controlSummary', 'manualDrivePad'],
         taskCommands: ['continue_task', 'pause_task', 'finish_task'],
         summaryMetrics: ['connectionState', 'taskProgress', 'returnQueue'],
         manualDriveButtons: [
@@ -903,6 +904,59 @@
         });
     }
 
+    function buildCommandStatusMarqueeItems(rows = []) {
+        const latestRows = rows.slice().reverse().slice(0, 6);
+        if (!latestRows.length) {
+            return '<span data-command-status-item class="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-2 py-1 text-slate-300"><span class="size-1.5 rounded-full bg-slate-400"></span>等待指令回执</span>';
+        }
+        const items = latestRows.map(row => {
+            const success = row.status === 'success';
+            const toneClass = success
+                ? 'border-emerald-300/35 bg-emerald-400/10 text-emerald-100'
+                : 'border-rose-300/35 bg-rose-400/10 text-rose-100';
+            const dotClass = success ? 'bg-emerald-300' : 'bg-rose-300';
+            const title = `${row.messageId || '-'} · ${row.topic || '-'}`;
+            return `
+                <span data-command-status-item class="inline-flex items-center gap-1.5 rounded-full border ${toneClass} px-2 py-1" title="${escapeHtml(title)}">
+                    <span class="size-1.5 rounded-full ${dotClass}"></span>
+                    <strong class="font-semibold">${escapeHtml(row.typeLabel)}</strong>
+                    <span>${escapeHtml(row.statusLabel)}</span>
+                    <span class="text-slate-300/90">ACK ${escapeHtml(row.ackLabel)}</span>
+                    <span class="text-slate-400">${escapeHtml(row.sentAt)}</span>
+                </span>
+            `;
+        }).join('');
+        return `${items}${items}`;
+    }
+
+    function getCommandMarqueeTrackClass(hasRows) {
+        const animationClass = hasRows ? 'pc-command-marquee-track' : 'pc-command-marquee-track-empty';
+        return `${animationClass} flex w-max min-w-full items-center gap-3 whitespace-nowrap px-3 text-[11px] leading-none text-slate-100`;
+    }
+
+    function buildCommandStatusMarquee() {
+        const hasRows = state.commandRows.length > 0;
+        const countText = hasRows ? `${state.commandRows.length} 条` : '待回执';
+        return `
+            <div id="pcCommandMarquee" data-role="command-status-marquee" data-map-label="true" class="absolute left-3 top-3 z-40 flex h-9 max-w-[calc(100%-1.5rem)] items-center overflow-hidden rounded-md border border-cyan-300/40 bg-slate-950/85 text-slate-100 shadow-lg shadow-slate-950/30 backdrop-blur-md" style="width:min(420px, calc(100% - 8.75rem)); min-width:min(220px, calc(100% - 1.5rem));" aria-label="左上角跑马灯：实时指令状态">
+                <div class="flex h-full shrink-0 items-center gap-1.5 border-r border-white/10 bg-white/5 px-2">
+                    <span class="material-symbols-outlined text-sm text-cyan-200">receipt_long</span>
+                    <span class="text-[11px] font-bold text-cyan-50">指令</span>
+                    <span id="pcCommandCount" class="rounded-full bg-cyan-300/15 px-1.5 py-0.5 text-[10px] font-semibold text-cyan-100">${escapeHtml(countText)}</span>
+                </div>
+                <div class="relative min-w-0 flex-1 overflow-hidden">
+                    <div id="pcCommandStream" data-role="command-status-stream" class="${getCommandMarqueeTrackClass(hasRows)}">
+                        ${buildCommandStatusMarqueeItems(state.commandRows)}
+                    </div>
+                </div>
+                <button id="pcPullBtn" type="button" class="mr-1 inline-flex h-7 shrink-0 items-center justify-center gap-1 rounded-md border border-white/10 bg-white/10 px-2 text-[11px] font-semibold text-cyan-50 transition-colors hover:bg-white/20" title="同步回传">
+                    <span class="material-symbols-outlined text-sm">sync</span>
+                    同步
+                </button>
+            </div>
+        `;
+    }
+
     function normalizeStatusLabel(status) {
         const labels = {
             pending_review: '待研判',
@@ -1598,22 +1652,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div data-role="command-status-panel" class="mt-2 rounded-md border border-slate-100 bg-slate-50/80 p-2 dark:border-slate-700 dark:bg-slate-950/40">
-                                <div class="flex flex-wrap items-center justify-between gap-2">
-                                    <h4 class="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-white">
-                                        <span class="material-symbols-outlined text-base text-primary">receipt_long</span>
-                                        实时指令状态
-                                    </h4>
-                                    <div class="flex items-center gap-2">
-                                        <span id="pcCommandCount" class="text-[11px] text-slate-400">0 条状态</span>
-                                        <button id="pcPullBtn" class="${BUTTON_CLASSES.neutral}">
-                                            <span class="material-symbols-outlined text-base">sync</span>
-                                            同步回传
-                                        </button>
-                                    </div>
-                                </div>
-                                <div id="pcCommandStream" data-role="command-status-stream" class="mt-2 max-h-[128px] space-y-1.5 overflow-y-auto pr-1 custom-scrollbar"></div>
-                            </div>
                         </div>
                     </div>
                 </section>
@@ -1868,6 +1906,7 @@
         const fields = getFieldValues();
         const startPoint = state.mapPickPoint?.confirmed ? state.mapPickPoint : null;
         const currentDirectionDeg = hasFiniteNumber(vehiclePoint?.yaw) ? vehiclePoint.yaw : fields.directionDeg;
+        const commandMarqueeHtml = buildCommandStatusMarquee();
         const directionStatusHtml = buildMapDirectionStatus(currentDirectionDeg, { connected: state.connected });
         const rangeHtml = buildDetectionRangeOverlay({
             startPoint,
@@ -1923,6 +1962,7 @@
 
         canvas.innerHTML = `
             <div class="absolute inset-0 opacity-70" style="background-image: linear-gradient(rgba(148,163,184,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.18) 1px, transparent 1px); background-size: 32px 32px;"></div>
+            ${commandMarqueeHtml}
             ${directionStatusHtml}
             <div data-map-label="true" class="absolute bottom-3 left-3 ${getMapLabelClass('slate')}">
                 WGS84
@@ -1964,39 +2004,11 @@
     function renderCommandStatusStream() {
         const stream = document.getElementById('pcCommandStream');
         const count = document.getElementById('pcCommandCount');
-        if (count) count.textContent = `${state.commandRows.length} 条状态`;
+        const hasRows = state.commandRows.length > 0;
+        if (count) count.textContent = hasRows ? `${state.commandRows.length} 条` : '待回执';
         if (!stream) return;
-        if (!state.commandRows.length) {
-            stream.innerHTML = `
-                <div class="rounded-md border border-dashed border-slate-200 bg-white px-2.5 py-3 text-center text-[11px] text-slate-400 dark:border-slate-700 dark:bg-slate-900">
-                    暂无实时指令状态
-                </div>
-            `;
-            return;
-        }
-        stream.innerHTML = state.commandRows.slice().reverse().map(row => {
-            const success = row.status === 'success';
-            const toneClass = success
-                ? 'border-emerald-100 bg-white text-emerald-700 dark:border-emerald-900/50 dark:bg-slate-900'
-                : 'border-rose-100 bg-white text-rose-700 dark:border-rose-900/50 dark:bg-slate-900';
-            const dotClass = success ? 'bg-emerald-500' : 'bg-rose-500';
-            return `
-            <div data-command-status-item class="rounded-md border ${toneClass} px-2.5 py-2">
-                <div class="flex items-start gap-2">
-                    <span class="mt-1.5 size-2 shrink-0 rounded-full ${dotClass}"></span>
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center justify-between gap-2">
-                            <strong class="truncate text-xs text-slate-800 dark:text-slate-100">${escapeHtml(row.typeLabel)}</strong>
-                            <span class="shrink-0 text-[10px] text-slate-400">${escapeHtml(row.sentAt)}</span>
-                        </div>
-                        <div class="mt-0.5 truncate text-[11px]" title="${escapeHtml(row.ackLabel)}">${escapeHtml(row.statusLabel)} · ACK ${escapeHtml(row.ackLabel)}</div>
-                        <div class="mt-0.5 truncate text-[10px] text-slate-400" title="${escapeHtml(row.topic)}">${escapeHtml(row.messageId)} · ${escapeHtml(row.topic)}</div>
-                    </div>
-                </div>
-            </div>
-        `;
-        }).join('');
-        stream.scrollTop = 0;
+        stream.className = getCommandMarqueeTrackClass(hasRows);
+        stream.innerHTML = buildCommandStatusMarqueeItems(state.commandRows);
     }
 
     function applyDeviceMessages(messages) {
@@ -2156,7 +2168,6 @@
                 applyConsoleFullscreenState(false);
             }
         });
-        document.getElementById('pcPullBtn')?.addEventListener('click', () => pullDetectionQueue());
         document.getElementById('pcContinueBtn')?.addEventListener('click', () => sendTaskCommand('continue_task', {}));
         document.getElementById('pcPauseBtn')?.addEventListener('click', () => sendTaskCommand('pause_task', {}));
         document.getElementById('pcFinishBtn')?.addEventListener('click', () => sendTaskCommand('finish_task', {}));
@@ -2166,7 +2177,15 @@
                 angular_z: toNumber(button.dataset.angular, 0)
             }));
         });
-        document.getElementById('pcMapCanvas')?.addEventListener('click', handleMapPick);
+        document.getElementById('pcMapCanvas')?.addEventListener('click', event => {
+            if (event.target.closest('#pcPullBtn')) {
+                event.preventDefault();
+                pullDetectionQueue();
+                return;
+            }
+            if (event.target.closest('[data-role="command-status-marquee"]')) return;
+            handleMapPick(event);
+        });
 
         document.querySelectorAll('[data-work-mode]').forEach(button => {
             button.addEventListener('click', () => {
