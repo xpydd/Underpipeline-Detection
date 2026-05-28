@@ -15,7 +15,8 @@
             initialPoint: { x: 2347184.25, y: 434427.06, elevation: 4.82 },
             surveyLineId: 'A303_2026-04-21_0001_0',
             scanMode: 'straight',
-            coordinateSystem: 'WGS84'
+            coordinateSystem: 'WGS84',
+            videoStreamUrl: 'webrtc://LD-GTL310-66P/main'
         },
         'PROJ-2024-003': {
             deviceId: 'LD-GTL310-88P',
@@ -23,7 +24,8 @@
             initialPoint: { x: 2353180.42, y: 436812.5, elevation: 5.36 },
             surveyLineId: 'HV404_2026-04-21_0001_0',
             scanMode: 'straight',
-            coordinateSystem: 'WGS84'
+            coordinateSystem: 'WGS84',
+            videoStreamUrl: 'webrtc://LD-GTL310-88P/main'
         },
         'PROJ-2024-005': {
             deviceId: 'LD-GTL310-77P',
@@ -31,7 +33,8 @@
             initialPoint: { x: 2349122.72, y: 435278.18, elevation: 4.95 },
             surveyLineId: 'TXGX_2026-04-21_0001_0',
             scanMode: 'zigzag',
-            coordinateSystem: 'WGS84'
+            coordinateSystem: 'WGS84',
+            videoStreamUrl: 'webrtc://LD-GTL310-77P/main'
         }
     };
 
@@ -48,7 +51,8 @@
         commandRows: [],
         telemetry: null,
         ack: null,
-        statusMessage: '等待设备对接'
+        statusMessage: '等待设备对接',
+        consoleFullscreen: false
     };
 
     const COMMAND_TYPE_LABELS = {
@@ -61,6 +65,13 @@
     };
 
     const PARAMETER_GROUPS = {
+        operationMode: [
+            'workMode',
+            'recheckMode',
+            'laneSpacingM',
+            'edgeDistanceM',
+            'fineScanStepM'
+        ],
         controlPlan: [
             'surveyLineId',
             'coordinateSystem',
@@ -68,7 +79,6 @@
             'initialY',
             'directionDeg',
             'widthM',
-            'halfArcWidthM',
             'pointCount',
             'planningSide'
         ],
@@ -92,8 +102,9 @@
 
     const ACTION_LAYOUT = {
         headerActions: ['connectDevice'],
-        initialPanelActions: ['sendPlan'],
-        commandLedgerActions: ['syncReturn'],
+        planningPanel: 'workModeAndInitialValues',
+        planningPanelActions: ['sendPlan'],
+        commandStatusActions: ['syncReturn'],
         buttonSize: 'compact'
     };
 
@@ -101,7 +112,7 @@
         title: '设备控制',
         placement: 'belowMap',
         density: 'compact',
-        sections: ['taskCommands', 'controlSummary', 'manualDrivePad'],
+        sections: ['taskCommands', 'controlSummary', 'manualDrivePad', 'commandStatusStream'],
         taskCommands: ['continue_task', 'pause_task', 'finish_task'],
         summaryMetrics: ['connectionState', 'taskProgress', 'returnQueue'],
         manualDriveButtons: [
@@ -113,10 +124,183 @@
         ]
     };
 
+    const VIDEO_LIVE_LAYOUT = {
+        title: '视频直播',
+        placement: 'mapOverlay',
+        streamField: 'videoStreamUrl',
+        supportedSources: ['WebRTC', 'HLS', 'HTTP-FLV', 'RTSP proxy'],
+        statusMetrics: ['sourceState', 'protocol', 'latency']
+    };
+
+    const WORK_MODE_CONFIG = {
+        exploration: {
+            label: '探索模式',
+            shortLabel: '未知区域盲探',
+            icon: 'travel_explore',
+            description: '未知区域盲探，达阈值后巡线。',
+            scanMode: 'zigzag',
+            laneSpacingM: 3.5,
+            edgeDistanceM: 0.3,
+            lengthM: 4,
+            widthM: 3.5,
+            pointDistanceM: 0.2,
+            pointCount: 7,
+            planningSide: 1,
+            input: '区域 / 走向 / 行间距 / 阈值',
+            planning: '弓字覆盖 / 5 帧触发巡线',
+            output: '点位 / 轨迹 / 报告'
+        },
+        traversal: {
+            label: '遍历模式',
+            shortLabel: '区域全覆盖',
+            icon: 'grid_on',
+            description: '指定围栏内等间距全覆盖。',
+            scanMode: 'zigzag',
+            laneSpacingM: 0.5,
+            edgeDistanceM: 0.3,
+            lengthM: 4,
+            widthM: 3.5,
+            pointDistanceM: 0.5,
+            pointCount: 8,
+            planningSide: 1,
+            input: '围栏 / 方向线 / 行间距 / 贴边',
+            planning: '内缩覆盖 / U 型转弯',
+            output: '轨迹 / 点位 / 覆盖度'
+        },
+        recheck: {
+            label: '复检模式',
+            shortLabel: '成果二次作业',
+            icon: 'manage_search',
+            description: '基于历史成果二次作业。',
+            scanMode: 'zigzag',
+            laneSpacingM: 0.25,
+            edgeDistanceM: 0.3,
+            lengthM: 4,
+            widthM: 3.5,
+            pointDistanceM: 0.25,
+            pointCount: 9,
+            planningSide: 1,
+            input: '历史成果 / 子模式 / 局部框选',
+            planning: '补扫 / 强化 / 精扫',
+            output: '版本 / 融合 / 对比'
+        }
+    };
+
+    const RECHECK_MODE_CONFIG = {
+        rescan: {
+            label: '补扫',
+            description: '补全漏扫/弱覆盖区。',
+            planning: '漏扫补全'
+        },
+        reinforce: {
+            label: '强化扫',
+            description: '低置信管线补强。',
+            planning: '低置信补强'
+        },
+        fine: {
+            label: '精细扫',
+            description: '高置信管线横切精扫。',
+            planning: '高密横切精扫'
+        }
+    };
+
+    const MODE_PARAMETER_VIEW = {
+        exploration: {
+            caption: '探索模式输入',
+            scopeLabel: '闭合搜索区域',
+            scopeText: '地图范围承接',
+            directionLabel: '预估管道走向',
+            directionText: '可选，设备方向承接',
+            visibleParams: ['scope', 'direction', 'laneSpacingM'],
+            fields: {
+                laneSpacingM: {
+                    label: '探索行间距(m)',
+                    hint: '默认 3.5m'
+                }
+            }
+        },
+        traversal: {
+            caption: '遍历模式输入',
+            scopeLabel: '闭合电子围栏',
+            scopeText: '地图范围承接',
+            directionLabel: '基准方向线',
+            directionText: '设备方向承接',
+            visibleParams: ['scope', 'direction', 'laneSpacingM', 'edgeDistanceM'],
+            fields: {
+                laneSpacingM: {
+                    label: '遍历行间距(m)',
+                    hint: '默认 0.5m'
+                },
+                edgeDistanceM: {
+                    label: '贴边距离(m)',
+                    hint: '默认 0.3m'
+                }
+            }
+        },
+        recheck: {
+            caption: '复检模式输入',
+            scopeLabel: '历史成果地图',
+            scopeText: '读取成果',
+            directionLabel: '局部框选范围',
+            directionText: '可选',
+            visibleParams: ['scope', 'direction', 'recheckRule', 'laneSpacingM', 'edgeDistanceM'],
+            fields: {
+                laneSpacingM: {
+                    label: '补扫行间距(m)',
+                    hint: '沿用原任务'
+                },
+                edgeDistanceM: {
+                    label: '补扫贴边距离(m)',
+                    hint: '沿用原任务'
+                }
+            }
+        }
+    };
+
+    const RECHECK_PARAMETER_VIEW = {
+        rescan: {
+            visibleParams: ['scope', 'direction', 'recheckRule', 'laneSpacingM', 'edgeDistanceM'],
+            ruleLabel: '补扫规则',
+            ruleText: '只补空白区',
+            fields: {
+                laneSpacingM: {
+                    label: '补扫行间距(m)',
+                    hint: '沿用原任务'
+                },
+                edgeDistanceM: {
+                    label: '补扫贴边距离(m)',
+                    hint: '沿用原任务'
+                }
+            }
+        },
+        reinforce: {
+            visibleParams: ['scope', 'direction', 'recheckRule', 'laneSpacingM'],
+            ruleLabel: '强化扫规则',
+            ruleText: '平行补强线',
+            fields: {
+                laneSpacingM: {
+                    label: '补强线间距(m)',
+                    hint: '默认 0.2-0.3m'
+                }
+            }
+        },
+        fine: {
+            visibleParams: ['scope', 'direction', 'recheckRule', 'fineScanStepM'],
+            ruleLabel: '精扫规则',
+            ruleText: '垂直横切面',
+            fields: {
+                fineScanStepM: {
+                    label: '扫描步长(m)',
+                    hint: '默认 0.25m'
+                }
+            }
+        }
+    };
+
     const INPUT_BEHAVIOR = {
         initialPointSource: 'mapPick',
         readonlyFields: ['initialX', 'initialY', 'lengthM'],
-        editableFields: ['surveyLineId', 'widthM', 'halfArcWidthM', 'pointCount', 'planningSide', 'directionDeg', 'pointDistanceM']
+        editableFields: ['workMode', 'recheckMode', 'laneSpacingM', 'edgeDistanceM', 'fineScanStepM', 'surveyLineId', 'widthM', 'pointCount', 'planningSide', 'directionDeg', 'pointDistanceM']
     };
 
     const BUTTON_CLASSES = {
@@ -130,6 +314,8 @@
         controlSuccess: 'inline-flex h-8 min-w-[76px] items-center justify-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-3 text-xs font-medium text-emerald-700 hover:bg-emerald-100 transition-colors',
         controlWarning: 'inline-flex h-8 min-w-[76px] items-center justify-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-3 text-xs font-medium text-amber-700 hover:bg-amber-100 transition-colors',
         controlDanger: 'inline-flex h-8 min-w-[76px] items-center justify-center gap-1.5 rounded-md border border-rose-200 bg-rose-50 px-3 text-xs font-medium text-rose-700 hover:bg-rose-100 transition-colors',
+        planSubmitReady: 'inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md bg-emerald-500 px-3 text-xs font-bold text-white shadow-sm shadow-emerald-500/20 hover:bg-emerald-600 transition-colors',
+        planSubmitDisabled: 'inline-flex h-9 shrink-0 cursor-not-allowed items-center justify-center gap-1.5 rounded-md bg-slate-300 px-3 text-xs font-bold text-white shadow-none dark:bg-slate-700 dark:text-slate-300',
         pad: 'inline-flex size-7 items-center justify-center rounded-md border border-slate-600 bg-slate-800 text-slate-100 hover:border-primary hover:bg-slate-700 transition-colors',
         padActive: 'inline-flex size-7 items-center justify-center rounded-md border border-primary/60 bg-primary/20 text-primary hover:bg-primary/30 transition-colors'
     };
@@ -144,14 +330,22 @@
         initialY: '在地图上点击标记后自动获取的起点 Y 坐标。',
         lengthM: '对应 MQTT detection_plan.length_m，单位米，由系统按规划范围自动计算，只读展示。',
         widthM: '对应 MQTT detection_plan.width_m，单位米，表示矩形探测区域的横向宽度，影响小车覆盖范围。',
-        halfArcWidthM: '几字型测点之间的间距，影响折返测点疏密。',
+        halfArcWidthM: '由探测行间距自动映射到 MQTT half_arc_width_m，不再作为独立配置项。',
         pointDistanceM: '到目标测点多少米内算命中，用于任务进度判定。',
-        planningSide: '从起点和方向看，选择向左侧或右侧生成探测区域。'
+        planningSide: '从起点和方向看，选择向左侧或右侧生成探测区域。',
+        laneSpacingM: '按模式切换含义。',
+        edgeDistanceM: '用于边界内缩。',
+        fineScanStepM: '横切面扫描步长。'
     };
 
     const FIELD_LABELS = {
         lengthM: '探测长度',
         widthM: '探测宽度'
+    };
+
+    const MODE_BUTTON_CLASSES = {
+        active: 'inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-2 text-xs font-bold text-primary transition-colors',
+        inactive: 'inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md border border-slate-200 bg-white px-2 text-xs font-medium text-slate-500 hover:border-primary/30 hover:text-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 transition-colors'
     };
 
     function clone(value) {
@@ -178,8 +372,21 @@
         return clone(TASK_CONTROL_LAYOUT);
     }
 
+    function getConsoleVideoLiveLayout() {
+        return clone(VIDEO_LIVE_LAYOUT);
+    }
+
     function getConsoleInputBehavior() {
         return clone(INPUT_BEHAVIOR);
+    }
+
+    function getConsoleWorkModeConfig() {
+        return {
+            modes: clone(WORK_MODE_CONFIG),
+            recheckModes: clone(RECHECK_MODE_CONFIG),
+            parameterViews: clone(MODE_PARAMETER_VIEW),
+            recheckParameterViews: clone(RECHECK_PARAMETER_VIEW)
+        };
     }
 
     function escapeHtml(value) {
@@ -444,8 +651,9 @@
         `;
     }
 
-    function validatePlanReadiness({ vehiclePoint, directionDeg, startPoint, lengthM, widthM } = {}) {
+    function validatePlanReadiness({ workMode, vehiclePoint, directionDeg, startPoint, lengthM, widthM } = {}) {
         const missing = [];
+        if (!workMode) missing.push('workMode');
         if (!vehiclePoint) missing.push('vehiclePoint');
         if (!hasFiniteNumber(directionDeg)) missing.push('directionDeg');
         if (!startPoint) missing.push('startPoint');
@@ -550,6 +758,82 @@
         return map[status] || map.offline;
     }
 
+    function getVideoProtocol(streamUrl = '') {
+        const source = String(streamUrl || '').toLowerCase();
+        if (source.startsWith('webrtc://')) return 'WebRTC';
+        if (source.includes('.m3u8')) return 'HLS';
+        if (source.includes('.flv')) return 'HTTP-FLV';
+        if (source.startsWith('rtsp://')) return 'RTSP';
+        if (source.startsWith('http://') || source.startsWith('https://')) return 'HTTP';
+        return streamUrl ? '自定义' : '-';
+    }
+
+    function isPlayableVideoUrl(streamUrl = '') {
+        const source = String(streamUrl || '').toLowerCase();
+        return source.startsWith('http://') || source.startsWith('https://') || source.startsWith('blob:') || source.startsWith('data:');
+    }
+
+    function buildDeviceLiveVideoPanel({ binding = {}, device = {}, connected = false } = {}) {
+        const streamUrl = device.videoStreamUrl || binding.videoStreamUrl || '';
+        const protocol = getVideoProtocol(streamUrl);
+        const hasStream = !!streamUrl;
+        const ready = connected && hasStream;
+        const statusText = ready ? '源已配置' : (connected ? '待配置' : '待对接');
+        const statusClass = ready ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-slate-50 text-slate-500 border-slate-200';
+        const playableUrl = isPlayableVideoUrl(streamUrl) ? streamUrl : '';
+        const deviceId = binding.deviceId || device.id || '-';
+        return `
+            <div data-role="device-live-video-card" data-live-state="${ready ? 'ready' : 'waiting'}" class="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-950 p-2 text-slate-100">
+                <div class="mb-2 flex items-center justify-between gap-2">
+                    <h4 class="flex items-center gap-1.5 text-xs font-bold text-white">
+                        <span class="material-symbols-outlined text-base text-primary">videocam</span>
+                        视频直播
+                    </h4>
+                    <span id="pcLiveVideoStatus" class="inline-flex h-5 items-center rounded-full border px-2 text-[10px] font-medium ${statusClass}">${statusText}</span>
+                </div>
+                <div class="relative aspect-video overflow-hidden rounded-md border border-slate-800 bg-slate-900">
+                    <video id="pcLiveVideo" data-video-stream-url="${escapeHtml(streamUrl)}" data-video-protocol="${escapeHtml(protocol)}" ${playableUrl ? `src="${escapeHtml(playableUrl)}"` : ''} class="absolute inset-0 size-full object-cover" muted playsinline controls preload="metadata"></video>
+                    <div data-role="video-live-placeholder" class="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_center,rgba(34,197,94,.18),transparent_55%),linear-gradient(135deg,rgba(15,23,42,.92),rgba(2,6,23,.98))]">
+                        <div class="text-center">
+                            <span class="material-symbols-outlined text-3xl text-primary">linked_camera</span>
+                            <div class="mt-1 text-xs font-bold text-white">设备视频</div>
+                            <div class="text-[10px] text-slate-400">${ready ? '等待实时流' : '连接后接入'}</div>
+                        </div>
+                    </div>
+                    <div class="absolute left-2 top-2 flex items-center gap-1 rounded bg-black/45 px-1.5 py-0.5 text-[10px] text-white">
+                        <span class="size-1.5 rounded-full ${ready ? 'bg-emerald-400 animate-pulse' : 'bg-slate-400'}"></span>
+                        LIVE
+                    </div>
+                </div>
+                <div class="mt-2 grid grid-cols-3 gap-1 text-[10px]">
+                    <div class="rounded bg-slate-900 px-1.5 py-1">
+                        <span class="block text-slate-500">设备</span>
+                        <b class="block truncate text-slate-200">${escapeHtml(deviceId)}</b>
+                    </div>
+                    <div class="rounded bg-slate-900 px-1.5 py-1">
+                        <span class="block text-slate-500">协议</span>
+                        <b class="block truncate text-slate-200">${escapeHtml(protocol)}</b>
+                    </div>
+                    <div class="rounded bg-slate-900 px-1.5 py-1">
+                        <span class="block text-slate-500">延迟</span>
+                        <b class="block truncate text-slate-200">${ready ? '<120ms' : '-'}</b>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderLiveVideoPanel() {
+        const container = document.getElementById('pcLiveVideoPanel');
+        if (!container || !state.binding) return;
+        const device = state.currentDevice || getDeviceById(state.binding.deviceId) || {};
+        container.innerHTML = buildDeviceLiveVideoPanel({
+            binding: state.binding,
+            device,
+            connected: state.connected
+        });
+    }
+
     function getDeviceControlReadiness({ connected = false, device = null } = {}) {
         if (!device) {
             return { canOperate: false, message: '未找到绑定设备，请先完成设备绑定' };
@@ -565,11 +849,24 @@
 
     function buildInitializationInput({ projectId, binding, fields = {} }) {
         const initialPoint = binding?.initialPoint || {};
+        const workMode = fields.workMode || binding?.workMode || 'exploration';
+        const recheckMode = fields.recheckMode || binding?.recheckMode || 'rescan';
+        const modeConfig = WORK_MODE_CONFIG[workMode] || WORK_MODE_CONFIG.exploration;
+        const recheckConfig = RECHECK_MODE_CONFIG[recheckMode] || RECHECK_MODE_CONFIG.rescan;
+        const fineScanStepM = toNumber(fields.fineScanStepM ?? fields.pointDistanceM ?? modeConfig.pointDistanceM, modeConfig.pointDistanceM);
+        const laneSpacingM = toNumber(fields.laneSpacingM ?? modeConfig.laneSpacingM, modeConfig.laneSpacingM);
         return {
             deviceId: binding?.deviceId || '',
             projectIds: projectId ? [projectId] : [],
+            workMode,
+            workModeLabel: modeConfig.label,
+            recheckMode,
+            recheckModeLabel: workMode === 'recheck' ? recheckConfig.label : '',
+            laneSpacingM,
+            edgeDistanceM: toNumber(fields.edgeDistanceM ?? modeConfig.edgeDistanceM, modeConfig.edgeDistanceM),
+            fineScanStepM,
             surveyLineId: fields.surveyLineId || binding?.surveyLineId || '',
-            scanMode: fields.scanMode || binding?.scanMode || 'straight',
+            scanMode: fields.scanMode || (fields.workMode ? modeConfig.scanMode : binding?.scanMode) || modeConfig.scanMode,
             hostPermittivity: fields.hostPermittivity ?? 10,
             timeWindowNs: fields.timeWindowNs ?? 21,
             distanceScaleMPerPx: fields.distanceScaleMPerPx ?? 0.01,
@@ -579,12 +876,12 @@
             initialY: fields.initialY ?? initialPoint.y ?? '',
             initialElevation: fields.initialElevation ?? initialPoint.elevation ?? '',
             directionDeg: fields.directionDeg ?? binding?.directionDeg ?? 0,
-            lengthM: toNumber(fields.lengthM ?? binding?.lengthM, 4),
-            widthM: toNumber(fields.widthM ?? binding?.widthM, 3.5),
-            halfArcWidthM: toNumber(fields.halfArcWidthM ?? binding?.halfArcWidthM, 3.5),
-            pointDistanceM: toNumber(fields.pointDistanceM ?? binding?.pointDistanceM, 1),
-            pointCount: toNumber(fields.pointCount ?? binding?.pointCount, 5),
-            planningSide: toNumber(fields.planningSide ?? binding?.planningSide, 1) === -1 ? -1 : 1
+            lengthM: toNumber(fields.lengthM ?? binding?.lengthM, modeConfig.lengthM),
+            widthM: toNumber(fields.widthM ?? binding?.widthM, modeConfig.widthM),
+            halfArcWidthM: laneSpacingM,
+            pointDistanceM: toNumber((workMode === 'recheck' && recheckMode === 'fine') ? fineScanStepM : fields.pointDistanceM ?? binding?.pointDistanceM, modeConfig.pointDistanceM),
+            pointCount: toNumber(fields.pointCount ?? binding?.pointCount, modeConfig.pointCount),
+            planningSide: toNumber(fields.planningSide ?? binding?.planningSide ?? modeConfig.planningSide, modeConfig.planningSide) === -1 ? -1 : 1
         };
     }
 
@@ -689,7 +986,18 @@
     }
 
     function getFieldValues() {
+        const workMode = document.getElementById('pcWorkMode')?.value;
+        const recheckMode = document.getElementById('pcRecheckMode')?.value;
+        const fineScanStepM = document.getElementById('pcFineScanStepM')?.value;
+        const pointDistanceM = workMode === 'recheck' && recheckMode === 'fine' && fineScanStepM
+            ? fineScanStepM
+            : document.getElementById('pcPointDistanceM')?.value;
         return {
+            workMode,
+            recheckMode,
+            laneSpacingM: document.getElementById('pcLaneSpacingM')?.value,
+            edgeDistanceM: document.getElementById('pcEdgeDistanceM')?.value,
+            fineScanStepM,
             surveyLineId: document.getElementById('pcSurveyLineId')?.value,
             scanMode: document.getElementById('pcScanMode')?.value,
             hostPermittivity: document.getElementById('pcHostPermittivity')?.value,
@@ -703,8 +1011,8 @@
             directionDeg: document.getElementById('pcDirectionDeg')?.value,
             lengthM: document.getElementById('pcLengthM')?.value,
             widthM: document.getElementById('pcWidthM')?.value,
-            halfArcWidthM: document.getElementById('pcHalfArcWidthM')?.value,
-            pointDistanceM: document.getElementById('pcPointDistanceM')?.value,
+            halfArcWidthM: document.getElementById('pcLaneSpacingM')?.value,
+            pointDistanceM,
             pointCount: document.getElementById('pcPointCount')?.value,
             planningSide: document.getElementById('pcPlanningSide')?.value
         };
@@ -712,6 +1020,219 @@
 
     function getDeviceById(deviceId) {
         return state.devices.find(device => device.id === deviceId) || null;
+    }
+
+    function getWorkModeValue() {
+        const value = document.getElementById('pcWorkMode')?.value || 'exploration';
+        return WORK_MODE_CONFIG[value] ? value : 'exploration';
+    }
+
+    function getRecheckModeValue() {
+        const value = document.getElementById('pcRecheckMode')?.value || 'rescan';
+        return RECHECK_MODE_CONFIG[value] ? value : 'rescan';
+    }
+
+    function setFieldValue(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.value = value;
+    }
+
+    function buildWorkModeButtonHtml(key, config, active = false) {
+        return `
+            <button type="button" data-work-mode="${key}" class="${active ? MODE_BUTTON_CLASSES.active : MODE_BUTTON_CLASSES.inactive}">
+                <span class="material-symbols-outlined text-base">${config.icon}</span>
+                ${config.label}
+            </button>
+        `;
+    }
+
+    function buildRecheckModeButtonHtml(key, config, active = false) {
+        return `
+            <button type="button" data-recheck-mode="${key}" class="${active ? MODE_BUTTON_CLASSES.active : MODE_BUTTON_CLASSES.inactive}">
+                ${config.label}
+            </button>
+        `;
+    }
+
+    function updateModeButtonClasses(selector, activeKey, activeClass = MODE_BUTTON_CLASSES.active, inactiveClass = MODE_BUTTON_CLASSES.inactive) {
+        document.querySelectorAll(selector).forEach(button => {
+            const key = button.dataset.workMode || button.dataset.recheckMode;
+            button.className = key === activeKey ? activeClass : inactiveClass;
+        });
+    }
+
+    function getModeParameterView(modeKey, recheckKey) {
+        const base = clone(MODE_PARAMETER_VIEW[modeKey] || MODE_PARAMETER_VIEW.exploration);
+        if (modeKey !== 'recheck') return base;
+        const recheck = clone(RECHECK_PARAMETER_VIEW[recheckKey] || RECHECK_PARAMETER_VIEW.rescan);
+        return {
+            ...base,
+            visibleParams: recheck.visibleParams || base.visibleParams,
+            ruleLabel: recheck.ruleLabel,
+            ruleText: recheck.ruleText,
+            fields: {
+                ...(base.fields || {}),
+                ...(recheck.fields || {})
+            }
+        };
+    }
+
+    function setText(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    }
+
+    function toggleModeParam(param, visibleParams) {
+        const el = document.querySelector(`[data-mode-param="${param}"]`);
+        if (el) el.classList.toggle('hidden', !visibleParams.includes(param));
+    }
+
+    function updateModeParamField(param, field = {}) {
+        setText(`pc${param.charAt(0).toUpperCase()}${param.slice(1)}Label`, field.label || '');
+        setText(`pc${param.charAt(0).toUpperCase()}${param.slice(1)}Hint`, field.hint || '');
+    }
+
+    function renderWorkModePanel() {
+        const modeKey = getWorkModeValue();
+        const recheckKey = getRecheckModeValue();
+        const mode = WORK_MODE_CONFIG[modeKey] || WORK_MODE_CONFIG.exploration;
+        const recheck = RECHECK_MODE_CONFIG[recheckKey] || RECHECK_MODE_CONFIG.rescan;
+        const parameterView = getModeParameterView(modeKey, recheckKey);
+        const visibleParams = parameterView.visibleParams || [];
+        updateModeButtonClasses('[data-work-mode]', modeKey);
+        updateModeButtonClasses('[data-recheck-mode]', recheckKey);
+
+        const subModePanel = document.getElementById('pcRecheckModePanel');
+        if (subModePanel) subModePanel.classList.toggle('hidden', modeKey !== 'recheck');
+
+        const title = document.getElementById('pcWorkModeTitle');
+        const summary = document.getElementById('pcWorkModeSummary');
+        const input = document.getElementById('pcWorkModeInputRule');
+        const planning = document.getElementById('pcWorkModePlanningRule');
+        const output = document.getElementById('pcWorkModeOutputRule');
+        const badge = document.getElementById('pcWorkModeBadge');
+        if (title) title.textContent = mode.label;
+        if (summary) summary.textContent = modeKey === 'recheck' ? `${mode.description} 当前子模式：${recheck.description}` : mode.description;
+        if (input) input.textContent = mode.input;
+        if (planning) planning.textContent = modeKey === 'recheck' ? recheck.planning : mode.planning;
+        if (output) output.textContent = mode.output;
+        if (badge) badge.textContent = mode.shortLabel;
+        setText('pcModeParameterCaption', parameterView.caption || '模式输入参数');
+        setText('pcModeAreaLabel', parameterView.scopeLabel || '');
+        setText('pcModeAreaHint', parameterView.scopeText || '');
+        setText('pcModeDirectionLabel', parameterView.directionLabel || '');
+        setText('pcModeDirectionHint', parameterView.directionText || '');
+        setText('pcRecheckRuleLabel', parameterView.ruleLabel || '');
+        setText('pcRecheckRuleHint', parameterView.ruleText || '');
+        ['scope', 'direction', 'recheckRule', 'laneSpacingM', 'edgeDistanceM', 'fineScanStepM'].forEach(param => {
+            toggleModeParam(param, visibleParams);
+        });
+        updateModeParamField('laneSpacingM', parameterView.fields?.laneSpacingM);
+        updateModeParamField('edgeDistanceM', parameterView.fields?.edgeDistanceM);
+        updateModeParamField('fineScanStepM', parameterView.fields?.fineScanStepM);
+        renderPlanningSummary();
+    }
+
+    function applyWorkModeDefaults(modeKey, recheckKey = getRecheckModeValue()) {
+        const mode = WORK_MODE_CONFIG[modeKey] || WORK_MODE_CONFIG.exploration;
+        setFieldValue('pcWorkMode', modeKey);
+        setFieldValue('pcRecheckMode', recheckKey);
+        setFieldValue('pcLaneSpacingM', mode.laneSpacingM);
+        setFieldValue('pcEdgeDistanceM', mode.edgeDistanceM);
+        setFieldValue('pcFineScanStepM', mode.pointDistanceM);
+        setFieldValue('pcScanMode', mode.scanMode);
+        setFieldValue('pcLengthM', mode.lengthM);
+        setFieldValue('pcWidthM', mode.widthM);
+        setFieldValue('pcPointDistanceM', mode.pointDistanceM);
+        setFieldValue('pcPointCount', mode.pointCount);
+        setFieldValue('pcPlanningSide', mode.planningSide);
+        renderWorkModePanel();
+        renderMap();
+        updatePlanActionState();
+    }
+
+    function renderPlanningSummary() {
+        const fields = getFieldValues();
+        const modeKey = fields.workMode || 'exploration';
+        const recheckKey = fields.recheckMode || 'rescan';
+        const mode = WORK_MODE_CONFIG[modeKey] || WORK_MODE_CONFIG.exploration;
+        const recheck = RECHECK_MODE_CONFIG[recheckKey] || RECHECK_MODE_CONFIG.rescan;
+        const startText = fields.initialX && fields.initialY
+            ? `${formatFixed(fields.initialX, 2)}, ${formatFixed(fields.initialY, 2)}`
+            : '地图打点获取';
+        const rangeText = toNumber(fields.lengthM, 0) > 0 && toNumber(fields.widthM, 0) > 0
+            ? `${formatFixed(fields.lengthM, 1)}m x ${formatFixed(fields.widthM, 1)}m`
+            : '待确认';
+        setText('pcPlanModeMini', modeKey === 'recheck' ? `${mode.label} / ${recheck.label}` : mode.label);
+        setText('pcPlanModeRuleMini', modeKey === 'recheck' ? recheck.planning : mode.planning);
+        setText('pcPlanStartMini', startText);
+        setText('pcPlanRangeMini', rangeText);
+        setText('pcPlanDirectionMini', formatDirection(fields.directionDeg || 0));
+        setText('pcPlanWidthMini', fields.widthM ? `${formatFixed(fields.widthM, 1)}m` : '-');
+        setText('pcPlanLengthMini', fields.lengthM ? `${formatFixed(fields.lengthM, 1)}m` : '-');
+    }
+
+    function openPlanningModal() {
+        const modal = document.getElementById('pcPlanningModal');
+        if (!modal) return;
+        modal.classList.remove('hidden');
+        updateBodyScrollLock();
+        renderWorkModePanel();
+        updatePlanActionState();
+    }
+
+    function closePlanningModal() {
+        const modal = document.getElementById('pcPlanningModal');
+        if (!modal) return;
+        modal.classList.add('hidden');
+        updateBodyScrollLock();
+    }
+
+    function isPlanningModalOpen() {
+        const modal = document.getElementById('pcPlanningModal');
+        return !!modal && !modal.classList.contains('hidden');
+    }
+
+    function updateBodyScrollLock() {
+        document.body?.classList.toggle('overflow-hidden', state.consoleFullscreen || isPlanningModalOpen());
+    }
+
+    function renderFullscreenToggle() {
+        const button = document.getElementById('pcFullscreenBtn');
+        if (!button) return;
+        const active = state.consoleFullscreen;
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+        button.title = active ? '退出全屏' : '全屏显示';
+        button.innerHTML = `
+            <span class="material-symbols-outlined text-base">${active ? 'close_fullscreen' : 'open_in_full'}</span>
+            ${active ? '退出全屏' : '全屏显示'}
+        `;
+    }
+
+    function applyConsoleFullscreenState(active) {
+        state.consoleFullscreen = !!active;
+        const workspace = document.getElementById('projectConsoleWorkspace');
+        const canvas = document.getElementById('pcMapCanvas');
+        if (workspace) {
+            workspace.dataset.fullscreen = state.consoleFullscreen ? 'true' : 'false';
+            ['fixed', 'inset-0', 'z-[70]', 'bg-background-light', 'dark:bg-background-dark', 'p-4'].forEach(className => {
+                workspace.classList.toggle(className, state.consoleFullscreen);
+            });
+            workspace.classList.toggle('shadow-2xl', state.consoleFullscreen);
+            if (state.consoleFullscreen) {
+                workspace.scrollTop = 0;
+            }
+        }
+        if (canvas) {
+            canvas.style.height = state.consoleFullscreen ? 'clamp(460px, calc(100vh - 220px), 680px)' : '';
+        }
+        renderFullscreenToggle();
+        updateBodyScrollLock();
+        renderMap();
+    }
+
+    function toggleConsoleFullscreen() {
+        applyConsoleFullscreenState(!state.consoleFullscreen);
     }
 
     function renderShell() {
@@ -727,7 +1248,7 @@
                     </div>
                 </div>
             </div>
-            <div id="projectConsoleWorkspace" class="hidden h-full min-h-0 overflow-y-auto custom-scrollbar pr-1 space-y-4">
+            <div id="projectConsoleWorkspace" class="hidden h-full min-h-0 overflow-y-auto custom-scrollbar pr-1 space-y-3">
                 <section class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-700 p-2.5">
                     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
                         <div>
@@ -739,108 +1260,199 @@
                             <p id="pcStatusMessage" class="mt-1 text-xs text-slate-500 dark:text-slate-400">等待设备对接</p>
                         </div>
                         <div class="flex flex-wrap gap-2">
+                            <button id="pcFullscreenBtn" type="button" class="${BUTTON_CLASSES.neutral}" aria-pressed="false" title="全屏显示">
+                                <span class="material-symbols-outlined text-base">open_in_full</span>
+                                全屏显示
+                            </button>
                             <button id="pcConnectBtn" class="${BUTTON_CLASSES.primary}">
                                 <span class="material-symbols-outlined text-base">settings_input_antenna</span>
                                 设备对接
                             </button>
                         </div>
                     </div>
-                    <div id="pcDeviceStatusGrid" class="mt-3 grid sm:grid-cols-2 xl:grid-cols-4 gap-2"></div>
+                    <div id="pcDeviceStatusGrid" class="mt-2 grid sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-1.5"></div>
                 </section>
 
-                <section class="grid xl:grid-cols-[0.9fr_1.1fr] gap-3">
-                    <div class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-700 p-2.5">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary">tune</span>
-                                初始值与方向
-                            </h3>
-                            <div class="flex items-center gap-2">
+                <section class="grid lg:grid-cols-[280px_minmax(0,1fr)] gap-3">
+                    <div data-role="work-mode-planning-card" class="self-start bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-700 p-3">
+                        <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">route</span>
+                                    作业模式与规划
+                                </h3>
+                            </div>
+                            <div class="flex flex-wrap items-center justify-end gap-2">
+                                <span id="pcWorkModeBadge" class="inline-flex h-6 items-center rounded-full border border-slate-200 bg-slate-50 px-2 text-[11px] font-medium text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">未知区域盲探</span>
                                 <span id="pcAckBadge" class="text-[11px] text-slate-400">未下发</span>
                             </div>
                         </div>
-                        <div id="pcPlanSteps" class="mb-3 grid grid-cols-2 lg:grid-cols-4 gap-2">
-                            <div data-plan-step="vehiclePoint" class="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5">
-                                <div class="text-[10px] text-slate-400">1</div>
-                                <div class="text-[11px] font-bold text-slate-600">车辆定位</div>
-                            </div>
-                            <div data-plan-step="directionDeg" class="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5">
-                                <div class="text-[10px] text-slate-400">2</div>
-                                <div class="text-[11px] font-bold text-slate-600">方向放线</div>
-                            </div>
-                            <div data-plan-step="startPoint" class="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5">
-                                <div class="text-[10px] text-slate-400">3</div>
-                                <div class="text-[11px] font-bold text-slate-600">起点打点</div>
-                            </div>
-                            <div data-plan-step="rangeBox" class="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5">
-                                <div class="text-[10px] text-slate-400">4</div>
-                                <div class="text-[11px] font-bold text-slate-600">范围确认</div>
-                            </div>
-                        </div>
-                        <div class="grid sm:grid-cols-2 gap-3">
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">测线编号</span>
-                                <input id="pcSurveyLineId" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
-                            </label>
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">坐标系</span>
-                                <input id="pcCoordinateSystem" value="WGS84" readonly class="w-full px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-200 outline-none">
-                            </label>
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">初始 X</span>
-                                <span class="block text-[11px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.initialX}</span>
-                                <input id="pcInitialX" type="number" step="0.01" readonly class="w-full px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-200 outline-none">
-                            </label>
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">初始 Y</span>
-                                <span class="block text-[11px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.initialY}</span>
-                                <input id="pcInitialY" type="number" step="0.01" readonly class="w-full px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-200 outline-none">
-                            </label>
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">${FIELD_LABELS.lengthM}</span>
-                                <span class="block text-[11px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.lengthM}</span>
-                                <input id="pcLengthM" type="number" step="0.1" readonly class="w-full px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-200 outline-none">
-                            </label>
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">${FIELD_LABELS.widthM}</span>
-                                <span class="block text-[11px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.widthM}</span>
-                                <input id="pcWidthM" type="number" step="0.1" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
-                            </label>
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">几字间距(m)</span>
-                                <span class="block text-[11px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.halfArcWidthM}</span>
-                                <input id="pcHalfArcWidthM" type="number" step="0.1" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
-                            </label>
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">测点数量</span>
-                                <input id="pcPointCount" type="number" min="1" step="1" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
-                            </label>
-                            <label class="space-y-1">
-                                <span class="text-xs font-medium text-slate-500">规划侧</span>
-                                <span class="block text-[11px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.planningSide}</span>
-                                <select id="pcPlanningSide" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
-                                    <option value="1">左侧</option>
-                                    <option value="-1">右侧</option>
-                                </select>
-                            </label>
-                            <label class="sm:col-span-2 space-y-2">
-                                <span class="text-xs font-medium text-slate-500">设备方向：<b id="pcDirectionLabel" class="text-slate-800 dark:text-slate-100">正北 0°</b></span>
-                                <div class="flex items-center gap-3">
-                                    <input id="pcDirectionRange" type="range" min="0" max="359" class="flex-1 accent-[#5ad98b]">
-                                    <input id="pcDirectionDeg" type="number" min="0" max="359" class="w-24 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                        <div data-role="planning-compact-rail" class="space-y-2.5">
+                            <div class="rounded-md border border-slate-100 bg-slate-50 p-2 dark:border-slate-700 dark:bg-slate-900/60">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span id="pcPlanModeMini" class="text-sm font-bold text-slate-800 dark:text-white">探索模式</span>
+                                    <span class="material-symbols-outlined text-base text-primary">route</span>
                                 </div>
-                            </label>
-                        </div>
-                        <div class="mt-3 rounded-lg border border-emerald-100 bg-emerald-50/70 p-2.5">
-                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                                <div>
-                                    <div class="text-xs font-bold text-emerald-800">执行命令</div>
-                                    <div id="pcPlanReadiness" class="mt-0.5 text-[11px] text-emerald-700">等待车辆定位、方向、起点和范围确认</div>
+                                <div id="pcPlanModeRuleMini" class="mt-1 truncate text-[11px] leading-4 text-slate-500 dark:text-slate-400">弓字覆盖 / 5 帧触发巡线</div>
+                            </div>
+                            <div data-role="inline-planning-fields" class="rounded-md border border-slate-100 bg-white p-2 dark:border-slate-700 dark:bg-slate-950/40">
+                                <div class="mb-2 flex items-center justify-between gap-2">
+                                    <div class="text-[11px] font-bold text-slate-700 dark:text-slate-200">起点、方向与范围</div>
+                                    <span class="text-[10px] text-slate-400">地图打点回填 WGS84</span>
                                 </div>
-                                <button id="pcInitBtn" class="${BUTTON_CLASSES.primary}" disabled>
-                                    <span class="material-symbols-outlined text-base">start</span>
-                                    下发规划
-                                </button>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <label class="space-y-1">
+                                        <span class="text-[11px] font-medium text-slate-500">测线编号</span>
+                                        <input id="pcSurveyLineId" class="h-8 w-full rounded-md border border-slate-200 bg-slate-50 px-2 text-xs outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900">
+                                    </label>
+                                    <label class="space-y-1">
+                                        <span class="text-[11px] font-medium text-slate-500">坐标系</span>
+                                        <input id="pcCoordinateSystem" value="WGS84" readonly class="h-8 w-full rounded-md border border-slate-200 bg-slate-100 px-2 text-xs text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                                    </label>
+                                    <label class="space-y-1">
+                                        <span class="text-[11px] font-medium text-slate-500">初始 X</span>
+                                        <span class="block truncate text-[10px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.initialX}</span>
+                                        <input id="pcInitialX" type="number" step="0.01" readonly class="h-8 w-full rounded-md border border-slate-200 bg-slate-100 px-2 text-xs text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                                    </label>
+                                    <label class="space-y-1">
+                                        <span class="text-[11px] font-medium text-slate-500">初始 Y</span>
+                                        <span class="block truncate text-[10px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.initialY}</span>
+                                        <input id="pcInitialY" type="number" step="0.01" readonly class="h-8 w-full rounded-md border border-slate-200 bg-slate-100 px-2 text-xs text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                                    </label>
+                                    <label class="space-y-1">
+                                        <span class="text-[11px] font-medium text-slate-500">${FIELD_LABELS.lengthM}</span>
+                                        <span class="block truncate text-[10px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.lengthM}</span>
+                                        <input id="pcLengthM" type="number" step="0.1" readonly class="h-8 w-full rounded-md border border-slate-200 bg-slate-100 px-2 text-xs text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                                    </label>
+                                    <label class="space-y-1">
+                                        <span class="text-[11px] font-medium text-slate-500">${FIELD_LABELS.widthM}</span>
+                                        <span class="block truncate text-[10px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.widthM}</span>
+                                        <input id="pcWidthM" type="number" step="0.1" class="h-8 w-full rounded-md border border-slate-200 bg-slate-50 px-2 text-xs outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900">
+                                    </label>
+                                    <label class="space-y-1">
+                                        <span class="text-[11px] font-medium text-slate-500">测点数量</span>
+                                        <input id="pcPointCount" type="number" min="1" step="1" class="h-8 w-full rounded-md border border-slate-200 bg-slate-50 px-2 text-xs outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900">
+                                    </label>
+                                    <label class="space-y-1">
+                                        <span class="text-[11px] font-medium text-slate-500">规划侧</span>
+                                        <span class="block truncate text-[10px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.planningSide}</span>
+                                        <select id="pcPlanningSide" class="h-8 w-full rounded-md border border-slate-200 bg-slate-50 px-2 text-xs outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900">
+                                            <option value="1">左侧</option>
+                                            <option value="-1">右侧</option>
+                                        </select>
+                                    </label>
+                                    <label class="col-span-2 space-y-1.5">
+                                        <span class="text-[11px] font-medium text-slate-500">设备方向 <b id="pcDirectionLabel" class="text-slate-800 dark:text-slate-100">正北 0°</b></span>
+                                        <div class="flex items-center gap-2">
+                                            <input id="pcDirectionRange" type="range" min="0" max="359" class="min-w-0 flex-1 accent-[#5ad98b]">
+                                            <input id="pcDirectionDeg" type="number" min="0" max="359" class="h-8 w-16 rounded-md border border-slate-200 bg-slate-50 px-2 text-xs outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div data-role="plan-submit-panel" class="rounded-md border border-emerald-100 bg-emerald-50/80 p-2.5">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="material-symbols-outlined text-[15px] text-emerald-600">task_alt</span>
+                                            <div data-plan-submit-title class="truncate text-[11px] font-bold text-emerald-800">规划已就绪</div>
+                                        </div>
+                                        <div id="pcPlanReadiness" data-plan-readiness class="mt-1 text-[10px] leading-4 text-emerald-700">检查通过，可下发探测规划</div>
+                                    </div>
+                                    <button id="pcInitBtn" data-plan-submit class="${BUTTON_CLASSES.planSubmitDisabled}" disabled>
+                                        <span class="material-symbols-outlined text-base">send</span>
+                                        <span class="whitespace-nowrap">下发规划</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <button id="pcOpenPlanningBtn" type="button" class="inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-md border border-primary/30 bg-primary/5 px-2 text-xs font-bold text-primary hover:bg-primary/10">
+                                <span class="material-symbols-outlined text-base">tune</span>
+                                更多参数
+                            </button>
+                        </div>
+                        <div id="pcPlanningModal" class="fixed inset-0 z-[80] hidden">
+                            <div id="pcPlanningBackdrop" class="absolute inset-0 bg-slate-950/45 backdrop-blur-sm"></div>
+                            <div class="relative mx-auto my-6 flex max-h-[calc(100vh-48px)] w-[min(960px,calc(100vw-32px))] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-[#161e27]">
+                                <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+                                    <div>
+                                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">更多参数</h3>
+                                        <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">只配置模式、采集和预留参数。</p>
+                                    </div>
+                                    <button id="pcClosePlanningBtn" type="button" class="grid size-8 place-items-center rounded-md border border-slate-200 text-slate-500 hover:text-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:text-white" title="关闭">
+                                        <span class="material-symbols-outlined text-base">close</span>
+                                    </button>
+                                </div>
+                                <div class="custom-scrollbar overflow-y-auto p-4">
+                        <div data-role="work-mode-card" class="pb-3 border-b border-slate-100 dark:border-slate-800">
+                            <div class="mb-2 flex items-center justify-between gap-2">
+                                <div class="text-xs font-bold text-slate-700 dark:text-slate-200">1. 选择作业模式</div>
+                                <div class="text-[11px] text-slate-400">联动路径和默认参数</div>
+                            </div>
+                            <input id="pcWorkMode" type="hidden" value="exploration">
+                            <input id="pcRecheckMode" type="hidden" value="rescan">
+                            <div class="grid grid-cols-3 gap-1.5">
+                                ${Object.entries(WORK_MODE_CONFIG).map(([key, config]) => buildWorkModeButtonHtml(key, config, key === 'exploration')).join('')}
+                            </div>
+                            <div id="pcRecheckModePanel" class="hidden mt-2 rounded-md border border-slate-200 bg-white/80 p-2 dark:border-slate-700 dark:bg-slate-950/40">
+                                <div class="mb-1.5 text-[11px] font-bold text-slate-500">复检子模式</div>
+                                <div class="grid grid-cols-3 gap-1.5">
+                                    ${Object.entries(RECHECK_MODE_CONFIG).map(([key, config]) => buildRecheckModeButtonHtml(key, config, key === 'rescan')).join('')}
+                                </div>
+                            </div>
+                            <div class="mt-2 rounded-md border border-slate-100 bg-white p-2 dark:border-slate-700 dark:bg-slate-950/40">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <div id="pcWorkModeTitle" class="text-xs font-bold text-slate-800 dark:text-white">探索模式</div>
+                                    <div id="pcWorkModeSummary" class="text-[11px] leading-4 text-slate-500 dark:text-slate-400">未知区域盲探，达阈值后巡线。</div>
+                                </div>
+                                <div class="mt-2 grid grid-cols-3 gap-1.5">
+                                    <div class="rounded-md bg-slate-50 px-2 py-1 dark:bg-slate-900">
+                                        <span class="block text-[10px] font-bold text-slate-400">输入</span>
+                                        <p id="pcWorkModeInputRule" class="truncate text-[11px] leading-4 text-slate-600 dark:text-slate-300">区域 / 走向 / 行间距 / 阈值</p>
+                                    </div>
+                                    <div class="rounded-md bg-slate-50 px-2 py-1 dark:bg-slate-900">
+                                        <span class="block text-[10px] font-bold text-slate-400">路径</span>
+                                        <p id="pcWorkModePlanningRule" class="truncate text-[11px] leading-4 text-slate-600 dark:text-slate-300">弓字覆盖 / 5 帧触发巡线</p>
+                                    </div>
+                                    <div class="rounded-md bg-slate-50 px-2 py-1 dark:bg-slate-900">
+                                        <span class="block text-[10px] font-bold text-slate-400">成果</span>
+                                        <p id="pcWorkModeOutputRule" class="truncate text-[11px] leading-4 text-slate-600 dark:text-slate-300">点位 / 轨迹 / 报告</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2 rounded-md border border-slate-100 bg-white p-2 dark:border-slate-700 dark:bg-slate-950/40">
+                                <div class="mb-2 flex items-center justify-between gap-2">
+                                    <span id="pcModeParameterCaption" class="text-[11px] font-bold text-slate-700 dark:text-slate-200">探索模式输入</span>
+                                    <span class="text-[10px] text-slate-400">动态字段</span>
+                                </div>
+                                <div class="grid sm:grid-cols-2 gap-2">
+                                    <div data-mode-param="scope" class="rounded-md bg-slate-50 px-2 py-1 dark:bg-slate-900">
+                                        <span id="pcModeAreaLabel" class="block text-[11px] font-medium text-slate-500">闭合搜索区域</span>
+                                        <p id="pcModeAreaHint" class="truncate text-[10px] leading-4 text-slate-400">地图范围承接</p>
+                                    </div>
+                                    <div data-mode-param="direction" class="rounded-md bg-slate-50 px-2 py-1 dark:bg-slate-900">
+                                        <span id="pcModeDirectionLabel" class="block text-[11px] font-medium text-slate-500">预估管道走向</span>
+                                        <p id="pcModeDirectionHint" class="truncate text-[10px] leading-4 text-slate-400">设备方向承接</p>
+                                    </div>
+                                    <div data-mode-param="recheckRule" class="hidden rounded-md bg-slate-50 px-2 py-1 dark:bg-slate-900">
+                                        <span id="pcRecheckRuleLabel" class="block text-[11px] font-medium text-slate-500">复检规则</span>
+                                        <p id="pcRecheckRuleHint" class="truncate text-[10px] leading-4 text-slate-400"></p>
+                                    </div>
+                                    <label data-mode-param="laneSpacingM" class="space-y-1">
+                                        <span id="pcLaneSpacingMLabel" class="text-[11px] font-medium text-slate-500">探索行间距(m)</span>
+                                        <span id="pcLaneSpacingMHint" class="block truncate text-[10px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.laneSpacingM}</span>
+                                        <input id="pcLaneSpacingM" type="number" step="0.01" class="w-full px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                                    </label>
+                                    <label data-mode-param="edgeDistanceM" class="space-y-1">
+                                        <span id="pcEdgeDistanceMLabel" class="text-[11px] font-medium text-slate-500">贴边距离(m)</span>
+                                        <span id="pcEdgeDistanceMHint" class="block truncate text-[10px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.edgeDistanceM}</span>
+                                        <input id="pcEdgeDistanceM" type="number" step="0.01" class="w-full px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                                    </label>
+                                    <label data-mode-param="fineScanStepM" class="hidden space-y-1">
+                                        <span id="pcFineScanStepMLabel" class="text-[11px] font-medium text-slate-500">扫描步长(m)</span>
+                                        <span id="pcFineScanStepMHint" class="block truncate text-[10px] leading-4 text-slate-400">${FIELD_DESCRIPTIONS.fineScanStepM}</span>
+                                        <input id="pcFineScanStepM" type="number" min="0.01" step="0.01" class="w-full px-2 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md text-xs outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <details class="mt-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/40">
@@ -899,9 +1511,12 @@
                                 </label>
                             </div>
                         </details>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="self-start bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-700 p-3 flex flex-col min-h-[420px]">
+                    <div class="self-start bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-700 p-2.5 flex flex-col min-h-[420px]">
                         <div class="flex items-center justify-between mb-3">
                             <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
                                 <span class="material-symbols-outlined text-primary">map</span>
@@ -912,7 +1527,10 @@
                                 <span class="block text-[11px] text-slate-400">点击地图标记探测起点</span>
                             </div>
                         </div>
-                        <div id="pcMapCanvas" class="relative h-[360px] min-h-[280px] rounded-lg overflow-hidden border border-slate-800 bg-slate-950"></div>
+                        <div data-role="map-video-grid" class="relative">
+                            <div id="pcMapCanvas" class="relative h-[clamp(420px,54vh,520px)] min-h-[420px] rounded-lg overflow-hidden border border-slate-800 bg-slate-950"></div>
+                            <div id="pcLiveVideoPanel" class="absolute right-3 top-14 z-20 w-[232px] max-w-[calc(100%-1.5rem)]">${buildDeviceLiveVideoPanel()}</div>
+                        </div>
                         <div data-role="device-control-card" class="mt-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/50 p-2 shadow-sm">
                             <div class="grid lg:grid-cols-[minmax(0,1fr)_132px] gap-2 items-stretch">
                                 <div class="rounded-md border border-slate-100 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/50 p-2">
@@ -980,38 +1598,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div data-role="command-status-panel" class="mt-2 rounded-md border border-slate-100 bg-slate-50/80 p-2 dark:border-slate-700 dark:bg-slate-950/40">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-white">
+                                        <span class="material-symbols-outlined text-base text-primary">receipt_long</span>
+                                        实时指令状态
+                                    </h4>
+                                    <div class="flex items-center gap-2">
+                                        <span id="pcCommandCount" class="text-[11px] text-slate-400">0 条状态</span>
+                                        <button id="pcPullBtn" class="${BUTTON_CLASSES.neutral}">
+                                            <span class="material-symbols-outlined text-base">sync</span>
+                                            同步回传
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="pcCommandStream" data-role="command-status-stream" class="mt-2 max-h-[128px] space-y-1.5 overflow-y-auto pr-1 custom-scrollbar"></div>
+                            </div>
                         </div>
-                    </div>
-                </section>
-
-                <section class="bg-white dark:bg-[#161e27] rounded-lg border border-slate-200 dark:border-slate-700 p-3">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                        <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">receipt_long</span>
-                            指令回执台账
-                        </h3>
-                        <div class="flex items-center gap-2">
-                            <span id="pcCommandCount" class="text-[11px] text-slate-400">0 条</span>
-                            <button id="pcPullBtn" class="${BUTTON_CLASSES.neutral}">
-                                <span class="material-symbols-outlined text-base">sync</span>
-                                同步回传
-                            </button>
-                        </div>
-                    </div>
-                    <div class="overflow-auto border border-slate-200 dark:border-slate-700 rounded-lg">
-                        <table class="w-full min-w-[840px] text-xs">
-                            <thead class="bg-slate-50 dark:bg-slate-900/60 sticky top-0">
-                                <tr class="border-b border-slate-100 dark:border-slate-800">
-                                    <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">下发时间</th>
-                                    <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">指令</th>
-                                    <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">Topic</th>
-                                    <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">Message ID</th>
-                                    <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">ACK</th>
-                                    <th class="px-3 py-2 text-left font-bold text-slate-600 dark:text-slate-300">状态</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pcCommandBody" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
-                        </table>
                     </div>
                 </section>
 
@@ -1073,6 +1676,7 @@
         const container = document.getElementById('pcDeviceStatusGrid');
         if (!container || !state.binding) return;
         const device = state.currentDevice || getDeviceById(state.binding.deviceId) || {};
+        renderLiveVideoPanel();
         const status = getDeviceStatusMeta(device.status, state.connected);
         const controlReadiness = getDeviceControlReadiness({ connected: state.connected, device });
         const queueCount = Number(device.queueCount || state.queueItems.length || 0);
@@ -1091,12 +1695,12 @@
             ['article', '回传队列', `${queueCount} 条`]
         ];
         container.innerHTML = cards.map(([icon, label, value]) => `
-            <div class="min-h-[72px] p-2.5 bg-slate-50 dark:bg-slate-800 rounded-md border border-slate-100 dark:border-slate-700">
-                <div class="flex items-center gap-1.5 text-[11px] leading-4 text-slate-500 mb-1">
+            <div class="min-h-[56px] p-2 bg-slate-50 dark:bg-slate-800 rounded-md border border-slate-100 dark:border-slate-700">
+                <div class="flex items-center gap-1 text-[10px] leading-4 text-slate-500 mb-0.5">
                     <span class="material-symbols-outlined text-sm">${icon}</span>
                     ${label}
                 </div>
-                <div class="font-bold text-sm leading-5 text-slate-800 dark:text-white min-h-5">${value}</div>
+                <div class="font-bold text-[13px] leading-5 text-slate-800 dark:text-white min-h-5 truncate">${value}</div>
             </div>
         `).join('');
 
@@ -1114,6 +1718,11 @@
         const saved = getSavedSettings(window.localStorage, state.projectId);
         const input = buildInitializationInput({ projectId: state.projectId, binding: state.binding, fields: saved });
         const fieldMap = {
+            pcWorkMode: input.workMode,
+            pcRecheckMode: input.recheckMode,
+            pcLaneSpacingM: input.laneSpacingM,
+            pcEdgeDistanceM: input.edgeDistanceM,
+            pcFineScanStepM: input.fineScanStepM,
             pcSurveyLineId: input.surveyLineId,
             pcScanMode: input.scanMode,
             pcHostPermittivity: input.hostPermittivity,
@@ -1126,7 +1735,6 @@
             pcInitialElevation: input.initialElevation,
             pcLengthM: input.lengthM,
             pcWidthM: input.widthM,
-            pcHalfArcWidthM: input.halfArcWidthM,
             pcPointDistanceM: input.pointDistanceM,
             pcPointCount: input.pointCount,
             pcPlanningSide: input.planningSide,
@@ -1157,6 +1765,7 @@
             if (yInput) yInput.value = '';
         }
         updateDirectionUi(input.directionDeg);
+        renderWorkModePanel();
         updatePlanActionState();
     }
 
@@ -1209,6 +1818,7 @@
             vehiclePoint,
             startPoint,
             readiness: validatePlanReadiness({
+                workMode: fields.workMode,
                 vehiclePoint,
                 directionDeg: fields.directionDeg,
                 startPoint,
@@ -1219,39 +1829,32 @@
     }
 
     function updatePlanActionState() {
-        const button = document.getElementById('pcInitBtn');
-        const readinessEl = document.getElementById('pcPlanReadiness');
         const { readiness, fields, vehiclePoint, startPoint } = getCurrentPlanReadiness();
         const missingLabels = {
+            workMode: '作业模式',
             vehiclePoint: '车辆定位',
             directionDeg: '设备方向',
             startPoint: '起点打点',
             lengthM: '探测长度',
             widthM: '探测宽度'
         };
-        if (button) {
+        const missingText = readiness.missing.map(key => missingLabels[key]).join('、');
+        const readinessText = readiness.canSend
+            ? '检查通过，可下发探测规划'
+            : `还需完成：${missingText}`;
+        const submitTitle = readiness.canSend ? '规划已就绪' : '等待配置';
+        document.querySelectorAll('[data-plan-submit]').forEach(button => {
             button.disabled = !readiness.canSend;
-            button.className = `${BUTTON_CLASSES.primary} ${readiness.canSend ? '' : 'opacity-50 cursor-not-allowed'}`.trim();
-            button.title = readiness.canSend ? '下发 detection_plan' : `请先完成：${readiness.missing.map(key => missingLabels[key]).join('、')}`;
-        }
-        if (readinessEl) {
-            readinessEl.textContent = readiness.canSend
-                ? `已完成车辆定位、方向、起点和范围确认，可下发 detection_plan`
-                : `请先完成：${readiness.missing.map(key => missingLabels[key]).join('、')}`;
-        }
-        const stepState = {
-            vehiclePoint: !!vehiclePoint,
-            directionDeg: hasFiniteNumber(fields.directionDeg),
-            startPoint: !!startPoint,
-            rangeBox: toNumber(fields.lengthM, 0) > 0 && toNumber(fields.widthM, 0) > 0 && !!startPoint
-        };
-        Object.entries(stepState).forEach(([step, done]) => {
-            const el = document.querySelector(`[data-plan-step="${step}"]`);
-            if (!el) return;
-            el.className = done
-                ? 'rounded-md border border-emerald-200 bg-emerald-50 px-2 py-1.5'
-                : 'rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5';
+            button.className = readiness.canSend ? BUTTON_CLASSES.planSubmitReady : BUTTON_CLASSES.planSubmitDisabled;
+            button.title = readiness.canSend ? '下发探测规划' : `请先完成：${missingText}`;
         });
+        document.querySelectorAll('[data-plan-submit-title]').forEach(el => {
+            el.textContent = submitTitle;
+        });
+        document.querySelectorAll('[data-plan-readiness]').forEach(el => {
+            el.textContent = readinessText;
+        });
+        renderPlanningSummary();
     }
 
     function renderMap() {
@@ -1358,27 +1961,42 @@
         renderMap();
     }
 
-    function renderCommandLedger() {
-        const tbody = document.getElementById('pcCommandBody');
+    function renderCommandStatusStream() {
+        const stream = document.getElementById('pcCommandStream');
         const count = document.getElementById('pcCommandCount');
-        if (count) count.textContent = `${state.commandRows.length} 条`;
-        if (!tbody) return;
+        if (count) count.textContent = `${state.commandRows.length} 条状态`;
+        if (!stream) return;
         if (!state.commandRows.length) {
-            tbody.innerHTML = '<tr><td colspan="6" class="px-3 py-8 text-center text-slate-400">暂无指令回执</td></tr>';
+            stream.innerHTML = `
+                <div class="rounded-md border border-dashed border-slate-200 bg-white px-2.5 py-3 text-center text-[11px] text-slate-400 dark:border-slate-700 dark:bg-slate-900">
+                    暂无实时指令状态
+                </div>
+            `;
             return;
         }
-        tbody.innerHTML = state.commandRows.map(row => `
-            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
-                <td class="px-3 py-2 text-slate-700 dark:text-slate-300 whitespace-nowrap">${escapeHtml(row.sentAt)}</td>
-                <td class="px-3 py-2 text-slate-700 dark:text-slate-300">${escapeHtml(row.typeLabel)}</td>
-                <td class="px-3 py-2 text-slate-500 max-w-[260px] truncate" title="${escapeHtml(row.topic)}">${escapeHtml(row.topic)}</td>
-                <td class="px-3 py-2 text-slate-500">${escapeHtml(row.messageId)}</td>
-                <td class="px-3 py-2 text-slate-500">${escapeHtml(row.ackLabel)}</td>
-                <td class="px-3 py-2">
-                    <span class="px-2 py-0.5 rounded text-[11px] ${row.status === 'success' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-rose-50 text-rose-700 border border-rose-100'}">${escapeHtml(row.statusLabel)}</span>
-                </td>
-            </tr>
-        `).join('');
+        stream.innerHTML = state.commandRows.slice().reverse().map(row => {
+            const success = row.status === 'success';
+            const toneClass = success
+                ? 'border-emerald-100 bg-white text-emerald-700 dark:border-emerald-900/50 dark:bg-slate-900'
+                : 'border-rose-100 bg-white text-rose-700 dark:border-rose-900/50 dark:bg-slate-900';
+            const dotClass = success ? 'bg-emerald-500' : 'bg-rose-500';
+            return `
+            <div data-command-status-item class="rounded-md border ${toneClass} px-2.5 py-2">
+                <div class="flex items-start gap-2">
+                    <span class="mt-1.5 size-2 shrink-0 rounded-full ${dotClass}"></span>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between gap-2">
+                            <strong class="truncate text-xs text-slate-800 dark:text-slate-100">${escapeHtml(row.typeLabel)}</strong>
+                            <span class="shrink-0 text-[10px] text-slate-400">${escapeHtml(row.sentAt)}</span>
+                        </div>
+                        <div class="mt-0.5 truncate text-[11px]" title="${escapeHtml(row.ackLabel)}">${escapeHtml(row.statusLabel)} · ACK ${escapeHtml(row.ackLabel)}</div>
+                        <div class="mt-0.5 truncate text-[10px] text-slate-400" title="${escapeHtml(row.topic)}">${escapeHtml(row.messageId)} · ${escapeHtml(row.topic)}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        }).join('');
+        stream.scrollTop = 0;
     }
 
     function applyDeviceMessages(messages) {
@@ -1392,11 +2010,11 @@
         state.ledgerRows = buildDetectionLedgerRows(state.queueItems, radarPrototype);
     }
 
-    async function refreshCommandLedger() {
+    async function refreshCommandStatusStream() {
         if (!state.adapter?.getCommandLedger || !state.binding) return;
         const records = await state.adapter.getCommandLedger(state.binding.deviceId);
         state.commandRows = buildCommandLedgerRows(records);
-        renderCommandLedger();
+        renderCommandStatusStream();
     }
 
     async function syncDevices() {
@@ -1427,7 +2045,7 @@
         const planState = getCurrentPlanReadiness();
         if (!planState.readiness.canSend) {
             updatePlanActionState();
-            const labels = { vehiclePoint: '车辆定位', directionDeg: '设备方向', startPoint: '起点打点', lengthM: '探测长度', widthM: '探测宽度' };
+            const labels = { workMode: '作业模式', vehiclePoint: '车辆定位', directionDeg: '设备方向', startPoint: '起点打点', lengthM: '探测长度', widthM: '探测宽度' };
             setStatusMessage(`暂不能下发规划，请先完成：${planState.readiness.missing.map(key => labels[key] || key).join('、')}`);
             return;
         }
@@ -1452,8 +2070,9 @@
                 commandBadge.className = 'inline-flex h-6 items-center rounded-full bg-emerald-50 px-2 text-[11px] font-medium text-emerald-700 border border-emerald-100';
                 commandBadge.textContent = `已确认 ${commandId}`;
             }
-            await refreshCommandLedger();
+            await refreshCommandStatusStream();
             setStatusMessage(`探测规划已下发：${commandId}`);
+            closePlanningModal();
             renderDeviceStatus();
         } catch (error) {
             setStatusMessage(error.message);
@@ -1481,7 +2100,7 @@
                 commandBadge.className = 'inline-flex h-6 items-center rounded-full bg-emerald-50 px-2 text-[11px] font-medium text-emerald-700 border border-emerald-100';
                 commandBadge.textContent = `已确认 ${record.command.messageId}`;
             }
-            await refreshCommandLedger();
+            await refreshCommandStatusStream();
             if (state.adapter.pullDeviceMessages) {
                 applyDeviceMessages(await state.adapter.pullDeviceMessages(state.binding.deviceId));
             }
@@ -1509,7 +2128,7 @@
                 state.ledgerRows = buildDetectionLedgerRows(state.queueItems, radarPrototype);
             }
             await syncDevices();
-            await refreshCommandLedger();
+            await refreshCommandStatusStream();
             renderLedger();
             setStatusMessage(state.ledgerRows.length ? `已同步 ${state.ledgerRows.length} 条探测回传记录` : '设备已对接，暂无探测记录回传');
         } catch (error) {
@@ -1520,7 +2139,23 @@
 
     function bindEvents() {
         document.getElementById('pcConnectBtn')?.addEventListener('click', () => connectBoundDevice());
-        document.getElementById('pcInitBtn')?.addEventListener('click', sendInitialValues);
+        document.getElementById('pcFullscreenBtn')?.addEventListener('click', toggleConsoleFullscreen);
+        document.getElementById('pcOpenPlanningBtn')?.addEventListener('click', openPlanningModal);
+        document.getElementById('pcClosePlanningBtn')?.addEventListener('click', closePlanningModal);
+        document.getElementById('pcPlanningBackdrop')?.addEventListener('click', closePlanningModal);
+        document.querySelectorAll('[data-plan-submit]').forEach(button => {
+            button.addEventListener('click', sendInitialValues);
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+            if (isPlanningModalOpen()) {
+                closePlanningModal();
+                return;
+            }
+            if (state.consoleFullscreen) {
+                applyConsoleFullscreenState(false);
+            }
+        });
         document.getElementById('pcPullBtn')?.addEventListener('click', () => pullDetectionQueue());
         document.getElementById('pcContinueBtn')?.addEventListener('click', () => sendTaskCommand('continue_task', {}));
         document.getElementById('pcPauseBtn')?.addEventListener('click', () => sendTaskCommand('pause_task', {}));
@@ -1533,13 +2168,27 @@
         });
         document.getElementById('pcMapCanvas')?.addEventListener('click', handleMapPick);
 
+        document.querySelectorAll('[data-work-mode]').forEach(button => {
+            button.addEventListener('click', () => {
+                applyWorkModeDefaults(button.dataset.workMode || 'exploration');
+                saveSettings(window.localStorage, state.projectId, getFieldValues());
+            });
+        });
+        document.querySelectorAll('[data-recheck-mode]').forEach(button => {
+            button.addEventListener('click', () => {
+                applyWorkModeDefaults(getWorkModeValue(), button.dataset.recheckMode || 'rescan');
+                saveSettings(window.localStorage, state.projectId, getFieldValues());
+            });
+        });
+
         const range = document.getElementById('pcDirectionRange');
         const number = document.getElementById('pcDirectionDeg');
         range?.addEventListener('input', event => updateDirectionUi(event.target.value));
         number?.addEventListener('input', event => updateDirectionUi(event.target.value));
-        ['pcWidthM', 'pcLengthM', 'pcPlanningSide', 'pcScanMode', 'pcDistanceScale', 'pcHalfArcWidthM', 'pcPointDistanceM'].forEach(id => {
+        ['pcWidthM', 'pcLengthM', 'pcPlanningSide', 'pcScanMode', 'pcDistanceScale', 'pcPointDistanceM', 'pcLaneSpacingM', 'pcEdgeDistanceM', 'pcFineScanStepM'].forEach(id => {
             document.getElementById(id)?.addEventListener('input', () => {
                 renderMap();
+                renderWorkModePanel();
                 updatePlanActionState();
             });
         });
@@ -1567,9 +2216,10 @@
         }
         fillFormDefaults();
         bindEvents();
+        applyConsoleFullscreenState(false);
         await syncDevices();
         renderLedger();
-        renderCommandLedger();
+        renderCommandStatusStream();
         await connectBoundDevice({ silent: true });
     }
 
@@ -1647,6 +2297,7 @@
         getConsoleActionLayout,
         getConsoleTaskControlLayout,
         getConsoleInputBehavior,
+        getConsoleWorkModeConfig,
         buildInitializationInput,
         buildCommandLedgerRows,
         buildDetectionLedgerRows,
@@ -1661,6 +2312,9 @@
         calculateMapPickPointFromCoordinates,
         formatDirection,
         getDeviceStatusMeta,
+        getConsoleVideoLiveLayout,
+        getVideoProtocol,
+        buildDeviceLiveVideoPanel,
         getDeviceControlReadiness
     };
 });

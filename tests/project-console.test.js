@@ -15,7 +15,9 @@ const {
     getConsoleFieldDescriptions,
     getConsoleActionLayout,
     getConsoleTaskControlLayout,
+    getConsoleVideoLiveLayout,
     getConsoleInputBehavior,
+    getConsoleWorkModeConfig,
     buildDetectionLedgerRows,
     buildMapPointsFromLedgerRows,
     buildVehiclePoseMapPoint,
@@ -28,6 +30,8 @@ const {
     calculateMapPickPointFromCoordinates,
     formatDirection,
     getDeviceStatusMeta,
+    getVideoProtocol,
+    buildDeviceLiveVideoPanel,
     getDeviceControlReadiness
 } = require('../js/project-console.js');
 
@@ -77,9 +81,52 @@ test('buildInitializationInput carries project initial point and direction', () 
     assert.equal(input.initialElevation, '5.7');
     assert.equal(input.directionDeg, '88');
     assert.equal(input.coordinateSystem, 'WGS84');
+    assert.equal(input.workMode, 'exploration');
+    assert.equal(input.workModeLabel, '探索模式');
+    assert.equal(input.laneSpacingM, 3.5);
+    assert.equal(input.edgeDistanceM, 0.3);
     assert.equal(input.lengthM, 4);
     assert.equal(input.widthM, 3.5);
     assert.equal(input.planningSide, 1);
+});
+
+test('buildInitializationInput applies PRD work mode defaults', () => {
+    const binding = resolveProjectDeviceBinding('PROJ-2024-001');
+    const traversal = buildInitializationInput({
+        projectId: 'PROJ-2024-001',
+        binding,
+        fields: {
+            workMode: 'traversal'
+        }
+    });
+    const recheck = buildInitializationInput({
+        projectId: 'PROJ-2024-001',
+        binding,
+        fields: {
+            workMode: 'recheck',
+            recheckMode: 'fine'
+        }
+    });
+    const customSpacing = buildInitializationInput({
+        projectId: 'PROJ-2024-001',
+        binding,
+        fields: {
+            workMode: 'exploration',
+            laneSpacingM: '2.2',
+            halfArcWidthM: '9.9'
+        }
+    });
+
+    assert.equal(traversal.workModeLabel, '遍历模式');
+    assert.equal(traversal.scanMode, 'zigzag');
+    assert.equal(traversal.laneSpacingM, 0.5);
+    assert.equal(traversal.halfArcWidthM, 0.5);
+    assert.equal(recheck.workModeLabel, '复检模式');
+    assert.equal(recheck.recheckModeLabel, '精细扫');
+    assert.equal(recheck.pointDistanceM, 0.25);
+    assert.equal(recheck.fineScanStepM, 0.25);
+    assert.equal(customSpacing.laneSpacingM, 2.2);
+    assert.equal(customSpacing.halfArcWidthM, 2.2);
 });
 
 test('buildDetectionLedgerRows parses adapter queue into console ledger rows', async () => {
@@ -268,6 +315,7 @@ test('buildScanGuideOverlay requires initial point as guide origin', () => {
 
 test('validatePlanReadiness blocks plan downlink until all map setup steps are ready', () => {
     const ready = validatePlanReadiness({
+        workMode: 'exploration',
         vehiclePoint: { x: 1, y: 2, xPercent: 50, yPercent: 50 },
         directionDeg: 45,
         startPoint: { x: 1, y: 2, xPercent: 55, yPercent: 45 },
@@ -275,8 +323,16 @@ test('validatePlanReadiness blocks plan downlink until all map setup steps are r
         widthM: 3.5
     });
     const missingStart = validatePlanReadiness({
+        workMode: 'exploration',
         vehiclePoint: { x: 1, y: 2, xPercent: 50, yPercent: 50 },
         directionDeg: 45,
+        lengthM: 4,
+        widthM: 3.5
+    });
+    const missingMode = validatePlanReadiness({
+        vehiclePoint: { x: 1, y: 2, xPercent: 50, yPercent: 50 },
+        directionDeg: 45,
+        startPoint: { x: 1, y: 2, xPercent: 55, yPercent: 45 },
         lengthM: 4,
         widthM: 3.5
     });
@@ -285,6 +341,8 @@ test('validatePlanReadiness blocks plan downlink until all map setup steps are r
     assert.deepEqual(ready.missing, []);
     assert.equal(missingStart.canSend, false);
     assert.deepEqual(missingStart.missing, ['startPoint']);
+    assert.equal(missingMode.canSend, false);
+    assert.deepEqual(missingMode.missing, ['workMode']);
 });
 
 test('console formatting helpers expose readable state', () => {
@@ -309,7 +367,7 @@ test('device control readiness requires an actively connected device', () => {
     );
 });
 
-test('buildCommandLedgerRows exposes MQTT command ack status for console table', () => {
+test('buildCommandLedgerRows exposes MQTT command ack status for realtime stream', () => {
     const rows = buildCommandLedgerRows([
         {
             id: 'CMD-001',
@@ -332,6 +390,13 @@ test('buildCommandLedgerRows exposes MQTT command ack status for console table',
 test('console parameter groups separate control plan fields from reserved radar acquisition fields', () => {
     const groups = getConsoleParameterGroups();
 
+    assert.deepEqual(groups.operationMode, [
+        'workMode',
+        'recheckMode',
+        'laneSpacingM',
+        'edgeDistanceM',
+        'fineScanStepM'
+    ]);
     assert.deepEqual(groups.controlPlan, [
         'surveyLineId',
         'coordinateSystem',
@@ -339,7 +404,6 @@ test('console parameter groups separate control plan fields from reserved radar 
         'initialY',
         'directionDeg',
         'widthM',
-        'halfArcWidthM',
         'pointCount',
         'planningSide'
     ]);
@@ -375,7 +439,8 @@ test('console field descriptions explain key planning parameters', () => {
     assert.match(descriptions.widthM, /width_m/);
     assert.match(descriptions.lengthM, /自动计算/);
     assert.match(descriptions.lengthM, /length_m/);
-    assert.match(descriptions.halfArcWidthM, /几字型/);
+    assert.match(descriptions.halfArcWidthM, /探测行间距/);
+    assert.match(descriptions.halfArcWidthM, /不再作为独立配置项/);
     assert.match(descriptions.pointDistanceM, /命中/);
     assert.match(descriptions.planningSide, /左侧/);
 });
@@ -385,17 +450,141 @@ test('console initial point is picked from map instead of manual coordinate inpu
 
     assert.equal(behavior.initialPointSource, 'mapPick');
     assert.deepEqual(behavior.readonlyFields, ['initialX', 'initialY', 'lengthM']);
+    assert.ok(behavior.editableFields.includes('workMode'));
+    assert.ok(behavior.editableFields.includes('recheckMode'));
+    assert.ok(!behavior.editableFields.includes('confidenceThreshold'));
     assert.ok(!behavior.editableFields.includes('initialX'));
     assert.ok(!behavior.editableFields.includes('initialY'));
     assert.ok(!behavior.editableFields.includes('lengthM'));
+    assert.ok(!behavior.editableFields.includes('halfArcWidthM'));
+});
+
+test('console work mode config reflects PRD operation modes', () => {
+    const config = getConsoleWorkModeConfig();
+
+    assert.deepEqual(Object.keys(config.modes), ['exploration', 'traversal', 'recheck']);
+    assert.equal(config.modes.exploration.label, '探索模式');
+    assert.equal(config.modes.exploration.laneSpacingM, 3.5);
+    assert.match(config.modes.exploration.planning, /5 帧/);
+    assert.equal(config.modes.traversal.label, '遍历模式');
+    assert.equal(config.modes.traversal.laneSpacingM, 0.5);
+    assert.match(config.modes.traversal.planning, /覆盖/);
+    assert.equal(config.modes.recheck.label, '复检模式');
+    assert.deepEqual(Object.keys(config.recheckModes), ['rescan', 'reinforce', 'fine']);
+    assert.match(config.recheckModes.reinforce.planning, /补强/);
+    assert.match(config.recheckModes.fine.planning, /精扫/);
+    assert.deepEqual(config.parameterViews.exploration.visibleParams, ['scope', 'direction', 'laneSpacingM']);
+    assert.deepEqual(config.parameterViews.traversal.visibleParams, ['scope', 'direction', 'laneSpacingM', 'edgeDistanceM']);
+    assert.deepEqual(config.recheckParameterViews.fine.visibleParams, ['scope', 'direction', 'recheckRule', 'fineScanStepM']);
+});
+
+test('console keeps start direction and range fields on the main planning panel', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
+    const railStart = source.indexOf('data-role="planning-compact-rail"');
+    const modalStart = source.indexOf('id="pcPlanningModal"');
+    const mapStart = source.indexOf('data-role="map-video-grid"');
+    const mainPlanningSource = source.slice(railStart, modalStart);
+    const modalSource = source.slice(modalStart, mapStart);
+    const inlinePlanningFields = [
+        'pcSurveyLineId',
+        'pcCoordinateSystem',
+        'pcInitialX',
+        'pcInitialY',
+        'pcLengthM',
+        'pcWidthM',
+        'pcPointCount',
+        'pcPlanningSide',
+        'pcDirectionRange',
+        'pcDirectionDeg'
+    ];
+
+    assert.match(source, /data-role="work-mode-planning-card"/);
+    assert.match(source, /作业模式与规划/);
+    assert.match(source, /data-role="planning-compact-rail"/);
+    assert.match(source, /id="pcPlanningModal"/);
+    assert.match(source, /id="pcOpenPlanningBtn"/);
+    assert.match(source, /data-role="work-mode-card"/);
+    assert.match(mainPlanningSource, /data-role="inline-planning-fields"/);
+    for (const fieldId of inlinePlanningFields) {
+        assert.match(mainPlanningSource, new RegExp(`id="${fieldId}"`));
+        assert.doesNotMatch(modalSource, new RegExp(`id="${fieldId}"`));
+    }
+    assert.doesNotMatch(source, /id="pcPlanSteps"/);
+    assert.doesNotMatch(source, /data-plan-step=/);
+    assert.doesNotMatch(mainPlanningSource, />\s*模式\s*<\/div>\s*<\/div>\s*<div[^>]+>\s*<div[^>]+>\s*2\s*<\/div>\s*<div[^>]+>\s*定位\s*<\/div>/);
+    assert.match(source, /data-plan-submit/);
+    assert.match(source, /更多参数/);
+    assert.doesNotMatch(source, /data-role="initial-values-section"/);
+    assert.doesNotMatch(source, />\s*初始值与方向\s*</);
+    assert.doesNotMatch(source, /id="pcHalfArcWidthM"/);
+    assert.doesNotMatch(source, />\s*几字间距\(m\)\s*</);
+    assert.doesNotMatch(source, /id="pcConfidenceThreshold"/);
+    assert.doesNotMatch(source, />\s*置信阈值\(%\)\s*</);
+});
+
+test('console plan submit panel uses concise action copy', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
+    const panelStart = source.indexOf('data-role="plan-submit-panel"');
+    const modalStart = source.indexOf('id="pcPlanningModal"');
+    const panelSource = source.slice(panelStart, modalStart);
+
+    assert.ok(panelStart > -1);
+    assert.match(panelSource, /data-plan-submit-title/);
+    assert.match(panelSource, /规划已就绪/);
+    assert.match(panelSource, /下发规划/);
+    assert.match(source, /检查通过，可下发探测规划/);
+    assert.match(source, /BUTTON_CLASSES\.planSubmitReady/);
+    assert.match(source, /BUTTON_CLASSES\.planSubmitDisabled/);
+    assert.doesNotMatch(panelSource, /执行命令/);
+    assert.doesNotMatch(panelSource, /detection_plan/);
+});
+
+test('console map is primary canvas with floating video overlay', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
+
+    assert.match(source, /lg:grid-cols-\[280px_minmax\(0,1fr\)\]/);
+    assert.match(source, /id="pcMapCanvas" class="relative h-\[clamp\(420px,54vh,520px\)\] min-h-\[420px\]/);
+    assert.match(source, /id="pcLiveVideoPanel" class="absolute right-3 top-14 z-20/);
+    assert.match(source, /data-role="map-video-grid" class="relative"/);
+    assert.doesNotMatch(source, /xl:grid-cols-\[minmax\(0,1fr\)_220px\]/);
+});
+
+test('console exposes fullscreen toggle for focused operation view', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
+
+    assert.match(source, /id="pcFullscreenBtn"/);
+    assert.match(source, /open_in_full/);
+    assert.match(source, /close_fullscreen/);
+    assert.match(source, /function applyConsoleFullscreenState/);
+    assert.match(source, /workspace\.dataset\.fullscreen/);
+    assert.match(source, /fixed', 'inset-0', 'z-\[70\]/);
+    assert.match(source, /workspace\.scrollTop = 0/);
+    assert.match(source, /canvas\.style\.height = state\.consoleFullscreen/);
+    assert.match(source, /if \(state\.consoleFullscreen\)/);
+});
+
+test('console mode parameter panel uses dynamic fields instead of one shared input set', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
+
+    assert.match(source, /id="pcModeParameterCaption"/);
+    assert.match(source, /data-mode-param="scope"/);
+    assert.match(source, /data-mode-param="direction"/);
+    assert.match(source, /data-mode-param="recheckRule"/);
+    assert.match(source, /data-mode-param="fineScanStepM"/);
+    assert.match(source, /toggleModeParam\(param, visibleParams\)/);
+    assert.match(source, /pcFineScanStepM/);
+    assert.match(source, /动态字段/);
+    assert.doesNotMatch(source, /后续扩展矩形、多边形、圆形区域绘制/);
+    assert.doesNotMatch(source, /多次扫描后融合并处理数据冲突/);
 });
 
 test('console action layout keeps primary actions in their owning panels with compact buttons', () => {
     const layout = getConsoleActionLayout();
 
     assert.deepEqual(layout.headerActions, ['connectDevice']);
-    assert.deepEqual(layout.initialPanelActions, ['sendPlan']);
-    assert.deepEqual(layout.commandLedgerActions, ['syncReturn']);
+    assert.equal(layout.planningPanel, 'workModeAndInitialValues');
+    assert.deepEqual(layout.planningPanelActions, ['sendPlan']);
+    assert.deepEqual(layout.commandStatusActions, ['syncReturn']);
     assert.equal(layout.buttonSize, 'compact');
 });
 
@@ -405,7 +594,7 @@ test('device control layout sits below map and separates task commands from manu
     assert.equal(layout.title, '设备控制');
     assert.equal(layout.placement, 'belowMap');
     assert.equal(layout.density, 'compact');
-    assert.deepEqual(layout.sections, ['taskCommands', 'controlSummary', 'manualDrivePad']);
+    assert.deepEqual(layout.sections, ['taskCommands', 'controlSummary', 'manualDrivePad', 'commandStatusStream']);
     assert.deepEqual(layout.taskCommands, ['continue_task', 'pause_task', 'finish_task']);
     assert.deepEqual(layout.summaryMetrics, ['connectionState', 'taskProgress', 'returnQueue']);
     assert.equal(layout.manualDriveButtons.length, 5);
@@ -414,4 +603,54 @@ test('device control layout sits below map and separates task commands from manu
         linear_x: 0,
         angular_z: 0
     });
+});
+
+test('console renders command acknowledgements as rolling status stream', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
+    const panelStart = source.indexOf('data-role="command-status-panel"');
+    const ledgerStart = source.indexOf('探测记录回传台账');
+    const panelSource = source.slice(panelStart, ledgerStart);
+
+    assert.ok(panelStart > -1);
+    assert.match(panelSource, /实时指令状态/);
+    assert.match(panelSource, /data-role="command-status-stream"/);
+    assert.match(panelSource, /id="pcCommandStream"/);
+    assert.match(panelSource, /overflow-y-auto/);
+    assert.match(panelSource, /id="pcPullBtn"/);
+    assert.match(source, /renderCommandStatusStream/);
+    assert.doesNotMatch(source, /指令回执台账/);
+    assert.doesNotMatch(source, /id="pcCommandBody"/);
+    assert.doesNotMatch(panelSource, /<table/);
+});
+
+test('video live layout overlays map and uses device stream field', () => {
+    const layout = getConsoleVideoLiveLayout();
+
+    assert.equal(layout.title, '视频直播');
+    assert.equal(layout.placement, 'mapOverlay');
+    assert.equal(layout.streamField, 'videoStreamUrl');
+    assert.deepEqual(layout.statusMetrics, ['sourceState', 'protocol', 'latency']);
+    assert.ok(layout.supportedSources.includes('WebRTC'));
+});
+
+test('buildDeviceLiveVideoPanel renders configured realtime stream state', () => {
+    const waiting = buildDeviceLiveVideoPanel({
+        binding: { deviceId: 'LD-GTL310-66P', videoStreamUrl: 'webrtc://LD-GTL310-66P/main' },
+        connected: false
+    });
+    const ready = buildDeviceLiveVideoPanel({
+        binding: { deviceId: 'LD-GTL310-66P' },
+        device: { id: 'LD-GTL310-66P', videoStreamUrl: 'https://example.test/live.m3u8' },
+        connected: true
+    });
+
+    assert.equal(getVideoProtocol('webrtc://LD-GTL310-66P/main'), 'WebRTC');
+    assert.equal(getVideoProtocol('https://example.test/live.m3u8'), 'HLS');
+    assert.match(waiting, /data-role="device-live-video-card"/);
+    assert.match(waiting, /data-live-state="waiting"/);
+    assert.match(waiting, /data-video-stream-url="webrtc:\/\/LD-GTL310-66P\/main"/);
+    assert.match(waiting, /视频直播/);
+    assert.match(ready, /data-live-state="ready"/);
+    assert.match(ready, /src="https:\/\/example.test\/live.m3u8"/);
+    assert.match(ready, /<120ms/);
 });

@@ -159,6 +159,7 @@
                     model: 'GTL310',
                     status: 'online',
                     heartbeatText: '12s',
+                    videoStreamUrl: 'webrtc://LD-GTL310-66P/main',
                     projects: ['WT-250022', 'WT-250024', 'WT-250029'],
                     telemetry: buildDefaultTelemetry({ x: 2347184.25, y: 434427.06, yaw: 45 }),
                     queue: [
@@ -181,6 +182,7 @@
                     model: 'GTL310',
                     status: 'standby',
                     heartbeatText: '35s',
+                    videoStreamUrl: 'webrtc://LD-GTL310-77P/main',
                     projects: ['WT-250030', 'WT-250055'],
                     telemetry: buildDefaultTelemetry({ x: 2349122.72, y: 435278.18, yaw: 90 }),
                     queue: []
@@ -190,6 +192,7 @@
                     model: 'GTL310',
                     status: 'offline',
                     heartbeatText: '1m',
+                    videoStreamUrl: 'webrtc://LD-GTL310-88P/main',
                     projects: ['WT-250022', 'WT-250030', 'WT-250055'],
                     telemetry: buildDefaultTelemetry({ x: 2353180.42, y: 436812.5, yaw: 315 }),
                     queue: []
@@ -237,6 +240,7 @@
                 model: device.model,
                 status: device.status,
                 heartbeatText: device.heartbeatText,
+                videoStreamUrl: device.videoStreamUrl || '',
                 projects: [...device.projects],
                 queueCount: device.queue.length,
                 connected: device.id === state.connectedDeviceId

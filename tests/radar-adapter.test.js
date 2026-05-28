@@ -12,6 +12,7 @@ test('mock adapter exposes device list with online state and queue count', async
     assert.equal(devices[0].id, 'LD-GTL310-66P');
     assert.equal(devices[0].status, 'online');
     assert.equal(devices[0].queueCount, 2);
+    assert.equal(devices[0].videoStreamUrl, 'webrtc://LD-GTL310-66P/main');
 });
 
 test('mock adapter connects a device and acknowledges initialization payload', async () => {
