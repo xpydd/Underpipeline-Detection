@@ -525,6 +525,23 @@ test('console keeps start direction and range fields on the main planning panel'
     assert.doesNotMatch(source, />\s*置信阈值\(%\)\s*</);
 });
 
+test('console device status strip removes current direction summary card', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
+    const gridStart = source.indexOf('id="pcDeviceStatusGrid"');
+    const cardsStart = source.indexOf('const cards = [');
+    const cardsEnd = source.indexOf('container.innerHTML', cardsStart);
+    const cardsSource = source.slice(cardsStart, cardsEnd);
+
+    assert.ok(gridStart > -1);
+    assert.match(source, /id="pcDeviceStatusGrid" class="[^"]*2xl:grid-cols-7/);
+    assert.match(cardsSource, /绑定设备/);
+    assert.match(cardsSource, /连接状态/);
+    assert.match(cardsSource, /电池状态/);
+    assert.match(cardsSource, /当前位置/);
+    assert.match(cardsSource, /车身角度/);
+    assert.doesNotMatch(cardsSource, /当前方向/);
+});
+
 test('console plan submit panel uses concise action copy', () => {
     const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
     const panelStart = source.indexOf('data-role="plan-submit-panel"');

@@ -34,6 +34,11 @@ test('project detail header uses compact single-row layout', () => {
     assert.doesNotMatch(html, /flex justify-between items-center h-10/);
 });
 
+test('project detail static console fallback omits current direction card', () => {
+    assert.doesNotMatch(html, /id="deviceDirection"/);
+    assert.doesNotMatch(html, />\s*当前方向\s*</);
+});
+
 test('project detail child pages use the same compact project header', () => {
     projectSubPages.forEach((fileName) => {
         const pageHtml = fs.readFileSync(path.join(__dirname, '..', fileName), 'utf8');

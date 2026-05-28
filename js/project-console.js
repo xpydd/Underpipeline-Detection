@@ -1238,7 +1238,7 @@
                             </button>
                         </div>
                     </div>
-                    <div id="pcDeviceStatusGrid" class="mt-2 grid sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-1.5"></div>
+                    <div id="pcDeviceStatusGrid" class="mt-2 grid sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7 gap-1.5"></div>
                 </section>
 
                 <section class="grid lg:grid-cols-[280px_minmax(0,1fr)] gap-3">
@@ -1498,14 +1498,12 @@
         const status = getDeviceStatusMeta(device.status, state.connected);
         const controlReadiness = getDeviceControlReadiness({ connected: state.connected, device });
         const queueCount = Number(device.queueCount || state.queueItems.length || 0);
-        const direction = Number(getFieldValues().directionDeg || state.binding.directionDeg || 0);
         const battery = state.telemetry?.battery || {};
         const pose = state.telemetry?.pose || {};
         const task = state.telemetry?.task || {};
         const cards = [
             ['precision_manufacturing', '绑定设备', state.binding.deviceId],
             ['sensors', '连接状态', `<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border ${status.badge}"><span class="size-1.5 rounded-full ${status.dot}"></span>${status.label}</span>`],
-            ['explore', '当前方向', formatDirection(direction)],
             ['battery_5_bar', '电池状态', battery.capacity === undefined ? '-' : `${formatFixed(battery.capacity, 0)}% / ${formatFixed(battery.voltage, 1)}V`],
             ['my_location', '当前位置', pose.x === undefined ? '-' : `${formatFixed(pose.x, 2)}, ${formatFixed(pose.y, 2)}`],
             ['near_me', '车身角度', pose.yaw === undefined ? '-' : `${formatFixed(pose.yaw, 1)}°`],
