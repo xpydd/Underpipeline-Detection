@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'project-detail.html'), 'utf8');
+const explorationHtml = fs.readFileSync(path.join(__dirname, '..', 'project-exploration.html'), 'utf8');
 const projectSubPages = [
     'project-exploration.html',
     'project-data.html',
@@ -62,5 +63,54 @@ test('project workbench side menu shows Chinese labels without mixing top-level 
         });
         assert.doesNotMatch(pageHtml, /data-workbench-menu="console"/, fileName);
         assert.doesNotMatch(pageHtml, /absolute left-full[\s\S]*group-hover:opacity-100/, fileName);
+    });
+});
+
+test('radar scan modal is based on device returned result rows and imports to exploration map', () => {
+    [
+        ['project-detail.html', html],
+        ['project-exploration.html', explorationHtml]
+    ].forEach(([fileName, pageHtml]) => {
+        assert.match(pageHtml, /onclick="openRadarScanModal\(\)"/, fileName);
+        assert.match(pageHtml, /id="radarScanResultBody"/, fileName);
+        assert.match(pageHtml, /data-role="radar-result-table"/, fileName);
+        assert.match(pageHtml, /class="radar-scan-table w-full min-w-\[2360px\] text-\[11px\]"/, fileName);
+        assert.match(pageHtml, /\.radar-scan-table th,[\s\S]*white-space: nowrap;/, fileName);
+        assert.match(pageHtml, /<colgroup>[\s\S]*width: 176px[\s\S]*width: 128px[\s\S]*<\/colgroup>/, fileName);
+        assert.match(pageHtml, /id="radarScanSelectAll"/, fileName);
+        assert.match(pageHtml, /id="radarImportSelectedBtn"/, fileName);
+        assert.match(pageHtml, /返回结果数据列表/, fileName);
+        assert.match(pageHtml, /data-role="radar-field-mapping"/, fileName);
+        assert.match(pageHtml, /设备字段/, fileName);
+        assert.match(pageHtml, /勘探字段/, fileName);
+        assert.match(pageHtml, /测线文件/, fileName);
+        assert.match(pageHtml, /导入状态/, fileName);
+        assert.match(pageHtml, /管线ID/, fileName);
+        assert.match(pageHtml, /峰值振幅/, fileName);
+        assert.match(pageHtml, /反射时间/, fileName);
+        assert.match(pageHtml, /经度/, fileName);
+        assert.match(pageHtml, /纬度/, fileName);
+        assert.match(pageHtml, /openRadarScanModal/, fileName);
+        assert.match(pageHtml, /loadRadarScanResults/, fileName);
+        assert.match(pageHtml, /renderRadarScanRows/, fileName);
+        assert.match(pageHtml, /updateRadarScanField/, fileName);
+        assert.match(pageHtml, /renderRadarReadOnlyCell/, fileName);
+        assert.match(pageHtml, /getRadarRowImportStatus/, fileName);
+        assert.match(pageHtml, /importSelectedRadarScanRows/, fileName);
+        assert.match(pageHtml, /appendRadarScanRecordsToExploration/, fileName);
+        assert.match(pageHtml, /RadarPrototype\.parseDetectionMessage/, fileName);
+        assert.match(pageHtml, /RadarPrototype\.buildExplorationRecordsFromCandidates/, fileName);
+        assert.doesNotMatch(pageHtml, /<th[^>]*>回传时间<\/th>/, fileName);
+        assert.doesNotMatch(pageHtml, /min-w-\[1840px\]/, fileName);
+        assert.doesNotMatch(pageHtml, /renderRadarInput\(row, index, 'receivedAt'/, fileName);
+        assert.doesNotMatch(pageHtml, /renderRadarInput\(row, index, 'surveyLineFileName'/, fileName);
+        assert.doesNotMatch(pageHtml, /雷达设备接入控制台/, fileName);
+        assert.doesNotMatch(pageHtml, /检测结果接收/, fileName);
+        assert.doesNotMatch(pageHtml, /接入日志/, fileName);
+        assert.doesNotMatch(pageHtml, /id="projectNumberContainer"/, fileName);
+        assert.doesNotMatch(pageHtml, /id="projectDataContainer"/, fileName);
+        assert.doesNotMatch(pageHtml, /id="startTransferBtn"/, fileName);
+        assert.doesNotMatch(pageHtml, /function startTransfer\(/, fileName);
+        assert.doesNotMatch(pageHtml, /数据传输/, fileName);
     });
 });

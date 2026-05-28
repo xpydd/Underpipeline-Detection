@@ -34,6 +34,17 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+        .radar-scan-table {
+            table-layout: fixed;
+        }
+        .radar-scan-table th,
+        .radar-scan-table td {
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+        .radar-scan-table th {
+            line-height: 1.2;
+        }
         .nav-item:hover .submenu,
         .submenu:hover {
             display: block;
@@ -110,7 +121,7 @@
     <script src="js/navigation.js"></script>
     <script src="js/radar-prototype.js"></script>
     <script src="js/radar-adapter.js"></script>
-    <script src="js/project-console.js?v=2026052801"></script>
+    <script src="js/project-console.js?v=2026052802"></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
 <header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
@@ -504,7 +515,7 @@
                      <div class="flex-1 overflow-y-auto p-3 custom-scrollbar">
                          <!-- Tab 1: 探地雷达 -->
                          <div id="detail-tab-radar" class="detail-exploration-tab-content grid grid-cols-2 gap-2">
-                             <button onclick="document.getElementById('radarScanModal').showModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
+                             <button onclick="openRadarScanModal()" class="flex flex-col items-center justify-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 border border-slate-200 dark:border-slate-700 rounded-lg transition-all group">
                                  <span class="material-symbols-outlined text-xl text-slate-400 group-hover:text-blue-500">radar</span>
                                  <span class="text-xs font-medium">扫描数据</span>
                              </button>
@@ -950,134 +961,117 @@
 </dialog>
 
 <!-- 雷达扫描弹窗 -->
-<dialog id="radarScanModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-4xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-[100]">
+<dialog id="radarScanModal" class="bg-transparent backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm p-0 w-full max-w-7xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95 z-[100]">
     <div class="bg-white dark:bg-[#161e27] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[90vh]">
-        <!-- Header -->
         <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
-            <h3 class="text-base font-bold text-slate-800 dark:text-white">雷达扫描</h3>
-            <button onclick="document.getElementById('radarScanModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+            <div>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white">扫描数据</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">返回结果数据列表，可勾选、编辑后导入勘探管点管线</p>
+            </div>
+            <button onclick="document.getElementById('radarScanModal').close()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" title="关闭">
                 <span class="material-symbols-outlined text-lg">close</span>
             </button>
         </div>
 
-        <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-4">
-            <!-- 设备连接 Section -->
-            <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                    <h4 class="text-sm font-bold text-slate-800 dark:text-white">设备连接</h4>
-                    <button onclick="connectDevice()" class="px-3 py-1 text-xs font-medium text-primary hover:text-primary/80 border border-primary rounded transition-colors">
-                        >>
-                    </button>
+        <div class="flex-1 overflow-hidden p-4 space-y-3">
+            <div class="grid grid-cols-4 gap-2">
+                <div class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-900/60">
+                    <div class="text-[10px] font-bold text-slate-400">当前设备</div>
+                    <div id="radarScanDeviceId" class="mt-1 truncate text-xs font-bold text-slate-800 dark:text-white">-</div>
                 </div>
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg space-y-2">
-                        <div class="flex items-center justify-between">
-                            <input type="radio" name="device" id="device1" value="LD-GTL310-66P" class="text-primary focus:ring-primary">
-                            <label for="device1" class="flex-1 ml-2 text-xs font-medium text-slate-700 dark:text-slate-300">LD-GTL310-66P</label>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="size-2 rounded-full bg-slate-400"></span>
-                            <span class="text-[10px] text-slate-500">已断开</span>
-                        </div>
-                    </div>
-                    <div class="p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg space-y-2">
-                        <div class="flex items-center justify-between">
-                            <input type="radio" name="device" id="device2" value="LD-GTL310-77P" class="text-primary focus:ring-primary">
-                            <label for="device2" class="flex-1 ml-2 text-xs font-medium text-slate-700 dark:text-slate-300">LD-GTL310-77P</label>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="size-2 rounded-full bg-slate-400"></span>
-                            <span class="text-[10px] text-slate-500">已断开</span>
-                        </div>
-                    </div>
-                    <div class="p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg space-y-2">
-                        <div class="flex items-center justify-between">
-                            <input type="radio" name="device" id="device3" value="LD-GTL310-88P" class="text-primary focus:ring-primary">
-                            <label for="device3" class="flex-1 ml-2 text-xs font-medium text-slate-700 dark:text-slate-300">LD-GTL310-88P</label>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="size-2 rounded-full bg-slate-400"></span>
-                            <span class="text-[10px] text-slate-500">已断开</span>
-                        </div>
-                    </div>
+                <div class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-900/60">
+                    <div class="text-[10px] font-bold text-slate-400">回传结果</div>
+                    <div id="radarScanResultCount" class="mt-1 text-xs font-bold text-slate-800 dark:text-white">0 条</div>
+                </div>
+                <div class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-900/60">
+                    <div class="text-[10px] font-bold text-slate-400">已选择</div>
+                    <div id="radarScanSelectedCount" class="mt-1 text-xs font-bold text-primary">0 条</div>
+                </div>
+                <div class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-900/60">
+                    <div class="text-[10px] font-bold text-slate-400">导入状态</div>
+                    <div id="radarScanImportState" class="mt-1 truncate text-xs font-bold text-slate-800 dark:text-white">待导入</div>
                 </div>
             </div>
 
-            <!-- 数据传输 Section -->
-            <div class="space-y-3">
-                <h4 class="text-sm font-bold text-slate-800 dark:text-white">数据传输</h4>
+            <div data-role="radar-field-mapping" class="flex flex-wrap items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] dark:border-slate-700 dark:bg-slate-900/60">
+                <span class="font-bold text-slate-600 dark:text-slate-300">设备字段</span>
+                <span class="text-slate-400">对应</span>
+                <span class="font-bold text-slate-600 dark:text-slate-300">勘探字段</span>
+                <span class="ml-1 rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">测线文件 -> 所属测线</span>
+                <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">管点编号 -> 管点编号</span>
+                <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">管线ID -> 管线关联</span>
+                <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">类型 -> 管点种类</span>
+                <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">埋深/外径/材质 -> 管线属性</span>
+                <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">经纬高 -> 空间坐标</span>
+            </div>
 
-                <!-- 项目编号 -->
-                <div class="space-y-2">
-                    <label class="text-xs font-medium text-slate-600 dark:text-slate-400">项目编号</label>
-                    <div class="flex flex-wrap gap-2" id="projectNumberContainer">
-                        <span class="text-xs text-slate-400">请先连接设备</span>
-                    </div>
-                </div>
-
-                <!-- 项目数据 -->
-                <div class="space-y-2">
-                    <label class="text-xs font-medium text-slate-600 dark:text-slate-400">项目数据</label>
-                    <div class="flex flex-wrap gap-2" id="projectDataContainer">
-                        <span class="text-xs text-slate-400">请先选择项目编号</span>
-                    </div>
-                </div>
-
-                <!-- 数据类型 -->
-                <div class="space-y-2">
-                    <label class="text-xs font-medium text-slate-600 dark:text-slate-400">数据类型</label>
-                    <div class="flex flex-wrap gap-2">
-                        <label class="inline-flex items-center gap-1.5 px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition-colors">
-                            <input type="checkbox" value="基础信息" class="text-primary focus:ring-primary rounded" onchange="updateDataTypeSelection()">
-                            <span class="text-xs text-slate-700 dark:text-slate-300">基础信息</span>
-                        </label>
-                        <label class="inline-flex items-center gap-1.5 px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition-colors">
-                            <input type="checkbox" value="图像文件" class="text-primary focus:ring-primary rounded" onchange="updateDataTypeSelection()">
-                            <span class="text-xs text-slate-700 dark:text-slate-300">图像文件</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- 传输控制 -->
-                <div class="space-y-3 pt-2">
-                    <div class="flex items-center gap-2">
-                        <button id="startTransferBtn" onclick="startTransfer()" class="px-4 py-1.5 text-xs font-medium text-white bg-primary hover:bg-primary/90 rounded transition-colors">
-                            开始传输
-                        </button>
-                        <button id="pauseTransferBtn" onclick="pauseTransfer()" disabled class="px-4 py-1.5 text-xs font-medium text-slate-400 bg-slate-200 dark:bg-slate-700 rounded cursor-not-allowed">
-                            暂停传输
-                        </button>
-                        <button id="resumeTransferBtn" onclick="resumeTransfer()" disabled class="px-4 py-1.5 text-xs font-medium text-slate-400 bg-slate-200 dark:bg-slate-700 rounded cursor-not-allowed">
-                            继续传输
-                        </button>
-                    </div>
-
-                    <!-- 进度条 -->
-                    <div class="space-y-1">
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="text-slate-600 dark:text-slate-400">传输进度</span>
-                            <span class="font-medium text-slate-700 dark:text-slate-300" id="transferProgress">0%</span>
-                        </div>
-                        <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div id="transferProgressBar" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
+            <div data-role="radar-result-table" class="h-[56vh] overflow-auto rounded-lg border border-slate-200 dark:border-slate-700">
+                <table class="radar-scan-table w-full min-w-[2360px] text-[11px]">
+                    <colgroup>
+                        <col style="width: 48px">
+                        <col style="width: 176px">
+                        <col style="width: 104px">
+                        <col style="width: 132px">
+                        <col style="width: 88px">
+                        <col style="width: 96px">
+                        <col style="width: 96px">
+                        <col style="width: 96px">
+                        <col style="width: 96px">
+                        <col style="width: 96px">
+                        <col style="width: 116px">
+                        <col style="width: 116px">
+                        <col style="width: 128px">
+                        <col style="width: 96px">
+                        <col style="width: 96px">
+                        <col style="width: 116px">
+                        <col style="width: 132px">
+                        <col style="width: 132px">
+                        <col style="width: 96px">
+                        <col style="width: 96px">
+                        <col style="width: 88px">
+                        <col style="width: 116px">
+                    </colgroup>
+                    <thead class="sticky top-0 z-10 bg-slate-50 dark:bg-slate-900">
+                        <tr class="border-b border-slate-200 dark:border-slate-800">
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300 w-10"><input id="radarScanSelectAll" type="checkbox" class="rounded text-primary focus:ring-primary" onchange="toggleRadarScanSelectAll(this.checked)"></th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">测线文件</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">导入状态</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">管点编号</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">管线ID</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">类型</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">置信度</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">埋深(m)</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">外径(m)</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">曲率</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">峰值振幅</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">最小振幅</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">反射时间(ns)</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">像素X</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">像素Y</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">坐标系</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">经度</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">纬度</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">高程(m)</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">材质</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">天线</th>
+                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="radarScanResultBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tr><td colspan="22" class="px-3 py-12 text-center text-slate-400">正在读取设备返回结果...</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
-            <button onclick="document.getElementById('surveyIssuesModal').showModal()" class="text-xs font-medium text-primary hover:text-primary/80 transition-colors">
-            
-            </button>
+            <div id="radarScanStatusText" class="text-xs text-slate-500 dark:text-slate-400">等待设备返回结果</div>
             <div class="flex gap-2">
                 <button onclick="document.getElementById('radarScanModal').close()" class="px-4 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors">
                     取消
                 </button>
-                <button onclick="confirmRadarScan()" class="px-4 py-1.5 text-xs font-medium text-white bg-primary hover:bg-primary/90 rounded transition-colors">
-                    确定
+                <button id="radarImportSelectedBtn" onclick="importSelectedRadarScanRows()" class="px-4 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded transition-colors">
+                    导入数据
                 </button>
             </div>
         </div>
@@ -2507,278 +2501,341 @@
 
     // ==================== 雷达扫描功能 ====================
 
-    // 设备与项目的绑定关系（模拟数据）
-    const deviceProjectMapping = {
-        'LD-GTL310-66P': ['WT-250022', 'WT-250024', 'WT-250029'],
-        'LD-GTL310-77P': ['WT-250030', 'WT-250055'],
-        'LD-GTL310-88P': ['WT-250022', 'WT-250030', 'WT-250055']
+    let radarScanAdapter = null;
+    let radarScanRows = [];
+    const radarImportedSourceIds = new Set();
+    const radarScanTypeMeta = {
+        water: { color: '#38bdf8', owner: '自来水公司' },
+        gas: { color: '#f59e0b', owner: '燃气公司' },
+        drainage: { color: '#60a5fa', owner: '市政公司' },
+        electricity: { color: '#f97316', owner: '电力公司' },
+        heat: { color: '#ef4444', owner: '热力公司' },
+        telecom: { color: '#a78bfa', owner: '通信公司' },
+        industrial: { color: '#22c55e', owner: '工业园区' },
+        other: { color: '#94a3b8', owner: '综合管养单位' }
     };
 
-    // 项目与数据的绑定关系（模拟数据）
-    const projectDataMapping = {
-        'WT-250022': ['数据_20251122', '数据_20251123', '数据_20251125'],
-        'WT-250024': ['数据_20251123', '数据_20251126'],
-        'WT-250029': ['数据_20251125', '数据_20251127', '数据_20251128'],
-        'WT-250030': ['数据_20251122', '数据_20251126', '数据_20251128'],
-        'WT-250055': ['数据_20251123', '数据_20251127']
-    };
-
-    // 当前选中的设备
-    let currentSelectedDevice = null;
-
-    // 传输状态管理
-    let transferState = {
-        isTransferring: false,
-        isPaused: false,
-        progress: 0,
-        intervalId: null
-    };
-
-    // 连接设备
-    function connectDevice() {
-        const selectedDevice = document.querySelector('input[name="device"]:checked');
-        if (!selectedDevice) {
-            alert('请先选择一个设备');
-            return;
-        }
-
-        // 模拟设备连接
-        const deviceCard = selectedDevice.closest('.p-3');
-        const statusIndicator = deviceCard.querySelector('.size-2');
-        const statusText = deviceCard.querySelector('.text-\\[10px\\]');
-
-        statusIndicator.classList.remove('bg-slate-400');
-        statusIndicator.classList.add('bg-green-500');
-        statusText.textContent = '已连接';
-
-        // 保存当前选中的设备
-        currentSelectedDevice = selectedDevice.value;
-
-        // 加载该设备绑定的项目
-        loadDeviceProjects(currentSelectedDevice);
-
-        alert(`设备 ${selectedDevice.value} 连接成功！`);
+    function escapeRadarHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
 
-    // 加载设备绑定的项目
-    function loadDeviceProjects(deviceName) {
-        const projects = deviceProjectMapping[deviceName] || [];
-        const container = document.getElementById('projectNumberContainer');
+    function toRadarNumber(value, fallback = 0) {
+        const number = Number(value);
+        return Number.isFinite(number) ? number : fallback;
+    }
 
-        if (projects.length === 0) {
-            container.innerHTML = '<span class="text-xs text-slate-400">该设备暂无绑定项目</span>';
+    function formatRadarNumber(value, digits = 2) {
+        return toRadarNumber(value, 0).toFixed(digits);
+    }
+
+    function getCurrentProjectIdFromUrl() {
+        const params = new URLSearchParams(window.location.search || '');
+        return params.get('id') || params.get('projectId') || 'PROJ-2024-001';
+    }
+
+    function getCurrentRadarDeviceId() {
+        const projectId = getCurrentProjectIdFromUrl();
+        const binding = window.ProjectConsole?.resolveProjectDeviceBinding?.(projectId);
+        return binding?.deviceId || 'LD-GTL310-66P';
+    }
+
+    function getRadarScanAdapter() {
+        if (!radarScanAdapter && window.RadarAdapter?.createRadarAdapter && window.RadarPrototype) {
+            radarScanAdapter = window.RadarAdapter.createRadarAdapter({ radarPrototype: window.RadarPrototype });
+        }
+        return radarScanAdapter;
+    }
+
+    function setRadarScanStatus(message, tone = 'slate') {
+        const status = document.getElementById('radarScanStatusText');
+        const state = document.getElementById('radarScanImportState');
+        if (status) status.textContent = message;
+        if (state) {
+            state.textContent = message;
+            state.className = `mt-1 truncate text-xs font-bold ${tone === 'success' ? 'text-emerald-600' : tone === 'warning' ? 'text-amber-600' : 'text-slate-800 dark:text-white'}`;
+        }
+    }
+
+    async function openRadarScanModal() {
+        document.getElementById('radarScanModal')?.showModal();
+        await loadRadarScanResults();
+    }
+
+    async function loadRadarScanResults() {
+        const deviceId = getCurrentRadarDeviceId();
+        const adapter = getRadarScanAdapter();
+        document.getElementById('radarScanDeviceId').textContent = deviceId;
+        setRadarScanStatus('正在读取设备返回结果...');
+        radarScanRows = [];
+        renderRadarScanRows();
+        if (!adapter || !window.RadarPrototype?.parseDetectionMessage) {
+            setRadarScanStatus('设备返回结果解析模块未加载', 'warning');
             return;
         }
+        try {
+            await adapter.connectDevice(deviceId);
+            const messages = adapter.pullDeviceMessages
+                ? await adapter.pullDeviceMessages(deviceId)
+                : await adapter.pullDetectionQueue(deviceId);
+            const rows = [];
+            (messages.items || []).forEach(item => {
+                const parsed = window.RadarPrototype.parseDetectionMessage(item.message);
+                if (!parsed.ok) return;
+                const baseRecords = window.RadarPrototype.buildExplorationRecordsFromCandidates({
+                    candidates: parsed.candidates,
+                    surveyLine: parsed.surveyLine,
+                    deviceId,
+                    importedAt: new Date().toISOString()
+                });
+                parsed.candidates.forEach((candidate, candidateIndex) => {
+                    const baseRecord = baseRecords[candidateIndex] || {};
+                    const sequence = 9001 + rows.length;
+                    const explorationNo = String(baseRecord.explorationNo || `EXP-O${sequence}`).replace(/\d+$/, String(sequence));
+                    const rowId = `${item.id}-${candidate.id}`;
+                    rows.push({
+                        id: rowId,
+                        checked: !radarImportedSourceIds.has(rowId),
+                        imported: radarImportedSourceIds.has(rowId),
+                        sourceItemId: item.id,
+                        sourceStatus: item.status || '',
+                        receivedAt: item.receivedAt || parsed.surveyLine.processingTime || '',
+                        mqttType: item.mqttType || 'gpr_detection',
+                        validMapPoint: item.validMapPoint !== false && candidate.coordinateValid,
+                        deviceId,
+                        surveyLineFileName: parsed.surveyLine.fileName || '',
+                        processingTime: parsed.surveyLine.processingTime || '',
+                        surveyLineLengthM: parsed.surveyLine.surveyLineLengthM,
+                        timeWindowNs: parsed.surveyLine.timeWindowNs,
+                        distanceScaleMPerPx: parsed.surveyLine.distanceScaleMPerPx,
+                        totalPipesDetected: parsed.surveyLine.totalPipesDetected,
+                        explorationNo,
+                        pipeId: candidate.pipeId,
+                        categoryCode: candidate.categoryCode,
+                        categoryLabel: candidate.categoryLabel,
+                        typeKey: candidate.typeKey || baseRecord.type || 'other',
+                        confidence: candidate.confidence,
+                        depthM: candidate.depthM,
+                        diameterM: candidate.diameterM,
+                        curvature: candidate.curvature,
+                        peakAmplitude: candidate.peakAmplitude,
+                        minAmplitude: candidate.minAmplitude,
+                        reflectTimeNs: candidate.reflectTimeNs,
+                        materialCode: candidate.materialCode,
+                        materialLabel: candidate.materialLabel,
+                        antennaConfig: candidate.antennaConfig,
+                        pixelX: candidate.vertexPixel?.x,
+                        pixelY: candidate.vertexPixel?.y,
+                        coordinateSystem: candidate.coordinateSystem,
+                        longitude: candidate.vertexCoordinate?.longitude,
+                        latitude: candidate.vertexCoordinate?.latitude,
+                        elevationM: candidate.vertexCoordinate?.elevation_m,
+                        feature: baseRecord.feature || '雷达识别点'
+                    });
+                });
+            });
+            radarScanRows = rows;
+            renderRadarScanRows();
+            setRadarScanStatus(rows.length ? `已读取 ${rows.length} 条设备返回结果` : '当前设备暂无返回结果', rows.length ? 'success' : 'warning');
+        } catch (error) {
+            radarScanRows = [];
+            renderRadarScanRows();
+            setRadarScanStatus(error.message || '读取设备返回结果失败', 'warning');
+        }
+    }
 
-        container.innerHTML = projects.map(project => `
-            <label class="inline-flex items-center gap-1.5 px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition-colors">
-                <input type="checkbox" value="${project}" class="text-primary focus:ring-primary rounded" onchange="updateProjectSelection()">
-                <span class="text-xs text-slate-700 dark:text-slate-300">${project}</span>
-            </label>
+    function renderRadarInput(row, index, key, widthClass = 'w-24', type = 'text', step = '') {
+        return `<input data-radar-field="${key}" value="${escapeRadarHtml(row[key])}" type="${type}" ${step ? `step="${step}"` : ''} oninput="updateRadarScanField(${index}, '${key}', this.value)" class="${widthClass} h-7 rounded border border-slate-200 bg-white px-2 text-[11px] outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 dark:border-slate-700 dark:bg-slate-900">`;
+    }
+
+    function renderRadarReadOnlyCell(value, widthClass = 'w-36') {
+        return `<span class="inline-flex h-7 ${widthClass} items-center truncate rounded border border-slate-200 bg-slate-100 px-2 text-[11px] text-slate-600 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300">${escapeRadarHtml(value || '-')}</span>`;
+    }
+
+    function getRadarRowImportStatus(row) {
+        const imported = row.imported || radarImportedSourceIds.has(row.id);
+        return {
+            imported,
+            label: imported ? '已导入' : '未导入',
+            className: imported
+                ? 'border-emerald-100 bg-emerald-50 text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-200'
+                : 'border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+        };
+    }
+
+    function renderRadarScanRows() {
+        const tbody = document.getElementById('radarScanResultBody');
+        const resultCount = document.getElementById('radarScanResultCount');
+        if (resultCount) resultCount.textContent = `${radarScanRows.length} 条`;
+        if (!tbody) return;
+        if (!radarScanRows.length) {
+            tbody.innerHTML = '<tr><td colspan="22" class="px-3 py-12 text-center text-slate-400">暂无当前设备返回结果</td></tr>';
+            updateRadarScanSelection();
+            return;
+        }
+        tbody.innerHTML = radarScanRows.map((row, index) => `
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800" data-radar-row="${index}">
+                <td class="px-2 py-2"><input type="checkbox" class="radar-scan-row-check rounded text-primary focus:ring-primary disabled:opacity-40" ${row.checked ? 'checked' : ''} ${getRadarRowImportStatus(row).imported ? 'disabled' : ''} onchange="updateRadarScanField(${index}, 'checked', this.checked)"></td>
+                <td class="px-2 py-2">${renderRadarReadOnlyCell(row.surveyLineFileName, 'w-36')}</td>
+                <td class="px-2 py-2"><span class="inline-flex h-7 items-center rounded-full border px-2 text-[10px] font-medium ${getRadarRowImportStatus(row).className}">${getRadarRowImportStatus(row).label}</span></td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'explorationNo', 'w-28')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'pipeId', 'w-16', 'number', '1')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'categoryLabel', 'w-20')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'confidence', 'w-20', 'number', '0.01')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'depthM', 'w-20', 'number', '0.01')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'diameterM', 'w-20', 'number', '0.01')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'curvature', 'w-20', 'number', '0.0001')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'peakAmplitude', 'w-24', 'number', '0.1')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'minAmplitude', 'w-24', 'number', '0.1')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'reflectTimeNs', 'w-24', 'number', '0.001')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'pixelX', 'w-20', 'number', '0.1')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'pixelY', 'w-20', 'number', '0.1')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'coordinateSystem', 'w-24')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'longitude', 'w-28', 'number', '0.000001')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'latitude', 'w-28', 'number', '0.000001')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'elevationM', 'w-20', 'number', '0.01')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'materialLabel', 'w-20')}</td>
+                <td class="px-2 py-2">${renderRadarInput(row, index, 'antennaConfig', 'w-16')}</td>
+                <td class="px-2 py-2"><span class="inline-flex rounded-full border px-2 py-0.5 text-[10px] ${row.validMapPoint ? 'border-emerald-100 bg-emerald-50 text-emerald-700' : 'border-amber-100 bg-amber-50 text-amber-700'}">${row.validMapPoint ? '可定位' : '无效坐标'}</span></td>
+            </tr>
         `).join('');
-
-        // 清空项目数据选择
-        clearProjectData();
+        updateRadarScanSelection();
     }
 
-    // 更新项目选择
-    function updateProjectSelection() {
-        const selectedProjects = Array.from(document.querySelectorAll('#projectNumberContainer input:checked')).map(el => el.value);
-        console.log('已选择项目:', selectedProjects);
-
-        // 加载选中项目的数据
-        loadProjectData(selectedProjects);
+    function updateRadarScanField(index, key, value) {
+        const row = radarScanRows[index];
+        if (!row) return;
+        row[key] = key === 'checked' ? Boolean(value) : value;
+        updateRadarScanSelection();
     }
 
-    // 加载项目数据
-    function loadProjectData(selectedProjects) {
-        const container = document.getElementById('projectDataContainer');
+    function toggleRadarScanSelectAll(checked) {
+        radarScanRows.forEach(row => { row.checked = getRadarRowImportStatus(row).imported ? false : checked; });
+        renderRadarScanRows();
+    }
 
-        if (selectedProjects.length === 0) {
-            container.innerHTML = '<span class="text-xs text-slate-400">请先选择项目编号</span>';
-            return;
+    function updateRadarScanSelection() {
+        const eligibleRows = radarScanRows.filter(row => !getRadarRowImportStatus(row).imported);
+        const selectedCount = eligibleRows.filter(row => row.checked).length;
+        const selectedEl = document.getElementById('radarScanSelectedCount');
+        const selectAll = document.getElementById('radarScanSelectAll');
+        if (selectedEl) selectedEl.textContent = `${selectedCount} 条`;
+        if (selectAll) {
+            selectAll.checked = eligibleRows.length > 0 && selectedCount === eligibleRows.length;
+            selectAll.indeterminate = selectedCount > 0 && selectedCount < eligibleRows.length;
         }
+    }
 
-        // 合并所有选中项目的数据（去重）
-        const allData = new Set();
-        selectedProjects.forEach(project => {
-            const data = projectDataMapping[project] || [];
-            data.forEach(d => allData.add(d));
+    function radarScanRowToExplorationRecord(row) {
+        const depth = toRadarNumber(row.depthM, 0);
+        const diameter = toRadarNumber(row.diameterM, 0);
+        const elevation = toRadarNumber(row.elevationM, 0);
+        const topElev = elevation ? elevation - depth : 0;
+        const bottomElev = topElev && diameter ? topElev - diameter : 0;
+        const meta = radarScanTypeMeta[row.typeKey] || radarScanTypeMeta.other;
+        return {
+            id: `EXPLORATION-${row.sourceItemId}-${row.pipeId}`,
+            source: 'radar',
+            stage: 'exploration',
+            status: 'accepted',
+            sourceCandidateId: row.id,
+            sourceSurveyLine: row.surveyLineFileName,
+            sourceDeviceId: row.deviceId,
+            type: row.typeKey || 'other',
+            categoryLabel: row.categoryLabel || '其他',
+            explorationNo: row.explorationNo || `EXP-${row.pipeId}`,
+            feature: row.feature || '雷达识别点',
+            material: row.materialLabel || '',
+            diameter: diameter ? `DN${Math.round(diameter * 1000)}` : '',
+            x: formatRadarNumber(row.longitude, 6),
+            y: formatRadarNumber(row.latitude, 6),
+            groundElevM: elevation ? Number(formatRadarNumber(elevation, 2)) : 0,
+            topElevM: topElev ? Number(formatRadarNumber(topElev, 2)) : 0,
+            bottomElevM: bottomElev ? Number(formatRadarNumber(bottomElev, 2)) : 0,
+            depthM: Number(formatRadarNumber(depth, 2)),
+            confidence: toRadarNumber(row.confidence, 0),
+            owner: meta.owner,
+            remark: `设备返回结果导入；测线 ${row.surveyLineFileName || '-'}；pipe_id ${row.pipeId || '-'}`
+        };
+    }
+
+    function getRadarRecordMapPoint(record, index) {
+        const x = 180 + (index % 5) * 92;
+        const y = 190 + Math.floor(index / 5) * 64;
+        return { x, y };
+    }
+
+    function appendRadarScanRecordsToExploration(records) {
+        const freshRecords = records.filter(record => !radarImportedSourceIds.has(record.sourceCandidateId));
+        const svg = document.getElementById('map2dSvg');
+        if (!svg || !freshRecords.length) return { inserted: 0, skipped: records.length - freshRecords.length };
+        const plotted = [];
+        freshRecords.forEach((record, index) => {
+            radarImportedSourceIds.add(record.sourceCandidateId);
+            pointsData[record.explorationNo] = {
+                id: record.explorationNo,
+                type: record.categoryLabel,
+                feature: record.feature,
+                depth: String(record.depthM),
+                coord: `X: ${record.x}, Y: ${record.y}`
+            };
+            plotted.push({ record, point: getRadarRecordMapPoint(record, Object.keys(pointsData).length + index) });
         });
+        const grouped = plotted.reduce((acc, item) => {
+            const key = item.record.sourceSurveyLine || 'radar';
+            if (!acc[key]) acc[key] = [];
+            acc[key].push(item);
+            return acc;
+        }, {});
+        Object.values(grouped).forEach(group => {
+            group.forEach((item, index) => {
+                const next = group[index + 1];
+                if (!next) return;
+                const lineId = `RADAR-LINE-${item.record.explorationNo}-${next.record.explorationNo}`;
+                pipelinesData[lineId] = {
+                    id: lineId,
+                    start: item.record.explorationNo,
+                    end: next.record.explorationNo,
+                    diameter: item.record.diameter,
+                    material: item.record.material,
+                    length: '',
+                    depth: `${item.record.depthM}-${next.record.depthM}`
+                };
+                svg.insertAdjacentHTML('beforeend', `<line x1="${item.point.x}" y1="${item.point.y}" x2="${next.point.x}" y2="${next.point.y}" stroke="#22d3ee" stroke-width="3" stroke-dasharray="6 4" class="pipeline-line cursor-pointer" data-pipeline-id="${escapeRadarHtml(lineId)}" onclick="showPipelineMenu(event, '${escapeRadarHtml(lineId)}')"/>`);
+            });
+        });
+        plotted.forEach(item => {
+            const color = (radarScanTypeMeta[item.record.type] || radarScanTypeMeta.other).color;
+            svg.insertAdjacentHTML('beforeend', `
+                <g class="pipe-point radar-imported-point" data-point-id="${escapeRadarHtml(item.record.explorationNo)}" onclick="showPointMenu(event, '${escapeRadarHtml(item.record.explorationNo)}')">
+                    <circle cx="${item.point.x}" cy="${item.point.y}" r="8" fill="${color}" class="cursor-pointer" filter="drop-shadow(0 0 6px ${color})"/>
+                    <text x="${item.point.x}" y="${item.point.y + 21}" text-anchor="middle" fill="white" font-size="11" class="pointer-events-none select-none">${escapeRadarHtml(item.record.explorationNo)}</text>
+                </g>
+            `);
+        });
+        return { inserted: freshRecords.length, skipped: records.length - freshRecords.length };
+    }
 
-        const dataArray = Array.from(allData).sort();
-
-        if (dataArray.length === 0) {
-            container.innerHTML = '<span class="text-xs text-slate-400">所选项目暂无数据</span>';
+    function importSelectedRadarScanRows() {
+        const selectedRows = radarScanRows.filter(row => row.checked && !getRadarRowImportStatus(row).imported);
+        if (!selectedRows.length) {
+            setRadarScanStatus('请先勾选需要导入的数据', 'warning');
             return;
         }
-
-        container.innerHTML = dataArray.map(data => `
-            <label class="inline-flex items-center gap-1.5 px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition-colors">
-                <input type="checkbox" value="${data}" class="text-primary focus:ring-primary rounded" onchange="updateDataSelection()">
-                <span class="text-xs text-slate-700 dark:text-slate-300">${data}</span>
-            </label>
-        `).join('');
-    }
-
-    // 清空项目数据
-    function clearProjectData() {
-        const container = document.getElementById('projectDataContainer');
-        container.innerHTML = '<span class="text-xs text-slate-400">请先选择项目编号</span>';
-    }
-
-    // 更新数据选择
-    function updateDataSelection() {
-        const selected = document.querySelectorAll('#projectDataContainer input:checked');
-        console.log('已选择项目数据:', Array.from(selected).map(el => el.value));
-    }
-
-    // 更新按钮状态
-    function updateTransferButtons() {
-        const startBtn = document.getElementById('startTransferBtn');
-        const pauseBtn = document.getElementById('pauseTransferBtn');
-        const resumeBtn = document.getElementById('resumeTransferBtn');
-
-        if (transferState.isTransferring && !transferState.isPaused) {
-            // 传输中
-            startBtn.disabled = true;
-            startBtn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            startBtn.classList.remove('bg-primary', 'hover:bg-primary/90', 'text-white');
-
-            pauseBtn.disabled = false;
-            pauseBtn.classList.remove('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            pauseBtn.classList.add('bg-orange-500', 'hover:bg-orange-600', 'text-white');
-
-            resumeBtn.disabled = true;
-            resumeBtn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            resumeBtn.classList.remove('bg-primary', 'hover:bg-primary/90', 'text-white');
-        } else if (transferState.isPaused) {
-            // 已暂停
-            startBtn.disabled = true;
-            startBtn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            startBtn.classList.remove('bg-primary', 'hover:bg-primary/90', 'text-white');
-
-            pauseBtn.disabled = true;
-            pauseBtn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            pauseBtn.classList.remove('bg-orange-500', 'hover:bg-orange-600', 'text-white');
-
-            resumeBtn.disabled = false;
-            resumeBtn.classList.remove('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            resumeBtn.classList.add('bg-primary', 'hover:bg-primary/90', 'text-white');
-        } else {
-            // 未开始
-            startBtn.disabled = false;
-            startBtn.classList.remove('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            startBtn.classList.add('bg-primary', 'hover:bg-primary/90', 'text-white');
-
-            pauseBtn.disabled = true;
-            pauseBtn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            pauseBtn.classList.remove('bg-orange-500', 'hover:bg-orange-600', 'text-white');
-
-            resumeBtn.disabled = true;
-            resumeBtn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            resumeBtn.classList.remove('bg-primary', 'hover:bg-primary/90', 'text-white');
-        }
-    }
-
-    // 更新进度条
-    function updateProgress(progress) {
-        transferState.progress = progress;
-        document.getElementById('transferProgress').textContent = `${progress}%`;
-        document.getElementById('transferProgressBar').style.width = `${progress}%`;
-    }
-
-    // 开始传输
-    function startTransfer() {
-        // 检查是否选择了项目、项目数据和数据类型
-        const selectedProjects = document.querySelectorAll('#projectNumberContainer input:checked');
-        const selectedData = document.querySelectorAll('#projectDataContainer input:checked');
-        const selectedDataTypes = document.querySelectorAll('#radarScanModal input[value="基础信息"]:checked, #radarScanModal input[value="图像文件"]:checked');
-
-        if (selectedProjects.length === 0) {
-            alert('请至少选择一个项目编号');
-            return;
-        }
-        if (selectedData.length === 0) {
-            alert('请至少选择一个项目数据');
-            return;
-        }
-        if (selectedDataTypes.length === 0) {
-            alert('请至少选择一个数据类型');
-            return;
-        }
-
-        transferState.isTransferring = true;
-        transferState.isPaused = false;
-        transferState.progress = 0;
-        updateTransferButtons();
-        updateProgress(0);
-
-        // 模拟传输进度
-        transferState.intervalId = setInterval(() => {
-            if (transferState.progress < 100) {
-                updateProgress(transferState.progress + 1);
-            } else {
-                clearInterval(transferState.intervalId);
-                alert('数据传输完成！');
-                resetTransfer();
+        const records = selectedRows.map(radarScanRowToExplorationRecord);
+        const result = appendRadarScanRecordsToExploration(records);
+        radarScanRows.forEach(row => {
+            if (radarImportedSourceIds.has(row.id)) {
+                row.imported = true;
+                row.checked = false;
             }
-        }, 100);
-    }
-
-    // 暂停传输
-    function pauseTransfer() {
-        if (transferState.intervalId) {
-            clearInterval(transferState.intervalId);
-            transferState.intervalId = null;
-        }
-        transferState.isPaused = true;
-        transferState.isTransferring = false;
-        updateTransferButtons();
-    }
-
-    // 继续传输
-    function resumeTransfer() {
-        transferState.isTransferring = true;
-        transferState.isPaused = false;
-        updateTransferButtons();
-
-        // 继续模拟传输进度
-        transferState.intervalId = setInterval(() => {
-            if (transferState.progress < 100) {
-                updateProgress(transferState.progress + 1);
-            } else {
-                clearInterval(transferState.intervalId);
-                alert('数据传输完成！');
-                resetTransfer();
-            }
-        }, 100);
-    }
-
-    // 重置传输状态
-    function resetTransfer() {
-        if (transferState.intervalId) {
-            clearInterval(transferState.intervalId);
-            transferState.intervalId = null;
-        }
-        transferState.isTransferring = false;
-        transferState.isPaused = false;
-        transferState.progress = 0;
-        updateTransferButtons();
-        updateProgress(0);
-    }
-
-    // 确认雷达扫描
-    function confirmRadarScan() {
-        console.log('确认雷达扫描数据');
-        document.getElementById('radarScanModal').close();
-        resetTransfer();
-    }
-
-    // 数据类型选择更新
-    function updateDataTypeSelection() {
-        const selected = document.querySelectorAll('#radarScanModal input[value="基础信息"]:checked, #radarScanModal input[value="图像文件"]:checked');
-        console.log('已选择数据类型:', Array.from(selected).map(el => el.value));
+        });
+        renderRadarScanRows();
+        setRadarScanStatus(`已导入 ${result.inserted} 条，跳过 ${result.skipped} 条重复数据`, result.inserted ? 'success' : 'warning');
     }
 
     // 切换项目详情页勘探标签页

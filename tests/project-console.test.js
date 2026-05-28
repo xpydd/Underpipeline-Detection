@@ -450,8 +450,10 @@ test('console initial point is picked from map instead of manual coordinate inpu
 
     assert.equal(behavior.initialPointSource, 'mapPick');
     assert.deepEqual(behavior.readonlyFields, ['initialX', 'initialY', 'lengthM']);
-    assert.ok(behavior.editableFields.includes('workMode'));
-    assert.ok(behavior.editableFields.includes('recheckMode'));
+    assert.deepEqual(behavior.editableFields, ['surveyLineId', 'widthM', 'pointCount', 'planningSide', 'directionDeg']);
+    assert.ok(!behavior.editableFields.includes('workMode'));
+    assert.ok(!behavior.editableFields.includes('recheckMode'));
+    assert.ok(!behavior.editableFields.includes('pointDistanceM'));
     assert.ok(!behavior.editableFields.includes('confidenceThreshold'));
     assert.ok(!behavior.editableFields.includes('initialX'));
     assert.ok(!behavior.editableFields.includes('initialY'));
@@ -473,18 +475,16 @@ test('console work mode config reflects PRD operation modes', () => {
     assert.deepEqual(Object.keys(config.recheckModes), ['rescan', 'reinforce', 'fine']);
     assert.match(config.recheckModes.reinforce.planning, /补强/);
     assert.match(config.recheckModes.fine.planning, /精扫/);
-    assert.deepEqual(config.parameterViews.exploration.visibleParams, ['scope', 'direction', 'laneSpacingM']);
-    assert.deepEqual(config.parameterViews.traversal.visibleParams, ['scope', 'direction', 'laneSpacingM', 'edgeDistanceM']);
-    assert.deepEqual(config.recheckParameterViews.fine.visibleParams, ['scope', 'direction', 'recheckRule', 'fineScanStepM']);
+    assert.deepEqual(config.parameterViews.exploration.visibleParams, ['laneSpacingM']);
+    assert.deepEqual(config.parameterViews.traversal.visibleParams, ['laneSpacingM', 'edgeDistanceM']);
+    assert.deepEqual(config.recheckParameterViews.fine.visibleParams, ['fineScanStepM']);
 });
 
 test('console keeps start direction and range fields on the main planning panel', () => {
     const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
     const railStart = source.indexOf('data-role="planning-compact-rail"');
-    const modalStart = source.indexOf('id="pcPlanningModal"');
     const mapStart = source.indexOf('data-role="map-video-grid"');
-    const mainPlanningSource = source.slice(railStart, modalStart);
-    const modalSource = source.slice(modalStart, mapStart);
+    const mainPlanningSource = source.slice(railStart, mapStart);
     const inlinePlanningFields = [
         'pcSurveyLineId',
         'pcCoordinateSystem',
@@ -501,19 +501,22 @@ test('console keeps start direction and range fields on the main planning panel'
     assert.match(source, /data-role="work-mode-planning-card"/);
     assert.match(source, /作业模式与规划/);
     assert.match(source, /data-role="planning-compact-rail"/);
-    assert.match(source, /id="pcPlanningModal"/);
-    assert.match(source, /id="pcOpenPlanningBtn"/);
-    assert.match(source, /data-role="work-mode-card"/);
+    assert.match(source, /data-role="console-planning-defaults"/);
+    assert.doesNotMatch(source, /id="pcPlanningModal"/);
+    assert.doesNotMatch(source, /id="pcOpenPlanningBtn"/);
+    assert.doesNotMatch(source, /data-role="work-mode-card"/);
     assert.match(mainPlanningSource, /data-role="inline-planning-fields"/);
     for (const fieldId of inlinePlanningFields) {
         assert.match(mainPlanningSource, new RegExp(`id="${fieldId}"`));
-        assert.doesNotMatch(modalSource, new RegExp(`id="${fieldId}"`));
     }
+    assert.match(mainPlanningSource, /id="pcWorkMode"/);
+    assert.match(mainPlanningSource, /id="pcScanMode"/);
+    assert.match(mainPlanningSource, /id="pcPointDistanceM"/);
     assert.doesNotMatch(source, /id="pcPlanSteps"/);
     assert.doesNotMatch(source, /data-plan-step=/);
     assert.doesNotMatch(mainPlanningSource, />\s*模式\s*<\/div>\s*<\/div>\s*<div[^>]+>\s*<div[^>]+>\s*2\s*<\/div>\s*<div[^>]+>\s*定位\s*<\/div>/);
     assert.match(source, /data-plan-submit/);
-    assert.match(source, /更多参数/);
+    assert.doesNotMatch(source, /更多参数/);
     assert.doesNotMatch(source, /data-role="initial-values-section"/);
     assert.doesNotMatch(source, />\s*初始值与方向\s*</);
     assert.doesNotMatch(source, /id="pcHalfArcWidthM"/);
@@ -525,8 +528,8 @@ test('console keeps start direction and range fields on the main planning panel'
 test('console plan submit panel uses concise action copy', () => {
     const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
     const panelStart = source.indexOf('data-role="plan-submit-panel"');
-    const modalStart = source.indexOf('id="pcPlanningModal"');
-    const panelSource = source.slice(panelStart, modalStart);
+    const mapStart = source.indexOf('data-role="map-video-grid"');
+    const panelSource = source.slice(panelStart, mapStart);
 
     assert.ok(panelStart > -1);
     assert.match(panelSource, /data-plan-submit-title/);
@@ -563,19 +566,29 @@ test('console exposes fullscreen toggle for focused operation view', () => {
     assert.match(source, /if \(state\.consoleFullscreen\)/);
 });
 
-test('console mode parameter panel uses dynamic fields instead of one shared input set', () => {
+test('console removes more-parameters and mode configuration popups', () => {
     const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
+    const railStart = source.indexOf('data-role="planning-compact-rail"');
+    const mapStart = source.indexOf('data-role="map-video-grid"');
+    const planningSource = source.slice(railStart, mapStart);
 
-    assert.match(source, /id="pcModeParameterCaption"/);
-    assert.match(source, /data-mode-param="scope"/);
-    assert.match(source, /data-mode-param="direction"/);
-    assert.match(source, /data-mode-param="recheckRule"/);
-    assert.match(source, /data-mode-param="fineScanStepM"/);
-    assert.match(source, /toggleModeParam\(param, visibleParams\)/);
+    assert.doesNotMatch(source, /id="pcPlanningModal"/);
+    assert.doesNotMatch(source, /id="pcPlanningBackdrop"/);
+    assert.doesNotMatch(source, /id="pcClosePlanningBtn"/);
+    assert.doesNotMatch(source, /openPlanningModal/);
+    assert.doesNotMatch(source, /closePlanningModal/);
+    assert.doesNotMatch(source, /isPlanningModalOpen/);
+    assert.doesNotMatch(source, /pcModeParameterCaption/);
+    assert.doesNotMatch(source, /data-role="mode-parameter-fields"/);
+    assert.doesNotMatch(source, /data-mode-param=/);
+    assert.doesNotMatch(source, /toggleModeParam\(param, visibleParams\)/);
+    assert.doesNotMatch(source, /data-work-mode=/);
+    assert.doesNotMatch(source, /data-recheck-mode=/);
+    assert.doesNotMatch(source, /雷达采集参数（预留）/);
+    assert.doesNotMatch(source, /定位扩展参数（预留）/);
+    assert.doesNotMatch(source, /高级设置/);
+    assert.match(planningSource, /data-role="console-planning-defaults"/);
     assert.match(source, /pcFineScanStepM/);
-    assert.match(source, /动态字段/);
-    assert.doesNotMatch(source, /后续扩展矩形、多边形、圆形区域绘制/);
-    assert.doesNotMatch(source, /多次扫描后融合并处理数据冲突/);
 });
 
 test('console action layout keeps primary actions in their owning panels with compact buttons', () => {
