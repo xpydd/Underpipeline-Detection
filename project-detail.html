@@ -44,6 +44,26 @@
         }
         .radar-scan-table th {
             line-height: 1.2;
+            vertical-align: top;
+            white-space: normal;
+        }
+        .radar-scan-table th > span:first-child {
+            display: block;
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            line-height: 1.15;
+        }
+        .radar-scan-table th > span + span {
+            display: block;
+            margin-top: 2px;
+            max-width: 100%;
+            min-height: 20px;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            line-height: 1.15;
         }
         .nav-item:hover .submenu,
         .submenu:hover {
@@ -995,14 +1015,16 @@
                 <span class="font-bold text-slate-600 dark:text-slate-300">勘探字段</span>
                 <span class="ml-1 rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">测线文件 -> 所属测线</span>
                 <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">管点编号 -> 管点编号</span>
-                <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">管线ID -> 管线关联</span>
+                <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">pipe_id 相同 -> 同一管线</span>
+                <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">同一测线同 pipe_id 合并为一条管线</span>
                 <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">类型 -> 管点种类</span>
                 <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">埋深/外径/材质 -> 管线属性</span>
                 <span class="rounded-full bg-white px-2 py-0.5 text-slate-500 dark:bg-slate-950 dark:text-slate-300">经纬高 -> 空间坐标</span>
+                <span data-role="radar-supplement-fields" class="rounded-full bg-emerald-50 px-2 py-0.5 font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-200">设备未回传 -> 勘探补录字段</span>
             </div>
 
             <div data-role="radar-result-table" class="h-[56vh] overflow-auto rounded-lg border border-slate-200 dark:border-slate-700">
-                <table class="radar-scan-table w-full min-w-[2360px] text-[11px]">
+                <table class="radar-scan-table w-full min-w-[4440px] text-[11px]">
                     <colgroup>
                         <col style="width: 48px">
                         <col style="width: 176px">
@@ -1024,44 +1046,81 @@
                         <col style="width: 132px">
                         <col style="width: 96px">
                         <col style="width: 96px">
-                        <col style="width: 88px">
+                        <col style="width: 128px">
+                        <col style="width: 128px">
                         <col style="width: 116px">
+                        <col style="width: 124px">
+                        <col style="width: 128px">
+                        <col style="width: 112px">
+                        <col style="width: 112px">
+                        <col style="width: 112px">
+                        <col style="width: 112px">
+                        <col style="width: 112px">
+                        <col style="width: 112px">
+                        <col style="width: 112px">
+                        <col style="width: 104px">
+                        <col style="width: 112px">
+                        <col style="width: 120px">
+                        <col style="width: 112px">
+                        <col style="width: 112px">
+                        <col style="width: 112px">
                     </colgroup>
                     <thead class="sticky top-0 z-10 bg-slate-50 dark:bg-slate-900">
+                        <tr class="border-b border-slate-200 bg-slate-100/70 text-[10px] dark:border-slate-800 dark:bg-slate-800/70">
+                            <th colspan="20" class="px-2 py-1.5 text-left font-bold text-slate-500 dark:text-slate-300">设备回传字段</th>
+                            <th colspan="18" class="px-2 py-1.5 text-left font-bold text-emerald-700 dark:text-emerald-200">勘探补录字段</th>
+                        </tr>
                         <tr class="border-b border-slate-200 dark:border-slate-800">
                             <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300 w-10"><input id="radarScanSelectAll" type="checkbox" class="rounded text-primary focus:ring-primary" onchange="toggleRadarScanSelectAll(this.checked)"></th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">测线文件</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">导入状态</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">管点编号</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">管线ID</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">类型</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">置信度</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">埋深(m)</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">外径(m)</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">曲率</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">峰值振幅</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">最小振幅</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">反射时间(ns)</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">像素X</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">像素Y</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">坐标系</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">经度</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">纬度</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">高程(m)</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">材质</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">天线</th>
-                            <th class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300">状态</th>
+                            <th data-radar-column="surveyLineFileName" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">测线文件</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">file_name -> 所属测线</span></th>
+                            <th data-radar-column="importStatus" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">导入状态</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">导入状态</span></th>
+                            <th data-radar-column="explorationNo" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">管点编号</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">管点编号 -> 管点编号</span></th>
+                            <th data-radar-column="pipeId" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">管线ID</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">pipe_id -> 管线归并ID</span></th>
+                            <th data-radar-column="categoryLabel" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">类型</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">type -> 管点种类/二级分类</span></th>
+                            <th data-radar-column="confidence" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">置信度</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">设备识别可信度</span></th>
+                            <th data-radar-column="depthM" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">埋深(m)</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">depth_m -> 埋深</span></th>
+                            <th data-radar-column="diameterM" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">外径(m)</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">diameter_m -> 管径/截面默认值</span></th>
+                            <th data-radar-column="curvature" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">曲率</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">设备曲率</span></th>
+                            <th data-radar-column="peakAmplitude" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">峰值振幅</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">设备峰值</span></th>
+                            <th data-radar-column="minAmplitude" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">最小振幅</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">设备最小值</span></th>
+                            <th data-radar-column="reflectTimeNs" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">反射时间(ns)</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">设备反射时间</span></th>
+                            <th data-radar-column="pixelX" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">像素X</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">图像像素X</span></th>
+                            <th data-radar-column="pixelY" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">像素Y</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">图像像素Y</span></th>
+                            <th data-radar-column="coordinateSystem" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">坐标系</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">设备坐标系</span></th>
+                            <th data-radar-column="longitude" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">经度</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">经纬高 -> 空间坐标</span></th>
+                            <th data-radar-column="latitude" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">纬度</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">经纬高 -> 空间坐标</span></th>
+                            <th data-radar-column="elevationM" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">高程(m)</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">经纬高 -> 空间坐标</span></th>
+                            <th data-radar-column="materialLabel" class="px-2 py-2 text-left font-bold text-slate-600 dark:text-slate-300"><span class="block">材质</span><span class="block text-[9px] font-medium text-slate-400 dark:text-slate-500">material -> 管线材质</span></th>
+                            <th data-radar-column="pointSecondaryCategory" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">管点二级分类<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点种类/二级分类</span></th>
+                            <th data-radar-column="feature" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">特征点<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点特征点</span></th>
+                            <th data-radar-column="attachment" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">附属物<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点附属物</span></th>
+                            <th data-radar-column="buildDate" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">建设日期<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点建设日期</span></th>
+                            <th data-radar-column="owner" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">权属单位<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点/管线权属单位</span></th>
+                            <th data-radar-column="coverMaterial" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">井盖材质<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点井盖材质</span></th>
+                            <th data-radar-column="coverType" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">井盖类型<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点井盖类型</span></th>
+                            <th data-radar-column="coverShape" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">井盖形状<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点井盖形状</span></th>
+                            <th data-radar-column="coverSize" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">井盖尺寸<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点井盖尺寸</span></th>
+                            <th data-radar-column="chamberSpec" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">井室规格<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点井室规格</span></th>
+                            <th data-radar-column="chamberSize" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">井室尺寸<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点井室尺寸</span></th>
+                            <th data-radar-column="neckSize" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">井脖尺寸<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点井脖尺寸</span></th>
+                            <th data-radar-column="neckDepth" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">井脖深<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管点井脖深</span></th>
+                            <th data-radar-column="layingMethod" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">埋设方式<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管线埋设方式</span></th>
+                            <th data-radar-column="diameterText" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">管径/截面<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管线管径/截面</span></th>
+                            <th data-radar-column="casingSize" data-required="false" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">套管尺寸</span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管线套管尺寸</span></th>
+                            <th data-radar-column="casingMaterial" data-required="false" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">套管材质</span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管线套管材质</span></th>
+                            <th data-radar-column="burialYear" data-required="true" class="px-2 py-2 text-left font-bold text-emerald-700 dark:text-emerald-200"><span class="block">埋设年代<span class="ml-0.5 text-red-500">*</span></span><span class="block text-[9px] font-medium text-emerald-600/70 dark:text-emerald-200/70">补录 -> 管线埋设年代</span></th>
                         </tr>
                     </thead>
                     <tbody id="radarScanResultBody" class="divide-y divide-slate-100 dark:divide-slate-800">
-                        <tr><td colspan="22" class="px-3 py-12 text-center text-slate-400">正在读取设备返回结果...</td></tr>
+                        <tr><td colspan="38" class="px-3 py-12 text-center text-slate-400">正在读取设备返回结果...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
+        <div class="px-4 py-3 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between shrink-0">
             <div id="radarScanStatusText" class="text-xs text-slate-500 dark:text-slate-400">等待设备返回结果</div>
+            <div id="radarScanPagination" class="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400"></div>
             <div class="flex gap-2">
                 <button onclick="document.getElementById('radarScanModal').close()" class="px-4 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors">
                     取消
@@ -2498,6 +2557,8 @@
     // ==================== 雷达扫描功能 ====================
 
     let radarScanAdapter = null;
+    const RADAR_SCAN_PAGE_SIZE = 10;
+    let radarScanPage = 1;
     let radarScanRows = [];
     const radarImportedSourceIds = new Set();
     const radarScanTypeMeta = {
@@ -2509,6 +2570,45 @@
         telecom: { color: '#a78bfa', owner: '通信公司' },
         industrial: { color: '#22c55e', owner: '工业园区' },
         other: { color: '#94a3b8', owner: '综合管养单位' }
+    };
+    const radarSupplementFields = [
+        { key: 'pointSecondaryCategory', label: '管点二级分类', targetLabel: '管点种类/二级分类', inputWidth: 'w-28', type: 'select', required: true },
+        { key: 'feature', label: '特征点', targetLabel: '管点特征点', inputWidth: 'w-28', type: 'select', required: true },
+        { key: 'attachment', label: '附属物', targetLabel: '管点附属物', inputWidth: 'w-24', type: 'select', required: true },
+        { key: 'buildDate', label: '建设日期', targetLabel: '管点建设日期', inputWidth: 'w-28', type: 'date', required: true },
+        { key: 'owner', label: '权属单位', targetLabel: '管点/管线权属单位', inputWidth: 'w-28', required: true },
+        { key: 'coverMaterial', label: '井盖材质', targetLabel: '管点井盖材质', inputWidth: 'w-24', type: 'select', required: true },
+        { key: 'coverType', label: '井盖类型', targetLabel: '管点井盖类型', inputWidth: 'w-24', type: 'select', required: true },
+        { key: 'coverShape', label: '井盖形状', targetLabel: '管点井盖形状', inputWidth: 'w-24', type: 'select', required: true },
+        { key: 'coverSize', label: '井盖尺寸', targetLabel: '管点井盖尺寸', inputWidth: 'w-24', required: true },
+        { key: 'chamberSpec', label: '井室规格', targetLabel: '管点井室规格', inputWidth: 'w-24', required: true },
+        { key: 'chamberSize', label: '井室尺寸', targetLabel: '管点井室尺寸', inputWidth: 'w-24', required: true },
+        { key: 'neckSize', label: '井脖尺寸', targetLabel: '管点井脖尺寸', inputWidth: 'w-24', required: true },
+        { key: 'neckDepth', label: '井脖深', targetLabel: '管点井脖深', inputWidth: 'w-20', required: true },
+        { key: 'layingMethod', label: '埋设方式', targetLabel: '管线埋设方式', inputWidth: 'w-24', type: 'select', required: true },
+        { key: 'diameterText', label: '管径/截面', targetLabel: '管线管径/截面', inputWidth: 'w-24', required: true },
+        { key: 'casingSize', label: '套管尺寸', targetLabel: '管线套管尺寸', inputWidth: 'w-24', required: false },
+        { key: 'casingMaterial', label: '套管材质', targetLabel: '管线套管材质', inputWidth: 'w-24', type: 'select', required: false },
+        { key: 'burialYear', label: '埋设年代', targetLabel: '管线埋设年代', inputWidth: 'w-24', required: true }
+    ];
+    const radarPointAttachmentOptions = ['', '无', '窨井', '阀门井', '仪表井', '检测井', '排污井', '雨水井', '手孔', '人孔', '电缆标示桩', '管线标示桩', '阀门箱', '仪表箱', '配电箱', '变压器箱', '控制箱', '消火栓', '通风口', '排水口', '雨水口'];
+    const radarCoverMaterialOptions = ['', '无', '金属', '铸铁', '砼', '塑料', '钢', '玻璃钢', '大理石'];
+    const radarCoverTypeOptions = ['', '防盗', '非防盗'];
+    const radarCoverShapeOptions = ['', '圆形', '矩形'];
+    const radarLayingMethodOptions = ['', '直埋', '管沟', '架空'];
+    const radarCasingMaterialOptions = ['', '钢', 'PE', 'PVC', '混凝土'];
+    const radarPointTypeAliases = {
+        power: '电力',
+        electricity: '电力',
+        drainage: '排水',
+        gas: '燃气',
+        industrial: '工业',
+        telecom: '通信',
+        water: '给水',
+        water_supply: '给水',
+        heating: '热力',
+        heat: '热力',
+        other: '其他'
     };
 
     function escapeRadarHtml(value) {
@@ -2527,6 +2627,98 @@
 
     function formatRadarNumber(value, digits = 2) {
         return toRadarNumber(value, 0).toFixed(digits);
+    }
+
+    function formatRadarDiameterText(diameterM) {
+        const diameter = toRadarNumber(diameterM, 0);
+        return diameter > 0 ? `DN${Math.round(diameter * 1000)}` : '';
+    }
+
+    function getRadarPointTypeOptions() {
+        return (dictData?.point_type || []).map(type => type.name).filter(Boolean);
+    }
+
+    function resolveRadarPointTypeName(value) {
+        const raw = String(value ?? '').trim();
+        if (!raw) return '';
+        const matched = (dictData?.point_type || []).find(type =>
+            type.name === raw || type.value === raw || type.code === raw || String(type.id) === raw
+        );
+        return matched?.name || radarPointTypeAliases[raw] || raw;
+    }
+
+    function getRadarPointFeatureOptions(row = {}) {
+        const typeName = resolveRadarPointTypeName(row.pointSecondaryCategory || row.categoryLabel || row.typeKey);
+        const type = (dictData?.point_type || []).find(item => item.name === typeName || item.value === typeName || item.code === typeName);
+        if (!type) return [''];
+        const options = (dictData?.point_feature || [])
+            .filter(feature => feature.parent === type.id)
+            .map(feature => feature.name)
+            .filter(Boolean);
+        return ['', ...options];
+    }
+
+    function getRadarSupplementFieldOptions(field, row = {}) {
+        switch (field.key) {
+            case 'pointSecondaryCategory':
+                return ['', ...getRadarPointTypeOptions()];
+            case 'feature':
+                return getRadarPointFeatureOptions(row);
+            case 'attachment':
+                return radarPointAttachmentOptions;
+            case 'coverMaterial':
+                return radarCoverMaterialOptions;
+            case 'coverType':
+                return radarCoverTypeOptions;
+            case 'coverShape':
+                return radarCoverShapeOptions;
+            case 'layingMethod':
+                return radarLayingMethodOptions;
+            case 'casingMaterial':
+                return radarCasingMaterialOptions;
+            default:
+                return [];
+        }
+    }
+
+    function normalizeRadarSupplementSelectValue(key, value, row = {}) {
+        const raw = String(value ?? '').trim();
+        if (!raw) return '';
+        if (key === 'pointSecondaryCategory') return resolveRadarPointTypeName(raw);
+        if (key === 'feature') {
+            const options = getRadarPointFeatureOptions(row);
+            if (options.includes(raw)) return raw;
+            const feature = (dictData?.point_feature || []).find(item => item.name === raw || item.value === raw || String(item.id) === raw);
+            return options.includes(feature?.name) ? feature.name : raw;
+        }
+        return raw;
+    }
+
+    function getRadarSupplementDefaults(baseRecord = {}, candidate = {}, typeMeta = {}) {
+        const pointSecondaryCategory = normalizeRadarSupplementSelectValue(
+            'pointSecondaryCategory',
+            baseRecord.pointSecondaryCategory || baseRecord.categoryLabel || candidate.categoryLabel || candidate.typeKey || ''
+        );
+        return {
+            pointSecondaryCategory,
+            feature: '',
+            attachment: baseRecord.attachment || '',
+            buildDate: baseRecord.buildDate || '',
+            owner: '',
+            coverMaterial: baseRecord.coverMaterial || '',
+            coverType: baseRecord.coverType || '',
+            coverShape: baseRecord.coverShape || '',
+            coverSize: baseRecord.coverSize || '',
+            chamberSpec: baseRecord.chamberSpec || '',
+            chamberSize: baseRecord.chamberSize || '',
+            neckSize: baseRecord.neckSize || '',
+            neckDepth: baseRecord.neckDepth || '',
+            layingMethod: baseRecord.layingMethod || baseRecord.method || '',
+            diameterText: baseRecord.diameter || formatRadarDiameterText(candidate.diameterM),
+            casingSize: baseRecord.casingSize || baseRecord.casing || '',
+            casingMaterial: baseRecord.casingMaterial || '',
+            burialYear: baseRecord.burialYear || baseRecord.year || ''
+        };
     }
 
     function getCurrentProjectIdFromUrl() {
@@ -2568,6 +2760,7 @@
         document.getElementById('radarScanDeviceId').textContent = deviceId;
         setRadarScanStatus('正在读取设备返回结果...');
         radarScanRows = [];
+        radarScanPage = 1;
         renderRadarScanRows();
         if (!adapter || !window.RadarPrototype?.parseDetectionMessage) {
             setRadarScanStatus('设备返回结果解析模块未加载', 'warning');
@@ -2590,6 +2783,7 @@
                 });
                 parsed.candidates.forEach((candidate, candidateIndex) => {
                     const baseRecord = baseRecords[candidateIndex] || {};
+                    const typeMeta = radarScanTypeMeta[candidate.typeKey || baseRecord.type] || radarScanTypeMeta.other;
                     const sequence = 9001 + rows.length;
                     const explorationNo = String(baseRecord.explorationNo || `EXP-O${sequence}`).replace(/\d+$/, String(sequence));
                     const rowId = `${item.id}-${candidate.id}`;
@@ -2630,11 +2824,12 @@
                         longitude: candidate.vertexCoordinate?.longitude,
                         latitude: candidate.vertexCoordinate?.latitude,
                         elevationM: candidate.vertexCoordinate?.elevation_m,
-                        feature: baseRecord.feature || '雷达识别点'
+                        ...getRadarSupplementDefaults(baseRecord, candidate, typeMeta)
                     });
                 });
             });
             radarScanRows = rows;
+            radarScanPage = 1;
             renderRadarScanRows();
             setRadarScanStatus(rows.length ? `已读取 ${rows.length} 条设备返回结果` : '当前设备暂无返回结果', rows.length ? 'success' : 'warning');
         } catch (error) {
@@ -2644,12 +2839,53 @@
         }
     }
 
-    function renderRadarInput(row, index, key, widthClass = 'w-24', type = 'text', step = '') {
-        return `<input data-radar-field="${key}" value="${escapeRadarHtml(row[key])}" type="${type}" ${step ? `step="${step}"` : ''} oninput="updateRadarScanField(${index}, '${key}', this.value)" class="${widthClass} h-7 rounded border border-slate-200 bg-white px-2 text-[11px] outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 dark:border-slate-700 dark:bg-slate-900">`;
+    function renderRadarInput(row, index, key, widthClass = 'w-24', type = 'text', step = '', required = false) {
+        const isMissing = required && row.validationMissingKeys?.includes(key);
+        const stateClass = isMissing
+            ? 'border-red-300 bg-red-50/70 text-red-700 focus:border-red-400 focus:ring-red-200 dark:border-red-500/60 dark:bg-red-500/10 dark:text-red-100'
+            : 'border-slate-200 bg-white focus:border-primary focus:ring-primary/30 dark:border-slate-700 dark:bg-slate-900';
+        return `<input data-radar-field="${key}" value="${escapeRadarHtml(row[key])}" type="${type}" ${step ? `step="${step}"` : ''} ${required ? 'required aria-required="true"' : ''} oninput="updateRadarScanField(${index}, '${key}', this.value)" class="${widthClass} h-7 rounded border ${stateClass} px-2 text-[11px] outline-none focus:ring-1">`;
+    }
+
+    function renderRadarSelect(row, index, field) {
+        const isMissing = field.required && row.validationMissingKeys?.includes(field.key);
+        const stateClass = isMissing
+            ? 'border-red-300 bg-red-50/70 text-red-700 focus:border-red-400 focus:ring-red-200 dark:border-red-500/60 dark:bg-red-500/10 dark:text-red-100'
+            : 'border-slate-200 bg-white focus:border-primary focus:ring-primary/30 dark:border-slate-700 dark:bg-slate-900';
+        const currentValue = String(row[field.key] ?? '').trim();
+        const options = getRadarSupplementFieldOptions(field, row);
+        const mergedOptions = currentValue && !options.includes(currentValue) ? [...options, currentValue] : options;
+        return `<select data-radar-field="${field.key}" ${field.required ? 'required aria-required="true"' : ''} onchange="updateRadarScanField(${index}, '${field.key}', this.value)" class="${field.inputWidth} h-7 rounded border ${stateClass} px-2 text-[11px] outline-none focus:ring-1">${mergedOptions.map(option => `<option value="${escapeRadarHtml(option)}" ${option === currentValue ? 'selected' : ''}>${escapeRadarHtml(option || '请选择')}</option>`).join('')}</select>`;
     }
 
     function renderRadarReadOnlyCell(value, widthClass = 'w-36') {
         return `<span class="inline-flex h-7 ${widthClass} items-center truncate rounded border border-slate-200 bg-slate-100 px-2 text-[11px] text-slate-600 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300">${escapeRadarHtml(value || '-')}</span>`;
+    }
+
+    function renderRadarSupplementControl(row, index, field) {
+        if (field.type === 'select') return renderRadarSelect(row, index, field);
+        return renderRadarInput(row, index, field.key, field.inputWidth, field.type || 'text', field.step || '', field.required);
+    }
+
+    function renderRadarSupplementCells(row, index) {
+        return radarSupplementFields.map(field => `
+                <td class="px-2 py-2">${renderRadarSupplementControl(row, index, field)}</td>`).join('');
+    }
+
+    function validateRadarRequiredFields(rows) {
+        radarScanRows.forEach(row => { row.validationMissingKeys = []; });
+        const invalidRows = rows.map(row => {
+            const missing = radarSupplementFields.filter(field => field.required && !String(row[field.key] ?? '').trim());
+            row.validationMissingKeys = missing.map(field => field.key);
+            return { row, missing };
+        }).filter(item => item.missing.length);
+        if (!invalidRows.length) return true;
+
+        renderRadarScanRows();
+        const first = invalidRows[0];
+        const rowName = first.row.explorationNo || `pipe_id ${first.row.pipeId || '-'}`;
+        setRadarScanStatus(`请补录必填字段：${rowName} 缺少 ${first.missing.map(field => field.label).join('、')}`, 'warning');
+        return false;
     }
 
     function getRadarRowImportStatus(row) {
@@ -2663,17 +2899,61 @@
         };
     }
 
+    function getSortedRadarScanRows() {
+        return radarScanRows
+            .map((row, index) => ({ row, index }))
+            .sort((left, right) => {
+                const leftWeight = getRadarRowImportStatus(left.row).imported ? 0 : 1;
+                const rightWeight = getRadarRowImportStatus(right.row).imported ? 0 : 1;
+                return rightWeight - leftWeight || left.index - right.index;
+            });
+    }
+
+    function getRadarScanTotalPages() {
+        return Math.max(1, Math.ceil(radarScanRows.length / RADAR_SCAN_PAGE_SIZE));
+    }
+
+    function getCurrentRadarScanPageRows() {
+        const totalPages = getRadarScanTotalPages();
+        radarScanPage = Math.min(Math.max(radarScanPage, 1), totalPages);
+        const start = (radarScanPage - 1) * RADAR_SCAN_PAGE_SIZE;
+        return getSortedRadarScanRows().slice(start, start + RADAR_SCAN_PAGE_SIZE);
+    }
+
+    function renderRadarScanPagination() {
+        const pager = document.getElementById('radarScanPagination');
+        if (!pager) return;
+        const totalRows = radarScanRows.length;
+        const totalPages = getRadarScanTotalPages();
+        const start = totalRows ? (radarScanPage - 1) * RADAR_SCAN_PAGE_SIZE + 1 : 0;
+        const end = Math.min(radarScanPage * RADAR_SCAN_PAGE_SIZE, totalRows);
+        const buttonClass = 'h-7 rounded border border-slate-200 px-2 text-[11px] font-medium text-slate-600 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800';
+        pager.innerHTML = `
+            <span class="mr-1">${start}-${end} / ${totalRows}</span>
+            <button type="button" class="${buttonClass}" ${radarScanPage <= 1 ? 'disabled' : ''} onclick="goRadarScanPage(${radarScanPage - 1})">上一页</button>
+            <span class="px-1">${radarScanPage}/${totalPages}</span>
+            <button type="button" class="${buttonClass}" ${radarScanPage >= totalPages ? 'disabled' : ''} onclick="goRadarScanPage(${radarScanPage + 1})">下一页</button>
+        `;
+    }
+
+    function goRadarScanPage(page) {
+        radarScanPage = Math.min(Math.max(Number(page) || 1, 1), getRadarScanTotalPages());
+        renderRadarScanRows();
+    }
+
     function renderRadarScanRows() {
         const tbody = document.getElementById('radarScanResultBody');
         const resultCount = document.getElementById('radarScanResultCount');
         if (resultCount) resultCount.textContent = `${radarScanRows.length} 条`;
         if (!tbody) return;
         if (!radarScanRows.length) {
-            tbody.innerHTML = '<tr><td colspan="22" class="px-3 py-12 text-center text-slate-400">暂无当前设备返回结果</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="38" class="px-3 py-12 text-center text-slate-400">暂无当前设备返回结果</td></tr>';
+            renderRadarScanPagination();
             updateRadarScanSelection();
             return;
         }
-        tbody.innerHTML = radarScanRows.map((row, index) => `
+        const pageRows = getCurrentRadarScanPageRows();
+        tbody.innerHTML = pageRows.map(({ row, index }) => `
             <tr class="hover:bg-slate-50 dark:hover:bg-slate-800" data-radar-row="${index}">
                 <td class="px-2 py-2"><input type="checkbox" class="radar-scan-row-check rounded text-primary focus:ring-primary disabled:opacity-40" ${row.checked ? 'checked' : ''} ${getRadarRowImportStatus(row).imported ? 'disabled' : ''} onchange="updateRadarScanField(${index}, 'checked', this.checked)"></td>
                 <td class="px-2 py-2">${renderRadarReadOnlyCell(row.surveyLineFileName, 'w-36')}</td>
@@ -2695,34 +2975,54 @@
                 <td class="px-2 py-2">${renderRadarInput(row, index, 'latitude', 'w-28', 'number', '0.000001')}</td>
                 <td class="px-2 py-2">${renderRadarInput(row, index, 'elevationM', 'w-20', 'number', '0.01')}</td>
                 <td class="px-2 py-2">${renderRadarInput(row, index, 'materialLabel', 'w-20')}</td>
-                <td class="px-2 py-2">${renderRadarInput(row, index, 'antennaConfig', 'w-16')}</td>
-                <td class="px-2 py-2"><span class="inline-flex rounded-full border px-2 py-0.5 text-[10px] ${row.validMapPoint ? 'border-emerald-100 bg-emerald-50 text-emerald-700' : 'border-amber-100 bg-amber-50 text-amber-700'}">${row.validMapPoint ? '可定位' : '无效坐标'}</span></td>
+                ${renderRadarSupplementCells(row, index)}
             </tr>
         `).join('');
+        renderRadarScanPagination();
         updateRadarScanSelection();
     }
 
     function updateRadarScanField(index, key, value) {
         const row = radarScanRows[index];
         if (!row) return;
-        row[key] = key === 'checked' ? Boolean(value) : value;
+        const field = radarSupplementFields.find(item => item.key === key);
+        if (key === 'checked') {
+            row.checked = !getRadarRowImportStatus(row).imported && Boolean(value);
+            updateRadarScanSelection();
+            return;
+        }
+        row[key] = field?.type === 'select' ? normalizeRadarSupplementSelectValue(key, value, row) : value;
+        if (key === 'pointSecondaryCategory') {
+            const featureOptions = getRadarSupplementFieldOptions({ key: 'feature' }, row);
+            if (row.feature && !featureOptions.includes(row.feature)) row.feature = '';
+        }
+        if (row.validationMissingKeys?.length && String(value ?? '').trim()) {
+            row.validationMissingKeys = row.validationMissingKeys.filter(fieldKey => fieldKey !== key);
+        }
         updateRadarScanSelection();
+        if (key === 'pointSecondaryCategory') renderRadarScanRows();
     }
 
     function toggleRadarScanSelectAll(checked) {
-        radarScanRows.forEach(row => { row.checked = getRadarRowImportStatus(row).imported ? false : checked; });
+        getCurrentRadarScanPageRows().forEach(({ row }) => {
+            if (!getRadarRowImportStatus(row).imported) row.checked = checked;
+        });
         renderRadarScanRows();
     }
 
     function updateRadarScanSelection() {
         const eligibleRows = radarScanRows.filter(row => !getRadarRowImportStatus(row).imported);
         const selectedCount = eligibleRows.filter(row => row.checked).length;
+        const currentEligibleRows = getCurrentRadarScanPageRows()
+            .map(item => item.row)
+            .filter(row => !getRadarRowImportStatus(row).imported);
+        const currentSelectedCount = currentEligibleRows.filter(row => row.checked).length;
         const selectedEl = document.getElementById('radarScanSelectedCount');
         const selectAll = document.getElementById('radarScanSelectAll');
         if (selectedEl) selectedEl.textContent = `${selectedCount} 条`;
         if (selectAll) {
-            selectAll.checked = eligibleRows.length > 0 && selectedCount === eligibleRows.length;
-            selectAll.indeterminate = selectedCount > 0 && selectedCount < eligibleRows.length;
+            selectAll.checked = currentEligibleRows.length > 0 && currentSelectedCount === currentEligibleRows.length;
+            selectAll.indeterminate = currentSelectedCount > 0 && currentSelectedCount < currentEligibleRows.length;
         }
     }
 
@@ -2733,6 +3033,10 @@
         const topElev = elevation ? elevation - depth : 0;
         const bottomElev = topElev && diameter ? topElev - diameter : 0;
         const meta = radarScanTypeMeta[row.typeKey] || radarScanTypeMeta.other;
+        const supplementValues = radarSupplementFields.reduce((values, field) => {
+            values[field.key] = row[field.key] || '';
+            return values;
+        }, {});
         return {
             id: `EXPLORATION-${row.sourceItemId}-${row.pipeId}`,
             source: 'radar',
@@ -2741,12 +3045,17 @@
             sourceCandidateId: row.id,
             sourceSurveyLine: row.surveyLineFileName,
             sourceDeviceId: row.deviceId,
+            pipeId: row.pipeId,
             type: row.typeKey || 'other',
             categoryLabel: row.categoryLabel || '其他',
             explorationNo: row.explorationNo || `EXP-${row.pipeId}`,
-            feature: row.feature || '雷达识别点',
+            ...supplementValues,
+            feature: supplementValues.feature || '',
+            accessory: supplementValues.attachment || '',
             material: row.materialLabel || '',
-            diameter: diameter ? `DN${Math.round(diameter * 1000)}` : '',
+            diameter: supplementValues.diameterText || (diameter ? `DN${Math.round(diameter * 1000)}` : ''),
+            method: supplementValues.layingMethod || '',
+            year: supplementValues.burialYear || '',
             x: formatRadarNumber(row.longitude, 6),
             y: formatRadarNumber(row.latitude, 6),
             groundElevM: elevation ? Number(formatRadarNumber(elevation, 2)) : 0,
@@ -2754,7 +3063,7 @@
             bottomElevM: bottomElev ? Number(formatRadarNumber(bottomElev, 2)) : 0,
             depthM: Number(formatRadarNumber(depth, 2)),
             confidence: toRadarNumber(row.confidence, 0),
-            owner: meta.owner,
+            owner: supplementValues.owner || '',
             remark: `设备返回结果导入；测线 ${row.surveyLineFileName || '-'}；pipe_id ${row.pipeId || '-'}`
         };
     }
@@ -2763,6 +3072,56 @@
         const x = 180 + (index % 5) * 92;
         const y = 190 + Math.floor(index / 5) * 64;
         return { x, y };
+    }
+
+    function getRadarPipelineGroupKey(record) {
+        const surveyLine = String(record.sourceSurveyLine || record.surveyLineFileName || 'radar').trim() || 'radar';
+        const pipeId = String(record.pipeId ?? '').trim() || String(record.explorationNo || record.sourceCandidateId || 'unknown');
+        return `${surveyLine}::${pipeId}`;
+    }
+
+    function getRadarPipelineId(groupKey) {
+        return `RADAR-LINE-${String(groupKey).replace(/[^a-zA-Z0-9_-]+/g, '-')}`;
+    }
+
+    function buildRadarPipelineRecord(groupKey, group) {
+        const lineId = getRadarPipelineId(groupKey);
+        const existing = pipelinesData[lineId] || {};
+        const first = group[0].record;
+        const last = group[group.length - 1].record;
+        const segmentPointIds = Array.from(new Set([
+            ...(existing.segmentPointIds || []),
+            ...group.map(item => item.record.explorationNo)
+        ]));
+        const sourceCandidateIds = Array.from(new Set([
+            ...(existing.sourceCandidateIds || []),
+            ...group.map(item => item.record.sourceCandidateId)
+        ]));
+        return {
+            ...existing,
+            id: lineId,
+            pipeId: first.pipeId,
+            start: segmentPointIds[0],
+            end: segmentPointIds[segmentPointIds.length - 1],
+            diameter: first.diameter,
+            material: first.material,
+            length: existing.length || '',
+            depth: `${first.depthM}-${last.depthM}`,
+            type: first.categoryLabel,
+            pointSecondaryCategory: first.pointSecondaryCategory,
+            owner: first.owner,
+            layingMethod: first.layingMethod,
+            method: first.method,
+            casingSize: first.casingSize,
+            casingMaterial: first.casingMaterial,
+            burialYear: first.burialYear,
+            year: first.year,
+            source: 'radar',
+            sourceSurveyLine: first.sourceSurveyLine,
+            segmentPointIds,
+            sourceCandidateIds,
+            detectionCount: sourceCandidateIds.length
+        };
     }
 
     function appendRadarScanRecordsToExploration(records) {
@@ -2775,34 +3134,55 @@
             pointsData[record.explorationNo] = {
                 id: record.explorationNo,
                 type: record.categoryLabel,
+                pointSecondaryCategory: record.pointSecondaryCategory,
                 feature: record.feature,
+                accessory: record.accessory,
+                buildDate: record.buildDate,
+                owner: record.owner,
+                coverMaterial: record.coverMaterial,
+                coverType: record.coverType,
+                coverShape: record.coverShape,
+                coverSize: record.coverSize,
+                chamberSpec: record.chamberSpec,
+                chamberSize: record.chamberSize,
+                neckSize: record.neckSize,
+                neckDepth: record.neckDepth,
+                layingMethod: record.layingMethod,
+                method: record.method,
+                diameter: record.diameter,
+                casingSize: record.casingSize,
+                casingMaterial: record.casingMaterial,
+                burialYear: record.burialYear,
+                year: record.year,
                 depth: String(record.depthM),
-                coord: `X: ${record.x}, Y: ${record.y}`
+                coord: `X: ${record.x}, Y: ${record.y}`,
+                source: 'radar',
+                sourceCandidateId: record.sourceCandidateId,
+                sourceSurveyLine: record.sourceSurveyLine,
+                remark: record.remark
             };
             plotted.push({ record, point: getRadarRecordMapPoint(record, Object.keys(pointsData).length + index) });
         });
+        const plottedByPointId = plotted.reduce((acc, item) => {
+            acc[item.record.explorationNo] = item;
+            return acc;
+        }, {});
         const grouped = plotted.reduce((acc, item) => {
-            const key = item.record.sourceSurveyLine || 'radar';
+            const key = getRadarPipelineGroupKey(item.record);
             if (!acc[key]) acc[key] = [];
             acc[key].push(item);
             return acc;
         }, {});
-        Object.values(grouped).forEach(group => {
-            group.forEach((item, index) => {
-                const next = group[index + 1];
-                if (!next) return;
-                const lineId = `RADAR-LINE-${item.record.explorationNo}-${next.record.explorationNo}`;
-                pipelinesData[lineId] = {
-                    id: lineId,
-                    start: item.record.explorationNo,
-                    end: next.record.explorationNo,
-                    diameter: item.record.diameter,
-                    material: item.record.material,
-                    length: '',
-                    depth: `${item.record.depthM}-${next.record.depthM}`
-                };
-                svg.insertAdjacentHTML('beforeend', `<line x1="${item.point.x}" y1="${item.point.y}" x2="${next.point.x}" y2="${next.point.y}" stroke="#22d3ee" stroke-width="3" stroke-dasharray="6 4" class="pipeline-line cursor-pointer" data-pipeline-id="${escapeRadarHtml(lineId)}" onclick="showPipelineMenu(event, '${escapeRadarHtml(lineId)}')"/>`);
-            });
+        Object.entries(grouped).forEach(([groupKey, group]) => {
+            const pipeline = buildRadarPipelineRecord(groupKey, group);
+            pipelinesData[pipeline.id] = pipeline;
+            const startItem = plottedByPointId[pipeline.start];
+            const endItem = plottedByPointId[pipeline.end];
+            const pipelineSelectorId = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(pipeline.id) : pipeline.id.replace(/"/g, '\\"');
+            svg.querySelectorAll(`line[data-pipeline-id="${pipelineSelectorId}"]`).forEach(line => line.remove());
+            if (startItem && endItem && pipeline.start !== pipeline.end) {
+                svg.insertAdjacentHTML('beforeend', `<line x1="${startItem.point.x}" y1="${startItem.point.y}" x2="${endItem.point.x}" y2="${endItem.point.y}" stroke="#22d3ee" stroke-width="3" stroke-dasharray="6 4" class="pipeline-line cursor-pointer" data-pipeline-id="${escapeRadarHtml(pipeline.id)}" onclick="showPipelineMenu(event, '${escapeRadarHtml(pipeline.id)}')"/>`);
+            }
         });
         plotted.forEach(item => {
             const color = (radarScanTypeMeta[item.record.type] || radarScanTypeMeta.other).color;
@@ -2822,6 +3202,7 @@
             setRadarScanStatus('请先勾选需要导入的数据', 'warning');
             return;
         }
+        if (!validateRadarRequiredFields(selectedRows)) return;
         const records = selectedRows.map(radarScanRowToExplorationRecord);
         const result = appendRadarScanRecordsToExploration(records);
         radarScanRows.forEach(row => {
