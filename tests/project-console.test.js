@@ -32,7 +32,8 @@ const {
     getDeviceStatusMeta,
     getVideoProtocol,
     buildDeviceLiveVideoPanel,
-    getDeviceControlReadiness
+    getDeviceControlReadiness,
+    calculateJoystickCommand
 } = require('../js/project-console.js');
 
 test('resolveProjectDeviceBinding returns default binding for bound projects', () => {
@@ -620,6 +621,7 @@ test('console action layout keeps primary actions in their owning panels with co
 
 test('device control layout sits below map and separates task commands from manual drive pad', () => {
     const layout = getConsoleTaskControlLayout();
+    const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'project-console.js'), 'utf8');
 
     assert.equal(layout.title, '设备控制');
     assert.equal(layout.placement, 'belowMap');
@@ -628,12 +630,34 @@ test('device control layout sits below map and separates task commands from manu
     assert.deepEqual(layout.sections, ['taskCommands', 'controlSummary', 'manualDrivePad']);
     assert.deepEqual(layout.taskCommands, ['continue_task', 'pause_task', 'finish_task']);
     assert.deepEqual(layout.summaryMetrics, ['connectionState', 'taskProgress', 'returnQueue']);
-    assert.equal(layout.manualDriveButtons.length, 5);
-    assert.deepEqual(layout.manualDriveButtons.find(button => button.command === 'zero'), {
-        command: 'zero',
-        linear_x: 0,
-        angular_z: 0
+    assert.deepEqual(layout.manualDriveControl, {
+        type: 'drag-origin',
+        command: 'manual_drive',
+        maxLinearX: 0.3,
+        maxAngularZ: 10,
+        zeroOnPointerUp: true
     });
+    assert.match(source, /data-role="manual-drive-joystick"/);
+    assert.match(source, /id="pcJoystickOrigin"/);
+    assert.match(source, /data-joystick-knob/);
+    assert.match(source, /bindManualDriveJoystick/);
+    assert.match(source, /resetManualDriveJoystick/);
+    assert.doesNotMatch(source, /data-manual-drive data-linear/);
+});
+
+test('drag joystick converts offset to manual drive command and returns to zero', () => {
+    const center = calculateJoystickCommand({ offsetX: 0, offsetY: 0, radius: 48 });
+    const forward = calculateJoystickCommand({ offsetX: 0, offsetY: -48, radius: 48 });
+    const left = calculateJoystickCommand({ offsetX: -48, offsetY: 0, radius: 48 });
+    const right = calculateJoystickCommand({ offsetX: 48, offsetY: 0, radius: 48 });
+    const clamped = calculateJoystickCommand({ offsetX: 96, offsetY: -96, radius: 48 });
+
+    assert.deepEqual(center.command, { linear_x: 0, angular_z: 0 });
+    assert.deepEqual(center.knob, { x: 0, y: 0 });
+    assert.deepEqual(forward.command, { linear_x: 0.3, angular_z: 0 });
+    assert.deepEqual(left.command, { linear_x: 0, angular_z: 10 });
+    assert.deepEqual(right.command, { linear_x: 0, angular_z: -10 });
+    assert.ok(Math.hypot(clamped.knob.x, clamped.knob.y) <= 48.001);
 });
 
 test('console renders command acknowledgements as a map top-left marquee', () => {

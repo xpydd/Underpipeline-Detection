@@ -116,13 +116,13 @@
         sections: ['taskCommands', 'controlSummary', 'manualDrivePad'],
         taskCommands: ['continue_task', 'pause_task', 'finish_task'],
         summaryMetrics: ['connectionState', 'taskProgress', 'returnQueue'],
-        manualDriveButtons: [
-            { command: 'forward', linear_x: 0.3, angular_z: 0 },
-            { command: 'left', linear_x: 0, angular_z: 10 },
-            { command: 'zero', linear_x: 0, angular_z: 0 },
-            { command: 'right', linear_x: 0, angular_z: -10 },
-            { command: 'backward', linear_x: -0.3, angular_z: 0 }
-        ]
+        manualDriveControl: {
+            type: 'drag-origin',
+            command: 'manual_drive',
+            maxLinearX: 0.3,
+            maxAngularZ: 10,
+            zeroOnPointerUp: true
+        }
     };
 
     const VIDEO_LIVE_LAYOUT = {
@@ -444,6 +444,34 @@
     function toNumber(value, fallback = 0) {
         const number = Number(value);
         return Number.isFinite(number) ? number : fallback;
+    }
+
+    function roundDriveValue(value, digits = 2) {
+        const factor = 10 ** digits;
+        const rounded = Math.round((toNumber(value, 0) + Number.EPSILON) * factor) / factor;
+        return Object.is(rounded, -0) ? 0 : rounded;
+    }
+
+    function calculateJoystickCommand({ offsetX = 0, offsetY = 0, radius = 48, maxLinearX = 0.3, maxAngularZ = 10 } = {}) {
+        const safeRadius = Math.max(1, toNumber(radius, 48));
+        let x = toNumber(offsetX, 0);
+        let y = toNumber(offsetY, 0);
+        const distance = Math.hypot(x, y);
+        if (distance > safeRadius) {
+            const scale = safeRadius / distance;
+            x *= scale;
+            y *= scale;
+        }
+        return {
+            knob: {
+                x: roundDriveValue(x, 2),
+                y: roundDriveValue(y, 2)
+            },
+            command: {
+                linear_x: roundDriveValue((-y / safeRadius) * toNumber(maxLinearX, 0.3), 2),
+                angular_z: roundDriveValue((-x / safeRadius) * toNumber(maxAngularZ, 10), 2)
+            }
+        };
     }
 
     function calculateMapPickPoint({ offsetX, offsetY, width, height, originX = 0, originY = 0, spanM = 20 }) {
@@ -1406,29 +1434,26 @@
                                 </div>
                                 <div data-role="manual-drive-pad" class="rounded-md border border-slate-800 bg-slate-950 p-2 shadow-inner">
                                     <div class="mb-1.5 flex items-center justify-between">
-                                        <span class="text-[11px] font-medium text-slate-300">遥杆</span>
-                                        <span class="text-[10px] font-semibold text-emerald-300">0 速归零</span>
+                                        <span class="text-[11px] font-medium text-slate-300">拖拽摇杆</span>
+                                        <span class="text-[10px] font-semibold text-emerald-300">松开归中</span>
                                     </div>
-                                    <div class="mx-auto grid w-[94px] grid-cols-3 gap-1.5">
-                                        <div></div>
-                                        <button data-manual-drive data-linear="0.3" data-angular="0" class="${BUTTON_CLASSES.pad}" title="前进">
-                                            <span class="material-symbols-outlined text-base">keyboard_arrow_up</span>
-                                        </button>
-                                        <div></div>
-                                        <button data-manual-drive data-linear="0" data-angular="10" class="${BUTTON_CLASSES.pad}" title="左转">
-                                            <span class="material-symbols-outlined text-base">keyboard_arrow_left</span>
-                                        </button>
-                                        <button data-manual-drive data-linear="0" data-angular="0" class="${BUTTON_CLASSES.padActive}" title="归零">
+                                    <div id="pcJoystickOrigin" data-role="manual-drive-joystick" data-joystick-origin data-joystick-radius="34" role="button" tabindex="0" aria-label="拖拽控制小车移动，松开后自动回到中心点" aria-valuetext="线速度 0.00，角速度 0.00" class="relative mx-auto size-[92px] touch-none select-none rounded-full border border-slate-700 bg-slate-900 shadow-inner outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-emerald-300/70">
+                                        <span class="absolute left-1/2 top-2 bottom-2 w-px -translate-x-1/2 bg-slate-700/80"></span>
+                                        <span class="absolute left-2 right-2 top-1/2 h-px -translate-y-1/2 bg-slate-700/80"></span>
+                                        <span class="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-300/70 shadow-[0_0_12px_rgba(110,231,183,.5)]"></span>
+                                        <span data-joystick-knob class="absolute left-1/2 top-1/2 grid size-6 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-emerald-200 bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-950/40 transition-transform duration-150 ease-out">
                                             <span class="material-symbols-outlined text-sm">radio_button_checked</span>
-                                        </button>
-                                        <button data-manual-drive data-linear="0" data-angular="-10" class="${BUTTON_CLASSES.pad}" title="右转">
-                                            <span class="material-symbols-outlined text-base">keyboard_arrow_right</span>
-                                        </button>
-                                        <div></div>
-                                        <button data-manual-drive data-linear="-0.3" data-angular="0" class="${BUTTON_CLASSES.pad}" title="后退">
-                                            <span class="material-symbols-outlined text-base">keyboard_arrow_down</span>
-                                        </button>
-                                        <div></div>
+                                        </span>
+                                    </div>
+                                    <div class="mt-1 grid grid-cols-2 gap-1.5 text-[10px] leading-4">
+                                        <div class="rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 text-slate-400">
+                                            <span class="block">线速度</span>
+                                            <strong id="pcJoystickLinear" class="block text-[11px] text-slate-100">0.00 m/s</strong>
+                                        </div>
+                                        <div class="rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 text-slate-400">
+                                            <span class="block">角速度</span>
+                                            <strong id="pcJoystickAngular" class="block text-[11px] text-slate-100">0.00</strong>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1477,7 +1502,7 @@
     }
 
     function applyDeviceControlReadiness(readiness) {
-        const buttons = document.querySelectorAll('#pcContinueBtn, #pcPauseBtn, #pcFinishBtn, [data-manual-drive]');
+        const buttons = document.querySelectorAll('#pcContinueBtn, #pcPauseBtn, #pcFinishBtn');
         buttons.forEach(button => {
             if (button.dataset.readyTitleCaptured !== 'true') {
                 button.dataset.readyTitle = button.getAttribute('title') || '';
@@ -1488,6 +1513,161 @@
             button.classList.toggle('opacity-50', !readiness.canOperate);
             button.classList.toggle('cursor-not-allowed', !readiness.canOperate);
         });
+
+        const joystick = document.getElementById('pcJoystickOrigin');
+        if (!joystick) return;
+        if (joystick.dataset.readyTitleCaptured !== 'true') {
+            joystick.dataset.readyTitle = joystick.getAttribute('title') || '';
+            joystick.dataset.readyTitleCaptured = 'true';
+        }
+        joystick.dataset.controlReady = readiness.canOperate ? 'true' : 'false';
+        joystick.setAttribute('aria-disabled', readiness.canOperate ? 'false' : 'true');
+        joystick.tabIndex = readiness.canOperate ? 0 : -1;
+        joystick.title = readiness.canOperate ? joystick.dataset.readyTitle : readiness.message;
+        joystick.classList.toggle('opacity-50', !readiness.canOperate);
+        joystick.classList.toggle('cursor-not-allowed', !readiness.canOperate);
+        joystick.classList.toggle('cursor-grab', readiness.canOperate);
+        if (!readiness.canOperate) {
+            resetManualDriveJoystick({ sendZero: false });
+        }
+    }
+
+    function getJoystickRadius(origin) {
+        const configured = toNumber(origin?.dataset.joystickRadius, 0);
+        if (configured > 0) return configured;
+        const rect = origin?.getBoundingClientRect?.();
+        if (!rect) return 42;
+        return Math.max(1, Math.min(rect.width, rect.height) / 2 - 12);
+    }
+
+    function getJoystickElements() {
+        const origin = document.getElementById('pcJoystickOrigin');
+        return {
+            origin,
+            knob: origin?.querySelector('[data-joystick-knob]') || null,
+            linear: document.getElementById('pcJoystickLinear'),
+            angular: document.getElementById('pcJoystickAngular')
+        };
+    }
+
+    function applyJoystickPosition(result = calculateJoystickCommand()) {
+        const { origin, knob, linear, angular } = getJoystickElements();
+        const knobX = result.knob?.x || 0;
+        const knobY = result.knob?.y || 0;
+        const linearX = result.command?.linear_x || 0;
+        const angularZ = result.command?.angular_z || 0;
+        if (knob) {
+            knob.style.transform = `translate(-50%, -50%) translate(${knobX}px, ${knobY}px)`;
+        }
+        if (origin) {
+            origin.dataset.linear = String(linearX);
+            origin.dataset.angular = String(angularZ);
+            origin.setAttribute('aria-valuetext', `线速度 ${formatFixed(linearX, 2)}，角速度 ${formatFixed(angularZ, 2)}`);
+        }
+        if (linear) linear.textContent = `${formatFixed(linearX, 2)} m/s`;
+        if (angular) angular.textContent = formatFixed(angularZ, 2);
+    }
+
+    function resetManualDriveJoystick({ sendZero = true } = {}) {
+        const { origin } = getJoystickElements();
+        const result = calculateJoystickCommand({ radius: getJoystickRadius(origin) });
+        applyJoystickPosition(result);
+        if (sendZero) {
+            void sendTaskCommand('manual_drive', { linear_x: 0, angular_z: 0 });
+        }
+    }
+
+    function calculateJoystickCommandFromPointer(event, origin) {
+        const rect = origin.getBoundingClientRect();
+        const radius = getJoystickRadius(origin);
+        return calculateJoystickCommand({
+            offsetX: event.clientX - (rect.left + rect.width / 2),
+            offsetY: event.clientY - (rect.top + rect.height / 2),
+            radius,
+            maxLinearX: TASK_CONTROL_LAYOUT.manualDriveControl.maxLinearX,
+            maxAngularZ: TASK_CONTROL_LAYOUT.manualDriveControl.maxAngularZ
+        });
+    }
+
+    function bindManualDriveJoystick() {
+        const { origin } = getJoystickElements();
+        if (!origin || origin.dataset.joystickBound === 'true') return;
+        origin.dataset.joystickBound = 'true';
+        let activePointerId = null;
+        let lastSentCommandKey = '';
+
+        function isJoystickDisabled() {
+            return origin.getAttribute('aria-disabled') === 'true' || origin.dataset.controlReady === 'false';
+        }
+
+        function sendChangedCommand(command) {
+            const commandKey = `${command.linear_x}:${command.angular_z}`;
+            if (commandKey === lastSentCommandKey) return;
+            lastSentCommandKey = commandKey;
+            void sendTaskCommand('manual_drive', command);
+        }
+
+        function updateFromPointer(event) {
+            const result = calculateJoystickCommandFromPointer(event, origin);
+            applyJoystickPosition(result);
+            sendChangedCommand(result.command);
+        }
+
+        function finishDrag(event) {
+            if (activePointerId === null || event.pointerId !== activePointerId) return;
+            event.preventDefault();
+            try {
+                origin.releasePointerCapture?.(activePointerId);
+            } catch (error) {
+                // Pointer capture may already be released by the browser.
+            }
+            activePointerId = null;
+            lastSentCommandKey = '';
+            origin.classList.remove('cursor-grabbing', 'ring-2', 'ring-emerald-300/50');
+            origin.classList.add('cursor-grab');
+            resetManualDriveJoystick({ sendZero: true });
+        }
+
+        origin.addEventListener('pointerdown', event => {
+            if (isJoystickDisabled()) {
+                setStatusMessage(origin.title || '设备未对接，无法下发控制指令');
+                return;
+            }
+            event.preventDefault();
+            activePointerId = event.pointerId;
+            lastSentCommandKey = '';
+            try {
+                origin.setPointerCapture?.(event.pointerId);
+            } catch (error) {
+                // Pointer capture is a best effort enhancement.
+            }
+            origin.classList.remove('cursor-grab');
+            origin.classList.add('cursor-grabbing', 'ring-2', 'ring-emerald-300/50');
+            updateFromPointer(event);
+        });
+
+        origin.addEventListener('pointermove', event => {
+            if (activePointerId === null || event.pointerId !== activePointerId) return;
+            event.preventDefault();
+            updateFromPointer(event);
+        });
+        origin.addEventListener('pointerup', finishDrag);
+        origin.addEventListener('pointercancel', finishDrag);
+        origin.addEventListener('lostpointercapture', event => {
+            if (activePointerId !== null && event.pointerId === activePointerId) {
+                finishDrag(event);
+            }
+        });
+        window.addEventListener('blur', () => {
+            if (activePointerId === null) return;
+            activePointerId = null;
+            lastSentCommandKey = '';
+            origin.classList.remove('cursor-grabbing', 'ring-2', 'ring-emerald-300/50');
+            origin.classList.add('cursor-grab');
+            resetManualDriveJoystick({ sendZero: true });
+        });
+
+        resetManualDriveJoystick({ sendZero: false });
     }
 
     function renderDeviceStatus() {
@@ -1941,12 +2121,7 @@
         document.getElementById('pcContinueBtn')?.addEventListener('click', () => sendTaskCommand('continue_task', {}));
         document.getElementById('pcPauseBtn')?.addEventListener('click', () => sendTaskCommand('pause_task', {}));
         document.getElementById('pcFinishBtn')?.addEventListener('click', () => sendTaskCommand('finish_task', {}));
-        document.querySelectorAll('[data-manual-drive]').forEach(button => {
-            button.addEventListener('click', () => sendTaskCommand('manual_drive', {
-                linear_x: toNumber(button.dataset.linear, 0),
-                angular_z: toNumber(button.dataset.angular, 0)
-            }));
-        });
+        bindManualDriveJoystick();
         document.getElementById('pcMapCanvas')?.addEventListener('click', event => {
             if (event.target.closest('#pcPullBtn')) {
                 event.preventDefault();
@@ -2084,6 +2259,7 @@
         buildDetectionRangeOverlay,
         buildScanGuideOverlay,
         validatePlanReadiness,
+        calculateJoystickCommand,
         calculateMapPickPoint,
         calculateMapPickPointFromCoordinates,
         formatDirection,
