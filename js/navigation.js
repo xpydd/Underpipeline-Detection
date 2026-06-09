@@ -170,6 +170,12 @@ const NavigationManager = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    NavigationManager.init();
-});
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        NavigationManager.init();
+    });
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = { NavigationManager };
+}

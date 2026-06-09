@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html class="" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>系统级设备控制台 - 管网智慧探测系统</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5ad98b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#131f18"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "PingFang SC", "Microsoft YaHei", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .nav-item:hover .submenu,
+        .submenu:hover {
+            display: block;
+        }
+        .submenu {
+            z-index: 1000;
+        }
+        .nav-link.active {
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: #5ad98b;
+            border-radius: 2px 2px 0 0;
+        }
+        @media (max-width: 1024px) {
+            nav {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-link {
+                white-space: nowrap;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-link span:not(.material-symbols-outlined) {
+                display: none;
+            }
+            .nav-link {
+                padding: 0.5rem;
+            }
+        }
+        dialog::backdrop {
+            background: rgba(15, 23, 42, .45);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+    <script src="js/config.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/system-console.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen" data-menu="console">
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-6">
+<div class="h-16 flex items-center justify-between">
+<div class="flex items-center gap-6 flex-1 min-w-0">
+<div class="flex items-center gap-3 shrink-0">
+<div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl" data-icon="settings_input_component">settings_input_component</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-white">管网多模态全过程智慧探测系统</h1>
+</div>
+<nav class="flex items-center gap-1">
+<a href="project-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="project">
+<span class="material-symbols-outlined text-lg">account_tree</span>
+<span>项目管理</span>
+</a>
+<a href="owner-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="owner">
+<span class="material-symbols-outlined text-lg">corporate_fare</span>
+<span>业主管理</span>
+</a>
+<a href="console.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="console">
+<span class="material-symbols-outlined text-lg">developer_board</span>
+<span>控制台</span>
+</a>
+<a href="knowledge-center.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="knowledge">
+<span class="material-symbols-outlined text-lg">library_books</span>
+<span>知识中心</span>
+</a>
+<div class="nav-item relative group">
+<a href="dictionary-management.html" class="nav-link px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1" data-menu="system">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span>系统设置</span>
+<span class="material-symbols-outlined text-sm">arrow_drop_down</span>
+</a>
+<div class="submenu hidden absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#161e27] rounded-lg shadow-xl border border-slate-200 dark:border-slate-800 py-1 group-hover:block">
+<a href="dictionary-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">字典管理</a>
+<a href="user-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">用户管理</a>
+<a href="organization-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">组织架构</a>
+<a href="role-management.html" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors">角色管理</a>
+</div>
+</div>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-6 mr-2">
+<div class="text-right">
+<p class="text-sm font-bold leading-none mb-1">陈明</p>
+<p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">系统管理员</p>
+</div>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+
+<main class="max-w-[1440px] mx-auto p-4 lg:p-6" data-role="system-device-console">
+    <section class="mb-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] px-4 py-3 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h2 class="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white">
+                    <span class="material-symbols-outlined text-primary">developer_board</span>
+                    系统级设备控制台
+                </h2>
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">集中查看设备连接、状态、当前有效绑定项目、历史绑定流水和设备回传记录。</p>
+            </div>
+            <div class="flex items-center gap-2 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-3 py-2">
+                <span class="material-symbols-outlined text-base text-emerald-500">stream</span>
+                <span id="systemConsoleStatus" class="text-xs font-semibold text-slate-600 dark:text-slate-300">等待设备管理操作</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] px-4 py-3">
+            <span class="text-[11px] font-semibold text-slate-400">设备总数</span>
+            <strong id="scTotalDevices" class="mt-1 block text-2xl leading-none text-slate-900 dark:text-white">0</strong>
+        </div>
+        <div class="rounded-lg border border-emerald-100 bg-emerald-50 px-4 py-3 dark:border-emerald-900/50 dark:bg-emerald-900/20">
+            <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-300">已连接</span>
+            <strong id="scConnectedDevices" class="mt-1 block text-2xl leading-none text-emerald-800 dark:text-emerald-100">0</strong>
+        </div>
+        <div class="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 dark:border-blue-900/50 dark:bg-blue-900/20">
+            <span class="text-[11px] font-semibold text-blue-600 dark:text-blue-300">有效绑定设备</span>
+            <strong id="scBoundDevices" class="mt-1 block text-2xl leading-none text-blue-800 dark:text-blue-100">0</strong>
+        </div>
+        <div class="rounded-lg border border-amber-100 bg-amber-50 px-4 py-3 dark:border-amber-900/50 dark:bg-amber-900/20">
+            <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-300">待处理回传</span>
+            <strong id="scPendingReturns" class="mt-1 block text-2xl leading-none text-amber-800 dark:text-amber-100">0</strong>
+        </div>
+    </section>
+
+    <section class="mt-4">
+        <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161e27] shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 px-4 py-3">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-800 dark:text-white">全部设备信息</h3>
+                    <p class="text-xs text-slate-500">查看设备状态、当前有效绑定项目和最近回传。</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button id="openDeviceAccess" type="button" class="inline-flex h-8 items-center gap-1 rounded-md bg-primary px-3 text-xs font-bold text-white shadow-sm hover:bg-primary/90">
+                        <span class="material-symbols-outlined text-sm">add_circle</span>
+                        新增设备接入
+                    </button>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-2.5 top-2 text-sm text-slate-400">search</span>
+                        <input id="systemConsoleSearch" class="h-8 w-56 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 pl-8 pr-3 text-xs text-slate-700 dark:text-slate-200 focus:border-primary focus:ring-primary" placeholder="搜索设备/项目"/>
+                    </div>
+                    <select id="systemConsoleBindingFilter" class="h-8 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-2 text-xs text-slate-700 dark:text-slate-200 focus:border-primary focus:ring-primary">
+                        <option value="all">全部绑定状态</option>
+                        <option value="bound">已绑定</option>
+                        <option value="unbound">未绑定</option>
+                    </select>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[1220px] text-left">
+                    <thead class="bg-slate-50 dark:bg-slate-900/60 text-[11px] uppercase tracking-wide text-slate-500">
+                        <tr>
+                            <th class="px-4 py-2">设备</th>
+                            <th class="px-4 py-2">连接状态</th>
+                            <th class="px-4 py-2">最近心跳</th>
+                            <th class="px-4 py-2">任务状态</th>
+                            <th class="px-4 py-2">当前有效绑定项目</th>
+                            <th class="px-4 py-2">最近回传</th>
+                            <th class="px-4 py-2">电量</th>
+                            <th class="px-4 py-2">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deviceTableBody" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <template id="deviceActionTemplate">
+        <button data-device-action="connect">连接</button>
+        <button data-device-action="bind">绑定</button>
+        <button data-device-action="rebind">换绑</button>
+        <button data-device-action="unbind">解绑</button>
+        <button data-device-action="remove">移除</button>
+        <button data-device-action="binding-history">历史</button>
+        <button data-device-action="return-records">回传</button>
+    </template>
+</main>
+
+<dialog id="deviceAccessModal" class="w-full max-w-2xl rounded-lg p-0 backdrop:bg-slate-950/50">
+    <div class="rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-[#161e27]">
+        <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+            <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">新增设备接入</h3>
+                <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400">登记设备后进入未绑定、待连接状态。</p>
+            </div>
+            <button id="deviceAccessCancel" type="button" class="grid size-7 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
+        <div class="space-y-4 px-4 py-4">
+            <div class="grid gap-3 sm:grid-cols-2">
+                <label class="block">
+                    <span class="mb-1 block text-xs font-semibold text-slate-500">设备编号 <span class="text-rose-500">*</span></span>
+                    <input id="deviceAccessCode" class="h-9 w-full rounded-md border border-slate-200 bg-slate-50 px-3 text-sm text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" placeholder="LD-GTL310-100P"/>
+                </label>
+                <label class="block">
+                    <span class="mb-1 block text-xs font-semibold text-slate-500">设备名称 <span class="text-rose-500">*</span></span>
+                    <input id="deviceAccessName" class="h-9 w-full rounded-md border border-slate-200 bg-slate-50 px-3 text-sm text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" placeholder="雷达小车 100P"/>
+                </label>
+                <label class="block">
+                    <span class="mb-1 block text-xs font-semibold text-slate-500">设备型号 <span class="text-rose-500">*</span></span>
+                    <input id="deviceAccessModel" class="h-9 w-full rounded-md border border-slate-200 bg-slate-50 px-3 text-sm text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" placeholder="GTL-310"/>
+                </label>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="block">
+                        <span class="mb-1 block text-xs font-semibold text-slate-500">协议类型</span>
+                        <select id="deviceAccessProtocol" class="h-9 w-full rounded-md border border-slate-200 bg-slate-50 px-3 text-sm text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                            <option value="MQTT">MQTT</option>
+                        </select>
+                    </label>
+                    <label class="block">
+                        <span class="mb-1 block text-xs font-semibold text-slate-500">环境标识</span>
+                        <div id="deviceAccessEnv" data-value="prod" class="flex h-9 w-full select-none items-center rounded-md border border-slate-200 bg-slate-100 px-3 text-sm font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">prod</div>
+                    </label>
+                </div>
+            </div>
+            <div class="grid gap-2 rounded-md border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900 sm:grid-cols-2">
+                <label class="block">
+                    <span class="mb-1 block text-[11px] font-semibold text-slate-400">平台下发 Topic</span>
+                    <code id="deviceAccessDownTopic" data-value="/ypd/prod/device/{deviceCode}" class="flex min-h-8 w-full select-none items-center rounded-md border border-slate-200 bg-white px-2 font-mono text-[11px] leading-4 text-slate-600 dark:border-slate-700 dark:bg-[#161e27] dark:text-slate-300">/ypd/prod/device/{deviceCode}</code>
+                </label>
+                <label class="block">
+                    <span class="mb-1 block text-[11px] font-semibold text-slate-400">平台订阅 Topic</span>
+                    <code id="deviceAccessUpTopic" data-value="/ypd/prod/platform/{deviceCode}" class="flex min-h-8 w-full select-none items-center rounded-md border border-slate-200 bg-white px-2 font-mono text-[11px] leading-4 text-slate-600 dark:border-slate-700 dark:bg-[#161e27] dark:text-slate-300">/ypd/prod/platform/{deviceCode}</code>
+                </label>
+            </div>
+            <label class="block">
+                <span class="mb-1 block text-xs font-semibold text-slate-500">接入备注</span>
+                <textarea id="deviceAccessRemark" rows="2" class="w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" placeholder="现场编号、网关位置或接入来源"></textarea>
+            </label>
+        </div>
+        <div class="flex justify-end gap-2 border-t border-slate-100 px-4 py-3 dark:border-slate-800">
+            <button type="button" onclick="document.getElementById('deviceAccessModal').close()" class="h-8 rounded-md border border-slate-200 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">取消</button>
+            <button id="deviceAccessSubmit" type="button" class="h-8 rounded-md bg-primary px-3 text-xs font-bold text-white hover:bg-primary/90">确认接入</button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="deviceRemoveModal" class="w-full max-w-md rounded-lg p-0 backdrop:bg-slate-950/50">
+    <div class="rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-[#161e27]">
+        <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">移除设备</h3>
+            <button id="deviceRemoveCancel" type="button" class="grid size-7 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
+        <div class="space-y-3 px-4 py-4">
+            <div class="rounded-md border border-rose-100 bg-rose-50 px-3 py-2 text-xs text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-200">
+                移除后该设备不再出现在全部设备列表中；历史绑定流水和设备回传记录由后台审计保留。
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="rounded-md bg-slate-50 px-3 py-2 dark:bg-slate-900">
+                    <span class="block text-slate-400">设备</span>
+                    <strong id="deviceRemoveModalDevice" class="mt-1 block text-slate-800 dark:text-white">-</strong>
+                </div>
+                <div class="rounded-md bg-slate-50 px-3 py-2 dark:bg-slate-900">
+                    <span class="block text-slate-400">当前绑定</span>
+                    <strong id="deviceRemoveModalProject" class="mt-1 block text-slate-800 dark:text-white">-</strong>
+                </div>
+            </div>
+            <label class="block">
+                <span class="mb-1 block text-xs font-semibold text-slate-500">移除原因</span>
+                <textarea id="deviceRemoveReason" rows="2" class="w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" placeholder="设备退役、误登记或接入作废"></textarea>
+            </label>
+        </div>
+        <div class="flex justify-end gap-2 border-t border-slate-100 px-4 py-3 dark:border-slate-800">
+            <button type="button" onclick="document.getElementById('deviceRemoveModal').close()" class="h-8 rounded-md border border-slate-200 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">取消</button>
+            <button id="deviceRemoveSubmit" type="button" class="h-8 rounded-md bg-rose-600 px-3 text-xs font-bold text-white hover:bg-rose-700">确认移除</button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="deviceBindModal" class="w-full max-w-lg rounded-lg p-0 backdrop:bg-slate-950/50">
+    <div class="rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-[#161e27]">
+        <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+            <h3 id="deviceBindModalTitle" class="text-sm font-bold text-slate-900 dark:text-white">绑定项目</h3>
+            <button id="deviceBindCancel" type="button" class="grid size-7 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
+        <div class="space-y-3 px-4 py-4">
+            <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="rounded-md bg-slate-50 px-3 py-2 dark:bg-slate-900">
+                    <span class="block text-slate-400">设备</span>
+                    <strong id="deviceBindModalDevice" class="mt-1 block text-slate-800 dark:text-white">-</strong>
+                </div>
+                <div class="rounded-md bg-slate-50 px-3 py-2 dark:bg-slate-900">
+                    <span class="block text-slate-400">当前有效绑定项目</span>
+                    <strong id="deviceBindModalCurrentProject" class="mt-1 block text-slate-800 dark:text-white">-</strong>
+                </div>
+            </div>
+            <label id="deviceProjectField" class="block">
+                <span class="mb-1 block text-xs font-semibold text-slate-500">目标项目</span>
+                <select id="deviceProjectSelect" class="h-9 w-full rounded-md border border-slate-200 bg-slate-50 px-3 text-sm text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"></select>
+                <span id="deviceProjectHelp" class="mt-1 block text-[11px] text-slate-400">设备当前只能绑定一个项目。</span>
+            </label>
+            <label class="block">
+                <span class="mb-1 block text-xs font-semibold text-slate-500">操作原因</span>
+                <textarea id="deviceBindReason" rows="3" class="w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"></textarea>
+            </label>
+        </div>
+        <div class="flex justify-end gap-2 border-t border-slate-100 px-4 py-3 dark:border-slate-800">
+            <button type="button" onclick="document.getElementById('deviceBindModal').close()" class="h-8 rounded-md border border-slate-200 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">取消</button>
+            <button id="deviceBindSubmit" type="button" class="h-8 rounded-md bg-primary px-3 text-xs font-bold text-white hover:bg-primary/90">确认</button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="recordViewModal" class="w-full max-w-6xl rounded-lg p-0 backdrop:bg-slate-950/50">
+    <div class="rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-[#161e27]">
+        <div class="flex items-start justify-between gap-4 border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+            <div>
+                <h3 id="recordViewTitle" class="text-sm font-bold text-slate-900 dark:text-white">查看记录</h3>
+                <p id="recordViewMeta" class="mt-1 text-xs text-slate-500 dark:text-slate-400">-</p>
+            </div>
+            <button id="recordViewClose" type="button" class="grid size-7 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
+        <div id="recordViewSummary" class="grid gap-2 border-b border-slate-100 bg-slate-50/70 px-4 py-3 text-xs dark:border-slate-800 dark:bg-slate-900/50 sm:grid-cols-3"></div>
+        <div class="flex flex-wrap items-end gap-2 border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+            <label class="block">
+                <span class="mb-1 block text-[11px] font-semibold text-slate-400">开始日期</span>
+                <input id="recordStartDate" type="date" class="h-8 rounded-md border border-slate-200 bg-slate-50 px-2 text-xs text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"/>
+            </label>
+            <label class="block">
+                <span class="mb-1 block text-[11px] font-semibold text-slate-400">结束日期</span>
+                <input id="recordEndDate" type="date" class="h-8 rounded-md border border-slate-200 bg-slate-50 px-2 text-xs text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"/>
+            </label>
+            <label class="block min-w-[220px]">
+                <span class="mb-1 block text-[11px] font-semibold text-slate-400">绑定项目</span>
+                <select id="recordProjectFilter" class="h-8 w-full rounded-md border border-slate-200 bg-slate-50 px-2 text-xs text-slate-700 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"></select>
+            </label>
+            <button id="recordFilterReset" type="button" class="h-8 rounded-md border border-slate-200 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">重置</button>
+        </div>
+        <div class="max-h-[62vh] overflow-auto">
+            <table id="recordViewTable" class="w-full text-left">
+                <thead id="recordViewHead" class="sticky top-0 bg-white text-[11px] uppercase tracking-wide text-slate-400 shadow-sm dark:bg-[#161e27]"></thead>
+                <tbody id="recordViewBody" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+            </table>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 px-4 py-3 dark:border-slate-800">
+            <div id="recordPagerInfo" class="text-xs text-slate-500 dark:text-slate-400">每页 10 条</div>
+            <div class="flex items-center gap-2">
+                <button id="recordPrevPage" type="button" class="h-8 rounded-md border border-slate-200 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">上一页</button>
+                <span id="recordPagerPage" class="min-w-[64px] text-center text-xs font-semibold text-slate-600 dark:text-slate-300">1 / 1</span>
+                <button id="recordNextPage" type="button" class="h-8 rounded-md border border-slate-200 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">下一页</button>
+            </div>
+            <button type="button" onclick="document.getElementById('recordViewModal').close()" class="h-8 rounded-md border border-slate-200 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">关闭</button>
+        </div>
+    </div>
+</dialog>
+</body>
+</html>

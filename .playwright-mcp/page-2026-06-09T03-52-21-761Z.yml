@@ -1,0 +1,219 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e8]: settings_input_component
+          - heading "管网多模态全过程智慧探测系统" [level=1] [ref=e9]
+        - navigation [ref=e10]:
+          - link "account_tree 项目管理" [ref=e11] [cursor=pointer]:
+            - /url: project-management.html
+            - generic [ref=e12]: account_tree
+            - generic [ref=e13]: 项目管理
+          - link "corporate_fare 业主管理" [ref=e14] [cursor=pointer]:
+            - /url: owner-management.html
+            - generic [ref=e15]: corporate_fare
+            - generic [ref=e16]: 业主管理
+          - link "developer_board 控制台" [ref=e17] [cursor=pointer]:
+            - /url: console.html
+            - generic [ref=e18]: developer_board
+            - generic [ref=e19]: 控制台
+          - link "library_books 知识中心" [ref=e20] [cursor=pointer]:
+            - /url: knowledge-center.html
+            - generic [ref=e21]: library_books
+            - generic [ref=e22]: 知识中心
+          - link "tune 系统设置 arrow_drop_down" [ref=e24] [cursor=pointer]:
+            - /url: dictionary-management.html
+            - generic [ref=e25]: tune
+            - generic [ref=e26]: 系统设置
+            - generic [ref=e27]: arrow_drop_down
+      - generic [ref=e28]:
+        - generic [ref=e30]:
+          - paragraph [ref=e31]: 陈明
+          - paragraph [ref=e32]: 系统管理员
+        - button "notifications" [ref=e33] [cursor=pointer]:
+          - generic [ref=e34]: notifications
+  - main [ref=e35]:
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - heading "developer_board 系统级设备控制台" [level=2] [ref=e39]:
+          - generic [ref=e40]: developer_board
+          - text: 系统级设备控制台
+        - paragraph [ref=e41]: 集中查看设备连接、状态、当前有效绑定项目、历史绑定流水和设备回传记录。
+      - generic [ref=e42]:
+        - generic [ref=e43]: stream
+        - generic [ref=e44]: 等待设备管理操作
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - text: 设备总数
+        - strong [ref=e47]: "4"
+      - generic [ref=e48]:
+        - text: 已连接
+        - strong [ref=e49]: "1"
+      - generic [ref=e50]:
+        - text: 有效绑定设备
+        - strong [ref=e51]: "3"
+      - generic [ref=e52]:
+        - text: 待处理回传
+        - strong [ref=e53]: "1"
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - heading "全部设备信息" [level=3] [ref=e58]
+          - paragraph [ref=e59]: 查看设备状态、当前有效绑定项目和最近回传。
+        - generic [ref=e60]:
+          - button "add_circle 新增设备接入" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: add_circle
+            - text: 新增设备接入
+          - generic [ref=e63]:
+            - generic [ref=e64]: search
+            - textbox "搜索设备/项目" [ref=e65]
+          - combobox [ref=e66]:
+            - option "全部绑定状态" [selected]
+            - option "已绑定"
+            - option "未绑定"
+      - table [ref=e68]:
+        - rowgroup [ref=e69]:
+          - row "设备 连接状态 最近心跳 任务状态 当前有效绑定项目 最近回传 电量 操作" [ref=e70]:
+            - columnheader "设备" [ref=e71]
+            - columnheader "连接状态" [ref=e72]
+            - columnheader "最近心跳" [ref=e73]
+            - columnheader "任务状态" [ref=e74]
+            - columnheader "当前有效绑定项目" [ref=e75]
+            - columnheader "最近回传" [ref=e76]
+            - columnheader "电量" [ref=e77]
+            - columnheader "操作" [ref=e78]
+        - rowgroup [ref=e79]:
+          - row "LD-GTL310-66P 雷达小车 66P / GTL-310 已连接 2026-06-08 09:42:16 矩形探测中 北区燃气干线探测 PROJ-2024-001 2026-06-08 09:41:52 82% / 24.6V link 连接 account_tree 换绑 link_off 解绑 delete 不可移除 history 历史 1 assignment_returned 回传 2" [ref=e80]:
+            - cell "LD-GTL310-66P 雷达小车 66P / GTL-310" [ref=e81]:
+              - button "LD-GTL310-66P 雷达小车 66P / GTL-310" [ref=e82] [cursor=pointer]:
+                - generic [ref=e83]: LD-GTL310-66P
+                - generic [ref=e84]: 雷达小车 66P / GTL-310
+            - cell "已连接" [ref=e85]:
+              - generic [ref=e86]: 已连接
+            - cell "2026-06-08 09:42:16" [ref=e88]
+            - cell "矩形探测中" [ref=e89]
+            - cell "北区燃气干线探测 PROJ-2024-001" [ref=e90]:
+              - generic "北区燃气干线探测" [ref=e91]
+              - text: PROJ-2024-001
+            - cell "2026-06-08 09:41:52" [ref=e92]
+            - cell "82% / 24.6V" [ref=e93]
+            - cell "link 连接 account_tree 换绑 link_off 解绑 delete 不可移除 history 历史 1 assignment_returned 回传 2" [ref=e94]:
+              - generic [ref=e95]:
+                - button "link 连接" [ref=e96] [cursor=pointer]:
+                  - generic [ref=e97]: link
+                  - text: 连接
+                - button "account_tree 换绑" [ref=e98] [cursor=pointer]:
+                  - generic [ref=e99]: account_tree
+                  - text: 换绑
+                - button "link_off 解绑" [ref=e100] [cursor=pointer]:
+                  - generic [ref=e101]: link_off
+                  - text: 解绑
+                - button "delete 不可移除" [disabled] [ref=e102]:
+                  - generic [ref=e103]: delete
+                  - text: 不可移除
+                - button "history 历史 1" [ref=e104] [cursor=pointer]:
+                  - generic [ref=e105]: history
+                  - text: 历史 1
+                - button "assignment_returned 回传 2" [ref=e106] [cursor=pointer]:
+                  - generic [ref=e107]: assignment_returned
+                  - text: 回传 2
+          - row "LD-GTL310-77P 雷达小车 77P / GTL-310 待连接 2026-06-08 09:39:44 待机 未绑定项目 空闲设备 2026-06-08 09:30:18 91% / 24.9V link 连接 account_tree 绑定 delete 移除 history 历史 1 assignment_returned 回传 0" [ref=e108]:
+            - cell "LD-GTL310-77P 雷达小车 77P / GTL-310" [ref=e109]:
+              - button "LD-GTL310-77P 雷达小车 77P / GTL-310" [ref=e110] [cursor=pointer]:
+                - generic [ref=e111]: LD-GTL310-77P
+                - generic [ref=e112]: 雷达小车 77P / GTL-310
+            - cell "待连接" [ref=e113]:
+              - generic [ref=e114]: 待连接
+            - cell "2026-06-08 09:39:44" [ref=e116]
+            - cell "待机" [ref=e117]
+            - cell "未绑定项目 空闲设备" [ref=e118]:
+              - generic "未绑定项目" [ref=e119]
+              - text: 空闲设备
+            - cell "2026-06-08 09:30:18" [ref=e120]
+            - cell "91% / 24.9V" [ref=e121]
+            - cell "link 连接 account_tree 绑定 delete 移除 history 历史 1 assignment_returned 回传 0" [ref=e122]:
+              - generic [ref=e123]:
+                - button "link 连接" [ref=e124] [cursor=pointer]:
+                  - generic [ref=e125]: link
+                  - text: 连接
+                - button "account_tree 绑定" [ref=e126] [cursor=pointer]:
+                  - generic [ref=e127]: account_tree
+                  - text: 绑定
+                - button "delete 移除" [ref=e128] [cursor=pointer]:
+                  - generic [ref=e129]: delete
+                  - text: 移除
+                - button "history 历史 1" [ref=e130] [cursor=pointer]:
+                  - generic [ref=e131]: history
+                  - text: 历史 1
+                - button "assignment_returned 回传 0" [ref=e132] [cursor=pointer]:
+                  - generic [ref=e133]: assignment_returned
+                  - text: 回传 0
+          - row "LD-GTL310-88P 雷达小车 88P / GTL-310 离线 2026-06-07 17:18:02 离线 南区雨污管网复检 PROJ-2024-003 2026-06-07 17:12:10 36% / 22.1V link 连接 account_tree 不可换绑 link_off 解绑 delete 不可移除 history 历史 0 assignment_returned 回传 1" [ref=e134]:
+            - cell "LD-GTL310-88P 雷达小车 88P / GTL-310" [ref=e135]:
+              - button "LD-GTL310-88P 雷达小车 88P / GTL-310" [ref=e136] [cursor=pointer]:
+                - generic [ref=e137]: LD-GTL310-88P
+                - generic [ref=e138]: 雷达小车 88P / GTL-310
+            - cell "离线" [ref=e139]:
+              - generic [ref=e140]: 离线
+            - cell "2026-06-07 17:18:02" [ref=e142]
+            - cell "离线" [ref=e143]
+            - cell "南区雨污管网复检 PROJ-2024-003" [ref=e144]:
+              - generic "南区雨污管网复检" [ref=e145]
+              - text: PROJ-2024-003
+            - cell "2026-06-07 17:12:10" [ref=e146]
+            - cell "36% / 22.1V" [ref=e147]
+            - cell "link 连接 account_tree 不可换绑 link_off 解绑 delete 不可移除 history 历史 0 assignment_returned 回传 1" [ref=e148]:
+              - generic [ref=e149]:
+                - button "link 连接" [ref=e150] [cursor=pointer]:
+                  - generic [ref=e151]: link
+                  - text: 连接
+                - button "account_tree 不可换绑" [disabled] [ref=e152]:
+                  - generic [ref=e153]: account_tree
+                  - text: 不可换绑
+                - button "link_off 解绑" [ref=e154] [cursor=pointer]:
+                  - generic [ref=e155]: link_off
+                  - text: 解绑
+                - button "delete 不可移除" [disabled] [ref=e156]:
+                  - generic [ref=e157]: delete
+                  - text: 不可移除
+                - button "history 历史 0" [ref=e158] [cursor=pointer]:
+                  - generic [ref=e159]: history
+                  - text: 历史 0
+                - button "assignment_returned 回传 1" [ref=e160] [cursor=pointer]:
+                  - generic [ref=e161]: assignment_returned
+                  - text: 回传 1
+          - row "LD-GTL310-95P 雷达小车 95P / GTL-310 Pro 需处理 2026-06-08 09:33:05 回传待处理 综合管廊电力排查 PROJ-2024-005 2026-06-08 09:25:31 58% / 23.8V link 连接 account_tree 换绑 link_off 解绑 delete 不可移除 history 历史 1 assignment_returned 回传 1" [ref=e162]:
+            - cell "LD-GTL310-95P 雷达小车 95P / GTL-310 Pro" [ref=e163]:
+              - button "LD-GTL310-95P 雷达小车 95P / GTL-310 Pro" [ref=e164] [cursor=pointer]:
+                - generic [ref=e165]: LD-GTL310-95P
+                - generic [ref=e166]: 雷达小车 95P / GTL-310 Pro
+            - cell "需处理" [ref=e167]:
+              - generic [ref=e168]: 需处理
+            - cell "2026-06-08 09:33:05" [ref=e170]
+            - cell "回传待处理" [ref=e171]
+            - cell "综合管廊电力排查 PROJ-2024-005" [ref=e172]:
+              - generic "综合管廊电力排查" [ref=e173]
+              - text: PROJ-2024-005
+            - cell "2026-06-08 09:25:31" [ref=e174]
+            - cell "58% / 23.8V" [ref=e175]
+            - cell "link 连接 account_tree 换绑 link_off 解绑 delete 不可移除 history 历史 1 assignment_returned 回传 1" [ref=e176]:
+              - generic [ref=e177]:
+                - button "link 连接" [ref=e178] [cursor=pointer]:
+                  - generic [ref=e179]: link
+                  - text: 连接
+                - button "account_tree 换绑" [ref=e180] [cursor=pointer]:
+                  - generic [ref=e181]: account_tree
+                  - text: 换绑
+                - button "link_off 解绑" [ref=e182] [cursor=pointer]:
+                  - generic [ref=e183]: link_off
+                  - text: 解绑
+                - button "delete 不可移除" [disabled] [ref=e184]:
+                  - generic [ref=e185]: delete
+                  - text: 不可移除
+                - button "history 历史 1" [ref=e186] [cursor=pointer]:
+                  - generic [ref=e187]: history
+                  - text: 历史 1
+                - button "assignment_returned 回传 1" [ref=e188] [cursor=pointer]:
+                  - generic [ref=e189]: assignment_returned
+                  - text: 回传 1
